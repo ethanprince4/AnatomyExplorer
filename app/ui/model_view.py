@@ -11,6 +11,8 @@ import logging
 import os
 import re
 import time
+from copy import deepcopy
+from pathlib import Path
 
 import numpy as np
 from PySide6.QtCore import QTimer, Qt, QUrl, Signal
@@ -32,6 +34,29 @@ from .search_panel import normalized
 ROLE = Qt.UserRole + 1
 _LOG = logging.getLogger(__name__)
 _wgpu_fallback_logged = False
+
+
+def tissue_opacity(model, model_id, percent=100):
+    """Viewer multipliers, leaving source materials and geometry untouched.
+
+    The released cardiac NPZ stores its endomysial sleeves as opaque parts and
+    does not flag them as bulk tissue. Give that enclosing tissue a translucent
+    opening state while retaining any alpha authored by other model versions.
+    """
+    layers = np.array([bool(getattr(item, "bulk", False)) for item in model.items], dtype=bool)
+    alpha = np.ones(len(model.items), dtype=np.float32)
+    if model_id == "cardiac_muscle":
+        for index, item in enumerate(model.items):
+            if (str(getattr(item, "group", "")).casefold() == "endomysium"
+                    or str(getattr(item, "key", "")).casefold().startswith("endomysium__")):
+                layers[index] = True
+                authored = any(getattr(part.look, "translucent", False)
+                               or getattr(part.look, "alpha", 1.0) < 0.999
+                               for part in getattr(item, "parts", ()))
+                if not authored:
+                    alpha[index] = 0.24
+    alpha[layers] *= percent / 100.0
+    return layers, alpha
 
 
 def renderer_backend(settings):
@@ -275,8 +300,19 @@ class ModelView(QWidget):
         self.studio.label_pair.set_labels_on(bool(getattr(self.gl_widget, "labels_on", self.labels.isChecked())))
         all_open = getattr(self.gl_widget, "labels_all_open", None)
         self.studio.label_pair.set_all_open(bool(all_open()) if callable(all_open) else False)
+        labels_open_changed = getattr(self.gl_widget, "labelsOpenChanged", None)
+        if labels_open_changed is not None:
+            labels_open_changed.connect(self.studio.label_pair.set_all_open)
+            labels_open_changed.connect(self.studio.set_annotation_mode)
+        self.studio.set_annotation_mode(bool(all_open()) if callable(all_open) else False)
         self.studio.show_all.clicked.connect(self.show_all)
         self.studio.reset.clicked.connect(self.reset_view)
+        self.studio.xray.clicked.connect(self.toggle_xray)
+        self.studio.isolate.clicked.connect(self.isolate_selection)
+        self.studio.hide_selected.clicked.connect(self.hide_selection)
+        self.studio.section.setMenu(self.section_btn.menu())
+        self.studio.hideRequested.connect(self.hide_selection)
+        self.studio.set_stored_views(self._view_names,self.vmodel.cameras,self.set_named_view,entry.id)
 
         g = self.gl_widget
         g.structureClicked.connect(self._clicked)
@@ -324,14 +360,16 @@ class ModelView(QWidget):
     def _graphics_failed(self,message):
         self.studio.set_loading(True,error=message)
 
-    def _fully_visible(self):
+    def _fully_visible(self, *, authored_start=False):
         state=self.state
         # Some review GLBs author an opening camera whose hidden list is part
         # of the intended starting composition. Preserve that mask only when
         # the sidecar explicitly opts in and the named camera actually owns a
-        # hidden list. Ordinary models retain the usual show-everything reset.
+        # hidden list. Procedural recipe masks apply only when resetting to
+        # their authored start view; lesson focus can still clear all filters.
         sidecar = getattr(self.vmodel, "sidecar", {}) or {}
         start_view = sidecar.get("start_view")
+        if authored_start and not start_view and "V1" in getattr(self.vmodel,"cameras",{}):start_view="V1"
         start_record = (getattr(self.vmodel, "cameras", {}) or {}).get(start_view, {})
         preserve_start_visibility = (
             getattr(self.vmodel, "kind", None) == "glb"
@@ -339,14 +377,20 @@ class ModelView(QWidget):
             and isinstance(start_record, dict)
             and "hidden" in start_record
         )
-        # Procedural tissue opacity is a viewer control; imported GLBs already
-        # carry authored material colours and alpha that should survive opening.
-        state.opaque_materials=self.vmodel.kind == "procedural"
-        if not preserve_start_visibility:
+        # Both procedural and imported models carry authored material alpha.
+        # Reset removes viewer overrides without flattening those materials.
+        state.opaque_materials=False
+        procedural_start=(authored_start and getattr(self.vmodel,"kind",None)=="procedural"
+                          and isinstance(start_record,dict) and "hidden" in start_record)
+        if procedural_start:
+            hidden=set(start_record.get("hidden") or ())
+            state.hidden[:]=[getattr(item,"key",None) in hidden for item in self.vmodel.items]
+        elif not preserve_start_visibility:
             state.hidden[:]=False
         state.forced[:]=False;state.isolated=None;state.ghost_focus=None
         state.system_on[:]=True;state.subsystem_on[:]=True;state.region_on[:]=True
-        state.system_alpha[:]=1.0;state.part_alpha=np.ones(len(self.vmodel.items),dtype=np.float32)
+        state.system_alpha[:]=1.0
+        _,state.part_alpha=tissue_opacity(self.vmodel,getattr(getattr(self,'entry',None),'id',''))
         state.depth_cut=0.0;state.depth_band=0.0
         self.gl_widget.cut_on=False
         if getattr(self,'cut',None) is not None:self.cut.setChecked(False)
@@ -358,17 +402,22 @@ class ModelView(QWidget):
         body = QWidget()
         layout = QVBoxLayout(body)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(5)
-        sliders = QGridLayout()
-        sliders.setContentsMargins(0, 4, 0, 4)
-        sliders.setVerticalSpacing(8)
+        layout.setSpacing(16)
+        body.setObjectName('studioRevealBody')
+        self.reveal_sliders={}
         explode_title = self.explode.accessibleName() or "Separate layers"   # "Separate parts" for authored models
-        for column, (title, original) in enumerate((("Tissue opacity", self.opacity), (explode_title, self.explode))):
+        for title, original in (("Tissue opacity", self.opacity), (explode_title, self.explode)):
+            control=QWidget();control_layout=QVBoxLayout(control);control_layout.setContentsMargins(0,0,0,0);control_layout.setSpacing(3)
+            heading=QHBoxLayout();heading.setContentsMargins(0,0,0,0)
             label = QLabel(title)
-            sliders.addWidget(label, 0, column)
+            label.setObjectName('studioRevealLabel');heading.addWidget(label);heading.addStretch()
+            readout=QLabel();readout.setObjectName('studioRevealReadout');heading.addWidget(readout)
+            control_layout.addLayout(heading)
             slider = QSlider(Qt.Horizontal)
+            slider.setObjectName('studioRevealSlider')
             slider.setAccessibleName(title)
             slider.setMinimumHeight(28)
+            slider.setTickPosition(QSlider.TicksBelow);slider.setTickInterval(25)
             if original is not None:
                 slider.setRange(original.minimum(), original.maximum())
                 slider.setValue(original.value())
@@ -377,8 +426,16 @@ class ModelView(QWidget):
             else:
                 slider.setEnabled(False)
                 slider.setToolTip("This model has no tissue-opacity layers.")
-            sliders.addWidget(slider, 1, column)
-        layout.addLayout(sliders)
+            def update_readout(value, label=readout, opacity=title=='Tissue opacity'):
+                label.setText(f'{value}%' if opacity or value else 'assembled')
+                label.setProperty('assembled',not opacity and value==0)
+                label.style().unpolish(label);label.style().polish(label)
+            slider.valueChanged.connect(update_readout);update_readout(slider.value())
+            self.reveal_sliders['opacity' if title=='Tissue opacity' else 'explode']=slider
+            control_layout.addWidget(slider);layout.addWidget(control)
+            # An unavailable control must not report "0%" beside opaque anatomy.
+            if original is None:
+                control.hide()
         row = QHBoxLayout()
         cut = QCheckBox("Cut-away")
         cut.setEnabled(self.cut is not None)
@@ -401,7 +458,9 @@ class ModelView(QWidget):
             self.explode.setValue(0)
             if self.cut is not None:self.cut.setChecked(False)
         reset.clicked.connect(reset_reveal)
-        row.addWidget(reset)
+        row.addStretch();layout.addLayout(row)
+        reset.setObjectName('studioRevealReset');reset.setMaximumWidth(100)
+        layout.addWidget(reset,0,Qt.AlignLeft)
         # The compact row mirrors these, so "More controls" must not show them a second time.
         for original in (self.opacity, self.explode):
             if original is not None and original.parentWidget() is not None:
@@ -410,8 +469,8 @@ class ModelView(QWidget):
             self.cut.hide()
         more = QPushButton("More controls")
         more.setCheckable(True)
-        row.addWidget(more)
-        layout.addLayout(row)
+        more.setObjectName('studioRevealMore');more.setMaximumWidth(150)
+        layout.addWidget(more,0,Qt.AlignLeft)
         advanced.hide()
         layout.addWidget(advanced)
         def expanded(on):
@@ -420,6 +479,14 @@ class ModelView(QWidget):
             body.updateGeometry()
             if hasattr(self,'studio'):self.studio.arrange()
         more.toggled.connect(expanded)
+        from PySide6.QtWidgets import QFrame
+        rule=QFrame();rule.setObjectName('studioViewerRule');rule.setFixedHeight(1);layout.addWidget(rule)
+        heading=QLabel('Section');heading.setObjectName('studioViewerHeading');layout.addWidget(heading)
+        planes=QHBoxLayout();planes.setSpacing(18)
+        for action in self.section_actions:
+            button=QToolButton();button.setObjectName('studioSectionPlane');button.setDefaultAction(action)
+            button.setToolButtonStyle(Qt.ToolButtonTextOnly);planes.addWidget(button)
+        planes.addStretch();layout.addLayout(planes)
         return body
 
     def _open_selected_details(self):
@@ -444,7 +511,7 @@ class ModelView(QWidget):
         except Exception as exc:
             self.runtime_opening_error = str(exc)
         finally:
-            self._fully_visible()
+            self._fully_visible(authored_start=True)
             self.state.clear_selection()
             self._show_selection()
             self.runtime_opening_done = True
@@ -456,7 +523,7 @@ class ModelView(QWidget):
         side.setMinimumWidth(0)
         side.setAccessibleName("Model overview and parts")
         sl = QVBoxLayout(side)
-        sl.setContentsMargins(4, 2, 4, 4)
+        sl.setContentsMargins(0, 0, 0, 0)
         sl.setSpacing(6)
         intro_body = QWidget()
         intro_layout = QVBoxLayout(intro_body)
@@ -501,21 +568,31 @@ class ModelView(QWidget):
             c.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             intro_layout.addWidget(c)
         sl.addWidget(intro_scroll)
+        intro_scroll.hide()  # Model provenance and long notes remain in Details.
         sl.addWidget(self.variant_choice)
         self.filter = QLineEdit()
         self.filter.setPlaceholderText("Filter parts or groups…")
         self.filter.setAccessibleName("Filter model parts")
         self.filter.setClearButtonEnabled(True)
+        self.filter.setObjectName('studioPartsFilter')
+        from .studio_style import icon
+        self.filter.addAction(icon('search'),QLineEdit.LeadingPosition)
         self.filter.textChanged.connect(self._filter_tree)
         sl.addWidget(self.filter)
         self.parts_status = QLabel()
         self.parts_status.setWordWrap(True)
         self.parts_status.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         sl.addWidget(self.parts_status)
+        self.parts_status.hide()
         self.tree = Outline()
+        self.tree.setProperty('wallLettering', True)
+        self.tree.viewport().setAutoFillBackground(False)
+        self.tree.setStyleSheet('Outline, Outline QWidget {background:transparent;border:0;}')
         self.tree.setAccessibleName("Model parts and visibility")
         self.tree.setMinimumHeight(0)
-        self.tree.setIndentation(14)
+        self.tree.setIndentation(18)
+        self.tree.setRowHeight(31)
+        self.tree.setFont(theme.font_for('body_small'))
         self.tree.itemChanged.connect(self._item_changed)
         self.tree.itemClicked.connect(self._item_clicked)
         self.tree.itemActivated.connect(self._item_activated)
@@ -526,6 +603,7 @@ class ModelView(QWidget):
         self.selection_status.setWordWrap(True)
         self.selection_status.setStyleSheet(theme.text_css(theme.TEXT_2, theme.FS_SMALL))
         sl.addWidget(self.selection_status)
+        self.selection_status.hide()
         row = FlowLayout(spacing=6)
         self.selection_buttons = []
         for text, fn, tip in (("Isolate", self._isolate_current, "Show only the highlighted part or group (I)"),
@@ -536,6 +614,7 @@ class ModelView(QWidget):
             b.clicked.connect(fn)
             row.addWidget(b)
             if text != "Show all":
+                b.setProperty("variant","primary")
                 b.setEnabled(False)
                 self.selection_buttons.append(b)
         sl.addLayout(row)
@@ -921,14 +1000,14 @@ class ModelView(QWidget):
         self.labels.setChecked(bool(getattr(getattr(self.entry, "micro", None), "labels_on_open", False)))
         bar.addWidget(self.labels)
         self.opacity = None
-        if any(it.bulk for it in m.items):
+        if tissue_opacity(m,self.entry.id)[0].any():
             self.opacity = QSlider(Qt.Horizontal)
             self.opacity.setRange(8, 100)
             self.opacity.setFixedWidth(110)
             self.opacity.valueChanged.connect(self._opacity)
             # Apply the default to tissue layers before the first frame.
             self.opacity.setValue(100)
-            self.opacity.setToolTip("All parts start fully opaque. This slider adjusts tissue layers.")
+            self.opacity.setToolTip("Adjust tissue layers relative to the model's starting transparency.")
             bar.addWidget(labelled("Tissue opacity", self.opacity))
         self.explode = QSlider(Qt.Horizontal)
         self.explode.setRange(0, 100)
@@ -1173,9 +1252,64 @@ class ModelView(QWidget):
         super().hideEvent(e)
 
     # ------------------------------------------------------------------ views and states
+    def configure_reference_scene(self, *, title=None, description=""):
+        """Remember an already configured case scene and use comparison instruments.
+
+        The caller first sets its case visibility, camera and labels. Subsequent
+        Home/Show all commands return to that case, never the full library model.
+        """
+        g=self.gl_widget;camera=g.camera
+        if getattr(camera,'animating',False) and callable(getattr(camera,'snap',None)):camera.snap()
+        self._reference_baseline={
+            'state':deepcopy(self.state._snapshot()),
+            'alpha':deepcopy(getattr(self.state,'part_alpha',None)),
+            'opaque':bool(getattr(self.state,'opaque_materials',False)),
+            'camera':{key:deepcopy(getattr(camera,key)) for key in
+                ('target','distance','yaw','pitch','fov','ortho','ortho_width') if hasattr(camera,key)},
+            'viewport':{key:deepcopy(getattr(g,key)) for key in
+                ('sections','cut_on','cut_planes','explode','reveal_state','reveal_amount','reveal_target') if hasattr(g,key)},
+            'view':getattr(self,'_current_view',None),
+        }
+        self.state._undo=[]
+        self.studio.set_reference_mode(True)
+        self.setAccessibleName(f"Anatomical reference: {title or self.entry.name}")
+        self._show_selection()
+        if description:
+            self.studio.set_selection(title or self.entry.name,description)
+            self.studio.selection_actions.hide()
+
+    def show_all_reference_parts(self):
+        """Restore only anatomy included in the case, retaining the current camera."""
+        saved=getattr(self,'_reference_baseline',None)
+        if saved is None:return False
+        self.state.restore(deepcopy(saved['state']))
+        self.state.part_alpha=deepcopy(saved['alpha'])
+        self.state.opaque_materials=saved['opaque']
+        self.state.clear_selection()
+        self.gl_widget.invalidate_labels();self.gl_widget.update()
+        return True
+
+    def reset_reference_scene(self):
+        """Restore the case's camera and display state as well as its anatomy."""
+        saved=getattr(self,'_reference_baseline',None)
+        if saved is None:return False
+        g=self.gl_widget;camera=g.camera
+        camera._anim=None
+        for key,value in saved['camera'].items():setattr(camera,key,deepcopy(value))
+        for key,value in saved['viewport'].items():
+            if key=='explode' and callable(getattr(g,'set_explode',None)):g.set_explode(value)
+            else:setattr(g,key,deepcopy(value))
+        self.show_all_reference_parts()
+        self._view_changed(saved['view'])
+        self.state._undo=[]
+        g.update()
+        return True
+
     def reset_view(self, animate=True):
+        if getattr(self,'_reference_baseline',None) is not None:
+            return self.reset_reference_scene()
         self.gl_widget.reset_view(animate=animate)
-        self._fully_visible()
+        self._fully_visible(authored_start=True)
         self._frame_home_composition(animate)
 
     def _frame_home_composition(self, animate=True):
@@ -1184,6 +1318,7 @@ class ModelView(QWidget):
         The authored home camera still supplies direction and visibility. This only adjusts its target and framing;
         choosing a named/detail camera continues to use the authored record unchanged.
         """
+        if getattr(getattr(self,'studio',None),'_lesson_mode',False):return
         g = self.gl_widget
         camera = getattr(g, "camera", None)
         bounds = getattr(g, "scene_bounds", None)
@@ -1218,6 +1353,9 @@ class ModelView(QWidget):
 
     def _view_changed(self, name):
         self._current_view = name
+        if hasattr(self,'studio'):
+            index=self._view_names.index(name)+1 if name in self._view_names else None
+            self.studio.set_current_view(name, f'{name} · View {index} of {len(self._view_names)}' if index else '')
         choice = getattr(self, "view_choice", None)
         if choice is not None:
             choice.setCurrentIndex(max(0, choice.findData(name)))
@@ -1243,6 +1381,7 @@ class ModelView(QWidget):
             set_labels_on(on)
         if hasattr(self, "studio"):
             self.studio.label_pair.set_labels_on(on)
+            if not on:self.studio.set_annotation_mode(False)
 
     def _toggle_label_captions(self):
         show_all = getattr(self.gl_widget, "show_all_labels", None)
@@ -1250,13 +1389,13 @@ class ModelView(QWidget):
         if callable(show_all) and callable(all_open):
             show_all(not all_open())
             self.studio.label_pair.set_all_open(all_open())
+            self.studio.set_annotation_mode(all_open())
 
     def toggle_labels(self):
         self.labels.setChecked(not self.labels.isChecked())
 
     def _opacity(self, value):
-        bulk = np.array([it.bulk for it in self.vmodel.items], dtype=bool)
-        self.state.part_alpha = np.where(bulk, value / 100.0, 1.0).astype(np.float32)
+        _,self.state.part_alpha=tissue_opacity(self.vmodel,self.entry.id,value)
         self.state.render_changed.emit()
 
     def toggle_xray(self):
@@ -1277,6 +1416,8 @@ class ModelView(QWidget):
             self._show_selection()
 
     def show_all(self):
+        if getattr(self,'_reference_baseline',None) is not None:
+            return self.show_all_reference_parts()
         st = self.state
         st.push_undo()
         st.hidden[:] = False
@@ -1536,6 +1677,7 @@ class ModelView(QWidget):
         self.gl_widget.invalidate_labels()
         if hasattr(self,"studio"):
             selected = list(self.state.selected)
+            self.studio.selection_actions.setVisible(bool(selected) or not self.studio._reference_mode)
             if self.click_hook is not None or not selected:self.studio.set_selection("")
             elif self._selected_family(selected):
                 item=self.vmodel.items[selected[0]]

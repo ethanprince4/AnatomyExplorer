@@ -627,12 +627,11 @@ out vec4 o_color;
 void main() {
     float d = texture(u_depth, v_uv).r;
     if (d >= 1.0) {
-        float t = smoothstep(0.0, 1.0, v_uv.y);
-        vec2 c = v_uv - 0.5;
-        float vig = 1.0 - dot(c, c) * 0.35;
-        vec3 background = mix(u_bg_bottom, u_bg_top, t) * vig;
-        vec2 pool = (v_uv - vec2(0.52, 0.52)) / vec2(0.46, 0.65);
-        float light = exp(-dot(pool, pool) * 2.2) * u_bg_spot_strength;
+        vec3 background = mix(u_bg_bottom, u_bg_top, v_uv.y);
+        // The reference has a bounded pool on the specimen, not a wash over
+        // the complete canvas. Its alpha reaches zero before every edge.
+        vec2 pool = (v_uv - vec2(0.52, 0.50)) / vec2(0.24, 0.49);
+        float light = max(0.0, 1.0 - length(pool)) * u_bg_spot_strength;
         o_color = vec4(mix(background, u_bg_spot, clamp(light, 0.0, 1.0)), 1.0);
         return;
     }

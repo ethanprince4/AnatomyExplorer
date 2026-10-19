@@ -75,7 +75,7 @@ class PracticeHome(QWidget):
         super().__init__(parent)
         self.setAccessibleName("Practice and review")
         root = QVBoxLayout(self)
-        root.setContentsMargins(24, 20, 24, 20)
+        root.setContentsMargins(40, 112, 40, 24)
         root.setSpacing(12)
 
         self.title = QLabel("Practice")

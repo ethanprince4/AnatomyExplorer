@@ -119,9 +119,8 @@ class ViewPanel(QWidget):
         row.addWidget(self.depth_out)
         row.addWidget(self.depth_in)
         dl.addLayout(row)
-        self.depth_band = ElidingCheckBox("Show only this layer")
+        self.depth_band = self.depth_slider.only_layer
         self.depth_band.toggled.connect(lambda _=False: self._depth())
-        dl.addWidget(self.depth_band)
         self.depth_label = QLabel("Preparing dissection depth…")
         self.depth_label.setWordWrap(True)
         dl.addWidget(self.depth_label)

@@ -64,7 +64,9 @@ class IntegratedShellTests(unittest.TestCase):
         self.model = patch.object(ModelLoader, 'request', side_effect=RuntimeError('Fixture: model files unavailable'))
         self.model.start()
         self.errors = []
-        self.hook = patch('sys.excepthook', lambda _kind, error, _tb: self.errors.append(str(error)))
+        import traceback
+        self.hook = patch('sys.excepthook', lambda kind, error, tb:
+                          self.errors.append(''.join(traceback.format_exception(kind, error, tb))))
         self.hook.start()
         self.window = MainWindow(self.ds, restore=False)
 
@@ -186,22 +188,68 @@ class IntegratedShellTests(unittest.TestCase):
         self.assertIs(win.collection_workspace.pages.currentWidget(), panel)
         self.assertTrue(win.lesson_reader.isHidden())
 
-    def test_lesson_reader_returns_after_workspace_navigation(self):
+    def test_lessons_rail_opens_library_but_history_restores_reader(self):
+        from app.ui.lessons import PAGE_LIBRARY
         win = self.window
         panel = win.lessons_panel
         lesson = next(item for item in panel.lessons if len(item) and not item.steps[0].get('micro')
                       and not item.steps[0].get('histology'))
         win.show_lessons(lesson.id)
+        reader_place = (("atlas", ()), (lesson.id, panel.index))
+        self.assertTrue(win.atlas_wall.isHidden())
+        self.assertTrue(win.atlas_depth.isHidden())
+        self.assertTrue(win.studio_tools.isHidden())
+        self.assertTrue(win.studio_header.subject.isHidden())
         win._show_catalog()
         self.assertTrue(win.lesson_reader.isHidden())
         win.studio_header.navigation['lessons'].click()
+        self.assertTrue(win.lesson_reader.isHidden())
+        self.assertIs(win.center.currentWidget(), win.collection_workspace)
+        self.assertEqual(panel.stack.currentIndex(), PAGE_LIBRARY)
+        win._restore_place(reader_place)
         self.assertFalse(win.lesson_reader.isHidden())
         self.assertIs(win.center.currentWidget(), win.anatomy_tab)
         self.assertIs(panel.parentWidget(), win.lesson_card)
+        self.assertTrue(win.atlas_wall.isHidden())
+        self.assertTrue(win.atlas_depth.isHidden())
+        self.assertTrue(win.studio_tools.isHidden())
         win._studio_explore()
         self.assertTrue(win.lesson_reader.isHidden())
-        win.show_lessons()
-        self.assertFalse(win.lesson_reader.isHidden())
+
+    def test_chrome_overlays_canvas_and_dissection_rule_is_centered(self):
+        win = self.window
+        win.workspace.resize(1836, 1080)
+        win._layout_studio_chrome()
+        self.assertEqual(win.workspace_layout.indexOf(win.studio_header), -1)
+        self.assertIs(win.studio_header.parentWidget(), win.workspace)
+        self.assertEqual(win.studio_header.y(), 0)
+        self.assertLessEqual(abs(win.atlas_depth.geometry().center().y()-win.workspace.rect().center().y()), 1)
+
+    def test_lesson_labels_default_on_without_changing_atlas_preference(self):
+        win = self.window
+        win.viewport.set_labels_on(False)
+        win.show_lessons('vertebral-column')
+        self.assertTrue(win.viewport.labels_on)
+        self.assertTrue(win.viewport.lesson_label_mode_active)
+        self.assertFalse(win.settings['show_structure_labels'])
+        win.on_setting('show_structure_labels', False)
+        self.assertFalse(win.viewport.labels_on)
+        win.on_setting('show_structure_labels', True)
+        self.assertFalse(win.settings['show_structure_labels'])
+        win._studio_explore()
+        self.assertFalse(win.viewport.lesson_label_mode_active)
+        self.assertFalse(win.viewport.labels_on)
+
+    def test_authored_lesson_scene_discards_previous_atlas_isolation(self):
+        win = self.window
+        win.state.isolate([0])
+        win.state.set_hidden([1], True, undo=False)
+        win.viewport.landmark_hosts = [0]
+        win.apply_scene({'frame': False})
+        self.assertIsNone(win.state.isolated)
+        self.assertFalse(win.state.hidden.any())
+        self.assertFalse(win.state.selected)
+        self.assertEqual(win.viewport.landmark_hosts, [])
 
     def test_lab_order_and_nested_lecture_expansion(self):
         from PySide6.QtCore import Qt
@@ -220,10 +268,9 @@ class IntegratedShellTests(unittest.TestCase):
         lesson = panel.list.item(2)
         self.assertEqual(exam.data(ROLE_GROUP_KEY), 'lecture-exam-2')
         self.assertEqual(chapter.data(ROLE_LEVEL), 1)
-        self.assertTrue(chapter.isHidden())
-        self.assertTrue(lesson.isHidden())
-        panel.list._toggle_group(exam)
         self.assertFalse(chapter.isHidden())
+        self.assertFalse(lesson.isHidden())
+        panel.list._toggle_group(chapter)
         self.assertTrue(lesson.isHidden())
         panel.list._toggle_group(chapter)
         self.assertFalse(lesson.isHidden())
@@ -264,9 +311,10 @@ class IntegratedShellTests(unittest.TestCase):
             self.assertFalse(win.radiology_panel.isHidden())
             with patch.object(win, 'apply_lesson_step', wraps=win.apply_lesson_step) as apply:
                 win.studio_header.navigation['lessons'].click()
-                apply.assert_called_once_with(lesson.steps[panel.index])
+                apply.assert_not_called()
             self.assertTrue(win.radiology_panel.isHidden())
-            self.assertFalse(win.lesson_reader.isHidden())
+            self.assertTrue(win.lesson_reader.isHidden())
+            self.assertIs(win.center.currentWidget(), win.collection_workspace)
             win.studio_header.navigation['radiology'].click()
             self.assertTrue(win.lesson_reader.isHidden())
             self.assertFalse(win.radiology_panel.isHidden())
@@ -352,7 +400,8 @@ class IntegratedShellTests(unittest.TestCase):
         self.assertIs(win.viewport.camera,camera)
         win._studio_search('radius')
         self.assertEqual(win.search.edit.text(),'radius')
-        self.assertFalse(win.left_dock.isHidden())
+        self.assertTrue(win.left_dock.isHidden())
+        self.assertFalse(win.search.isHidden())
         win.studio_header.navigation['3d models'].click()
         win.studio_header.navigation['lessons'].click()
         self.assertIs(win.center.currentWidget(),win.collection_workspace)

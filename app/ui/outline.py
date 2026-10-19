@@ -361,7 +361,8 @@ class Outline(QAbstractScrollArea):
         p = QPainter(self.viewport())
         p.setRenderHint(QPainter.Antialiasing)
         width = self.viewport().width()
-        p.fillRect(event.rect(), theme.qc(theme.SURFACE))
+        if not self.property('wallLettering'):
+            p.fillRect(event.rect(), theme.qc(theme.SURFACE))
         h = self.rowHeight()
         top = self.verticalScrollBar().value()
         first = max(0, (event.rect().top() + top) // h)

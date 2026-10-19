@@ -130,6 +130,7 @@ class MainWindow(QMainWindow):
         self.places = PlaceHistory()
         self._restoring_place = False
         self._place_info = {}           # place key -> the Details page it showed (group / landmark pages)
+        self._place_views = {}          # atlas appearance belonging to a history entry
         self._place_timer = QTimer(self)
         self._place_timer.setSingleShot(True)
         self._place_timer.setInterval(350)
@@ -152,7 +153,8 @@ class MainWindow(QMainWindow):
         self.radiology_panel = None
         self.anatomy_tab = QSplitter(Qt.Horizontal)
         self.anatomy_tab.setObjectName("anatomyComparison")
-        self.anatomy_tab.setStyleSheet(f"QSplitter#anatomyComparison {{background:{theme.CANVAS};}}")
+        self.anatomy_tab.setStyleSheet("QSplitter#anatomyComparison {background:transparent;}"
+                                      "QSplitter#anatomyComparison::handle {background:transparent;}")
         self.anatomy_tab.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         self.anatomy_tab.setChildrenCollapsible(False)
         self.anatomy_tab.setHandleWidth(6)
@@ -170,6 +172,10 @@ class MainWindow(QMainWindow):
             self._startup_notices.append(f"Radiology could not be opened: {exc}")
         self.anatomy_tab.addWidget(self.viewport)
         self.center = QTabWidget()
+        # Hidden catalogue pages must not impose their wide size hint on the
+        # active lesson canvas beside its readable reader column.
+        self.center.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+        self.center.setMinimumSize(340, 240)
         self.center.setDocumentMode(True)
         self.center.setTabsClosable(True)
         self.center.setTabBarAutoHide(False)
@@ -192,20 +198,21 @@ class MainWindow(QMainWindow):
         self.lesson_splitter = QSplitter(Qt.Horizontal)
         self.lesson_splitter.setObjectName("lessonWorkspaceSplit")
         self.lesson_splitter.setStyleSheet(
-            f"QSplitter#lessonWorkspaceSplit {{background:{theme.CANVAS};}}"
-            f"QSplitter#lessonWorkspaceSplit::handle {{background:{theme.CANVAS};}}")
+            "QSplitter#lessonWorkspaceSplit {background:transparent;}"
+            "QSplitter#lessonWorkspaceSplit::handle {background:transparent;}")
         self.lesson_splitter.setChildrenCollapsible(False)
         self.lesson_reader = QWidget()
+        self.lesson_reader.setMinimumWidth(360)
         self.lesson_reader.setObjectName("lessonWorkspace")
         self.lesson_reader.setAttribute(Qt.WA_StyledBackground, True)
         self.lesson_reader.setStyleSheet("QWidget#lessonWorkspace {background:transparent;border:none;}")
         self.lesson_reader_layout = QVBoxLayout(self.lesson_reader)
-        self.lesson_reader_layout.setContentsMargins(24, 12, 12, 16)
+        self.lesson_reader_layout.setContentsMargins(24, 92, 12, 16)
         self.lesson_card = QWidget(self.lesson_reader)
         self.lesson_card.setObjectName("lessonStudyCard")
         self.lesson_card.setAttribute(Qt.WA_StyledBackground, True)
         self.lesson_card.setStyleSheet(
-            f"QWidget#lessonStudyCard {{background:transparent;border:1px solid {theme.BORDER};border-radius:0px;}}")
+            "QWidget#lessonStudyCard {background:transparent;border:0;}")
         self.lesson_card_layout = QVBoxLayout(self.lesson_card)
         self.lesson_card_layout.setContentsMargins(12, 12, 12, 12)
         self.lesson_reader_layout.addWidget(self.lesson_card)
@@ -407,6 +414,11 @@ class MainWindow(QMainWindow):
             QTimer.singleShot(0, self, lambda: self.set_borderless(True))
         from .ui.study_layout import StudyLayout
         self.study_layout = StudyLayout(self)
+        # Widgets were polished while still in the legacy dock hierarchy. Qt
+        # does not invalidate descendant-selector caches after objectName or
+        # parent changes, so the tab stack otherwise retains its solid panel.
+        app = QApplication.instance()
+        app.setStyleSheet(app.styleSheet())
         self._ui_ready = True
         from . import live_camera
         self._live_camera = live_camera.start(self)       # opt-in (ANATOMY_CAMERA_FEED); None when off
@@ -449,7 +461,7 @@ class MainWindow(QMainWindow):
         mv = self.active_model_view
         av = self.active_viewport
         reg("frame", lambda: mv().frame_selection() if mv() else self.frame_selection())
-        reg("reset_view", lambda: mv().reset_view() if mv() else vp.reset_view())
+        reg("reset_view", self.reset_active_view)
         for v in VIEWS:
             reg(f"view_{v}", lambda _=False, n=v: av().set_view(n))
         reg("orbit_left", lambda: av().key_orbit(1, 0))
@@ -471,7 +483,7 @@ class MainWindow(QMainWindow):
         reg("landmarks", lambda: mv().toggle_labels() if mv() else
             self.on_setting("show_landmarks", not self.settings["show_landmarks"], sync=True))
         structure_labels = reg("structure_labels", lambda: self.on_setting(
-            "show_structure_labels", not self.settings.get("show_structure_labels", False)))
+            "show_structure_labels", not self.viewport.labels_on))
         structure_labels.setCheckable(True)
         structure_labels.setChecked(bool(self.settings.get("show_structure_labels", False)))
         reg("color_mode", lambda: self.on_setting("color_mode", (int(self.settings["color_mode"]) + 1) % 3, sync=True))
@@ -734,10 +746,16 @@ class MainWindow(QMainWindow):
         self.studio_header.search.installEventFilter(self)
         self.search.edit.textChanged.connect(self._sync_header_search)
         self.search.edit.hide()  # One global search field; results live beside the actual body.
+        self.left_layout.removeWidget(self.search)
+        self.search.setParent(self.workspace)
+        self.search.set_wall_mode(self.viewport)
+        self.search.hide()
         self.studio_header.backRequested.connect(lambda: self.go_place(-1))
         self.studio_header.forwardRequested.connect(lambda: self.go_place(1))
         self.studio_header.places_menu.aboutToShow.connect(self._fill_places_menu)
-        self.workspace_layout.insertWidget(0, self.studio_header)
+        # Chrome floats over the scene. Reserving a layout row here clips the
+        # anatomy at the header edge even when both backgrounds match.
+        self.studio_header.setParent(self.workspace)
         self.shell_layout.insertWidget(0, self.studio_header.navigation_rail)
         self.studio_header.layout().removeWidget(self.studio_header.subject)
         self.studio_header.subject.setParent(self.workspace)
@@ -760,6 +778,8 @@ class MainWindow(QMainWindow):
         self._studio_last_scene = self.anatomy_tab
         self.studio_tools = atlas_dock(self)
         self.studio_tools.setParent(self.workspace)
+        self.studio_tools.label_pair.layoutChanged.connect(
+            lambda: QTimer.singleShot(0,self,self._layout_studio_chrome))
         from .ui.atlas_wall import AtlasWall
         from .ui.depth_gauge import DepthGauge
         self.atlas_wall = AtlasWall(self)
@@ -767,8 +787,13 @@ class MainWindow(QMainWindow):
         self.atlas_depth.setObjectName("atlasDepthRule")
         self.atlas_depth.setStyleSheet("background:transparent;border:none;")
         self.atlas_depth.setEnabled(self.view_panel.depth_slider.isEnabled())
-        self.atlas_depth.valueChanged.connect(self.view_panel.depth_slider.setValue)
-        self.view_panel.depth_slider.valueChanged.connect(self.atlas_depth.setValue)
+        self._atlas_depth_timer = QTimer(self)
+        self._atlas_depth_timer.setSingleShot(True)
+        self._atlas_depth_timer.setInterval(16)
+        self._atlas_depth_timer.timeout.connect(self._apply_atlas_depth)
+        self.atlas_depth.valueChanged.connect(self._queue_atlas_depth)
+        self.atlas_depth.sliderReleased.connect(self._apply_atlas_depth)
+        self.atlas_depth.onlyLayerToggled.connect(self.view_panel.depth_band.setChecked)
         self.left_dock.visibilityChanged.connect(lambda _on: self._layout_studio_chrome())
         self.lesson_splitter.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         # The full original menu/toolbar remains available, without duplicate
@@ -777,6 +802,15 @@ class MainWindow(QMainWindow):
             if bar.objectName() == 'main_toolbar':bar.hide()
         self.left_dock.hide()
         self.right_dock.hide()
+
+    def _queue_atlas_depth(self, _value):
+        # Let Qt paint the custom knob before applying the more expensive visibility cut.
+        if not self._atlas_depth_timer.isActive():
+            self._atlas_depth_timer.start()
+
+    def _apply_atlas_depth(self):
+        self._atlas_depth_timer.stop()
+        self.view_panel.depth_slider.setValue(self.atlas_depth.value())
 
     def _sync_header_search(self, text):
         field = self.studio_header.search
@@ -799,11 +833,8 @@ class MainWindow(QMainWindow):
             self.lesson_reader.hide()
             self.center.setCurrentWidget(self.anatomy_tab)
         self.search.edit.setText(text)
-        if text.strip():
-            self.left_dock.show()
-            self.left_dock.raise_()
-        else:
-            self.left_dock.hide()
+        self.left_dock.hide()
+        self.search.setVisible(bool(text.strip()))
         self._layout_studio_chrome()
 
     def _startup_explore(self):
@@ -821,50 +852,87 @@ class MainWindow(QMainWindow):
         if quiz is not None and quiz.active:
             quiz.stop()
         self.lesson_reader.hide()
-        if self.radiology_panel is not None and not self.radiology_panel.isHidden():
-            self.close_radiology()
-            for checkbox,*_ in self.view_panel.clip_widgets:checkbox.setChecked(False)
-            self.viewport.clip_on[:]=[False,False,False]
-            self.viewport.set_radiology_section_labels(None)
-            self.viewport.focus_landmark=None
-            self.clear_attachment_colours()
-            self.reset_visibility()
-            self.state.clear_selection()
-            self.viewport.refresh_section()
-            self.viewport.reset_view()
+        # Atlas is the full-body destination. History still restores a previous
+        # lesson place, but the rail must never inherit that lesson's isolation.
+        self.close_radiology()
+        self.view_panel.reset_clips()
+        self.viewport.clip_on[:] = [False, False, False]
+        self.viewport.set_radiology_section_labels(None)
+        self.viewport.set_radiology_slice(False)
+        self.viewport.focus_landmark = None
+        self.viewport.clear_measure()
+        self.viewport.set_measure(False)
+        self.clear_attachment_colours()
+        self.reset_visibility()
+        self.state.clear_selection()
+        self.viewport.refresh_section()
         self._show_atlas()
+        self.viewport.reset_view()
         self._update_workspace_header()
         if self.center.currentWidget() is self.anatomy_tab:
             self.left_dock.hide()
             self._layout_studio_chrome()
 
     def _layout_studio_chrome(self):
-        if not hasattr(self, 'studio_tools'):
+        if self._closing or not hasattr(self, 'studio_tools'):
             return
         w, h = self.workspace.width(), self.workspace.height()
+        self.studio_header.setGeometry(0, 0, w, 80)
         scene_origin = self.center.mapTo(self.workspace, QPoint(0, 0)).x()
-        self.studio_header.subject.setGeometry(scene_origin+28, self.studio_header.geometry().bottom()+18, max(1,self.center.width()-56), 56 if self.workspace_context.isHidden() else 84)
+        margin = 40 if self.center.width() >= 1350 else 28
+        self.studio_header.subject.setGeometry(scene_origin+margin, self.studio_header.geometry().bottom()+24,
+                                             max(1,self.center.width()-margin*2), 90)
         origin=scene_origin
         available=self.center.width()
         if (self.center.currentWidget() is self.anatomy_tab and self.radiology_panel is not None
                 and not self.radiology_panel.isHidden()):
             origin=self.viewport.mapTo(self.workspace,QPoint(0,0)).x()
             available=self.viewport.width()
-        width=min(max(640,self.studio_tools.sizeHint().width()),max(1,available-32))
+        case_view = (self.center.currentWidget() is self.anatomy_tab and self.radiology_panel is not None
+                     and not self.radiology_panel.isHidden())
+        if not hasattr(self, 'atlas_control_fade'):
+            from .ui.studio_scene import WallLetteringFade
+            self.atlas_control_fade = WallLetteringFade(self.viewport)
+        fade = self.atlas_control_fade
+        fade.setGeometry(self.viewport.rect())
+        fade.set_zones((0, 130, 0, 120))
+        fade.setVisible(self.center.currentWidget() is self.anatomy_tab
+                        and self.lesson_reader.isHidden()
+                        and getattr(self, '_radiology_model_view', None) is None)
+        fade.raise_()
+        self.viewport.overlay.raise_()
+        for tool in self.studio_tools.general_tools:
+            tool.setVisible(not case_view)
+        self.studio_tools.layout().activate()
+        width=min(self.studio_tools.sizeHint().width(),max(1,available-32))
         height=self.studio_tools.sizeHint().height()
         self.studio_tools.setGeometry(origin+(available-width)//2,max(0,h-height-12),width,height)
-        atlas_on = (self.center.currentWidget() is self.anatomy_tab and
+        reading = not self.lesson_reader.isHidden()
+        atlas_on = (not reading and self.center.currentWidget() is self.anatomy_tab and
                     (self.radiology_panel is None or self.radiology_panel.isHidden()))
+        self.anatomy_tab.setContentsMargins(0,0,0,0)
         practice_on = getattr(self, 'quiz', None) is not None and self.quiz.active
+        searching = bool(self.search.edit.text().strip()) and atlas_on and not practice_on
         if hasattr(self, "atlas_wall"):
             self.atlas_wall.setVisible(atlas_on and not practice_on and self.left_dock.isHidden())
-            self.atlas_wall.setGeometry(origin+28, 170, min(300, max(230, available//4)), max(220,h-270))
-            self.atlas_depth.setVisible(atlas_on and not practice_on)
-            self.atlas_depth.setGeometry(origin+available-240, 185, 220, max(300,h-290))
+            top = 232 if h >= 1000 else 220
+            wall_bottom = self.studio_tools.y()-16 if available<1350 else h-44
+            self.atlas_wall.setGeometry(origin+margin, top, min(440,max(300,int(available*.30))), max(220,wall_bottom-top))
+            self.atlas_depth.setVisible(atlas_on and not practice_on and not searching)
+            gauge_height = max(300, round(h*.76))
+            gauge_width = round((310 if available>=1350 else 280)*max(1.0,min(1.35,gauge_height/820)))
+            self.atlas_depth.setGeometry(origin+available-gauge_width-margin+16, (h-gauge_height)//2,
+                                         gauge_width, gauge_height)
+            self.search.setVisible(searching)
+            search_width = min(580,max(360,int(available*.33)))
+            self.search.setGeometry(origin+available-search_width-margin,top-32,
+                                    search_width,max(220,h-top-12))
             self.atlas_wall.raise_()
             self.atlas_depth.raise_()
+            self.search.raise_()
         self.studio_header.subject.raise_()
         self.studio_tools.raise_()
+        self.studio_header.raise_()
 
     def _studio_radiology(self):
         on_library = (self.center.currentWidget() is self.collection_workspace
@@ -877,7 +945,13 @@ class MainWindow(QMainWindow):
             self._show_nav_page(self.radiology_browser)
 
     def _studio_learn(self):
-        self.show_lessons()
+        # A room destination always enters its library. Back/Forward alone
+        # restores an earlier reader and its authored scene.
+        if self.lessons_panel is None:
+            return
+        self.close_radiology()
+        self.lessons_panel.close_lesson()
+        self._show_lesson_library()
 
     def _show_practice(self):
         self.lesson_reader.hide()
@@ -921,6 +995,9 @@ class MainWindow(QMainWindow):
         attach = self.lesson_card_layout.indexOf(panel) < 0
         if attach:
             self.collection_workspace.pages.removeWidget(panel)
+            # QStackedWidget reports the minimum of every page, including the
+            # wide catalogue. The reader must size for its current text page.
+            panel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
             self.lesson_card_layout.addWidget(panel)
         if self.center.currentWidget() is self.collection_workspace:
             scene = self._studio_last_scene
@@ -934,14 +1011,11 @@ class MainWindow(QMainWindow):
         self._update_workspace_header()
 
     def _fit_lesson_reader(self, force=False):
-        """The lesson reader takes the share of the window it had at 2252 px wide (440 px), never more than that.
-
-        Called when it is attached and when the window first shows or changes screen, so a window opened or moved on
-        a smaller screen does not keep a reader sized for a bigger one. A width the reader already fits is kept."""
+        """Keep a readable lesson column beside the scene, including laptop sizes."""
         if not force and not self.lesson_reader.isVisible():
             return
         wide = self.lesson_splitter.width() or self.width()
-        cap = max(theme.scaled_to_window(440, wide, theme.REF_WINDOW_W, theme.text_px(36)),
+        cap = max(360, theme.scaled_to_window(440, wide, theme.REF_WINDOW_W, theme.text_px(36)),
                   self.lesson_reader.minimumSizeHint().width())
         if force or self.lesson_reader.width() > cap:
             self.lesson_splitter.setSizes([cap, max(480, wide - cap)])
@@ -952,6 +1026,7 @@ class MainWindow(QMainWindow):
         self.lesson_reader.hide()
         if self.collection_workspace.pages.indexOf(panel) < 0:
             self.lesson_card_layout.removeWidget(panel)
+            panel.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
             self.collection_workspace.pages.addWidget(panel)
         self.collection_workspace.show_page(panel, 'Lessons')
 
@@ -1077,8 +1152,8 @@ class MainWindow(QMainWindow):
                 subtitle = "Radiology · Authored anatomical reference"
             else:
                 count = len(self.state.selected)
-                title = "3D Anatomy"
-                subtitle = ""
+                title = "Human anatomy"
+                subtitle = self._atlas_caption()
         self.workspace_title.setText(title)
         self.workspace_context.setText(subtitle)
         self.workspace_context.setVisible(bool(subtitle))
@@ -1088,6 +1163,9 @@ class MainWindow(QMainWindow):
             if collection:
                 self.lesson_reader.hide()
             reading = not self.lesson_reader.isHidden()
+            self.viewport.set_lesson_label_mode(reading and current is self.anatomy_tab)
+            for key in ("both_sides", "peel_in", "peel_out", "peel_reset"):
+                self.cmds.actions[key].setEnabled(current is self.anatomy_tab and not reading)
             if hasattr(self, "study_layout"):
                 self.study_layout.sync()
             for view in self.micro_tabs.values():
@@ -1113,9 +1191,10 @@ class MainWindow(QMainWindow):
             if self.quiz is not None and self.quiz.active and current is self.anatomy_tab:
                 workspace = 'practice'
             self.studio_header.set_workspace(workspace)
-            self.studio_header.trail.setText("Layered Human / " + workspace.replace('3d', '3D').title())
-            self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible)
-            self.studio_tools.setVisible(current is self.anatomy_tab)
+            self.studio_header.trail.setText('' if workspace == 'explore' else workspace.replace('3d', '3D').title())
+            self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible and not reading)
+            reference = getattr(self, '_radiology_model_view', None)
+            self.studio_tools.setVisible(current is self.anatomy_tab and not reading and reference is None)
             self._layout_studio_chrome()
             if not collection:self._studio_last_scene = current
         self._update_place_buttons()
@@ -1218,10 +1297,17 @@ class MainWindow(QMainWindow):
             self._depth_timer.stop()
 
     def on_depth_changed(self, cut, band):
+        if hasattr(self, "atlas_depth"):
+            blocked = self.atlas_depth.blockSignals(True)
+            self.atlas_depth.setValue(round(cut*1000))
+            self.atlas_depth.blockSignals(blocked)
+            self.atlas_depth.set_only_layer(band > 0)
         first = self.state.depth_cut == 0.0 and self.state.depth_band == 0.0
         if first and (cut > 0.0 or band > 0.0):
             self.state.push_undo()
         self.state.set_depth(cut, band)
+        if hasattr(self, "workspace_context"):
+            self.workspace_context.setText(self._atlas_caption())
         if hasattr(self, "dissect_btn"):
             self._mark_active(self.dissect_btn, cut > 0.0 or band > 0.0)
         if self.state.depth is not None:
@@ -1272,6 +1358,8 @@ class MainWindow(QMainWindow):
             self.xray_action.setChecked(mv.state.ghost_focus is not None)
         elif self.center.currentWidget() in (self.viewport, self.anatomy_tab):
             tris, n = self.state.visible_triangle_count()
+            if hasattr(self,'workspace_context'):
+                self.workspace_context.setText(self._atlas_caption())
             self.count_label.setText(f"{n:,} structures · {tris / 1e6:.2f} M triangles visible")
             self.xray_action.setChecked(self.state.ghost_focus is not None)
         else:
@@ -1288,7 +1376,14 @@ class MainWindow(QMainWindow):
             n = 0
         self.sel_label.setText(f"{n} selected" if n else "")
 
+    def _atlas_caption(self):
+        visible = int(np.count_nonzero(self.state.visible_mask()))
+        return f"{visible:,} of {self.ds.n:,} shown · {self.state.depth_cut*100:.0f}% deep"
+
     def _on_query_active(self, active):
+        if getattr(self.search, 'wall_mode', False):
+            self._layout_studio_chrome()
+            return
         self.tabs.setVisible(not active)
         self.left_layout.setStretchFactor(self.search, 1 if active else 0)
         title = "Search results" if active else "Explore"
@@ -1297,6 +1392,9 @@ class MainWindow(QMainWindow):
             self.left_dock._studio_title.setText(title)
 
     def on_setting(self, key, value, sync=False):
+        if key == "show_structure_labels" and self.viewport.lesson_label_mode_active:
+            self.viewport.set_labels_on(bool(value))
+            return
         if key in ("section_labels", "max_section_labels"):
             self.settings[key] = value
             self.viewport.refresh_section()
@@ -1554,6 +1652,12 @@ class MainWindow(QMainWindow):
             return
         place = self._current_place()
         if place is not None:
+            scene, lesson = place[0]
+            if scene[0] == "atlas" and lesson is None:
+                if self.viewport.camera.animating:
+                    self._place_timer.start()
+                    return
+                self._place_views[place[0]] = self.capture_view()
             self.places.push(*place)
             # A group or landmark page in Details is not recoverable from the selection alone (Biceps brachii is
             # four meshes), so remember which page this place showed.
@@ -1583,7 +1687,7 @@ class MainWindow(QMainWindow):
                 return None
             scene, label = ("histology", w.tissue["id"], int(w.index)), f"Histology – {w.tissue['name']}"
         elif isinstance(w, ModelView):
-            selected = sorted(int(i) for i in w.state.selected)[:30]
+            selected = sorted(int(i) for i in w.state.selected)
             scene = ("model", w.entry.id, tuple(selected))
             label = f"{w.entry.name} model"
             if len(selected) == 1:
@@ -1594,7 +1698,7 @@ class MainWindow(QMainWindow):
             case = self.radiology_panel.case
             scene, label = ("radiology", case.id), f"Radiology – {case.title}"
         else:
-            selected = [int(i) for i in self.state.selected][:30]
+            selected = [int(i) for i in self.state.selected]
             scene = ("atlas", tuple(selected))
             label = "3D anatomy"
             if len(selected) == 1:
@@ -1628,7 +1732,7 @@ class MainWindow(QMainWindow):
                 self.lesson_reader.hide()
             kind = scene[0]
             if kind == "page":
-                pages = {"3d models": self._show_catalog, "lessons": self._show_lesson_library,
+                pages = {"3d models": self._show_catalog, "lessons": self._studio_learn,
                          "histology": self.show_histology_tab, "practice": self._show_practice,
                          "radiology": lambda: self._show_nav_page(self.radiology_browser)}
                 pages.get(scene[1], self._show_atlas)()
@@ -1645,10 +1749,15 @@ class MainWindow(QMainWindow):
                 if self.center.currentIndex() != 0 or (self.radiology_panel is not None
                                                        and not self.radiology_panel.isHidden()):
                     self._show_atlas()
-                if scene[1]:
+                saved = self._place_views.get(key) if lesson is None else None
+                if saved is not None:
+                    self.apply_view(saved)
+                elif scene[1]:
                     self.select_and_focus(list(scene[1]))
-                elif self.state.selected:
+                elif lesson is None:
                     self.state.select([])
+                    self.state.clear_ghost()
+                    self.viewport.reset_view()
                 view = self._place_info.get(key)
                 if view is not None:
                     view[0](*view[1])
@@ -2448,6 +2557,14 @@ class MainWindow(QMainWindow):
         ProgressDialog(stats, lessons, lesson_progress, self).exec()
 
     # ------------------------------------------------------------------ radiology
+    def reset_active_view(self):
+        if (self.center.currentWidget() is self.anatomy_tab and self.radiology_panel is not None
+                and not self.radiology_panel.isHidden() and self.radiology_panel.case is not None):
+            self.apply_radiology_scene(self.radiology_panel.case)
+            return
+        model = self.active_model_view()
+        (model.reset_view if model is not None else self.viewport.reset_view)()
+
     def show_radiology(self, case_id=None):
         if self.radiology_browser is None:
             return
@@ -2471,6 +2588,7 @@ class MainWindow(QMainWindow):
             self.radiology_panel.show()
             total = max(self.anatomy_tab.width(), 800)
             self.anatomy_tab.setSizes([int(total * 0.42), int(total * 0.58)])
+        self.radiology_panel.setContentsMargins(0, 80, 0, 0)
         self.apply_radiology_scene(case)
         self.statusBar().showMessage(f"{case.title} - labels highlight anatomy already in this reference view.", 8000)
         self._record(("rad_case", case.id))
@@ -2609,7 +2727,9 @@ class MainWindow(QMainWindow):
         self.viewport.set_radiology_section_labels(groups if on or groups is None else [])
         view = getattr(self, "_radiology_model_view", None)
         if view is not None and getattr(view, "_radiology_labels", None) is not None:
-            view.gl_widget.reference_labels = view._radiology_labels if on else {}
+            view.gl_widget.set_labels_on(on)
+            view.labels.setChecked(on)
+            view.studio.label_pair.set_labels_on(on)
             view.gl_widget.invalidate_labels()
             view.gl_widget.update()
 
@@ -2630,6 +2750,13 @@ class MainWindow(QMainWindow):
             self._radiology_model_view = view
             self.viewport.hide()
             view.show()
+            total = max(self.anatomy_tab.width(), 800)
+            # The splitter retains a hidden atlas and cached reference viewers.
+            # Size its visible pair explicitly after the new reference is shown.
+            self.anatomy_tab.setSizes([
+                int(total * .42) if self.anatomy_tab.widget(i) is self.radiology_panel else
+                int(total * .58) if self.anatomy_tab.widget(i) is view else 0
+                for i in range(self.anatomy_tab.count())])
             self.anatomy_tab.gl_widget = view.gl_widget
             view._radiology_ready = False
             def configure():
@@ -2643,6 +2770,8 @@ class MainWindow(QMainWindow):
                 mg.sections = [None, None, None]
                 mg.cut_on = False
                 mg.show_state("assembled")
+                view.studio.set_reference_mode(True)
+                view.studio.arrange()
                 focus, missing = view.part_ids(scene["micro_focus"])
                 context, _ = view.part_ids(scene.get("micro_context", []))
                 if missing:
@@ -2660,18 +2789,28 @@ class MainWindow(QMainWindow):
                     boxes = {i: view.vmodel.item_bounds([i]) for i in focus}
                     framed = framing_core([i for i in focus if boxes[i] is not None],
                                           [(boxes[i][0] + boxes[i][1]) / 2 for i in focus if boxes[i] is not None])
-                    mg.frame_structures(framed or focus, duration=0.0, view=scene.get("model_view", "anterior"))
+                    # Include the case's translucent envelope, then leave room
+                    # for its outward label rails and floating navigation.
+                    mg.frame_structures(sorted(set((framed or focus)+context)), duration=0.0,
+                                        view=scene.get("model_view", "anterior"))
+                    mg.camera.distance *= 1.28
+                    mg.camera.ortho_width *= 1.28
                 # The case's image labels, numbered as on the scan, name the same parts of the model.
                 visible = ms.visible_mask()
-                names = {}
+                names = []
                 for number, label in enumerate(case.labels, 1):
                     ids, _ = view.part_ids(label.structures)
-                    shown = [i for i in ids if visible[i] and i not in names]
+                    shown = [i for i in ids if visible[i]]
                     if shown:
-                        names[max(shown, key=lambda i: len(view.vmodel.items[i].parts))] = f"{number}  {label.text}"
+                        names.append((number, label.text, tuple(shown)))
                 view._radiology_labels = names
-                mg.reference_labels = names if self.radiology_panel.labels_on.isChecked() else {}
+                mg.set_reference_labels(names)
+                labels_on = self.radiology_panel.labels_on.isChecked()
+                mg.set_labels_on(labels_on)
+                view.labels.setChecked(labels_on)
+                view.studio.label_pair.set_labels_on(labels_on)
                 mg.invalidate_labels()
+                view.configure_reference_scene(title=case.title)
                 view._radiology_ready = True
                 self._center_changed(self.center.currentIndex())
             QTimer.singleShot(0, view, configure)
@@ -2871,7 +3010,19 @@ class MainWindow(QMainWindow):
             self.center.setCurrentWidget(visual)
             self._update_workspace_header()
             return
-        return self.apply_scene(step)
+        result = self.apply_scene(step)
+        names = list(step.get('focus', [])) + list(step.get('show', [])) + list(step.get('frame_on', []))
+        scope = self.lesson_resolver.resolve_all(names)
+        side = str(step.get('side') or '').lower()
+        if side:
+            scope = [sid for sid in scope if self.ds.structures[sid]['side'].lower() in (side, '')]
+        self.viewport._lesson_label_scope = frozenset(scope) or None
+        if scope and step.get('frame', True) and not any(step.get(key) for key in ('camera','frame_on','micro','histology')):
+            visible = self.state.visible_mask()
+            self.viewport.frame_structures([sid for sid in scope if visible[sid]], view=step.get('view'))
+        self.viewport._caption_fit_pending = self.viewport._structure_label_all_requested
+        self.viewport.update()
+        return result
 
     def apply_scene(self, step):
         """Set the 3D view up from a scene description - used by guided lessons and radiology cases alike."""
@@ -2879,6 +3030,13 @@ class MainWindow(QMainWindow):
         vp.set_radiology_slice(False)
         res = self.lesson_resolver
         st.push_undo()
+        # A lesson step is an authored scene, independent of an earlier atlas
+        # isolate/hide action or the scene restored by browser-style history.
+        st.restore(SceneState(self.ds, self.settings)._snapshot())
+        st.clear_selection()
+        vp.landmark_hosts = []
+        vp.clear_measure()
+        vp.set_measure(False)
         if "systems" in step:
             wanted = set(step["systems"])
             st.set_systems([s["key"] in wanted for s in self.ds.systems])

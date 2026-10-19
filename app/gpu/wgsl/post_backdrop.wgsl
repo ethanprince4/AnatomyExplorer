@@ -12,7 +12,7 @@ struct U {
 @fragment
 fn fs_backdrop(@location(0) v_uv: vec2<f32>) -> @location(0) vec4<f32> {
     let wall = mix(u.bottom, u.top, clamp(v_uv.y, 0.0, 1.0));
-    let pool = (v_uv - vec2<f32>(0.52, 0.52)) / vec2<f32>(0.46, 0.65);
-    let light = clamp(exp(-dot(pool, pool) * 2.2) * u.strength, 0.0, 1.0);
+    let pool = (v_uv - vec2<f32>(0.5)) / vec2<f32>(0.49);
+    let light = clamp((1.0 - length(pool)) * u.strength, 0.0, 1.0);
     return vec4<f32>(mix(wall, u.spot, light), 1.0);
 }
