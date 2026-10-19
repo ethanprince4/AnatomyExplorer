@@ -15,16 +15,15 @@ class StudioScene(QWidget):
         self.viewport=viewport;viewport.setParent(self)
         self.parts=parts;self._practice=False;self._initializing=True;self._lesson_mode=False
         from .studio_style import display_css
+        from . import theme
         self.breadcrumb=QLabel('Collection  /  3D models',self);self.breadcrumb.setObjectName('studioSceneBreadcrumb')
-        self.subject=QLabel(self);self.subject.setObjectName('studioSceneTitle');self.subject.setTextFormat(Qt.PlainText);self.subject.setStyleSheet(display_css(42,'#eef3f6'))
+        self.subject=QLabel(self);self.subject.setObjectName('studioSceneTitle');self.subject.setTextFormat(Qt.PlainText);self.subject.setStyleSheet(display_css(42))
+        self.subject.setFont(theme.font_for('display',size=42,weight=400,optical_size=42))
         self.summary=QLabel(self);self.summary.setObjectName('studioSceneSummary');self.summary.setTextFormat(Qt.PlainText);self.summary.setWordWrap(True)
         self.status=QLabel(self);self.status.setObjectName('studioSceneStatus')
         self.status.hide()
         self.summary.hide()
-        # Explicit local colors survive the light application's generic QLabel rules.
-        self.breadcrumb.setStyleSheet('QLabel { color: #c7d5df; background: transparent; }')
-        self.summary.setStyleSheet('QLabel { color: #c7d5df; background: transparent; }')
-        self.status.setStyleSheet('QLabel { color: #eef3f6; background: #263544; border-radius: 8px; padding: 4px 10px; }')
+        # Keep every instrument wall-lettered; the active palette owns the text and focus colors.
         self.cards={};self.tools={};self._active=None;self._laying_out=False;self.instrument_side="right";self._building=True
         self.cards['parts']=self._card('Model contents',parts,'studioCard',key='parts')
         self.cards['reveal']=self._card('Reveal',reveal,'studioInstrument')
@@ -51,7 +50,12 @@ class StudioScene(QWidget):
             button=self.add_tool(key,title,checkable=True)
             button.toggled.connect(lambda on,k=key:self.show_card(k,on))
         self.measure=self.add_tool('measure','Measure',checkable=True)
-        self.labels=self.add_tool('labels','Labels',checkable=True)
+        from .dock_pair import LabelDockPair
+        self.label_pair=LabelDockPair(self.dock)
+        self.labels=self.label_pair.labels
+        self.tools['labels']=self.label_pair
+        self.dock_layout.addWidget(self.label_pair,0,len(self.tools)-1)
+        self.label_pair.labelsToggled.connect(lambda on:self.label_pair.set_labels_on(on))
         self.show_all=self.add_tool('show_all','Show all')
         self.show_all.setToolTip('Show every part again and leave isolation')
         self.reset=self.add_tool('reset','Reset')
@@ -75,9 +79,8 @@ class StudioScene(QWidget):
         self._initializing=False
         self.loading_cover=QFrame(self)
         self.loading_cover.setObjectName('studioLoadingCover')
-        self.loading_cover.setStyleSheet('QFrame#studioLoadingCover { background: rgba(20,27,34,245); } QLabel { color: #eef3f6; background: transparent; }')
         loading_layout=QVBoxLayout(self.loading_cover);loading_layout.setContentsMargins(40,40,40,40);loading_layout.addStretch()
-        self.loading_title=QLabel('Preparing model…');self.loading_title.setWordWrap(True);self.loading_title.setStyleSheet('color: #eef3f6; font-size: 26px; font-weight: 600;')
+        self.loading_title=QLabel('Preparing model…');self.loading_title.setWordWrap(True);self.loading_title.setFont(theme.font_for('display',size=26,weight=500))
         self.loading_note=QLabel('Preparing the 3D view and labels. You can keep using other tabs.');self.loading_note.setWordWrap(True)
         for label in (self.loading_title,self.loading_note):
             label.setAlignment(Qt.AlignCenter);label.setMaximumWidth(560)

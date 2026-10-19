@@ -65,7 +65,7 @@ def windows_installer(version, channel="stable"):
     if iscc is None:
         sys.exit("Inno Setup 6 (ISCC.exe) not found: install it from https://jrsoftware.org/isdl.php")
     run(iscc, f"/DAppVersion={version}", f"/DSourceDir={DIST / 'AnatomyExplorer'}", f"/DOutputDir={RELEASE}",
-        f"/DOutputName={Path(WIN_ASSET).stem}", f"/DExperimental={int(channel == 'experimental')}",
+        f"/DOutputName={Path(WIN_ASSET).stem}", *(["/DExperimental"] if channel == "experimental" else []),
         f"/DIconFile={ROOT / 'app' / 'resources' / 'icon.ico'}",
         PKG / "installer.iss")
 

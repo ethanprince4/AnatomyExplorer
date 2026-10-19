@@ -9,7 +9,7 @@ arrow or a check box only expands or checks; itemClicked is for a click on the r
 current row through the widget's accessible description.
 """
 from PySide6.QtCore import QEvent, QPointF, QRect, QRectF, Qt, QTimer, Signal
-from PySide6.QtGui import QFontMetrics, QPainter, QPainterPath, QPen
+from PySide6.QtGui import QFontMetrics, QIcon, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QAbstractScrollArea, QToolTip
 
 from . import theme
@@ -31,6 +31,7 @@ class OutlineItem:
         self._tip = ""
         self._check = None             # None: no check box
         self._bold = False
+        self._icon = QIcon()
         self._expanded = False
         self._hidden = False
         if isinstance(parent, Outline):
@@ -90,6 +91,13 @@ class OutlineItem:
     def setBold(self, on):
         self._bold = bool(on)
         self._update()
+
+    def setIcon(self, icon):
+        self._icon = icon if isinstance(icon, QIcon) else QIcon(icon)
+        self._update()
+
+    def icon(self):
+        return self._icon
 
     def isBold(self):
         return self._bold
@@ -183,6 +191,7 @@ class Outline(QAbstractScrollArea):
         self._hover = None
         self._pressed = None
         self._indent = 14
+        self._row_height = 0
 
     # ------------------------------------------------------------------ QTreeWidget-like API
     def invisibleRootItem(self):
@@ -265,7 +274,13 @@ class Outline(QAbstractScrollArea):
         return QRect(0, row * h - self.verticalScrollBar().value(), self.viewport().width(), h)
 
     def rowHeight(self):
-        return max(QFontMetrics(self.font()).height() + 8, BOX + 9)
+        return max(self._row_height, QFontMetrics(self.font()).height() + 8, BOX + 9)
+
+    def setRowHeight(self, height):
+        """Set a uniform row height for thumbnail catalogues while retaining the stable-row view."""
+        self._row_height = max(0, int(height))
+        self._update_scrollbar()
+        self.viewport().update()
 
     def sizeHintForRow(self, row):
         return self.rowHeight()
@@ -376,6 +391,11 @@ class Outline(QAbstractScrollArea):
             if item._check is not None:
                 self._paint_box(p, x, cy, item._check)
                 x += BOX + GAP
+            if not item._icon.isNull():
+                icon_size = min(38, h - 8)
+                icon_rect = QRect(x, y + (h - icon_size) // 2, icon_size, icon_size)
+                item._icon.paint(p, icon_rect, Qt.AlignCenter)
+                x += icon_size + GAP
             count = item._text[1]
             right = width - 6
             if count:

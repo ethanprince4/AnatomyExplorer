@@ -6,11 +6,10 @@ interventricular septum, one podocyte, "Chordae tendineae" of a downloaded heart
 most own exactly one. Items are grouped (a sidecar structure, a micro model's layer), and the groups are what the
 parts list, the "by group" colours and Shift+click-style group actions work on.
 
-Three kinds of model come in:
+Two kinds of model come in:
 
 * a glTF / GLB file with an optional ``<name>.viewer.json`` sidecar from tools/blender/export_for_viewer.py
   (:class:`Model`) - the heart, the cardiac muscle block, the kidney with its nephron;
-* a downloaded model whose names come from heuristics plus a hand-written curation file (``imported.py``);
 * one of the app's procedural microanatomy models (``procedural.py``).
 """
 from __future__ import annotations

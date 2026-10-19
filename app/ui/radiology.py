@@ -303,7 +303,7 @@ class RadiologyPanel(QWidget):
         surround.setContentsMargins(24,12,12,16)
         card=QWidget(self);card.setObjectName("radiologyStudyCard")
         card.setAttribute(Qt.WA_StyledBackground,True)
-        card.setStyleSheet("QWidget#radiologyStudyCard {background:#f2f6f8;border:1px solid #94a6b1;border-radius:14px;}")
+        card.setStyleSheet(f"QWidget#radiologyStudyCard {{background:transparent;border:1px solid {theme.BORDER};border-radius:0px;}}")
         surround.addWidget(card)
         outer=QVBoxLayout(card)
         outer.setContentsMargins(12,12,12,12)

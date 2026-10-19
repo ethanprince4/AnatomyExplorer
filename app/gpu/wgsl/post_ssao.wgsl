@@ -17,6 +17,14 @@ struct U {
 };
 // Pipeline constant: AO samples per scale (post.py run_ssao passes the same value it packs into u.samples).
 override SAMPLES: i32 = 16;
+// Pipeline constants of the depth chain (post_dmip.wgsl, PostPasses.far_mips). The sample radius is a length in the
+// model, so close to a surface it spans hundreds to thousands of pixels and every tap of a pixel lands on a different
+// cache line of the full-size depth texture: the pass then costs memory traffic, not arithmetic, and grows with zoom.
+// A tap further than 2^(MIP_OFF + k) pixels from the pixel it shades reads level k (at most MIP_MAX), whose texel is
+// one real depth within 2^k pixels of the tap: under 1/2^MIP_OFF of the tap's own distance, inside the per-pixel
+// jitter of the tap pattern. MIP_MAX = 0 is the old path: every tap reads level 0 and the picture is bit-identical.
+override MIP_MAX: i32 = 0;
+override MIP_OFF: f32 = 3.0;
 @group(0) @binding(0) var<uniform> u: U;
 @group(0) @binding(1) var t_nd: texture_2d<f32>;
 @group(0) @binding(2) var t_prev: texture_2d<f32>;
@@ -37,13 +45,22 @@ fn project(p: vec3<f32>) -> vec2<f32> {
     if (u.ortho == 1) { ndc = p.xy * itan; } else { ndc = p.xy * itan * (1.0 / (-p.z)); }
     return ndc * 0.5 + 0.5;
 }
+var<private> c_px: vec2<f32>;      // the shaded pixel, in pixels of depth level 0
+var<private> d_size: vec2<f32>;    // size of depth level 0
+// Level of the depth chain for a tap at uv: 0 within 2^(MIP_OFF + 1) pixels of the shaded pixel, then one level per
+// doubling of the distance. Always a whole number, so the nearest-mip sampler reads exactly that level.
+fn tap_lod(uv: vec2<f32>) -> f32 {
+    if (MIP_MAX == 0) { return 0.0; }
+    let d = uv * d_size - c_px;
+    return clamp(floor(0.5 * log2(max(dot(d, d), 1.0))) - MIP_OFF, 0.0, f32(MIP_MAX));
+}
 
 // One AO tap at view-space point S (sample of the hemisphere around P): range-weighted occlusion, 0 when the tap
 // is off screen, sees background or is not behind the surface (hit = 0 adds hit * range = 0 exactly).
 fn ao_tap(P: vec3<f32>, S: vec3<f32>, rad: f32, bias_s: f32) -> f32 {
     let uv = project(S);
     let inb = !(uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0);
-    let sd = textureSampleLevel(t_depth, s_near, uv, 0.0).x;
+    let sd = textureSampleLevel(t_depth, s_near, uv, tap_lod(uv)).x;
     let sceneZ = -sd;
     if (inb && !(sd <= 0.0) && sceneZ >= S.z + bias_s) {
         return smoothstep(0.0, 1.0, rad / max(abs(P.z - sceneZ), 1e-4));
@@ -55,6 +72,8 @@ fn ao_tap(P: vec3<f32>, S: vec3<f32>, rad: f32, bias_s: f32) -> f32 {
 fn ssao_eval(pix: vec2<f32>, uvc: vec2<f32>, nd: vec4<f32>) -> vec4<f32> {
     if (nd.w <= 0.0) { return vec4<f32>(0.0, 0.0, 0.0, 1.0); }
     itan = 1.0 / u.tan_;
+    d_size = vec2<f32>(textureDimensions(t_depth));
+    c_px = uvc * d_size;
     let P = view_pos(uvc, nd.w);
     let N = normalize(nd.xyz);
     let a0 = ign(pix) * 6.2831853;
@@ -110,7 +129,7 @@ fn ssao_eval(pix: vec2<f32>, uvc: vec2<f32>, nd: vec4<f32>) -> vec4<f32> {
                 let S = P + dir * grad * f * f + N * u.bias;
                 let uv = project(S);
                 if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) { break; }
-                let sd = textureSampleLevel(t_depth, s_near, uv, 0.0).x;
+                let sd = textureSampleLevel(t_depth, s_near, uv, tap_lod(uv)).x;
                 if (sd <= 0.0) { continue; }
                 let dz = -sd - S.z;
                 if (dz > u.bias && dz < grad * 0.6) {

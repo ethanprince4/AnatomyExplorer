@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDia
 
 from .actions import WORKSPACE_MODIFIER, ActionRegistry, default_key_text
 from .camera import OrbitCamera
-from .config import APP_NAME, DEFAULT_SETTINGS, ORG_NAME
+from .config import APP_NAME, DEFAULT_SETTINGS, ORG_NAME, SETTINGS_APP_NAME
 from .content import ContentIndex
 from .search import SearchIndex
 from .state import SceneState
@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
         self._startup_notices = []
         self.ds = ds
         self.setWindowTitle(APP_NAME)
-        self.qsettings = QSettings(QSettings.defaultFormat(), QSettings.UserScope, ORG_NAME, APP_NAME)
+        self.qsettings = QSettings(QSettings.defaultFormat(), QSettings.UserScope, ORG_NAME, SETTINGS_APP_NAME)
         self.settings = dict(DEFAULT_SETTINGS)
         try:
             saved = json.loads(self.qsettings.value("view_settings", "{}"))
@@ -108,11 +108,18 @@ class MainWindow(QMainWindow):
             self.settings['restore_session'] = False
             self.qsettings.setValue('view_settings', json.dumps(self.settings))
             self.qsettings.setValue('studio_startup_revision', 1)
+        if self.qsettings.value('fast_renderer_on_revision', 0, type=int) < 1:
+            self.settings['fast_renderer'] = True
+            self.qsettings.setValue('view_settings', json.dumps(self.settings))
+            self.qsettings.setValue('fast_renderer_on_revision', 1)
         self.settings['show_structure_labels'] = False
-        # The shell and live scene share one backdrop; this does not change lights or materials.
-        self.settings.update(custom_background=True, bg_top='#141b22', bg_bottom='#141b22')
+        # the load thread reads the renderer choice from these settings (clusters are made there for the fast renderer)
+        from .gpu import prep as _gpu_prep
+        _gpu_prep.use_settings(self.settings)
         apply_theme(QApplication.instance(), float(self.settings["ui_scale"]),
-                    mode=str(self.qsettings.value("ui_theme", "porcelain")))
+                    mode=str(self.qsettings.value("ui_theme", "gallery-slate")))
+        # The chosen wall belongs behind every workspace, independent of model lighting.
+        self._apply_specimen_background()
         self.state = SceneState(ds, self.settings)
         self.index = SearchIndex(ds)
         self.content = ContentIndex(ds)
@@ -145,7 +152,7 @@ class MainWindow(QMainWindow):
         self.radiology_panel = None
         self.anatomy_tab = QSplitter(Qt.Horizontal)
         self.anatomy_tab.setObjectName("anatomyComparison")
-        self.anatomy_tab.setStyleSheet("QSplitter#anatomyComparison {background:#141b22;}")
+        self.anatomy_tab.setStyleSheet(f"QSplitter#anatomyComparison {{background:{theme.CANVAS};}}")
         self.anatomy_tab.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         self.anatomy_tab.setChildrenCollapsible(False)
         self.anatomy_tab.setHandleWidth(6)
@@ -185,8 +192,8 @@ class MainWindow(QMainWindow):
         self.lesson_splitter = QSplitter(Qt.Horizontal)
         self.lesson_splitter.setObjectName("lessonWorkspaceSplit")
         self.lesson_splitter.setStyleSheet(
-            "QSplitter#lessonWorkspaceSplit {background:#141b22;}"
-            "QSplitter#lessonWorkspaceSplit::handle {background:#141b22;}")
+            f"QSplitter#lessonWorkspaceSplit {{background:{theme.CANVAS};}}"
+            f"QSplitter#lessonWorkspaceSplit::handle {{background:{theme.CANVAS};}}")
         self.lesson_splitter.setChildrenCollapsible(False)
         self.lesson_reader = QWidget()
         self.lesson_reader.setObjectName("lessonWorkspace")
@@ -198,7 +205,7 @@ class MainWindow(QMainWindow):
         self.lesson_card.setObjectName("lessonStudyCard")
         self.lesson_card.setAttribute(Qt.WA_StyledBackground, True)
         self.lesson_card.setStyleSheet(
-            "QWidget#lessonStudyCard {background:#f2f6f8;border:1px solid #94a6b1;border-radius:14px;}")
+            f"QWidget#lessonStudyCard {{background:transparent;border:1px solid {theme.BORDER};border-radius:0px;}}")
         self.lesson_card_layout = QVBoxLayout(self.lesson_card)
         self.lesson_card_layout.setContentsMargins(12, 12, 12, 12)
         self.lesson_reader_layout.addWidget(self.lesson_card)
@@ -208,8 +215,14 @@ class MainWindow(QMainWindow):
         self.lesson_splitter.setStretchFactor(1, 1)
         self.lesson_reader.hide()
         self.workspace_layout.addWidget(self.lesson_splitter, 1)
-        self.setCentralWidget(self.workspace)
-        self.setAcceptDrops(True)            # a .glb dropped on the window opens in the model viewer
+        self.shell_root = QWidget()
+        self.shell_root.setObjectName("specimenShell")
+        self.shell_layout = QHBoxLayout(self.shell_root)
+        self.shell_layout.setContentsMargins(0, 0, 0, 0)
+        self.shell_layout.setSpacing(0)
+        self.shell_layout.addWidget(self.workspace, 1)
+        self.setCentralWidget(self.shell_root)
+        self.setAcceptDrops(True)            # a .glb / .npz dropped on the window opens in the model viewer
 
         # ---------------------------------------------------------------- left dock
         left = QWidget()
@@ -337,6 +350,7 @@ class MainWindow(QMainWindow):
         # ---------------------------------------------------------------- signals
         self.search.activated.connect(self.on_search_activated)
         self.search.queryActive.connect(self._on_query_active)
+        self.search.resultsChanged.connect(self.viewport.set_on_body_search)
         self.viewport.structureClicked.connect(self.on_structure_clicked)
         self.viewport.structureDoubleClicked.connect(self.on_structure_double_clicked)
         self.viewport.contextMenuRequested.connect(self.on_context_menu)
@@ -394,6 +408,8 @@ class MainWindow(QMainWindow):
         from .ui.study_layout import StudyLayout
         self.study_layout = StudyLayout(self)
         self._ui_ready = True
+        from . import live_camera
+        self._live_camera = live_camera.start(self)       # opt-in (ANATOMY_CAMERA_FEED); None when off
         self.tabs.currentChanged.connect(self._update_workspace_header)
         self.state.selection_changed.connect(self._update_workspace_header)
         self._activity_timer = QTimer(self)
@@ -418,6 +434,7 @@ class MainWindow(QMainWindow):
         reg("search", self._focus_search)
         reg("settings", lambda: self.open_settings())
         reg("screenshot", lambda: self.screenshot())
+        reg("review_shot", self.save_review_shot)
         reg("export_figure", lambda: self.export_figure())
         reg("fullscreen", self.toggle_fullscreen)
         reg("borderless", self.toggle_borderless)
@@ -710,11 +727,18 @@ class MainWindow(QMainWindow):
         self.studio_header.collectionRequested.connect(self._show_catalog)
         self.studio_header.radiologyRequested.connect(self._studio_radiology)
         self.studio_header.histologyRequested.connect(self.show_histology_tab)
+        self.studio_header.practiceRequested.connect(self._show_practice)
+        self.studio_header.settingsRequested.connect(self.open_settings)
         self.studio_header.searchRequested.connect(self._studio_search)
+        self.studio_header.search.textChanged.connect(self._studio_search)
+        self.studio_header.search.installEventFilter(self)
+        self.search.edit.textChanged.connect(self._sync_header_search)
+        self.search.edit.hide()  # One global search field; results live beside the actual body.
         self.studio_header.backRequested.connect(lambda: self.go_place(-1))
         self.studio_header.forwardRequested.connect(lambda: self.go_place(1))
         self.studio_header.places_menu.aboutToShow.connect(self._fill_places_menu)
         self.workspace_layout.insertWidget(0, self.studio_header)
+        self.shell_layout.insertWidget(0, self.studio_header.navigation_rail)
         self.studio_header.layout().removeWidget(self.studio_header.subject)
         self.studio_header.subject.setParent(self.workspace)
         self.tabs.removeTab(self.tabs.indexOf(self.catalog))
@@ -726,9 +750,26 @@ class MainWindow(QMainWindow):
         self.center.addTab(self.collection_workspace, "Collection")
         self.center.tabBar().setTabButton(self.center.indexOf(self.collection_workspace),
                                          self.center.tabBar().ButtonPosition.RightSide, None)
+        from .ui.practice import PracticeHome
+        self.practice_home = PracticeHome()
+        self.practice_home.startRequested.connect(self._start_practice_room)
+        self.practice_home.reviewRequested.connect(self._review_practice_room)
+        self.practice_home.lessonRequested.connect(self.show_lessons)
+        practice_index = self.center.addTab(self.practice_home, "Practice")
+        self.center.tabBar().setTabButton(practice_index, self.center.tabBar().ButtonPosition.RightSide, None)
         self._studio_last_scene = self.anatomy_tab
         self.studio_tools = atlas_dock(self)
         self.studio_tools.setParent(self.workspace)
+        from .ui.atlas_wall import AtlasWall
+        from .ui.depth_gauge import DepthGauge
+        self.atlas_wall = AtlasWall(self)
+        self.atlas_depth = DepthGauge(DISSECTION_STOPS, self.workspace)
+        self.atlas_depth.setObjectName("atlasDepthRule")
+        self.atlas_depth.setStyleSheet("background:transparent;border:none;")
+        self.atlas_depth.setEnabled(self.view_panel.depth_slider.isEnabled())
+        self.atlas_depth.valueChanged.connect(self.view_panel.depth_slider.setValue)
+        self.view_panel.depth_slider.valueChanged.connect(self.atlas_depth.setValue)
+        self.left_dock.visibilityChanged.connect(lambda _on: self._layout_studio_chrome())
         self.lesson_splitter.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         # The full original menu/toolbar remains available, without duplicate
         # tool rows taking space from the study canvas on first launch.
@@ -737,9 +778,33 @@ class MainWindow(QMainWindow):
         self.left_dock.hide()
         self.right_dock.hide()
 
+    def _sync_header_search(self, text):
+        field = self.studio_header.search
+        blocked = field.blockSignals(True)
+        try:
+            field.setText(text)
+        finally:
+            field.blockSignals(blocked)
+
+    def _clear_studio_search(self):
+        self.search.kind_filter.setCurrentIndex(0)
+        self.search.edit.clear()
+        self.search._timer.stop()
+        self.search._run()
+        self.left_dock.hide()
+
     def _studio_search(self, text):
-        self._focus_search()
+        if self.center.currentWidget() is not self.anatomy_tab:
+            self.close_radiology()
+            self.lesson_reader.hide()
+            self.center.setCurrentWidget(self.anatomy_tab)
         self.search.edit.setText(text)
+        if text.strip():
+            self.left_dock.show()
+            self.left_dock.raise_()
+        else:
+            self.left_dock.hide()
+        self._layout_studio_chrome()
 
     def _startup_explore(self):
         """The opening Explore view, unless a page was already opened before the event loop started."""
@@ -751,6 +816,10 @@ class MainWindow(QMainWindow):
     def _studio_explore(self):
         if self._closing:
             return
+        self.search.edit.clear()
+        quiz = getattr(self, 'quiz', None)
+        if quiz is not None and quiz.active:
+            quiz.stop()
         self.lesson_reader.hide()
         if self.radiology_panel is not None and not self.radiology_panel.isHidden():
             self.close_radiology()
@@ -766,7 +835,8 @@ class MainWindow(QMainWindow):
         self._show_atlas()
         self._update_workspace_header()
         if self.center.currentWidget() is self.anatomy_tab:
-            self._show_nav_page(self.tree)
+            self.left_dock.hide()
+            self._layout_studio_chrome()
 
     def _layout_studio_chrome(self):
         if not hasattr(self, 'studio_tools'):
@@ -783,6 +853,16 @@ class MainWindow(QMainWindow):
         width=min(max(640,self.studio_tools.sizeHint().width()),max(1,available-32))
         height=self.studio_tools.sizeHint().height()
         self.studio_tools.setGeometry(origin+(available-width)//2,max(0,h-height-12),width,height)
+        atlas_on = (self.center.currentWidget() is self.anatomy_tab and
+                    (self.radiology_panel is None or self.radiology_panel.isHidden()))
+        practice_on = getattr(self, 'quiz', None) is not None and self.quiz.active
+        if hasattr(self, "atlas_wall"):
+            self.atlas_wall.setVisible(atlas_on and not practice_on and self.left_dock.isHidden())
+            self.atlas_wall.setGeometry(origin+28, 170, min(300, max(230, available//4)), max(220,h-270))
+            self.atlas_depth.setVisible(atlas_on and not practice_on)
+            self.atlas_depth.setGeometry(origin+available-240, 185, 220, max(300,h-290))
+            self.atlas_wall.raise_()
+            self.atlas_depth.raise_()
         self.studio_header.subject.raise_()
         self.studio_tools.raise_()
 
@@ -798,6 +878,42 @@ class MainWindow(QMainWindow):
 
     def _studio_learn(self):
         self.show_lessons()
+
+    def _show_practice(self):
+        self.lesson_reader.hide()
+        self.close_radiology()
+        self.search.edit.clear()
+        self.left_dock.hide()
+        self.right_dock.hide()
+        due = self.quiz.due_count() if self.quiz is not None else None
+        self.practice_home.set_due(due)
+        self.studio_header.set_practice_due(due)
+        self.practice_home.mixed.setEnabled(self.quiz is not None)
+        self.practice_home.review.setEnabled(bool(due))
+        self.practice_home.course.setEnabled(self.lessons_panel is not None)
+        if self.quiz is not None:
+            from . import srs
+            summary = srs.summary(self.quiz.stats)
+            seen = sum(int(record.get("seen", 0)) for record in self.quiz.stats.values())
+            self.practice_home.show_results({"text": f"{seen:,} answers recorded · {round(summary['accuracy'] * 100)}% correct"
+                                            if seen else "No answers recorded yet. Start a session to build your review schedule."})
+        self.center.setCurrentWidget(self.practice_home)
+        self._update_workspace_header()
+
+    def _start_practice_room(self, mode):
+        if mode == "course":
+            self.show_lessons()
+        elif self.quiz is not None:
+            self._show_atlas()
+            self.quiz.open()
+            self._update_workspace_header()
+
+    def _review_practice_room(self):
+        if self.quiz is not None:
+            self._show_atlas()
+            self.quiz.open()
+            self.quiz.start_review()
+            self._update_workspace_header()
 
     def _show_lesson_reader(self):
         """Keep the reader outside scene tabs so model changes cannot hide it."""
@@ -831,6 +947,7 @@ class MainWindow(QMainWindow):
             self.lesson_splitter.setSizes([cap, max(480, wide - cap)])
 
     def _show_lesson_library(self):
+        self._clear_studio_search()
         panel = self.lessons_panel
         self.lesson_reader.hide()
         if self.collection_workspace.pages.indexOf(panel) < 0:
@@ -862,6 +979,10 @@ class MainWindow(QMainWindow):
         self.workspace_actions[4].setEnabled(self.histology_panel is not None)
 
     def _focus_search(self):
+        if hasattr(self, 'studio_header'):
+            self.studio_header.search.setFocus(Qt.ShortcutFocusReason)
+            self.studio_header.search.selectAll()
+            return
         self.left_dock.show()
         self.left_dock.raise_()
         self.search.show()
@@ -875,6 +996,7 @@ class MainWindow(QMainWindow):
 
     def _show_nav_page(self, page):
         if page is None:return
+        self._clear_studio_search()
         if page is self.lessons_panel:
             from .ui.lessons import PAGE_RUNNER
             if page.stack.currentIndex() == PAGE_RUNNER:
@@ -924,7 +1046,23 @@ class MainWindow(QMainWindow):
         if name not in theme.THEMES:
             return
         self.qsettings.setValue("ui_theme", name)
-        self.notice.show_message("Interface appearance saved. Restart Anatomy Explorer to apply it.")
+        apply_theme(QApplication.instance(), float(self.settings["ui_scale"]), mode=name)
+        self._apply_specimen_background()
+        for view in list(self.micro_tabs.values()):
+            if hasattr(view, "settings"):
+                view.settings.update({key: self.settings[key] for key in
+                                      ("custom_background", "bg_top", "bg_bottom", "bg_spot", "bg_spot_strength")})
+            viewport = getattr(view, "gl_widget", None)
+            if viewport is not None:
+                viewport.update()
+        self.viewport.update()
+        self.notice.show_message("Gallery wall applied. Reopen an existing reader to refresh its text colours.")
+
+    def _apply_specimen_background(self):
+        """Share the approved wall with GL and wgpu without changing surface shading."""
+        p = theme.palette()
+        self.settings.update(custom_background=True, bg_top=p["stage_top"], bg_bottom=p["stage_bottom"],
+                             bg_spot=p["spot"], bg_spot_strength=1.0, selection_color=p["select"])
 
     def _update_workspace_header(self, *_):
         if not getattr(self, "_ui_ready", False):
@@ -957,7 +1095,9 @@ class MainWindow(QMainWindow):
                 if studio is not None:
                     studio.set_lesson_mode(reading and current is view)
             radiology_visible=self.radiology_panel is not None and not self.radiology_panel.isHidden()
-            if collection:
+            if current is getattr(self, "practice_home", None):
+                workspace = 'practice'
+            elif collection:
                 workspace = self.collection_workspace.navigation_mode
             elif reading:
                 workspace = 'lessons'
@@ -970,7 +1110,10 @@ class MainWindow(QMainWindow):
                 workspace = '3d models'      # an open (or loading) model belongs to 3D Models
             else:
                 workspace = 'explore'
+            if self.quiz is not None and self.quiz.active and current is self.anatomy_tab:
+                workspace = 'practice'
             self.studio_header.set_workspace(workspace)
+            self.studio_header.trail.setText("Layered Human / " + workspace.replace('3d', '3D').title())
             self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible)
             self.studio_tools.setVisible(current is self.anatomy_tab)
             self._layout_studio_chrome()
@@ -1060,6 +1203,8 @@ class MainWindow(QMainWindow):
                 self.info.depth = self.depth_index.depth
                 self.state._vis_dirty()
                 self.view_panel.enable_depth(True)
+                if hasattr(self, "atlas_depth"):
+                    self.atlas_depth.setEnabled(True)
             elif not getattr(self.depth_index, "failed", False):
                 done = False
         if self.section_index.ready:
@@ -1091,12 +1236,19 @@ class MainWindow(QMainWindow):
         if not self.settings.get("show_perf", True):
             self.perf_label.setText("")
             return
-        self._frame_times.append(ms)
         now = time.perf_counter()
+        self._frame_times.append((now, ms))
         if now - self._last_perf > 0.5:
-            avg = sum(self._frame_times) / len(self._frame_times)
-            self.perf_label.setText(f"Recent draw: {avg:.1f} ms")
-            self.perf_label.setToolTip("Recent rendering work, including initial label placement. This reading stays unchanged while idle; it is not continuous FPS.")
+            avg = sum(t[1] for t in self._frame_times) / len(self._frame_times)
+            view = self.sender()
+            if getattr(view, "renderer_label", None):         # a model's 3D view: renderer, frame rate, triangles
+                from .ui.model_view import frame_rate, perf_readout
+                text, tip = perf_readout(view, avg, frame_rate([t[0] for t in self._frame_times]))
+                self.perf_label.setText(text)
+                self.perf_label.setToolTip(tip)
+            else:
+                self.perf_label.setText(f"Recent draw: {avg:.1f} ms")
+                self.perf_label.setToolTip("Recent rendering work, including initial label placement. This reading stays unchanged while idle; it is not continuous FPS.")
             self._frame_times.clear()
             self._last_perf = now
 
@@ -1139,6 +1291,10 @@ class MainWindow(QMainWindow):
     def _on_query_active(self, active):
         self.tabs.setVisible(not active)
         self.left_layout.setStretchFactor(self.search, 1 if active else 0)
+        title = "Search results" if active else "Explore"
+        self.left_dock.setWindowTitle(title)
+        if hasattr(self.left_dock, "_studio_title"):
+            self.left_dock._studio_title.setText(title)
 
     def on_setting(self, key, value, sync=False):
         if key in ("section_labels", "max_section_labels"):
@@ -1155,7 +1311,7 @@ class MainWindow(QMainWindow):
             if hasattr(self, "color_actions"):
                 self.color_actions[int(value)].setChecked(True)
         elif key == "ui_scale":
-            apply_theme(QApplication.instance(), float(value))
+            apply_theme(QApplication.instance(), float(value), mode=theme.THEME_NAME)
             self._adapt_workspace()
         elif key == "details_scale":
             self.info.set_font_scale(float(value))
@@ -1190,6 +1346,18 @@ class MainWindow(QMainWindow):
 
     def eventFilter(self, obj, event):
         """With no title bar, the empty stretch of the menu bar becomes the place you drag the window by."""
+        if (hasattr(self, 'studio_header') and obj is self.studio_header.search
+                and event.type() == QEvent.KeyPress):
+            if event.key() in (Qt.Key_Down, Qt.Key_Up):
+                self.search._navigate(1 if event.key() == Qt.Key_Down else -1)
+                return True
+            if event.key() in (Qt.Key_Return, Qt.Key_Enter) and self.studio_header.search.text().strip():
+                self.search._activate_current()
+                return True
+            if event.key() == Qt.Key_Escape:
+                self.studio_header.search.clear()
+                self._studio_search("")
+                return True
         if (self._borderless and obj is self.menuBar() and event.type() == QEvent.MouseButtonPress
                 and event.button() == Qt.LeftButton and self.menuBar().actionAt(event.position().toPoint()) is None):
             handle = self.windowHandle()
@@ -1314,6 +1482,9 @@ class MainWindow(QMainWindow):
         if w is getattr(self, 'collection_workspace', None):
             self._studio_explore()
             return
+        if w is getattr(self, 'practice_home', None):
+            self._studio_explore()
+            return
         for key, pending in list(self._loading_models.items()):
             if pending is w:
                 self._cancel_model_load(key, pending)
@@ -1401,7 +1572,9 @@ class MainWindow(QMainWindow):
         lesson = None
         if panel is not None and panel.lesson is not None and not self.lesson_reader.isHidden():
             lesson = (panel.lesson.id, int(panel.index))
-        if w is getattr(self, "collection_workspace", None):
+        if w is getattr(self, "practice_home", None):
+            scene, label, lesson = ("page", "practice"), "Practice", None
+        elif w is getattr(self, "collection_workspace", None):
             title = self.collection_workspace.navigation_mode
             scene, label = ("page", title), f"{title[:1].upper()}{title[1:]} library".replace("3d", "3D")
             lesson = None
@@ -1456,7 +1629,7 @@ class MainWindow(QMainWindow):
             kind = scene[0]
             if kind == "page":
                 pages = {"3d models": self._show_catalog, "lessons": self._show_lesson_library,
-                         "histology": self.show_histology_tab,
+                         "histology": self.show_histology_tab, "practice": self._show_practice,
                          "radiology": lambda: self._show_nav_page(self.radiology_browser)}
                 pages.get(scene[1], self._show_atlas)()
             elif kind == "histology":
@@ -1527,6 +1700,7 @@ class MainWindow(QMainWindow):
         self._record(("sids", tuple(sids)))
 
     def on_search_activated(self, entry):
+        self._clear_studio_search()
         xray = bool(self.settings.get("xray_on_search", True))
         if entry.kind == "group":
             self.on_node_activated(entry.node, xray=xray)
@@ -1612,6 +1786,8 @@ class MainWindow(QMainWindow):
     def on_structure_clicked(self, sid, modifiers):
         if self.quiz is not None and self.quiz.handle_click(sid, modifiers):
             return
+        if sid >= 0 and self.search.edit.text():
+            self._clear_studio_search()
         add = bool(modifiers & Qt.ControlModifier)
         if sid < 0:
             if not add and self.state.clear_selection():
@@ -1742,8 +1918,6 @@ class MainWindow(QMainWindow):
             self.open_micro(payload)
         elif scheme == "rad":
             self.show_radiology(payload)
-        elif scheme == "sfmodel":
-            self.open_local_model(payload)
         elif scheme == "atlas":
             self._atlas_structures([n for n in payload.split("|") if n])
         elif scheme == "note":
@@ -1811,10 +1985,6 @@ class MainWindow(QMainWindow):
         sids = [s for n in names for s in self.ds.structures_named(n)]
         if sids:
             self.select_and_focus(sids, xray=True)
-
-    def open_local_model(self, uid):
-        """A downloaded model, by its Sketchfab uid (old links and saved references use it)."""
-        self.open_micro(f"sketchfab:{uid}")
 
     def _atlas_structures(self, names):
         """'Show in the atlas': back to the 3D anatomy with what a model's part depicts selected and framed."""
@@ -2180,28 +2350,44 @@ class MainWindow(QMainWindow):
         self._update_counts()
 
     def open_model_file(self, path=None):
-        """File -> Open 3D model file: any glTF / GLB file (with a .viewer.json sidecar beside it if it has one)
-        opens in the model viewer."""
+        """File -> Open 3D model file: any glTF / GLB file (with a .viewer.json sidecar beside it if it has one), or a
+        .npz model (with its recipe / catalog / colour files beside it if it has them), opens in the model viewer."""
         if not path:
             start = self.qsettings.value("model_dir", str(Path.home()))
-            path, _ = QFileDialog.getOpenFileName(self, "Open a 3D model", start, "glTF models (*.glb *.gltf)")
+            path, _ = QFileDialog.getOpenFileName(self, "Open a 3D model", start, "3D models (*.glb *.gltf *.npz)")
             if not path:
                 return
+        self.qsettings.setValue("model_dir", str(Path(path).parent))
+        if path.lower().endswith(".npz"):
+            from .variants.catalog import DeferredVariantEntry
+            from .variants.local_library import SingleFileLibrary
+            try:
+                store = SingleFileLibrary(path)
+                entry = DeferredVariantEntry(store.metadata(store.model_id), store)
+            except (OSError, ValueError) as exc:
+                self.statusBar().showMessage(f"Could not open {Path(path).name}: {exc}", 8000)
+                return
+            self.open_micro(entry.id, entry)
+            return
         from .viewer.catalog import FileEntry
         entry = FileEntry(path)
-        self.qsettings.setValue("model_dir", str(Path(path).parent))
         self.open_micro(entry.id, entry)
 
+    MODEL_FILE_TYPES = (".glb", ".gltf", ".npz")
+
     def dragEnterEvent(self, e):
-        if e.mimeData().hasUrls() and any(u.toLocalFile().lower().endswith((".glb", ".gltf"))
+        if e.mimeData().hasUrls() and any(u.toLocalFile().lower().endswith(self.MODEL_FILE_TYPES)
                                           for u in e.mimeData().urls()):
             e.acceptProposedAction()
 
     def dropEvent(self, e):
-        for u in e.mimeData().urls():
-            if u.toLocalFile().lower().endswith((".glb", ".gltf")):
-                self.open_model_file(u.toLocalFile())
-                break
+        """The first .npz in the drop opens; otherwise the first glTF / GLB."""
+        files = [u.toLocalFile() for u in e.mimeData().urls()]
+        for kinds in ((".npz",), (".glb", ".gltf")):
+            for f in files:
+                if f.lower().endswith(kinds):
+                    self.open_model_file(f)
+                    return
 
     def _add_models_menu(self, menu):
         """Study -> 3D models: every model the viewer can open, by kind."""
@@ -3139,6 +3325,40 @@ class MainWindow(QMainWindow):
             return
         self.statusBar().showMessage(f"Saved {path}", 4000)
 
+    @staticmethod
+    def default_review_shot_folder():
+        pics = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation) or str(Path.home())
+        return str(Path(pics) / "Anatomy Explorer review shots")
+
+    def save_review_shot(self, folder=None):
+        """One press, one PNG of the 3D view with the camera stored in its PNG text chunk "AnatomyExplorer-camera"."""
+        try:
+            folder = Path(folder or self.settings.get("review_shot_folder") or self.default_review_shot_folder())
+            folder.mkdir(parents=True, exist_ok=True)
+            img = self._capture_widget().grab().toImage()
+            try:
+                from . import live_camera
+                payload = live_camera.build_payload(self)
+            except Exception as exc:
+                payload = {"error": str(exc)}
+            now = datetime.now()
+            payload["time"] = now.timestamp()
+            payload["time_iso"] = now.isoformat(timespec="seconds")
+            img.setText("AnatomyExplorer-camera", json.dumps(payload))
+            stem = f"shot_{now:%Y%m%d_%H%M%S}"
+            path = folder / f"{stem}.png"
+            n = 2
+            while path.exists():
+                path = folder / f"{stem}_{n}.png"
+                n += 1
+            if not img.save(str(path), "PNG"):
+                raise OSError("the image could not be written")
+        except Exception as exc:
+            self.statusBar().showMessage(f"Could not save review shot: {exc}", 6000)
+            return None
+        self.statusBar().showMessage(f"Saved review shot: {path}", 4000)
+        return path
+
     def _figure_caption(self):
         """(title, caption parts, credit line) for export_figure: the model tab in front describes itself."""
         mv = self.active_model_view()
@@ -3331,6 +3551,8 @@ class MainWindow(QMainWindow):
         self._reference_loads.clear()
 
     def closeEvent(self, e):
+        if getattr(self, "_live_camera", None) is not None:
+            self._live_camera.stop()
         for pending in self._loading_models.values():
             prepared = getattr(pending, "prepared_view", None)
             session = getattr(prepared, "runtime_session", None)

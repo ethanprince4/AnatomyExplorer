@@ -1,9 +1,9 @@
-"""Shared native Porcelain/Cobalt interface tokens.
+"""Shared native tokens for the six approved dark Specimen walls.
 
-Educational images, model materials and renderer backgrounds are intentionally independent.
-Study-02 Porcelain is the single approved appearance. Legacy saved theme values
-resolve to Porcelain before widget construction.
+Educational images and model materials keep their authored colours. Renderer and
+widget surfaces use the same selected wall tokens.
 """
+import json
 import sys
 import tempfile
 from pathlib import Path
@@ -65,37 +65,53 @@ BG = CANVAS
 PANEL = SURFACE
 PANEL_2 = RAISED
 
-# The existing names are a public contract used by every native workspace.
-_TOKEN_NAMES = tuple(name for name, value in list(globals().items())
-                     if name.isupper() and isinstance(value, str) and value.startswith("#"))
-_DARK = {name: globals()[name] for name in _TOKEN_NAMES}
-_DARK.update(ACCENT="#91b4ff", ACCENT_HOVER="#b1caff", ACCENT_PRESSED="#709bee",
-             ACCENT_TEXT="#acc7ff", ACCENT_SOFT="#1c2b49", ACCENT_SOFT_HOVER="#253859",
-             ACCENT_BORDER="#5072af", ON_ACCENT="#101f3e", WARNING="#edaa9c", WARNING_SOFT="#392722")
-_PORCELAIN = dict(
-    CANVAS="#e9ecee", SUNKEN="#ffffff", SURFACE="#f8fafb", RAISED="#dfe5e8",
-    HOVER="#d5dfe4", PRESSED="#cbd7df", OVERLAY="#f8fafb",
-    BORDER_SUBTLE="#c2cfd5", BORDER="#8798a3", BORDER_STRONG="#82949f",
-    TEXT_STRONG="#1f303a", TEXT="#24343d", TEXT_2="#405762", MUTED="#526570", FAINT="#76858e",
-    ACCENT="#364f99", ACCENT_HOVER="#2d4385", ACCENT_PRESSED="#24366d",
-    ACCENT_TEXT="#364f99", ACCENT_SOFT="#dce6f7", ACCENT_SOFT_HOVER="#ccdafa",
-    ACCENT_BORDER="#718abb", ON_ACCENT="#ffffff",
-    SUCCESS="#307568", SUCCESS_FILL="#d2e8dc", SUCCESS_SOFT="#e4f0e9",
-    WARNING="#b55752", WARNING_SOFT="#f3e4e1", DANGER="#a92c35", DANGER_FILL="#f2d6d8",
-    DANGER_SOFT="#f8e7e9", INFO="#364f99", ON_TINT="#24343d")
-THEMES = {"porcelain": "Porcelain / Cobalt"}
-THEME_NAME = "porcelain"
+# These keys are also the persisted `ui_theme` values. Keep the dictionary
+# insertion order: it is the order presented in Appearance settings.
+_SPECIMEN_PATH = Path(__file__).parent / "resources" / "studio" / "specimen-palettes.json"
+SPECIMEN_PALETTES = json.loads(_SPECIMEN_PATH.read_text(encoding="utf-8"))
+THEMES = {key: palette["name"] for key, palette in SPECIMEN_PALETTES.items()}
+THEME_NAME = "gallery-slate"
 
 
-def set_theme(name="porcelain"):
-    """Choose tokens before constructing the UI. Invalid saved values use Porcelain."""
+def palette(name=None):
+    """Return a copy of a wall's flat tokens for Qt and the renderer.
+
+    The aliases keep existing panel/renderer callers stable while exposing the
+    exact wall, pool, selection, and typography values to newer integrations.
+    """
+    key = str(name or THEME_NAME).strip().lower()
+    aliases = {"slate": "gallery-slate", "porcelain": "gallery-slate", "default": "gallery-slate"}
+    key = aliases.get(key, key)
+    return dict(SPECIMEN_PALETTES.get(key, SPECIMEN_PALETTES["gallery-slate"]))
+
+
+def set_theme(name="gallery-slate"):
+    """Select one of the six Specimen walls before applying the app stylesheet."""
     global THEME_NAME, BG, PANEL, PANEL_2, LEVEL, TOPIC, _glyph_dir
-    THEME_NAME = "porcelain"
-    globals().update(_PORCELAIN if THEME_NAME == "porcelain" else _DARK)
+    key = str(name or "gallery-slate").strip().lower()
+    aliases = {"slate": "gallery-slate", "porcelain": "gallery-slate", "default": "gallery-slate"}
+    key = aliases.get(key, key)
+    THEME_NAME = key if key in SPECIMEN_PALETTES else "gallery-slate"
+    p = SPECIMEN_PALETTES[THEME_NAME]
+    globals().update({
+        "CANVAS": p["stage_bottom"], "SUNKEN": p["sunken"],
+        "SURFACE": p["surface"], "RAISED": p["surface_2"],
+        "HOVER": p["spot"], "PRESSED": p["accent_soft"], "OVERLAY": p["surface_2"],
+        "BORDER_SUBTLE": p["hair"], "BORDER": p["line"], "BORDER_STRONG": p["line_2"],
+        "TEXT_STRONG": p["text"], "TEXT": p["text"], "TEXT_2": p["text_2"],
+        "MUTED": p["text_3"], "FAINT": p["text_3"],
+        "ACCENT": p["accent"], "ACCENT_HOVER": p["accent_2"],
+        "ACCENT_PRESSED": p["accent_soft"], "ACCENT_TEXT": p["accent_2"],
+        "ACCENT_SOFT": p["accent_soft"], "ACCENT_SOFT_HOVER": p["surface_3"],
+        "ACCENT_BORDER": p["accent"], "ON_ACCENT": p["on_accent"],
+        "INFO": p["accent_2"], "ON_TINT": p["on_accent"],
+    })
+    # Preserve semantic hues for learning feedback; these never recolour the model.
+    globals().update({"SUCCESS": "#8fd6b4", "SUCCESS_FILL": "#23463a", "SUCCESS_SOFT": "#1b3028",
+                      "WARNING": "#e7bb76", "WARNING_SOFT": "#3a3021", "DANGER": "#e69a91",
+                      "DANGER_FILL": "#56302d", "DANGER_SOFT": "#35201e"})
     BG, PANEL, PANEL_2 = CANVAS, SURFACE, RAISED
-    LEVEL = ({"foundation": "#276653", "core": "#364f99", "advanced": "#984740"}
-             if THEME_NAME == "porcelain" else
-             {"foundation": "#8fd1a0", "core": "#acc7ff", "advanced": "#edaa9c"})
+    LEVEL = {"foundation": "#8fd6b4", "core": "#a3b8ff", "advanced": "#e7bb76"}
     TOPIC = {"objectives": ACCENT_TEXT, "mnemonic": WARNING, "pitfall": DANGER,
              "clinical": SUCCESS, "takeaways": SUCCESS, "related": MUTED}
     _glyph_dir = None
@@ -122,22 +138,56 @@ if sys.platform == "darwin":
 SP_1, SP_2, SP_3, SP_4, SP_5 = 4, 8, 12, 16, 24
 R_SM, R_MD, R_LG, R_XL = 4, 6, 8, 12
 
-# Study-02 prefers Noto Sans; use installed system UI fonts when unavailable.
-_FONT_PREFS = ["Noto Sans", "Segoe UI Variable Text", "Segoe UI", "Inter", "Cantarell", "Ubuntu", "DejaVu Sans"]
+# Type roles follow the Specimen mockup's nine whole-pixel sizes. Qt loads TTF
+# assets because platform WOFF2 support varies.
+FONT_ROLES = {
+    "micro": ("Fira Sans", 12, 400, 13), "meta": ("Fira Sans", 13, 400, 13),
+    "body_small": ("Fira Sans", 14, 400, 14), "ui": ("Fira Sans", 15, 400, 14),
+    "prose": ("Literata", 18, 400, 18), "caption": ("Literata", 20, 400, 20),
+    "question": ("Literata", 24, 400, 24), "card_title": ("Literata", 32, 400, 32),
+    "display": ("Literata", 44, 400, 72),
+}
 FONT_FAMILY = None
+DISPLAY_FONT_FAMILY = None
+_FONTS_LOADED = False
 
 
 def font_family():
-    global FONT_FAMILY
+    global FONT_FAMILY, DISPLAY_FONT_FAMILY, _FONTS_LOADED
     if FONT_FAMILY is None:
-        # Bundle the selected font so Windows and macOS use the same typeface.
-        folder=Path(__file__).parent/'resources'/'fonts'/'NotoSans'
-        for weight in ('Regular','Bold'):
-            QFontDatabase.addApplicationFont(str(folder/f'{weight}.ttf'))
+        folder = Path(__file__).parent / "resources" / "fonts" / "Specimen"
+        if not _FONTS_LOADED:
+            for filename in ("Literata[opsz,wght].ttf", "FiraSans-Regular.ttf", "FiraSans-Medium.ttf",
+                             "FiraSans-SemiBold.ttf", "FiraSans-Italic.ttf"):
+                QFontDatabase.addApplicationFont(str(folder / filename))
+            _FONTS_LOADED = True
         have=set(QFontDatabase.families())
-        FONT_FAMILY=next((f for f in _FONT_PREFS if f in have),
-                         QFontDatabase.systemFont(QFontDatabase.GeneralFont).family())
+        FONT_FAMILY = "Fira Sans" if "Fira Sans" in have else QFontDatabase.systemFont(QFontDatabase.GeneralFont).family()
+        DISPLAY_FONT_FAMILY = "Literata" if "Literata" in have else QFontDatabase.systemFont(QFontDatabase.GeneralFont).family()
     return FONT_FAMILY
+
+
+def display_font_family():
+    font_family()
+    return DISPLAY_FONT_FAMILY
+
+
+def font_for(role="ui", *, size=None, weight=None, optical_size=None, scale=1.0):
+    """Build a bundled font for a named role, with Literata optical sizing."""
+    role = FONT_ROLES.get(role, FONT_ROLES["ui"])
+    family, default_size, default_weight, default_opsz = role
+    chosen_family = display_font_family() if family == "Literata" else font_family()
+    font = QFont(chosen_family)
+    font.setPixelSize(max(1, round((size or default_size) * scale)))
+    font.setWeight(QFont.Weight(weight or default_weight))
+    if chosen_family == "Literata":
+        try:
+            tag = QFont.Tag.fromString("opsz")
+            if tag is not None:
+                font.setVariableAxis(tag, float(optical_size or default_opsz))
+        except (AttributeError, TypeError, ValueError):
+            pass
+    return font
 
 
 def qc(token, alpha=None):

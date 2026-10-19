@@ -1,0 +1,24 @@
+// What Installer.cs downloads for one release. packaging/prepare_release_assets.py fills in the @...@ values.
+using System.Reflection;
+
+[assembly: AssemblyTitle("Install @APP@")]
+[assembly: AssemblyDescription("Downloads and opens the @APP@ installer for Windows")]
+[assembly: AssemblyProduct("@APP@")]
+[assembly: AssemblyVersion("@NUMBER@")]
+[assembly: AssemblyFileVersion("@NUMBER@")]
+[assembly: AssemblyInformationalVersion("@TAG@")]
+
+static class Release
+{
+    public const string AppName = "@APP@";
+    public const string Version = "@VERSION@";
+    public const string Base = "@BASE@";
+    public const string Page = "@PAGE@";
+    public const string Setup = "@SETUP@";
+
+    // In the order they join up, with their sizes and SHA-256.
+    public static readonly Part[] Parts =
+    {
+@PARTS@
+    };
+}

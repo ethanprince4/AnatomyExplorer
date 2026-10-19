@@ -30,7 +30,7 @@ from PySide6.QtTest import QTest
 from PySide6.QtWidgets import QApplication
 from app.radiology import load_cases, CONTENT_DIR
 from app.ui.radiology import RadiologyBrowser, RadiologyPanel, RadiographView
-from app.ui.histology import HistologyBrowser, HistologyViewer, ImageView, ROLE
+from app.ui.histology import HistologyBrowser, HistologyViewer, ImageView, ROLE, GROUP_ROLE
 from app.ui.image_workspace import LocalImageLoader, matches_words
 
 QAPP = QApplication.instance() or QApplication([])
@@ -111,12 +111,12 @@ class WorkspaceTests(unittest.TestCase):
         ):
             self.assertTrue(card.testAttribute(Qt.WA_StyledBackground))
             self.assertTrue(card.isAncestorOf(label))
-            self.assertIn("#f8fafb", card.styleSheet())
+            self.assertIn(theme.SURFACE, card.styleSheet())
             card.ensurePolished()
             label.ensurePolished()
             self.assertEqual(label.palette().color(label.foregroundRole()).name(),
-                             CARD_TEXT if label is not histology.image_status else "#526570")
-        self.assertIn("#f8fafb", histology.caption.styleSheet())
+                             CARD_TEXT if label is not histology.image_status else theme.TEXT_2)
+        self.assertIn(theme.SURFACE, histology.caption.styleSheet())
 
     def test_full_authored_inventory_remains_discoverable(self):
         browser = self.browser()
@@ -207,6 +207,39 @@ class WorkspaceTests(unittest.TestCase):
         browser.clear_filter.click()
         self.assertTrue(browser.empty_state.isHidden())
 
+    def test_histology_catalogue_opens_with_real_tissues_and_selected_slide_preview(self):
+        browser = self.own(HistologyBrowser(self.ds, self.content))
+        tissues = []
+        stack = [browser.tree.invisibleRootItem()]
+        while stack:
+            row = stack.pop()
+            data = row.data(0, ROLE)
+            if data and data[0] == "tissue":
+                tissues.append(row)
+                self.assertTrue(row.parent().isExpanded())
+            stack.extend(row.child(i) for i in range(row.childCount()))
+        self.assertEqual(len(tissues), len(self.content.histology["tissues"]))
+        selected = next(row for row in tissues if row.data(0, ROLE)[1] == "simple_squamous")
+        self.assertFalse(selected.icon().isNull())
+        browser._select_item(selected)
+        self.assertIn("Simple squamous epithelium", browser.preview_title.text())
+        self.assertIn("single layer", browser.preview_summary.text())
+        self.assertFalse(browser.preview.pixmap().isNull())
+        opened = []
+        browser.imageRequested.connect(lambda tissue_id, index: opened.append((tissue_id, index)))
+        browser.open_slides.click()
+        self.assertEqual(opened, [("simple_squamous", 0)])
+
+    def test_histology_library_starts_on_a_real_tissue_and_its_group(self):
+        browser = self.own(HistologyBrowser(self.ds, self.content))
+        expected = next(tissue for tissue in self.content.histology["tissues"] if tissue.get("images"))
+        current = browser.tree.currentItem()
+        self.assertIsNotNone(current)
+        self.assertEqual(current.data(0, ROLE), ("tissue", expected["id"], 0))
+        self.assertEqual(browser.groups.currentItem().text(), expected["path"][0])
+        self.assertEqual(browser._selected_tissue["id"], expected["id"])
+        self.assertFalse(browser.preview.pixmap().isNull())
+
     def test_histology_tissue_search_keeps_its_images_visible(self):
         browser = self.own(HistologyBrowser(self.ds, self.content))
         browser.filter.setText("Simple squamous epithelium")
@@ -226,7 +259,7 @@ class WorkspaceTests(unittest.TestCase):
     def test_histology_no_match_and_reset(self):
         browser = self.own(HistologyBrowser(self.ds, self.content))
         browser.filter.setText("__no_tissue__")
-        self.assertEqual(browser.count_label.text(), "0 topics shown")
+        self.assertEqual(browser.count_label.text(), "0 tissues shown")
         self.assertFalse(browser.empty_state.isHidden())
         browser._reset_filter()
         self.assertTrue(browser.empty_state.isHidden())
@@ -248,12 +281,12 @@ class WorkspaceTests(unittest.TestCase):
     def test_newer_histology_navigation_wins_over_pending_image(self):
         viewer = self.viewer()
         viewer.show_tissue("simple_squamous", 0)
-        viewer.show_image(3)
+        viewer.show_image(2)
         settle(lambda: not viewer.view.item.pixmap().isNull())
-        expected = QImage(str(self.content.image_path(viewer.tissue["images"][3])))
+        expected = QImage(str(self.content.image_path(viewer.tissue["images"][2])))
         self.assertEqual(viewer.view.item.pixmap().size(), expected.size())
-        self.assertEqual(viewer.index, 3)
-        self.assertEqual(viewer.image_choice.currentIndex(), 3)
+        self.assertEqual(viewer.index, 2)
+        self.assertEqual(viewer.image_choice.currentIndex(), 2)
 
     def test_missing_histology_tissue_clears_previous_image(self):
         viewer = self.viewer()

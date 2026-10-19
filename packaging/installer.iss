@@ -24,10 +24,10 @@
   #define RepoDir SourcePath + ".."
 #endif
 
-#ifndef Experimental
-  #define Experimental 0
-#endif
-#if Experimental
+; build.py passes /DExperimental only for the experimental channel. Test whether it is defined, not its value: ISCC
+; hands /D values over as text, and the text "0" counted as true, so v4.0.8 and earlier stable installers all
+; installed as "Anatomy Explorer Experimental".
+#ifdef Experimental
   #define AppName "Anatomy Explorer Experimental"
   #define ApplicationId "{{9CF5F0A1-BB14-4B56-85C2-17A6452C0430}"
 #else

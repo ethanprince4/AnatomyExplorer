@@ -3,7 +3,9 @@ import os
 import sys
 from pathlib import Path
 
-APP_NAME = "Anatomy Explorer"
+APP_NAME = "Layered Human"
+# Keep the existing preferences namespace through the visible product rename.
+SETTINGS_APP_NAME = "Anatomy Explorer"
 ORG_NAME = "AnatomyExplorer"
 
 # FROZEN is True in the installed app (a PyInstaller bundle, see packaging/). Its own folder is read-only there
@@ -92,7 +94,7 @@ DEFAULT_SETTINGS = {
     "ssao_strength": 1.0,
     "fxaa": True,
     "render_scale": 1.0,
-    "fast_renderer": sys.platform == "darwin",  # wgpu model viewer (app/gpu); OpenGL elsewhere until checked there
+    "fast_renderer": True,  # wgpu model viewer (app/gpu); falls back to OpenGL when it cannot start
     "dark_background": True,
     "custom_background": False,
     "bg_top": "#1d2127",
@@ -141,4 +143,5 @@ DEFAULT_SETTINGS = {
     "double_click_action": "Focus",      # Focus | Isolate | X-ray focus
     "select_both_sides": False,
     "restore_session": True,
+    "review_shot_folder": "",      # "" = <Pictures>/Anatomy Explorer review shots
 }

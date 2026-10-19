@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import wgpu
@@ -159,6 +160,8 @@ class OitPass:
         self._bg1 = {}
         self.geom = None
         self.last_draws = 0
+        self._kept = None                 # what encode_parts keeps between frames
+        self._frame_on = None             # the bytes in the frame uniform buffer
 
     # ------------------------------------------------------------------ resources
     @staticmethod
@@ -170,6 +173,7 @@ class OitPass:
     def set_geometry(self, geom):
         """Bind groups of the geometry pages (group 2). Call again when the model changes; None releases them."""
         self.geom = geom
+        self._kept = None
         if geom is not None and int(geom.stage) != self._cmp:      # the vertex module is built for one of the two layouts
             self._cmp = int(geom.stage)
             self.module = self.device.create_shader_module(code=self._code(self._cmp)[0], label="oit")
@@ -303,16 +307,11 @@ class OitPass:
             su[k * self.su_stride:k * self.su_stride + len(b)] = np.frombuffer(b, np.uint8)
         q.write_buffer(self._su_buf, 0, su)
         q.write_buffer(self._draw_buf, 0, rec)
-        q.write_buffer(self._frame_ub, 0, pack_frame(draws[0].uniforms["u_viewproj"], size, self.flip_y, vp_wgpu))
-        # anim_tab: a buffer, or (buffer, byte offset, byte size) of a section of the renderer's table buffer
-        anim = anim_tab if anim_tab is not None else self._dummy
-        a_buf, a_off, a_size = anim if isinstance(anim, tuple) else (anim, 0, anim.size)
-        if (self._bg0 is None or self._bg0_anim is None or self._bg0_anim[0] is not a_buf or self._bg0_anim[1:] != (a_off, a_size)):
-            self._bg0_anim = (a_buf, a_off, a_size)
-            self._bg0 = d.create_bind_group(layout=self.bgl0, entries=[
-                {"binding": 2, "resource": {"buffer": a_buf, "offset": a_off, "size": a_size}},
-                {"binding": 0, "resource": {"buffer": self._frame_ub, "offset": 0, "size": FRAME_BYTES}},
-                {"binding": 1, "resource": {"buffer": self._draw_buf, "offset": 0, "size": self._draw_cap}}])
+        if self._kept is not None:            # encode_parts' records and blocks are no longer what the buffers hold
+            self._kept.rows_on = self._kept.su_on = None
+        self._frame_on = pack_frame(draws[0].uniforms["u_viewproj"], size, self.flip_y, vp_wgpu)
+        q.write_buffer(self._frame_ub, 0, self._frame_on)
+        self._group0(anim_tab)
         if targets["samples"] != samples:
             raise ValueError("targets were made for another sample count")
         rp = enc.begin_render_pass(
@@ -340,14 +339,203 @@ class OitPass:
         rp.end()
         self.last_draws = n
         if resolve:
-            pipe, _bgl = self._resolve_pipeline(samples)
-            rp = enc.begin_render_pass(color_attachments=[
-                {"view": targets["accum_v"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)},
-                {"view": targets["weight_v"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)}])
-            rp.set_pipeline(pipe)
-            rp.set_bind_group(0, targets["res_bg"])
-            rp.draw(3)
-            rp.end()
+            self._resolve(enc, samples, targets)
+
+    def _group0(self, anim_tab):
+        """Bind group 0 (frame uniform, draw records, animation table), made again when a buffer of it is another one.
+        anim_tab: a buffer, or (buffer, byte offset, byte size) of a section of the renderer's table buffer."""
+        anim = anim_tab if anim_tab is not None else self._dummy
+        a_buf, a_off, a_size = anim if isinstance(anim, tuple) else (anim, 0, anim.size)
+        if (self._bg0 is None or self._bg0_anim is None or self._bg0_anim[0] is not a_buf or self._bg0_anim[1:] != (a_off, a_size)):
+            self._bg0_anim = (a_buf, a_off, a_size)
+            self._bg0 = self.device.create_bind_group(layout=self.bgl0, entries=[
+                {"binding": 2, "resource": {"buffer": a_buf, "offset": a_off, "size": a_size}},
+                {"binding": 0, "resource": {"buffer": self._frame_ub, "offset": 0, "size": FRAME_BYTES}},
+                {"binding": 1, "resource": {"buffer": self._draw_buf, "offset": 0, "size": self._draw_cap}}])
+        return self._bg0
+
+    def _resolve(self, enc, samples, targets, timestamps=None):
+        pipe, _bgl = self._resolve_pipeline(samples)
+        rp = enc.begin_render_pass(color_attachments=[
+            {"view": targets["accum_v"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)},
+            {"view": targets["weight_v"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)}],
+            **({"timestamp_writes": timestamps} if timestamps else {}))
+        rp.set_pipeline(pipe)
+        rp.set_bind_group(0, targets["res_bg"])
+        rp.draw(3)
+        rp.end()
+
+    # ------------------------------------------------------------------ frame, from per-part arrays
+    def forget_parts(self):
+        """Drop everything encode_parts keeps between frames (slots, records, ShadeU blocks, bundles)."""
+        self._kept = None
+
+    def _kept_state(self, n_parts, looks):
+        k = self._kept
+        if k is None or k.looks is not looks or len(k.slot_of) != n_parts or k.geom is not self.geom:
+            k = self._kept = SimpleNamespace(
+                looks=looks, geom=self.geom, slot_of=np.full(n_parts, -1, dtype=np.int64), n_slots=0,
+                rows=np.zeros((0, DRAW_FLOATS), np.float32), blocks=np.zeros((0, self.su_stride), np.uint8),
+                slot_look=np.zeros(0, dtype=np.int64), look_mat=np.zeros((0, SHADE_SIZE), np.uint8), glob=None,
+                rows_on=None, su_on=None, epoch=None, bundles={}, bg1={}, codes=None, run=[], builds=0, uploads=[0, 0],
+                part=None)
+        return k
+
+    def _slots(self, k, part):
+        """The slot of every part of the list (a part keeps its slot while it stays in the kept state, so its record and its
+        ShadeU block stay where they are when the list changes). Slots are handed out as parts first appear and all dropped
+        when they outnumber the list four to one."""
+        slot = k.slot_of[part]
+        miss = slot < 0
+        if miss.any():
+            new = part[miss]
+            if k.n_slots + len(new) > max(256, 4 * len(part)):
+                k.slot_of[:] = -1
+                k.n_slots = 0
+                k.rows_on = k.su_on = k.epoch = None
+                k.slot_look[:] = -1
+                new = part
+            k.slot_of[new] = np.arange(k.n_slots, k.n_slots + len(new))
+            k.n_slots += len(new)
+            cap = len(k.rows)
+            if k.n_slots > cap:
+                cap = max(k.n_slots, cap * 2, 64)
+                for name, fill in (("rows", 0), ("blocks", 0), ("slot_look", -1)):
+                    old = getattr(k, name)
+                    grown = np.full((cap,) + old.shape[1:], fill, dtype=old.dtype)
+                    grown[:len(old)] = old
+                    setattr(k, name, grown)
+            slot = k.slot_of[part]
+        return slot
+
+    def _bundle(self, k, pipe, samples, items, spec, part, first, count, tex, slot, texture):
+        """One draw as a render bundle: everything the pass sets for it, so a frame only names the bundles it runs."""
+        bg1 = k.bg1.get(tex)
+        if bg1 is None:
+            view = self._white if tex < 0 else texture(tex)
+            bg1 = k.bg1[tex] = self.device.create_bind_group(layout=self.bgl1, entries=[
+                {"binding": 0, "resource": {"buffer": self._su_buf, "offset": 0, "size": SHADE_SIZE}},
+                {"binding": 1, "resource": items}, {"binding": 2, "resource": self._ao},
+                {"binding": 3, "resource": spec}, {"binding": 4, "resource": view},
+                {"binding": 5, "resource": self.s_ao}, {"binding": 6, "resource": self.s_env},
+                {"binding": 7, "resource": self.s_tex}])
+        be = self.device.create_render_bundle_encoder(color_formats=[ACCUM_FORMAT, WEIGHT_FORMAT],
+                                                      depth_stencil_format=self.depth_format, sample_count=samples,
+                                                      depth_read_only=True, stencil_read_only=True)
+        pg = int(self.geom.page_of[part])
+        be.set_pipeline(pipe)
+        be.set_bind_group(0, self._bg0)
+        be.set_bind_group(2, self._page_bg[pg])
+        be.set_bind_group(1, bg1, [slot * self.su_stride])
+        if self._cmp:
+            be.draw(count, 1, first, slot)
+        else:
+            page = self.geom.pages[pg]
+            be.set_index_buffer(page.buffer, "uint32", page.index_byte_offset, page.index_bytes)
+            be.draw_indexed(count, 1, first, 0, slot)
+        k.builds += 1
+        return be.finish()
+
+    def encode_parts(self, enc, *, part, level, first, count, rows, look, tex, looks, glob, glob_runs, texture, size, samples,
+                     depth_view, targets, items, spec, vp_wgpu, anim_tab=None, resolve=True, timestamps=None):
+        """encode() for the renderer, from arrays over the translucent draws in draw order, with nothing walked in Python on
+        a frame that changes nothing:
+
+        part, level, first, count   part index, drawn level, first index and index count of each draw (a part at most once)
+        rows      (n, DRAW_FLOATS) float32 OitDraw records (drawtable.oit_rows)
+        look      (n,) index into ``looks`` of each draw's ShadeU look record; tex (n,) its albedo image index, -1 none
+        looks     the renderer's list of look records (ShadeU bytes with the per-look fields set): it only grows, a new
+                  list means a new model
+        glob      the frame-wide ShadeU bytes (lights, camera, cut planes); glob_runs the byte ranges those fields cover
+        texture   image index -> albedo view
+
+        What is kept, and what it is checked against every frame: a part's record (the bytes of ``rows``, compared), its
+        ShadeU block (the look index it was made from; ``glob``, compared), the frame uniform (compared), and one render
+        bundle per (part, level, texture), valid while the pipeline, the three bind groups' resources and the slots are
+        the same objects. The draws run in list order, as encode() runs them."""
+        n = len(part)
+        if not n:
+            raise ValueError("OitPass.encode_parts: no draws")
+        if self.geom is None:
+            raise RuntimeError("OitPass.set_geometry has not been called")
+        if targets["samples"] != samples:
+            raise ValueError("targets were made for another sample count")
+        d, q = self.device, self.device.queue
+        k = self._kept_state(len(self.geom.page_of), looks)
+        slot = self._slots(k, part)
+        k.part = part                        # the list of the last frame (read by tests)
+        # ---- the records
+        mine = k.rows[slot]
+        if k.rows_on is None or not np.array_equal(mine.view(np.uint32), rows.view(np.uint32)):
+            k.rows[slot] = rows
+            k.rows_on = None
+        self._grow("draw_buf", k.n_slots * DRAW_FLOATS * 4, BU.STORAGE | BU.COPY_DST)
+        self._grow("su_buf", k.n_slots * self.su_stride, BU.UNIFORM | BU.COPY_DST)
+        if k.rows_on is not self._draw_buf:
+            q.write_buffer(self._draw_buf, 0, np.ascontiguousarray(k.rows[:k.n_slots]))
+            k.rows_on = self._draw_buf
+            k.uploads[0] += 1
+        # ---- the ShadeU blocks: the look record of each slot, then the frame-wide fields over all of them
+        g = np.frombuffer(glob, dtype=np.uint8)
+        stale = k.slot_look[slot] != look
+        if stale.any():
+            if len(k.look_mat) < len(looks):
+                k.look_mat = np.frombuffer(b"".join(looks), dtype=np.uint8).reshape(len(looks), SHADE_SIZE)
+            sl = slot[stale]
+            blk = k.look_mat[look[stale]].copy()
+            for a, b in glob_runs:
+                blk[:, a:b] = g[a:b]
+            k.blocks[sl, :SHADE_SIZE] = blk
+            k.slot_look[sl] = look[stale]
+            k.su_on = None
+        if k.glob != glob:
+            for a, b in glob_runs:
+                k.blocks[:k.n_slots, a:b] = g[a:b]
+            k.glob = glob
+            k.su_on = None
+        if k.su_on is not self._su_buf:
+            q.write_buffer(self._su_buf, 0, np.ascontiguousarray(k.blocks[:k.n_slots]))
+            k.su_on = self._su_buf
+            k.uploads[1] += 1
+        fb = pack_frame(None, size, self.flip_y, vp_wgpu)
+        if self._frame_on != fb:
+            q.write_buffer(self._frame_ub, 0, fb)
+            self._frame_on = fb
+        self._group0(anim_tab)
+        # ---- the bundles
+        pipe = self.pipeline(samples)
+        epoch = (pipe, self._bg0, items, spec, self._su_buf, self._draw_buf)
+        if k.epoch is None or any(a is not b for a, b in zip(k.epoch, epoch)):
+            k.epoch, k.bundles, k.bg1, k.codes = epoch, {}, {}, None
+        codes = (part * 64 + level) * (1 << 20) + (tex + 1)
+        if k.codes is None or len(codes) != len(k.codes) or not np.array_equal(codes, k.codes):
+            if len(k.bundles) > 8 * k.n_slots + 4096:
+                k.bundles = {}
+            get = k.bundles.get
+            run = [get(c) for c in codes.tolist()]
+            if None in run:
+                todo = [i for i, b in enumerate(run) if b is None]
+                cl = codes[todo].tolist()
+                args = zip(todo, cl, part[todo].tolist(), first[todo].tolist(), count[todo].tolist(), tex[todo].tolist(),
+                           slot[todo].tolist())
+                for i, c, pi, f0, cnt, tx, sl in args:
+                    run[i] = k.bundles[c] = self._bundle(k, pipe, samples, items, spec, pi, f0, cnt, tx, sl, texture)
+            k.codes, k.run = codes, run
+        tw = {}
+        if timestamps:                       # (query set, begin index, end index) around the pass and its resolve
+            tw = {"timestamp_writes": {"query_set": timestamps[0], "beginning_of_pass_write_index": timestamps[1],
+                                       **({} if resolve else {"end_of_pass_write_index": timestamps[2]})}}
+        rp = enc.begin_render_pass(
+            color_attachments=[
+                {"view": targets["acc_ms_v"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)},
+                {"view": targets["wgt_ms_v"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)}],
+            depth_stencil_attachment={"view": depth_view, "depth_read_only": True}, **tw)
+        rp.execute_bundles(k.run)
+        rp.end()
+        self.last_draws = n
+        if resolve:
+            self._resolve(enc, samples, targets,
+                          {"query_set": timestamps[0], "end_of_pass_write_index": timestamps[2]} if timestamps else None)
 
     def clear_resolved(self, enc, targets):
         """Clear the resolved textures (a frame without ghost parts does not need it: the composite gets oit_on = 0)."""

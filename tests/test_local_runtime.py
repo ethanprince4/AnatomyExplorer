@@ -149,4 +149,39 @@ class LocalRuntimeTests(unittest.TestCase):
         self.assertEqual(model.camera_order,['Home'])
         self.assertEqual(model.runtime_descriptor.primary.format,'glb')
 
+    def test_optional_portable_lod_skips_eager_build_and_stale_binding_falls_back(self):
+        from unittest.mock import patch
+        from app.viewer import precomputed_lod
+        from app.viewer.model_loading import prepare_model
+        from app.load_control import LoadToken
+        self.test_glb_native_loader()
+        path = self.root / 'simple.glb'
+        viewer = self.root / 'simple.viewer.json'
+        viewer.write_text(json.dumps({'cameras': {'Overview': {'position': [0, 0, 3], 'target': [0, 0, 0], 'type': 'ORTHO', 'ortho_width': 3, 'hidden': []}}, 'start_view': 'Overview'}), encoding='utf-8')
+        entry = self.entry(path)
+        entry.descriptor.companions = {'viewer': 'simple.viewer.json'}
+        original = prepare_local_model(entry)
+        metadata = {'schema': precomputed_lod.SCHEMA, 'source_sha256': precomputed_lod.digest(path),
+            'companion_sha256': {'viewer': precomputed_lod.digest(viewer)},
+            'algorithm_constants': precomputed_lod.constants(), 'vertex_count': len(original.vertices),
+            'index_count': int(original.indices.size), 'part_layout': precomputed_lod.part_layout(original), 'parts': []}
+        np.savez(self.root / 'exact.lod.npz', meta=np.frombuffer(json.dumps(metadata).encode(), dtype=np.uint8))
+        entry.descriptor.companions['lod'] = 'exact.lod.npz'
+        actual = prepare_local_model(entry)
+        self.assertTrue(actual.precomputed_lod_used)
+        self.assertEqual(actual.lod, {})
+        np.testing.assert_array_equal(actual.vertices, original.vertices)
+        np.testing.assert_array_equal(actual.indices, original.indices)
+        with patch('app.viewer.model_loading._prepare_model', return_value=actual), patch('app.viewer.prepared_cache.save_async'), patch('app.viewer.lod.build') as eager:
+            self.assertIs(prepare_model(entry, LoadToken()), actual)
+            eager.assert_not_called()
+        viewer.write_text(viewer.read_text() + '\n', encoding='utf-8')
+        fallback = prepare_local_model(entry)
+        self.assertFalse(fallback.precomputed_lod_used)
+        self.assertIsNone(fallback.lod)
+        self.assertTrue(any('ordinary geometry preparation' in warning for warning in fallback.runtime_warnings))
+        with patch('app.viewer.model_loading._prepare_model', return_value=fallback), patch('app.viewer.prepared_cache.save_async'), patch('app.viewer.lod.build', return_value={}) as eager:
+            self.assertIs(prepare_model(entry, LoadToken()), fallback)
+            eager.assert_called_once()
+
 if __name__=='__main__':unittest.main()

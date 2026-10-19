@@ -21,6 +21,7 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from check_licenses import image_licence_ok as licence_ok  # noqa: E402  (the one licence rule: tools/check_licenses.py)
 from histology_catalog import TISSUES  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -398,6 +399,9 @@ def stage_classify():
         if (meta.get("width") or 0) < 300:
             rejected["small"] += 1
             continue
+        if not licence_ok(meta.get("license")):
+            rejected["licence"] += 1
+            continue
         name = re.sub(r"^File:|\.\w+$", "", title).replace("_", " ")
         cats = " | ".join(meta.get("categories", []) + crawl.get(title, [])).lower()
         desc = (meta.get("description", "") + " " + meta.get("object", "")).lower()
@@ -559,6 +563,8 @@ def stage_download():
                 continue
             pick = picks[r]
             meta = info[pick["title"]]
+            if not licence_ok(meta.get("license")):     # chosen.json may predate the licence rule
+                continue
             stem = safe_name(pick["title"])
             ext = ".png" if meta.get("mime") in ("image/svg+xml", "image/png", "image/gif") else ".jpg"
             path = IMAGES / (stem + ext)

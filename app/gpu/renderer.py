@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import logging
 import math
+import operator
 import os
 import re
 from pathlib import Path
@@ -40,13 +41,14 @@ from app.viewer.environment import make_env, sh9_irradiance
 from app.viewer.renderer import (DEFAULT_RIG, DEFAULT_WORLD, FrameState, Renderer as _GL, Settings,  # noqa: F401
                                  _frustum_planes, _look_key, _transparent_pass, backdrop_linear)
 from . import cutclass
+from . import drawtable as dtab
 from . import geometry as geo
 from .caps import CapPasses
 from .clusters import ClusterError
 from .cull import ClipState, ClusterCuller, FrameParts
 from .cull_policy import CullGovernor
-from .oit import OitDraw, OitPass
-from .post import PostPasses
+from .oit import OitPass
+from .post import PostPasses, depth_mip_levels
 from .shade_split import ShadeSplit
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
 
@@ -54,7 +56,7 @@ log = logging.getLogger("anatomy.gpu")
 WGSL = Path(__file__).with_name("wgsl")
 BU, TU, SS = wgpu.BufferUsage, wgpu.TextureUsage, wgpu.ShaderStage
 FRAME_BYTES = 240
-DRAW_FLOATS = 40
+DRAW_FLOATS = dtab.DRAW_FLOATS
 PTAB_STRIDE = 20
 STORAGE_PER_STAGE = 6                     # at most this many storage buffers bound by any stage of any pipeline (the Metal floor is 8)
 MAX_PAGES = STORAGE_PER_STAGE - 2        # the resolve binds the table buffer, the culler's decode table and up to MAX_PAGES page buffers
@@ -64,7 +66,8 @@ DEC_CRO, DEC_LAY = 8, 9                  # bindings of the decode tables in the 
 SHADE_WORDS = SHADE_SIZE // 4
 TAB_ALIGN = 64                           # words (256 bytes: the storage offset alignment limit's upper bound)
 GL_TO_WGPU_Z = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0.5, 0.5], [0, 0, 0, 1]], dtype=np.float64)
-DRAW_NOCLIP, DRAW_MIRRORED, DRAW_SELECTED = 1, 2, 4
+DRAW_NOCLIP, DRAW_MIRRORED, DRAW_SELECTED = dtab.DRAW_NOCLIP, dtab.DRAW_MIRRORED, dtab.DRAW_SELECTED
+_ITEM_CLIP = operator.attrgetter("clip")
 ID_FORMATS = ("r32uint", "rgba8uint")
 ADD = {"operation": "add", "src_factor": "one", "dst_factor": "one"}
 
@@ -208,6 +211,12 @@ def ao_gi_scales():
     return AO_SCALES[v]
 
 
+def ao_far_mips():
+    """PostPasses.far_mips: far SSAO taps read a coarser level of the depth texture, so the pass costs the same at any
+    zoom (default on). ANATOMY_AO_DEPTH_MIPS = 0 / off / no / false puts every tap back on the full-size depth."""
+    return os.environ.get("ANATOMY_AO_DEPTH_MIPS", "1").strip().lower() not in ("0", "off", "no", "false")
+
+
 def _look_features(rec):
     """FEAT_* bits of a look record: the features whose per-look uniform switch is on."""
     return ((FEAT_STRIPE if int(rec.get("u_stripe", 0)) == 1 else 0) | (FEAT_MOTTLE if int(rec.get("u_mottle", 0)) == 1 else 0)
@@ -309,6 +318,35 @@ def _align(n, a=256):
     return (n + a - 1) // a * a
 
 
+def _geometry_for_model(model, sink_factory, page_bytes, max_pages, cluster_order, compress):
+    """Load GPU pages from the per-user store, populating it on a miss; retain the normal build as fallback.
+
+    The store has its own identity and shaping checks. Models without a prepared identity (and animated models) simply
+    take the existing build path. Cache failures are deliberately misses: a failed partial upload is abandoned with
+    its sink, so the normal build cannot inherit staged writes to destroyed buffers.
+    """
+    from . import page_cache
+
+    key = page_cache.make_key(model, page_bytes, max_pages, cluster_order, compress)
+    if key is not None and page_cache.cache_root() is not None:
+        options = dict(max_pages=max_pages, cluster_order=cluster_order, compress=compress, key=key)
+        try:
+            sink = sink_factory()
+            geom = page_cache.load(model, sink, page_bytes, **options)
+            if geom is not None:
+                return geom
+            if page_cache.bake(model, page_bytes, **options) is not None:
+                # A first open bakes to disk, then takes the same verified read path as subsequent opens.
+                sink = sink_factory()
+                geom = page_cache.load(model, sink, page_bytes, **options)
+                if geom is not None:
+                    return geom
+        except Exception as exc:
+            log.debug("wgpu page cache miss; building geometry normally: %s", exc)
+    return geo.build_geometry(model, sink_factory(), page_bytes, max_pages=max_pages,
+                              cluster_order=cluster_order, compress=compress)
+
+
 class WgpuRenderer:
     """GL Renderer's public API on wgpu. ``gpu`` is app.gpu.device.Gpu (or anything with device, queue, features,
     limits, info, prim_index)."""
@@ -369,6 +407,16 @@ class WgpuRenderer:
         self._xf = {}
         self._xf_key = None
         self._spheres = self._scales = None
+        # per-part arrays (drawtable.py), so a frame walks no part in Python while nothing changes: what is fixed for the
+        # model, the transforms of the current transform state, the looks-table record of every part under the current
+        # look state, and the last built draw table with what is read off it
+        self._ps = None
+        self._xa = None
+        self._rec = None
+        self._rec_key = None
+        self._draws = None
+        self._draws_on_gpu = None            # the table whose rows are in the table buffer now
+        self._final_bg = None
         self._fs = None
         self._ids_cache = None
         self.t = {}
@@ -406,7 +454,7 @@ class WgpuRenderer:
         self.model_diag = 1.0
         self._fake = SimpleNamespace(_texture=lambda i: _Null())
         ao, gi = ao_gi_scales()
-        self.post = PostPasses(self.device, ao_scale=ao, gi_scale=gi)
+        self.post = PostPasses(self.device, ao_scale=ao, gi_scale=gi, far_mips=ao_far_mips())
         self.oit = OitPass(self.device, flip_y=True, depth_format="depth32float", aniso=8)
         self.caps = CapPasses(self.device)
         self._dec_dummy = None
@@ -418,14 +466,16 @@ class WgpuRenderer:
         self._bg_vis_size = None
         self._cap_col_v = None
         self.oit_t = None
-        self._oit_rec = _Rec()
+        self._oit_base = None                # drawtable.oit_base of the model: the fixed part of the translucent records
+        self._look_tex_arr = None            # _look_tex as an array over the look records
+        self._sg_runs = None                 # byte ranges of the frame-wide fields in a ShadeU record
         self._items_v = self._spec_v = None
         self._layouts()
         self._gather = {}
         self._qs = None
         if self.profile:
-            self._qs = self.device.create_query_set(type="timestamp", count=16)
-            self._qbuf = self.device.create_buffer(size=128, usage=BU.QUERY_RESOLVE | BU.COPY_SRC | BU.COPY_DST)
+            self._qs = self.device.create_query_set(type="timestamp", count=18)
+            self._qbuf = self.device.create_buffer(size=144, usage=BU.QUERY_RESOLVE | BU.COPY_SRC | BU.COPY_DST)
         d = self.device
         self._s_ao = d.create_sampler(mag_filter="linear", min_filter="linear", address_mode_u="clamp-to-edge",
                                       address_mode_v="clamp-to-edge")
@@ -582,11 +632,11 @@ class WgpuRenderer:
                                       f"e.g. {cut[0]})")
         try:
             self.model = model
-            sink = geo.GpuSink(self.device)
             order = self._wants_cluster_order(model)
+            compress = order and self._wants_compress(model)
             try:
-                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order,
-                                               compress=order and self._wants_compress(model))
+                self.geom = _geometry_for_model(model, lambda: geo.GpuSink(self.device), self.page_bytes,
+                                                self.max_pages, order, compress)
                 if int(self.geom.stage) != self._cmp:              # modules and pipelines are built for one of the stages
                     self._cmp = int(self.geom.stage)
                     self._pipes.clear()
@@ -601,11 +651,15 @@ class WgpuRenderer:
             self._lod = (np.array([where[p.id] for p in coarse]), [p.id for p in coarse],
                          np.array([levels[p.id].cells for p in coarse], dtype=np.float64)) if coarse else None
             self._look_keys = {p.id: _look_key(p.look) for p in parts}
+            self._ps = dtab.PartStatics(parts, self.geom)
+            self._unbatched = any(k is None for k in self._look_keys.values())
+            self._xa = self._rec = self._rec_key = self._draws = self._draws_on_gpu = None
             self._make_page_groups()
             self._make_ptab()
             self._make_culler(model)
             self.oit.set_geometry(self.geom)
-            self._oit_rec = _Rec()
+            self._oit_base = dtab.oit_base(parts, self.geom)
+            self._look_tex_arr = None
             side = model.sidecar.get("lights") or {}
             self.rig = side.get("rig") or DEFAULT_RIG
             self.world = side.get("world") or DEFAULT_WORLD
@@ -720,6 +774,8 @@ class WgpuRenderer:
         self._level = {}
         self._xf = {}
         self._xf_key = None
+        self._ps = self._xa = self._rec = self._rec_key = self._draws = self._draws_on_gpu = None
+        self._oit_base = self._look_tex_arr = None
         self._vis_page_bg, self._groups = [], []
         for ub in getattr(self, "_page_ub", []):
             ub.destroy()
@@ -745,6 +801,8 @@ class WgpuRenderer:
         for tex in self.t.values():
             if hasattr(tex, "destroy"):
                 tex.destroy()
+        self.post.forget()                   # with its scratch textures of every size
+        self._final_bg = None
         self.t = {}
         self.size = self.samples = None
 
@@ -767,11 +825,11 @@ class WgpuRenderer:
         key = (id(m.node_world), len(m.node_world), m.root.tobytes(),
                tuple(sorted((n, np.asarray(o).tobytes()) for n, o in m.node_offsets.items())),
                None if m.item_offsets is None else m.item_offsets.tobytes(),
-               tuple(sorted(m.node_weights.items())), bytes(bool(it.clip) for it in m.items))
+               tuple(sorted(m.node_weights.items())), bytes(map(bool, map(_ITEM_CLIP, m.items))))
         if key == self._xf_key:
             return
         self._xf_key = key
-        self._xf = {}
+        self._xf = {}                    # a new object: the per-part arrays and the draw table built from the old one are stale
         spheres = [m.part_sphere(p) for p in m.parts]
         self._spheres = (np.array([c for c, _r in spheres], dtype=np.float64).reshape(-1, 3),
                          np.array([r for _c, r in spheres], dtype=np.float64))
@@ -793,9 +851,53 @@ class WgpuRenderer:
             self._xf[p.id] = xf
         return xf
 
-    def _lod_levels(self, V, halves, ortho, h):
-        if self._lod is None:
-            return {}
+    def _part_xf(self, idx):
+        """The values of _transform as arrays over the model's parts, filled for the parts in ``idx`` (the others are filled
+        when a frame first draws them): M (n, 4, 4), row (n, 28) float32 = the table's matrix and normal-matrix floats, flip,
+        weight, noclip. They belong to one transform state (self._xf) and are dropped with it."""
+        xa = self._xa
+        if xa is None or xa["of"] is not self._xf:
+            n = len(self.model.parts)
+            xa = self._xa = {"of": self._xf, "have": np.zeros(n, dtype=bool), "M": np.zeros((n, 4, 4), dtype=np.float64),
+                             "row": np.zeros((n, dtab.XF_FLOATS), dtype=np.float32), "flip": np.zeros(n, dtype=np.int64),
+                             "weight": np.zeros(n, dtype=np.float64), "noclip": np.zeros(n, dtype=np.int64)}
+        miss = idx[~xa["have"][idx]]
+        if len(miss):
+            parts = self.model.parts
+            for i in miss.tolist():
+                M, nmat, flip, weight, noclip, _key = self._transform(parts[i])
+                xa["M"][i] = M
+                xa["row"][i, 0:16] = np.ascontiguousarray(M.T).reshape(-1)
+                xa["row"][i, 16:28].reshape(3, 4)[:, :3] = nmat.T
+                xa["flip"][i], xa["weight"][i], xa["noclip"][i] = flip, weight, noclip
+            xa["have"][miss] = True
+        return xa
+
+    def _look_recs(self, idx, s, fs):
+        """Looks-table record of every part (-1: not asked for yet under the current look state), filled for the parts in
+        ``idx`` in that order (new records are appended in draw order, as _look_index was called before). A part's record
+        depends on its look and transform and on the frame's opaque / stripes / tissue switches; a part that is not batched
+        (a textured one) also on its item's flat colour, selection and hover."""
+        own = None
+        if self._unbatched:
+            own = (frozenset(fs.selected), fs.hovered, s.hovered, tuple(s.highlight), tuple(s.hover_highlight),
+                   tuple(sorted((int(i), tuple(float(x) for x in c)) for i, c in fs.override.items())),
+                   None if fs.colours is None else np.asarray(fs.colours).tobytes())
+        key = (bool(fs.opaque_materials), bool(s.stripes), round(float(s.tissue), 6), own)
+        if self._rec is None or self._rec_key is None or self._rec_key[0] is not self._xf or self._rec_key[1] != key:
+            self._rec = np.full(len(self.model.parts), -1, dtype=np.int64)
+            self._rec_key = (self._xf, key)
+        rec = self._rec
+        miss = idx[rec[idx] < 0]
+        if len(miss):
+            parts = self.model.parts
+            for i in miss.tolist():
+                _M, _nmat, flip, weight, noclip, _key = self._transform(parts[i])
+                rec[i] = self._look_index(parts[i], s, fs, flip, noclip, weight)
+        return rec
+
+    def _lod_pick(self, V, halves, ortho, h):
+        """Level of the parts that have coarser levels (self._lod), in that order: the coarsest whose cell is at most a pixel."""
         where, ids, cells = self._lod
         centres, radii = self._spheres
         if ortho:
@@ -803,25 +905,56 @@ class WgpuRenderer:
         else:
             depth = -(centres[where] @ V[2, :3] + V[2, 3]) - radii[where]
             pixel = np.maximum(depth, 0.0) * (2.0 * halves[1] / h)
-        level = np.sum(cells * self._scales[where][:, None] <= pixel[:, None], axis=1)
-        return {pid: int(k) for pid, k in zip(ids, level) if k}
+        return np.sum(cells * self._scales[where][:, None] <= pixel[:, None], axis=1)
+
+    def _lod_levels(self, V, halves, ortho, h):
+        if self._lod is None:
+            return {}
+        return {pid: int(k) for pid, k in zip(self._lod[1], self._lod_pick(V, halves, ortho, h)) if k}
+
+    def _lod_array(self, V, halves, ortho, h):
+        """_lod_levels as an array over the model's parts (0: full detail), what the frame reads."""
+        level = np.zeros(len(self.model.parts), dtype=np.int64)
+        if self._lod is not None:
+            level[self._lod[0]] = self._lod_pick(V, halves, ortho, h)
+        return level
+
+    @property
+    def _level(self):
+        """{part id: level} of the parts drawn coarser than level 0 (the GL renderer's form; made from the array when read)."""
+        if self._level_dict is None:
+            arr, lod = self._level_arr, self._lod
+            self._level_dict = ({} if arr is None or lod is None else
+                                {pid: int(arr[i]) for i, pid in zip(lod[0].tolist(), lod[1]) if arr[i]})
+        return self._level_dict
+
+    @_level.setter
+    def _level(self, levels):
+        self._level_dict, self._level_arr = levels, None
+
+    def _levels(self):
+        """The level of every part of the model as an array (from the dict when a tool has set self._level)."""
+        if self._level_arr is None:
+            arr = np.zeros(len(self.model.parts), dtype=np.int64)
+            index_of = self._ps.index_of
+            for pid, k in (self._level_dict or {}).items():
+                if pid in index_of:
+                    arr[index_of[pid]] = k
+            self._level_arr = arr
+        return self._level_arr
+
+    def _visible_idx(self, VP, vis, ghost, alpha, fs):
+        """(opaque part indices, translucent part indices) of this frame, in model order: the GL renderer's culling."""
+        planes = _frustum_planes(VP)
+        centres, radii = self._spheres
+        inside = np.all(planes[:, :3] @ centres.T + planes[:, 3:4] >= -radii, axis=0) if len(radii) else np.zeros(0, dtype=bool)
+        return dtab.split_parts(self._ps, vis, ghost, alpha, bool(fs.opaque_materials), inside)
 
     def visible_parts(self, VP, vis, ghost, alpha, fs):
         """(opaque parts, translucent parts) of this frame, in model order: the GL renderer's culling."""
-        m = self.model
-        draws, oit = [], []
-        planes = _frustum_planes(VP)
-        centres, radii = self._spheres
-        inside = np.all(planes[:, :3] @ centres.T + planes[:, 3:4] >= -radii, axis=0) if len(radii) else []
-        for p, keep in zip(m.parts, inside):
-            it = p.item
-            if not vis[it] or not keep:
-                continue
-            if _transparent_pass(p, bool(ghost[it]), float(alpha[it]), fs):
-                oit.append(p)
-            else:
-                draws.append(p)
-        return draws, oit
+        parts = self.model.parts
+        draws, oit = self._visible_idx(VP, vis, ghost, alpha, fs)
+        return [parts[i] for i in draws.tolist()], [parts[i] for i in oit.tolist()]
 
     def _warn_once(self, key, message):
         """States this step does not render: say so once per model instead of silently drawing something else."""
@@ -830,7 +963,7 @@ class WgpuRenderer:
             log.warning("wgpu renderer: %s", message)
 
     def _check_supported(self, m, fs, draws, oit, any_clip):
-        if oit:
+        if len(oit):
             pass
 
     # ------------------------------------------------------------------ targets
@@ -866,6 +999,10 @@ class WgpuRenderer:
             tex.destroy()
         if self.oit_t is not None:
             OitPass.destroy_targets(self.oit_t)
+        # its kept views, bind groups and depth-chain records are of the textures just destroyed, and its own scratch
+        # textures of any other render size (window, render scale, a grab at another scale) are not used again
+        self.post.forget(keep=(w, h))
+        self._final_bg = None
         d = self.device
         RA, TB, CS, CD = TU.RENDER_ATTACHMENT, TU.TEXTURE_BINDING, TU.COPY_SRC, TU.COPY_DST
         t = {}
@@ -877,7 +1014,8 @@ class WgpuRenderer:
         t["tri"] = d.create_texture(size=(w, h, 1), format="r32uint", usage=RA | TB | CS, label="tri")
         t["id"] = d.create_texture(size=(w, h, 1), format="rg32float", usage=RA | TB | CS, label="id")
         t["nd"] = d.create_texture(size=(w, h, 1), format="rgba32float", usage=RA | TB | CS, label="nd")
-        t["ssao_depth"] = d.create_texture(size=(w, h, 1), format="r32float", usage=RA | TB | CS, label="ssao_depth")
+        t["ssao_depth"] = d.create_texture(size=(w, h, 1), format="r32float", usage=RA | TB | CS, label="ssao_depth",
+                                           mip_level_count=depth_mip_levels(w, h) if self.post.far_mips else 1)
         t["bg"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="backdrop")
         t["opaque"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="opaque")
         t["ao"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB, label="ao")
@@ -887,6 +1025,7 @@ class WgpuRenderer:
         t["comp"] = d.create_texture(size=(w, h, 1), format="rgba8unorm", usage=RA | TB, label="composite")
         self.t = t
         self.v = {k: v.create_view() for k, v in t.items()}
+        self.v["ssao_depth"] = t["ssao_depth"].create_view(base_mip_level=0, mip_level_count=1)   # the geometry pass's target
         self.oit_t = self.oit.make_targets(w, h, samples)
         self.size, self.samples = (w, h), samples
         self._bg_vis_none = self._make_bg_vis(self._cap_none)
@@ -920,6 +1059,7 @@ class WgpuRenderer:
         off, words = self._tab_layout(rows_cap, looks_cap)
         self._tab = self.device.create_buffer(size=words * 4, usage=BU.STORAGE | BU.COPY_DST, label="tab")
         self._tab_caps, self._tab_off = (rows_cap, looks_cap), off
+        self._draws_on_gpu = None                # a new buffer holds no draw rows yet
         # the sections that persist between frames are written again (draws are written every frame, the anim section by
         # _upload_anim when its key changes: forget the key)
         self.queue.write_buffer(self._tab, off["ptab"] * 4, np.ascontiguousarray(self._ptab_words))
@@ -990,61 +1130,35 @@ class WgpuRenderer:
             t={"ao": _Null()}, shadow_maps=[(_Null(),)] * 3, _shadow_mats=[np.eye(4)] * 3, _shadow_texel=[0.01] * 3,
             _shadow_soft=[1.0] * 3, env=SimpleNamespace(spec=_Null(), sh=self.env_sh), white=_Null())
 
-    def _oit_draws(self, parts, VP, V, campos, lights, s, size, camera, clip, fs, alpha, ghost):
-        """The OitDraw list of GL's pass 5: `_draw_shaded(p_oit, ...)` replayed on a recorder that lives as long as the model
-        (GL's uniform cache keeps stale values between draws too), in the draw order of the main pass."""
-        geom = self.geom
-        index_of = {p.id: i for i, p in enumerate(self.model.parts)}
-        items = []
-        for p in parts:
-            pi = index_of[p.id]
-            k = self._level.get(p.id, 0)
-            rng = geom.ranges[pi]
-            first, count = rng[k] if k < len(rng) else rng[0]
-            if count < 3 or geom.page_of[pi] < 0:
-                continue
-            key = geom.gl_keys[pi][k] if k < len(geom.gl_keys[pi]) else geom.gl_keys[pi][0]
-            items.append((key, pi, p, first, count))
-        items.sort(key=lambda e: (e[0], e[1]))
-        u = self._oit_rec
-        u("u_viewproj", VP)
-        _GL._light_uniforms(self._gl_fake(), u, V, campos, lights, s, size, camera)
-        _GL._clip_uniforms(u, clip)
-        u("u_ghost_alpha", float(s.ghost_alpha))
-        out = []
-        for key, pi, p, first, count in items:
-            it = p.item
-            M, nmat, flip, wgt, noclip, _key = self._transform(p)
-            u("u_model", M)
-            u("u_nmat", nmat)
-            u("u_flip", flip)
-            u("u_weight", wgt)
-            u("u_noclip", noclip)
-            batched = self._look_keys[p.id] is not None
-            u("u_batched", 1 if batched else 0)
-            _GL._set_look(self._fake, u, p, s, fs, batched)
-            if not batched:
-                u("u_ghost", 1 if ghost[it] else 0)
-                u("u_alpha_mul", float(alpha[it]))
-                if it in fs.selected:
-                    u("u_highlight", 0.45)
-                    u("u_highlight_col", np.array(s.highlight))
-                elif it == fs.hovered or (s.hovered and s.hovered == it + 1):
-                    u("u_highlight", 0.18)
-                    u("u_highlight_col", np.array(s.hover_highlight))
-                else:
-                    u("u_highlight", 0.0)
-            tex = self._texture_view(p.look.texture) if int(u.get("u_has_tex", 0)) == 1 else None
-            out.append(OitDraw(part=pi, first=int(first), count=int(count), item=int(it), uniforms=dict(u), texture=tex))
-        return out
-
     def _global_uniforms(self, V, campos, lights, s, size, camera, clip):
         """The frame-wide ShadeU bytes: what GL's _draw_shaded sets once per pass (the same functions, on a recorder)."""
         rec = _Rec()
         fake = self._gl_fake()
         _GL._light_uniforms(fake, rec, V, campos, lights, s, size, camera)
         _GL._clip_uniforms(rec, clip)
+        if self._sg_runs is None:           # the bytes those two functions set, for the translucent pass's per-draw records
+            self._sg_runs = dtab.byte_runs([FIELD_BY_NAME[name] for name in rec if name in FIELD_BY_NAME])
         return pack_shading_uniforms(rec)
+
+    def _oit_frame(self, oit_idx, s, fs, ghost, alpha):
+        """The translucent draws of the frame (GL's pass 5, `_draw_shaded(p_oit, ...)`) as arrays in the main pass's draw
+        order, the arguments of OitPass.encode_parts; None when nothing is drawn. A part's ShadeU look record is the one
+        the opaque pass uses (_look_recs: GL's _set_look, flip, morph weight, noclip, batched and, when not batched, the
+        highlight), so nothing is packed per part here; the frame-wide fields are laid over it in the pass."""
+        ps = self._ps
+        idx, k, first, count = dtab.order_draws(ps, oit_idx, self._levels())
+        if not len(idx):
+            return None
+        xa = self._part_xf(idx)
+        rec = self._look_recs(idx, s, fs)[idx]
+        item = ps.item[idx]
+        rows = dtab.oit_rows(self._oit_base[0], self._oit_base[1], idx, xa["row"][idx], xa["weight"][idx],
+                             np.asarray(ghost)[item], np.asarray(alpha)[item], float(s.ghost_alpha), bool(fs.opaque_materials))
+        ta = self._look_tex_arr
+        if ta is None or len(ta) != len(self._look_bytes):
+            ta = self._look_tex_arr = np.array([-1 if self._look_tex.get(i) is None else int(self._look_tex[i])
+                                                for i in range(len(self._look_bytes))], dtype=np.int64)
+        return {"part": idx, "level": k, "first": first, "count": count, "rows": rows, "look": rec, "tex": ta[rec]}
 
     def _look_index(self, p, s, fs, flip, noclip, weight):
         """Index of the ShadeU record of this part's look in the looks table (built once per distinct look state)."""
@@ -1190,61 +1304,48 @@ class WgpuRenderer:
     def _build_table(self, draws, s, fs):
         """Sort the parts into the GL draw order, split long draws and fill the table. Returns (table, entries,
         prim_bits) where entries are (slot, part index, level, first_index, index_count) per draw."""
-        geom = self.geom
-        index_of = {p.id: i for i, p in enumerate(self.model.parts)}
-        items = []
-        for p in draws:
-            pi = index_of[p.id]
-            k = self._level.get(p.id, 0)
-            rng = geom.ranges[pi]
-            first, count = rng[k] if k < len(rng) else rng[0]
-            if count < 3 or geom.page_of[pi] < 0:
-                continue
-            key = geom.gl_keys[pi][k] if k < len(geom.gl_keys[pi]) else geom.gl_keys[pi][0]
-            items.append((key, pi, p, k, first, count))
-        items.sort(key=lambda e: (e[0], e[1]))
-        bits = self.prim_bits_max
-        while True:
-            cap = 1 << bits
-            n_slots = sum(-(-(e[5] // 3) // cap) for e in items)
-            if n_slots + 1 <= (1 << (31 - bits)):          # plain ids keep bit 31 clear: the culler's ids own it
-                break
-            bits -= 1
-            if bits < 8:
-                raise RendererError(f"{n_slots} draw slots do not fit a 32-bit visibility id")
-        table = np.zeros((n_slots + 1, DRAW_FLOATS), dtype=np.float32)
-        tu = table.view(np.uint32)
-        entries = []
-        slot = 1
-        feat = 0
+        ps = self._ps
+        if not isinstance(draws, np.ndarray):          # a list of parts (the form visible_parts returns)
+            draws = np.fromiter((ps.index_of[p.id] for p in draws), dtype=np.int64, count=len(draws))
+        idx, k, first, count = dtab.order_draws(ps, draws, self._levels())
+        xa = self._part_xf(idx)
+        rec = self._look_recs(idx, s, fs)[idx]
+        item = ps.item[idx]
+        chosen = self._fs.selected
+        sel = np.isin(item, np.fromiter(chosen, dtype=np.int64, count=len(chosen))) if chosen else np.zeros(len(idx), dtype=bool)
         anim_on = self.model.anim_vertices is not None and fs.anim_frame is not None
-        for key, pi, p, k, first, count in items:
-            M, nmat, flip, weight, noclip, _key = self._transform(p)
-            sel = p.item in self._fs.selected
-            flags = (DRAW_NOCLIP if noclip else 0) | (DRAW_MIRRORED if flip else 0) | (DRAW_SELECTED if sel else 0)
-            rec = self._look_index(p, s, fs, flip, noclip, weight)
-            feat |= self._look_feat[rec]
-            if weight != 0.0:
-                feat |= FEAT_MORPH
-            if anim_on and geom.anim_base[pi] >= 0:
-                feat |= FEAT_ANIM
-            tris = count // 3
-            page = int(geom.page_of[pi])
-            for a in range(0, tris, cap):
-                n = min(cap, tris - a)
-                table[slot, 0:16] = np.ascontiguousarray(M.T).reshape(-1)
-                table[slot, 16:19] = nmat[:, 0]
-                table[slot, 20:23] = nmat[:, 1]
-                table[slot, 24:27] = nmat[:, 2]
-                tu[slot, 28:32] = (first + 3 * a, 0, n, page)
-                tu[slot, 32:36] = (pi, p.item, flags, k)
-                table[slot, 36] = weight
-                tu[slot, 37] = rec
-                tu[slot, 38] = self._slot_of(self._look_tex.get(rec))
-                entries.append((slot, pi, k, first + 3 * a, 3 * n))
-                slot += 1
+        sig = np.stack([idx, k, sel.astype(np.int64), rec])
+        scalars = (bool(anim_on), int(self.prim_bits_max))
+        d = self._draws
+        if d is not None and d.same(sig, scalars, self._xf):       # nothing the table is made of has changed: the last one
+            self._frame_feat = d.feat
+            return d.table, d.entries, d.bits
+        flags = xa["noclip"][idx] * DRAW_NOCLIP + xa["flip"][idx] * DRAW_MIRRORED + sel * DRAW_SELECTED
+        weight = xa["weight"][idx]
+        used, inverse = np.unique(rec, return_inverse=True)
+        tex_of = np.array([self._slot_of(self._look_tex.get(r)) for r in used.tolist()], dtype=np.int64)
+        try:
+            table, entries, bits, slot0 = dtab.build_rows(idx, k, first, count, self.prim_bits_max, xa["row"][idx], item,
+                                                          ps.page[idx], flags, weight, rec, tex_of[inverse.reshape(-1)])
+        except dtab.SlotError as exc:
+            raise RendererError(f"{exc.args[0]} draw slots do not fit a 32-bit visibility id") from None
+        feat = 0
+        for r in used.tolist():
+            feat |= self._look_feat[r]
+        if np.any(weight != 0.0):
+            feat |= FEAT_MORPH
+        if anim_on and np.any(ps.anim[idx]):
+            feat |= FEAT_ANIM
         self._frame_feat = feat
+        self._draws = dtab.FrameDraws(sig=sig, scalars=scalars, xf=self._xf, table=table, entries=entries, bits=bits, feat=feat,
+                                      slot0=slot0, tex_slots=sorted({0, *tex_of.tolist()}),
+                                      drawn_tris=int((count // 3).sum()))
         return table, entries, bits
+
+    def _frame_draws(self, entries):
+        """What is kept with the draw table whose entry list is ``entries`` (None: not the kept table's list)."""
+        d = self._draws
+        return d if d is not None and d.entries is entries else None
 
     # ------------------------------------------------------------------ frame
     def _ts(self, qs, a, b=None, only=None):
@@ -1282,7 +1383,16 @@ class WgpuRenderer:
 
     def _frame_parts(self, entries):
         """(FrameParts for the culler, model part index per row) of the frame's draw entries: one row per part, in table order,
-        slot0 = the part's first draw slot (its slots are consecutive)."""
+        slot0 = the part's first draw slot (its slots are consecutive). Made once per built table."""
+        d = self._frame_draws(entries)
+        if d is not None:
+            if d.parts is None:
+                idx = d.sig[0]
+                xa = self._part_xf(idx)
+                d.parts = (FrameParts(part=idx.copy(), level=d.sig[1].copy(), matrix=xa["M"][idx],
+                                      noclip=xa["noclip"][idx].astype(np.uint32), weight=xa["weight"][idx].astype(np.float32),
+                                      slot0=d.slot0.astype(np.uint32)), idx.tolist())
+            return d.parts
         first = {}
         for slot, pi, k, _first, _count in entries:
             if pi not in first:
@@ -1319,7 +1429,13 @@ class WgpuRenderer:
         not on the camera: they are kept until one of those changes; only the pixel margin (cutclass.pixel_margin) is per frame.
         Morphed and animated parts are never proved: STRADDLE."""
         anim_on = self.model.anim_vertices is not None and self._fs.anim_frame is not None
-        pis = tuple(sorted({e[1] for e in entries}))
+        d = self._frame_draws(entries)
+        if d is None:
+            pis = tuple(sorted({e[1] for e in entries}))
+        else:
+            if d.cut_parts is None:
+                d.cut_parts = tuple(sorted(d.sig[0].tolist()))
+            pis = d.cut_parts
         key = (planes.tobytes(), tuple(on), int(mode), bool(anim_on), pis)
         xf_id, ckey, st = self._cut_cache
         if xf_id is not self._xf or ckey != key:
@@ -1382,21 +1498,24 @@ class WgpuRenderer:
         self._fs = fs
         if m is not None:
             self._refresh_transforms(m)
-            self._level = self._lod_levels(V, halves, camera.ortho, h)
+            self._level_arr, self._level_dict = self._lod_array(V, halves, camera.ortho, h), None
         clip_planes = np.array(fs.clip_planes, dtype=np.float32)
         clip_on = tuple(int(bool(x)) for x in fs.clip_on)
         any_clip = any(clip_on)
-        draws, oit = [], []
+        draws, oit_idx = [], ()
         if m is not None:
-            draws, oit = self.visible_parts(VP, vis, ghost, alpha, fs)
-            self._check_supported(m, fs, draws, oit, any_clip)
+            # part indices; the part objects only for the pass that walks them (cut faces)
+            draws, oit_idx = self._visible_idx(VP, vis, ghost, alpha, fs)
+            if any_clip:
+                draws = [m.parts[i] for i in draws.tolist()]
+            self._check_supported(m, fs, draws, oit_idx, any_clip)
             self._upload_item_state(fs, s, ghost, alpha)
             self._upload_anim(fs)
         lights = self._lights(V, s)
         clip = (clip_planes, clip_on, int(fs.clip_mode))
         # ---- cut faces: which items are cut and the per-part uniforms (None when nothing is cut)
         cplan = None
-        if any_clip and have and draws:
+        if any_clip and have and len(draws):
             cplan = self.caps.plan(m, self.geom, draws, VP, V, (w, h), fs, s, clip, camera)
         elif not any_clip and self.caps.t:
             self.caps.release()
@@ -1415,6 +1534,10 @@ class WgpuRenderer:
         table, entries, bits = (self._build_table(draws, s, fs) if have else
                                 (np.zeros((1, DRAW_FLOATS), np.float32), [], self.prim_bits_max))
         self.last_table, self.last_draws, self.last_prim_bits = table, entries, bits
+        # translucent and x-rayed parts (after the table, so the opaque draws take their look records first, as before)
+        oit_draws = self._oit_frame(oit_idx, s, fs, ghost, alpha) if (have and len(oit_idx)) else None
+        if oit_draws is None:
+            self.oit.last_draws = 0
         self._ensure_table(len(table), len(self._look_bytes))
         if self._looks_written < len(self._look_bytes):
             blob = np.frombuffer(b"".join(self._look_bytes[self._looks_written:]), dtype=np.uint8)
@@ -1432,7 +1555,9 @@ class WgpuRenderer:
         f[52:56] = (halves[0], halves[1], near, far)
         u[56:60] = (bits, samples, len(entries), 1 if camera.ortho else 0)
         self.queue.write_buffer(self._frame_ub, 0, f)
-        self.queue.write_buffer(self._tab, self._tab_off["draws"] * 4, np.ascontiguousarray(table))
+        if self._draws_on_gpu is not table:          # the same table object as last frame is already in the buffer
+            self.queue.write_buffer(self._tab, self._tab_off["draws"] * 4, np.ascontiguousarray(table))
+            self._draws_on_gpu = table
         self.queue.write_buffer(self._sg, 0, np.frombuffer(sg, dtype=np.uint8))
         self.queue.write_buffer(self._final_ub, 0, np.array([w, h, ow, oh], dtype=np.float32))
 
@@ -1445,12 +1570,16 @@ class WgpuRenderer:
         top, bottom = s.background if s.background is not None else (world.get("top_hex", "#20242b"),
                                                                       world.get("bottom_hex", "#12141a"))
         k = 2.0 ** -float(s.exposure)          # the backdrop keeps its colour whatever the exposure
+        background_spot = getattr(s, "background_spot", None)
+        spot = None if background_spot is None else np.array(backdrop_linear(background_spot, s.tonemap)) * k
+        spot_strength = float(getattr(s, "background_spot_strength", 0.0))
         post.pending_ts = self._ts(qs, 12, 13)
         post.run_backdrop(T["bg"], np.array(backdrop_linear(bottom, s.tonemap)) * k, np.array(backdrop_linear(top, s.tonemap)) * k,
-                          encoder=enc)
+                          encoder=enc, spot=spot, spot_strength=spot_strength)
         # ---- 1. visibility pass
         cut_cls = self._cut_classes(entries, clip_planes, clip_on, fs.clip_mode, V, Pm, h, bool(camera.ortho)) if (any_clip and entries and self.classify_cut) else None
-        drawn_tris = sum(e[4] for e in entries) // 3
+        fd = self._frame_draws(entries)
+        self.drawn_tris = drawn_tris = fd.drawn_tris if fd is not None else sum(e[4] for e in entries) // 3   # also read by the status-bar readout
         if self.culler is not None and self.gov is not None and self.cull_mode == "auto":
             for tag, kept, pulled in self.culler.stats_poll():       # counters of earlier culled frames, never waited for
                 self.gov.observe(tag, kept, pulled)
@@ -1466,17 +1595,25 @@ class WgpuRenderer:
                 enc.begin_compute_pass(timestamp_writes=self._ts(qs, 0, 1)).end()      # slots 0, 1 are replaced by the culler's
             fp, pis = self._frame_parts(entries)
 
-            def draw_plain(rp_, positions, entries=entries, pis=pis, cut_cls=cut_cls):
-                want = {pis[i] for i in positions}
+            def draw_plain(rp_, positions, entries=entries, pis=pis, cut_cls=cut_cls, fd=fd):
+                which = np.asarray(positions).tobytes()
+                if fd is not None and fd.plain[0] == which:        # the same parts of the same table as last frame
+                    some = fd.plain[1]
+                else:
+                    want = {pis[i] for i in positions}
+                    some = [e for e in entries if e[1] in want]
+                    if fd is not None:
+                        fd.plain = (which, some)
                 rp_.set_bind_group(0, self._bg0_vis)
                 if cut_cls is not None:
-                    return self._draw_cut(rp_, [e for e in entries if e[1] in want], cut_cls, samples)
+                    return self._draw_cut(rp_, some, cut_cls, samples)
                 rp_.set_pipeline(self._vis_pipe(samples, any_clip))
-                self._draw_slots(rp_, [e for e in entries if e[1] in want])
+                self._draw_slots(rp_, some)
 
             self.culler.encode(enc, V, Pm, (w, h), V_["vis_id"], V_["vis_depth"], samples, fp,
                                clip=ClipState(planes=clip_planes, on=clip_on, mode=int(fs.clip_mode)), ortho=bool(camera.ortho),
-                               draw_unculled=draw_plain, out_size=(ow, oh), bits=bits, accept_all=self.cull_accept_all)
+                               draw_unculled=draw_plain, out_size=(ow, oh), bits=bits, accept_all=self.cull_accept_all,
+                               parts_key=fd)
         else:
             rp = enc.begin_render_pass(
                 color_attachments=[{"view": V_["vis_id"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 0)}],
@@ -1522,9 +1659,6 @@ class WgpuRenderer:
             self.caps.encode_lay_in(enc, T["id"], T["nd"])
         # ---- 2b. translucent and x-rayed parts: weighted blended OIT into the visibility pass's depth (GL pass 5);
         # encoded after the shaded resolve (below), which still needs the visibility depth without the cut faces
-        oit_draws = []
-        if oit and have:
-            oit_draws = self._oit_draws(oit, VP, V, campos, lights, s, (w, h), camera, clip, fs, alpha, ghost)
         # ---- 3. SSAO (reads the previous frame's resolved colour, `opaque`) and the two blur passes
         if s.ao and m is not None:
             radius = s.ao_radius or self._auto_ao_radius()
@@ -1544,7 +1678,7 @@ class WgpuRenderer:
             self.caps.encode_colour(enc, cg)
         # ---- 4. shaded resolve into `opaque`
         if groups:
-            slots = sorted({0, *(int(table[e[0], 38].view(np.uint32)) for e in entries)})
+            slots = fd.tex_slots if fd is not None else sorted({0, *(int(table[e[0], 38].view(np.uint32)) for e in entries)})
             plan = [(p0, n, bg, sl) for (p0, n, bg) in groups for sl in slots]
             for gi, (p0, n, bg, sl) in enumerate(plan):
                 tw = {}
@@ -1572,25 +1706,31 @@ class WgpuRenderer:
         # ---- 4b. cut faces into the visibility depth (GL: depth_ms after CAPMIX_FS), then the translucent pass tests against it
         if cplan is not None:
             self.caps.encode_depth(enc, V_["vis_depth"], samples, gl_order=True)
-        if oit_draws:
+        if oit_draws is not None:
             self._shade_bind_group()
-            self.oit.encode(enc, oit_draws, size=(w, h), samples=samples, depth_view=V_["vis_depth"], targets=self.oit_t,
-                            items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP, anim_tab=self.anim_section())
+            self.oit.encode_parts(enc, **oit_draws, looks=self._look_bytes, glob=sg, glob_runs=self._sg_runs,
+                                  texture=self._texture_view, size=(w, h), samples=samples, depth_view=V_["vis_depth"],
+                                  targets=self.oit_t, items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP,
+                                  anim_tab=self.anim_section(), timestamps=(qs, 16, 17) if qs else None)
         # ---- 5. composite (no translucent items yet: accum / weight stay zero)
         hov = fs.hovered + 1 if fs.hovered >= 0 else s.hovered
         post.pending_ts = self._ts(qs, 8, 9)
-        post.run_composite(T["opaque"], self.oit_t["accum"] if oit_draws else T["accum"],
-                           self.oit_t["weight"] if oit_draws else T["weight"], T["id"], T["comp"], oit_on=bool(oit_draws),
+        post.run_composite(T["opaque"], self.oit_t["accum"] if oit_draws is not None else T["accum"],
+                           self.oit_t["weight"] if oit_draws is not None else T["weight"], T["id"], T["comp"], oit_on=oit_draws is not None,
                            has_sel=bool(fs.selected or s.selected),
                            hover=float(hov if s.hover_outline_on and hov not in {i + 1 for i in fs.selected} else 0),
                            outline=s.outline, hover_outline=s.hover_outline, exposure=float(s.exposure),
                            tonemap=bool(s.tonemap), encoder=enc)
         # ---- 6. into the target: flip to top-first, scale when the window is not the render size
-        bgf = self.device.create_bind_group(layout=self.bgl_final, entries=[
-            {"binding": 0, "resource": {"buffer": self._final_ub, "offset": 0, "size": 16}},
-            {"binding": 1, "resource": V_["comp"]}, {"binding": 2, "resource": self._s_final}])
+        fin = self._final_bg                # (target, composite view, target view, bind group): made once per target and size
+        if fin is None or fin[0] is not target or fin[1] is not V_["comp"]:
+            fin = self._final_bg = (target, V_["comp"], target.create_view(), self.device.create_bind_group(
+                layout=self.bgl_final, entries=[
+                    {"binding": 0, "resource": {"buffer": self._final_ub, "offset": 0, "size": 16}},
+                    {"binding": 1, "resource": V_["comp"]}, {"binding": 2, "resource": self._s_final}]))
+        bgf = fin[3]
         rp = enc.begin_render_pass(
-            color_attachments=[{"view": target.create_view(), "load_op": "clear", "store_op": "store",
+            color_attachments=[{"view": fin[2], "load_op": "clear", "store_op": "store",
                                 "clear_value": (0, 0, 0, 1)}], **({"timestamp_writes": self._ts(qs, 10, 11)} if qs else {}))
         rp.set_pipeline(self._final_pipe())
         rp.set_bind_group(0, bgf)
@@ -1599,18 +1739,21 @@ class WgpuRenderer:
         if qs:
             if cplan is None:                                  # slots 14, 15 (the cap gather) must be written before they are resolved
                 enc.begin_compute_pass(timestamp_writes=self._ts(qs, 14, 15)).end()
-            enc.resolve_query_set(qs, 0, 16, self._qbuf, 0)
+            if oit_draws is None:                              # and 16, 17 (the translucent pass)
+                enc.begin_compute_pass(timestamp_writes=self._ts(qs, 16, 17)).end()
+            enc.resolve_query_set(qs, 0, 18, self._qbuf, 0)
         self.queue.submit([enc.finish()])
         if use_cull and self.culler.stats_wanted:
             self.culler.stats_arm(self.gov.tag)
         if qs:
-            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 16 * 8)), dtype=np.uint64).astype(np.float64)
+            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 18 * 8)), dtype=np.uint64).astype(np.float64)
             kk = self.ts_period_ns * 1e-6
             d = lambda a, b: (ts[b] - ts[a]) * kk
             cull_t = self.culler.read_timings(self.ts_period_ns) if use_cull else None
             self.timings = {"backdrop_ms": d(12, 13), "vis_ms": cull_t["total_ms"] if use_cull else d(0, 1), "geom_ms": d(2, 3), "ssao_ms": d(4, 5) if s.ao else 0.0,
                             "shade_ms": d(6, 7), "composite_ms": d(8, 9), "final_ms": d(10, 11),
-                            "caps_ms": d(14, 15) if cplan is not None else 0.0}
+                            "caps_ms": d(14, 15) if cplan is not None else 0.0,
+                            "oit_ms": d(16, 17) if oit_draws is not None else 0.0}
             self.timings["cull"] = cull_t                     # per stage ms of the culler (None: not culled)
             self.timings["resolve_ms"] = self.timings["geom_ms"] + self.timings["shade_ms"]
             self.timings["total_ms"] = sum(v for kx, v in self.timings.items() if kx.endswith("_ms") and kx != "resolve_ms")

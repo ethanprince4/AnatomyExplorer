@@ -50,8 +50,8 @@ class HistologyFigureTests(unittest.TestCase):
             self.assertIn(image[field],credit,field+' must describe the captured micrograph')
 
     def test_next_image_updates_export_metadata_then_atlas_caption_restores(self):
-        self.viewer.show_image(3)
-        image=self.viewer.tissue['images'][3]
+        self.viewer.show_image(2)
+        image=self.viewer.tissue['images'][2]
         title,bits,credit=self.win._figure_caption()
         self.assertIn(image['title'],title)
         self.assertIn(image['license'],credit)

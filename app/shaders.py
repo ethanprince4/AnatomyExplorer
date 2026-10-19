@@ -619,6 +619,8 @@ uniform sampler2D u_ao;
 uniform sampler2D u_depth;
 uniform vec3 u_bg_top;
 uniform vec3 u_bg_bottom;
+uniform vec3 u_bg_spot;
+uniform float u_bg_spot_strength;
 uniform float u_ao_strength;
 uniform int u_ao_on;
 out vec4 o_color;
@@ -628,7 +630,10 @@ void main() {
         float t = smoothstep(0.0, 1.0, v_uv.y);
         vec2 c = v_uv - 0.5;
         float vig = 1.0 - dot(c, c) * 0.35;
-        o_color = vec4(mix(u_bg_bottom, u_bg_top, t) * vig, 1.0);
+        vec3 background = mix(u_bg_bottom, u_bg_top, t) * vig;
+        vec2 pool = (v_uv - vec2(0.52, 0.52)) / vec2(0.46, 0.65);
+        float light = exp(-dot(pool, pool) * 2.2) * u_bg_spot_strength;
+        o_color = vec4(mix(background, u_bg_spot, clamp(light, 0.0, 1.0)), 1.0);
         return;
     }
     vec3 col = texture(u_color, v_uv).rgb;

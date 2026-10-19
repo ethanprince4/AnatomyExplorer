@@ -105,6 +105,9 @@ class SearchLine(QLineEdit):
 class SearchPanel(QWidget):
     activated = Signal(object)
     queryActive = Signal(bool)
+    # The ranked, real SearchIndex entries currently shown. The atlas may use these same
+    # entries to place transient on-body search markers without building a second index.
+    resultsChanged = Signal(object)
 
     def __init__(self, ds, index, parent=None):
         super().__init__(parent)
@@ -171,6 +174,7 @@ class SearchPanel(QWidget):
         # A cleared query must not leave stale results actionable during the debounce. The rows are hidden rather
         # than removed: this runs on every keystroke with the results on screen (see stable_rows).
         self._show_results([])
+        self.resultsChanged.emit([])
         if not self.edit.text().strip() and not self.kind_filter.currentData():
             self._timer.stop()
             self._run()
@@ -195,6 +199,7 @@ class SearchPanel(QWidget):
             self._show_results([])
             self.info.setText("Search the atlas and study library")
             self.list.hide()
+            self.resultsChanged.emit([])
             self.queryActive.emit(False)
             return
         try:
@@ -207,6 +212,7 @@ class SearchPanel(QWidget):
             self._show_results([])
             self.info.setText("Search is unavailable. Edit the query to retry, or use Browse.")
             self.list.hide()
+            self.resultsChanged.emit([])
             self.queryActive.emit(False)
             return
         count = len(results)
@@ -218,6 +224,7 @@ class SearchPanel(QWidget):
         else:
             self.info.setText(f"{count:,} result{'s' if count != 1 else ''} · Enter to open")
         self.list.setVisible(bool(count))
+        self.resultsChanged.emit(results[:RESULT_LIMIT])
         self.queryActive.emit(True)
 
     def _navigate(self, step):

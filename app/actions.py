@@ -10,6 +10,7 @@ ACTION_DEFS = [
     ("search", "Focus search box", "General", "Ctrl+F", "/", False),
     ("settings", "Open settings", "General", "Ctrl+,", "", False),
     ("screenshot", "Save screenshot", "General", "F12", "Ctrl+S", False),
+    ("review_shot", "Save review shot (picture + camera)", "General", "F9", "", False),
     ("export_figure", "Export labelled figure", "General", "Ctrl+Shift+S", "", False),
     ("fullscreen", "Toggle fullscreen", "General", "F11", "", False),
     ("borderless", "Borderless window", "General", "Shift+F11", "", False),

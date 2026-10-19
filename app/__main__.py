@@ -24,7 +24,7 @@ def main():
     if "--pick-diagnostics" in sys.argv:
         from .picking_diagnostics import main as diagnostics
         return diagnostics()
-    parser = argparse.ArgumentParser(description="Anatomy Explorer")
+    parser = argparse.ArgumentParser(description="Layered Human")
     parser.add_argument("--script", help="semicolon-separated automation commands (testing)")
     parser.add_argument("--no-restore", action="store_true", help="ignore saved window layout and scene for this launch")
     args = parser.parse_args()
@@ -35,7 +35,7 @@ def main():
 
     configure_qt()
 
-    from .config import APP_NAME, DATA_DIR, LOG_DIR, ORG_NAME, ROOT
+    from .config import APP_NAME, DATA_DIR, LOG_DIR, ORG_NAME, ROOT, SETTINGS_APP_NAME
 
     log_dir = LOG_DIR
 
@@ -59,12 +59,12 @@ def main():
         app.setWindowIcon(QIcon(str(icon_path)))
 
     from .ui.theme import apply_theme
-    preferences = QSettings(QSettings.defaultFormat(), QSettings.UserScope, ORG_NAME, APP_NAME)
-    apply_theme(app, mode=str(preferences.value("ui_theme", "porcelain")))
+    preferences = QSettings(QSettings.defaultFormat(), QSettings.UserScope, ORG_NAME, SETTINGS_APP_NAME)
+    apply_theme(app, mode=str(preferences.value("ui_theme", "gallery-slate")))
 
     if not (DATA_DIR / "anatomy.json").exists():
         QMessageBox.critical(None, APP_NAME, f"The anatomy dataset is missing from:\n{DATA_DIR}\n\n"
-                             "Restore the complete Anatomy Explorer data folder, then restart. "
+                             "Restore the complete Layered Human data folder, then restart. "
                              "For a source checkout, follow LOCAL_SETUP.md.")
         return 1
 
@@ -99,7 +99,7 @@ def main():
         splash.close()
         excepthook(type(exc), exc, exc.__traceback__)
         dialog = QMessageBox(QMessageBox.Critical, APP_NAME,
-                             "Anatomy Explorer could not finish opening.\n\n"
+                             "Layered Human could not finish opening.\n\n"
                              "Check that the application, content and data folders belong to the same install.",
                              QMessageBox.Close)
         dialog.setInformativeText(f"Details were written to {log_dir / 'errors.log'} when possible.")
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         try:
             from PySide6.QtWidgets import QApplication, QMessageBox
             if QApplication.instance():
-                QMessageBox.critical(None, "Anatomy Explorer", traceback.format_exc())
+                QMessageBox.critical(None, "Layered Human", traceback.format_exc())
         except Exception:
             pass
         sys.exit(1)

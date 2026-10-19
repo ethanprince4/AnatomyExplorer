@@ -46,10 +46,14 @@ class LocalLibrary:
             components=value.get('components',{}),outcome=value.get('outcome'),record=value,
             validation_scope=None,baseline_defects=None,component_baseline_defects=None)
 
-    def catalog_index(self):
+    def _rows(self):
         data=json.loads(self.manifest.read_text(encoding='utf-8-sig'))
         rows=data.get('models',[])
         if isinstance(rows,dict):rows=[dict(value,id=key) for key,value in rows.items()]
+        return rows
+
+    def catalog_index(self):
+        rows=self._rows()
         result=[];seen=set();self.warnings=[]
         for row in rows:
             mid=row.get('id') or row.get('model_id')
@@ -144,3 +148,39 @@ class MergedLocalLibrary(LocalLibrary):
         self.expected_model_ids=tuple(combined)
         self._manifest_signature=self._signature()
         return list(combined.values())
+
+
+# Files beside a dropped model under these names are its companions (the layout of data/local_model_library).
+FILE_COMPANIONS={'teaching_recipe':'recipe.json','catalog':'catalog.json','colors':'vertex_colors.npz','color_contract':'color_contract.json'}
+
+class SingleFileLibrary(LocalLibrary):
+    """One .npz opened straight from disk (dropped on the window): no manifest, nothing remembered."""
+    def __init__(self,path):
+        self.path=Path(path).expanduser().resolve()
+        if not self.path.is_file():raise ValueError(f'{self.path.name} was not found')
+        super().__init__(self.path.parent/'library.json',preferences_path=self.path.parent/'preferences.json')
+        self.model_id=f'file:{self.path}'
+
+    def _rows(self):
+        found={role:name for role,name in FILE_COMPANIONS.items() if (self.root/name).is_file()}
+        return [{'id':self.model_id,'name':self.path.stem.replace('_',' '),'summary':f'{self.path.name}, opened from {self.root}.',
+                 'variants':{'post':{'path':str(self.path),'format':'npz','static_recipe':True,'companions':found}}}]
+
+    def _signature(self):return None
+    def preferred(self,mid):return 'post'
+    def select(self,mid,variant,expected_token=None,before_persist=None):
+        if before_persist:before_persist()
+        return self.resolve(mid,variant)
+
+    def resolve(self,mid,variant):
+        """Runs on the load worker, so a file that is not a model fails there with a message the tab can show."""
+        descriptor=super().resolve(mid,variant)
+        import numpy as np
+        from zipfile import BadZipFile
+        try:
+            with np.load(descriptor.path,allow_pickle=False) as archive:
+                parts=json.loads(archive['meta'].tobytes().decode('utf-8'))['parts']
+                if not parts or any(f'p{i}' not in archive.files for i in range(len(parts))):raise ValueError('its part list does not match its data')
+        except (OSError,ValueError,KeyError,TypeError,BadZipFile) as exc:
+            raise ValueError(f'{descriptor.path.name} is not a 3D model file this program can open ({exc}).') from exc
+        return descriptor

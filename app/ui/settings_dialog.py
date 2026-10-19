@@ -1,8 +1,10 @@
-from PySide6.QtCore import Qt, Signal
+from pathlib import Path
+
+from PySide6.QtCore import QStandardPaths, Qt, Signal
 from PySide6.QtGui import QColor, QKeySequence
 from PySide6.QtWidgets import (QCheckBox, QColorDialog, QComboBox, QDialog, QDialogButtonBox, QDoubleSpinBox,
                                QFormLayout, QHBoxLayout, QHeaderView, QKeySequenceEdit, QLabel, QLineEdit,
-                               QPushButton, QScrollArea, QSlider, QTableWidget, QTabWidget, QVBoxLayout, QWidget)
+                               QFileDialog, QPushButton, QScrollArea, QSlider, QTableWidget, QTabWidget, QVBoxLayout, QWidget)
 
 from ..actions import ACTION_DEFS, SELECT_MODIFIER, WORKSPACE_MODIFIER, key_text
 from ..config import DEFAULT_SETTINGS
@@ -83,7 +85,7 @@ class SettingsDialog(QDialog):
         self.setWindowTitle("Settings")
         self.resize(840, 640)
         self.setMinimumSize(540, 420)
-        self.setAccessibleName("Anatomy Explorer settings")
+        self.setAccessibleName("Layered Human settings")
         self.settings = settings
         self.registry = actions
         self.widgets = {}
@@ -91,7 +93,7 @@ class SettingsDialog(QDialog):
         title = QLabel("Settings")
         title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 600))
         lay.addWidget(title)
-        hint = QLabel("Changes take effect immediately, except interface appearance. Your study content stays unchanged.")
+        hint = QLabel("Choose your gallery wall and viewing controls. Changes take effect immediately.")
         hint.setWordWrap(True)
         hint.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(hint)
@@ -232,7 +234,7 @@ class SettingsDialog(QDialog):
         page, f = self._page()
         self._header(f, "INTERFACE")
         self.theme_picker = QComboBox()
-        self.theme_picker.setAccessibleName("Interface appearance for next launch")
+        self.theme_picker.setAccessibleName("Gallery wall colour scheme")
         for key, label in theme.THEMES.items():
             self.theme_picker.addItem(label, key)
         saved_theme = (str(self.parent().qsettings.value("ui_theme", theme.THEME_NAME))
@@ -240,8 +242,8 @@ class SettingsDialog(QDialog):
         self.theme_picker.setCurrentIndex(max(0, self.theme_picker.findData(saved_theme)))
         self.theme_picker.currentIndexChanged.connect(
             lambda _index: self.themeChanged.emit(self.theme_picker.currentData()))
-        self.theme_picker.hide()  # Study-02 Porcelain is the single approved appearance.
-        appearance_hint = QLabel("Study-02 Porcelain. Educational images and model materials keep their original colours.")
+        f.addRow("Gallery wall", self.theme_picker)
+        appearance_hint = QLabel("Six dark gallery walls. Anatomy materials and educational images retain their original colours.")
         appearance_hint.setWordWrap(True)
         appearance_hint.setStyleSheet(theme.text_css(theme.MUTED))
         f.addRow("", appearance_hint)
@@ -257,7 +259,7 @@ class SettingsDialog(QDialog):
         self._header(f, "RENDERING")
         self._slider(page, f, "render_scale", "Render resolution", 0.5, 2.0, 0.05,
                      tip="Above 1.0 supersamples for sharper edges; below 1.0 is faster.")
-        self._check(page, f, "fast_renderer", "Fast renderer for models (new)",
+        self._check(page, f, "fast_renderer", "Fast renderer for models",
                     tip="A faster 3D renderer for the model library (Metal on a Mac). Applies to models opened after "
                         "the change. If it cannot start, the standard renderer is used.")
         self._check(page, f, "fxaa", "Anti-aliasing")
@@ -283,7 +285,49 @@ class SettingsDialog(QDialog):
         self._check(page, f, "show_landmarks", "Show landmark labels on the selection")
         self._header(f, "SESSION")
         self._check(page, f, "restore_session", "Restore camera, visibility and selection on startup")
+        self._header(f, "REVIEW SHOTS")
+        self._review_shot_rows(page, f)
         return page
+
+    def _review_shot_rows(self, page, form):
+        pics = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation) or str(Path.home())
+        default = str(Path(pics) / "Anatomy Explorer review shots")
+        edit = QLineEdit(str(self.settings.get("review_shot_folder") or default))
+        edit.setAccessibleName("Review shot folder")
+        edit.setProperty("default_text", default)
+        browse = QPushButton("Browse…")
+        browse.setAccessibleName("Browse for review shot folder")
+        row = QWidget()
+        lay = QHBoxLayout(row)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.addWidget(edit, 1)
+        lay.addWidget(browse)
+
+        def commit():
+            text = edit.text().strip()
+            self._emit("review_shot_folder", "" if text == default else text)
+
+        def pick():
+            d = QFileDialog.getExistingDirectory(self, "Review shot folder", edit.text())
+            if d:
+                edit.setText(d)
+                commit()
+
+        edit.editingFinished.connect(commit)
+        browse.clicked.connect(pick)
+        form.addRow("Folder", row)
+        self.widgets["review_shot_folder"] = edit
+        self.review_shot_browse = browse
+        page._keys.append("review_shot_folder")
+        try:
+            key = key_text(self.registry.shortcuts("review_shot")[0])
+        except Exception:
+            key = key_text(next(d[3] for d in ACTION_DEFS if d[0] == "review_shot"))
+        hint = QLabel(f"Press {key} to save a picture of the 3D view with its camera stored inside the PNG. "
+                      "Change the key in the Keyboard tab: Save review shot.")
+        hint.setWordWrap(True)
+        hint.setStyleSheet(theme.text_css(theme.MUTED))
+        form.addRow(hint)
 
     def _keys_page(self):
         w = QWidget()
@@ -403,7 +447,7 @@ class SettingsDialog(QDialog):
             self._reset_keys()
             return
         if page is self.tabs.widget(1):
-            self.theme_picker.setCurrentIndex(self.theme_picker.findData("porcelain"))
+            self.theme_picker.setCurrentIndex(self.theme_picker.findData("gallery-slate"))
         for key in page._keys:
             v = DEFAULT_SETTINGS[key]
             w = self.widgets[key]
@@ -419,4 +463,6 @@ class SettingsDialog(QDialog):
                 w.blockSignals(False)
             elif isinstance(w, ColorButton):
                 w.set_color(v)
+            elif isinstance(w, QLineEdit):
+                w.setText(w.property("default_text") or str(v))
             self._emit(key, v)

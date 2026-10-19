@@ -203,6 +203,16 @@ class GlProbe:
                 P._on_draw(vao, vertices, instances)
             return o_render(vao, mode, vertices, first, instances)
 
+        o_indirect = moderngl.VertexArray.render_indirect
+
+        def render_indirect(vao, buffer, mode=None, count=-1, first=0):
+            if P.active:
+                # one GL call for many ranges; the renderer leaves what the buffer holds in buffer.extra
+                extra = buffer.extra if isinstance(buffer.extra, dict) else {}
+                P._on_draw(vao, 3 * int(extra.get("triangles", 0)), 1)
+                P.sub_draws[P.label] = P.sub_draws.get(P.label, 0) + int(extra.get("draws", max(count, 0)))
+            return o_indirect(vao, buffer, mode, count, first)
+
         def copy_framebuffer(ctx, dst, src):
             if P.active:
                 P._enter("resolve")
@@ -211,6 +221,7 @@ class GlProbe:
 
         patch(moderngl.Framebuffer, "use", use)
         patch(moderngl.VertexArray, "render", render)
+        patch(moderngl.VertexArray, "render_indirect", render_indirect)
         patch(moderngl.Context, "copy_framebuffer", copy_framebuffer)
         for cls, attr, kind in ((moderngl.Framebuffer, "read", "fbo"), (moderngl.Framebuffer, "read_into", "fbo"),
                                 (moderngl.Texture, "read", "tex"), (moderngl.Texture, "read_into", "tex"),
@@ -281,6 +292,7 @@ class GlProbe:
         self.draws = {}
         self.model_draws = {}
         self.tris = {}
+        self.sub_draws = {}
         self.readbacks = 0
         self.readback_ms = 0.0
         self.readback_bytes = 0
@@ -362,6 +374,7 @@ class GlProbe:
             "model_draws_by_pass": dict(md),
             "tris_submitted": sum(self.tris.values()),
             "tris_by_pass": dict(self.tris),
+            "indirect_ranges_by_pass": dict(self.sub_draws),
             "geometry_passes": len(md),
             "readbacks": self.readbacks,
             "readback_ms": round(self.readback_ms, 3),

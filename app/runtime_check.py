@@ -26,7 +26,7 @@ def main(argv=None):
     app.setOrganizationName("AnatomyExplorerReleaseQA")
     assert QColor("red").isValid()
     assert (DATA_DIR / "anatomy.json").exists()
-    # the wgpu model renderer is on by default on macOS; without its shaders it would quietly fall back to OpenGL
+    # the wgpu model renderer is on by default; without its shaders it would quietly fall back to OpenGL
     assert (WGSL / "geom.wgsl").is_file() and (WGSL / "resolve.wgsl").is_file()
     report = {"frozen": bool(getattr(sys, "frozen", False)), "qt": qVersion(), "numpy": numpy.__version__,
               "moderngl": moderngl.__version__, "wgpu": wgpu.__version__,
