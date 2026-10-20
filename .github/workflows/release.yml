@@ -69,16 +69,13 @@ jobs:
       VERSION: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || 'v3.90.1-preview.1' }}
       APP_NAME: ${{ contains(github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || 'v3.90.1-preview.1', '-preview.') && 'Layered Human Experimental' || 'Layered Human' }}
       AE_RELEASE_HARDLINKS: '1'
-      TMPDIR: ${{ runner.temp }}
-      TEMP: ${{ runner.temp }}
-      TMP: ${{ runner.temp }}
     steps:
       # identical line endings on every runner, so the micro-model source digest matches what the cache was built with
       - name: Keep line endings as committed
         run: git config --global core.autocrlf false
 
-      # Cache only selected large models and atlas buffers. Historical NPZ
-      # objects are not fetched when the post-only library selects their GLBs.
+      # Cache only selected large models and atlas buffers; unselected
+      # historical model versions are excluded.
       - uses: actions/checkout@v7
         with:
           lfs: false
@@ -88,6 +85,12 @@ jobs:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: requirements.txt
+
+      - name: Use runner temporary storage
+        run: |
+          for name in TMPDIR TEMP TMP; do
+            printf '%s=%s\n' "$name" "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          done
 
       - name: Prepare bounded release storage and selected LFS cache key
         run: python packaging/prepare_release_runner.py
