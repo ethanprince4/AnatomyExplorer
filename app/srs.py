@@ -9,6 +9,8 @@ The schedule lives beside the hit/miss counts in data/user/quiz_stats.json, so n
 import datetime
 import math
 
+from .terminology import NameAliases, american_text
+
 MIN_EASE = 1.3
 START_EASE = 2.5
 GRADE_WRONG = 1
@@ -51,7 +53,7 @@ def normalize_stats(raw):
             if field in stat and not isinstance(stat[field], str):
                 stat.pop(field)
         out[key] = stat
-    return out
+    return NameAliases(out)
 
 
 def today():
@@ -117,7 +119,7 @@ def due_bases(stats, day=None, include_new=False):
         if d <= day:
             out.append((d, base))
     out.sort()
-    return [b for _, b in out]
+    return [b if b.startswith(("card:", "micro:")) else american_text(b) for _, b in out]
 
 
 def summary(stats, day=None):

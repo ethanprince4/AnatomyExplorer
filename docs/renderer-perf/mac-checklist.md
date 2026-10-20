@@ -23,7 +23,7 @@ Run from the repo root with the project venv (`python` below). `ANATOMY_RENDERER
    (nested event loop: open the File menu during auto-rotate and check the view keeps updating), and while resizing.
 5. wgpu native library in the PyInstaller bundle. Build with the project spec and run
    `./dist/<app>/<app> --version`-style launch with `ANATOMY_RENDERER=wgpu`; then list
-   `find dist -name "libwgpu_native*"` (must be present; packaging/AnatomyExplorer.spec has no wgpu entry, so this relies on the hook shipped in
+   `find dist -name "libwgpu_native*"` (must be present; packaging/LayeredHuman.spec has no wgpu entry, so this relies on the hook shipped in
    site-packages/wgpu/__pyinstaller; if missing add `collect_dynamic_libs("wgpu")` and `collect_data_files("wgpu")`) and
    `otool -L dist/.../libwgpu_native.dylib` (only system frameworks). If the bundle starts but falls back to OpenGL,
    run `ANATOMY_RENDERER=wgpu` from a terminal and read the logged reason (`wgpu renderer unavailable, using OpenGL`).

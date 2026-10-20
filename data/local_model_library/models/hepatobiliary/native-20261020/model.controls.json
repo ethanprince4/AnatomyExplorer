@@ -1,0 +1,1675 @@
+{
+  "native": {
+    "summary": "Preserved gross schematic liver, gallbladder, biliary tree, pancreas, duodenum and vessels. Exposure views isolate existing relationships; enclosed flow is not established.",
+    "metres_per_unit": 0.1,
+    "scale_note": "Gross schematic source coordinates preserved; 0.1 m/unit is a display convention, not a measured anatomical reconstruction.",
+    "viewer_cameras": {
+      "Anterior overview": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          0,
+          5
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "ortho_width": 3.2,
+        "hidden": []
+      },
+      "Visceral overview": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          -3,
+          4
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "ortho_width": 3.2,
+        "hidden": []
+      },
+      "Posterior overview": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          0,
+          -5
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "ortho_width": 3.2,
+        "hidden": []
+      },
+      "Duct and vessel exposure": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          0,
+          5
+        ],
+        "target": [
+          -0.05,
+          -0.05,
+          0.1
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "ortho_width": 2.9,
+        "hidden": [
+          "Right lobe of liver",
+          "Left lobe of liver",
+          "Quadrate lobe",
+          "Caudate lobe",
+          "Porta hepatis",
+          "Bare area of liver",
+          "Coronary ligament",
+          "Right triangular ligament",
+          "Falciform ligament",
+          "Left triangular ligament",
+          "Round ligament of liver (ligamentum teres)",
+          "Ligamentum venosum",
+          "Fundus of gallbladder",
+          "Body of gallbladder",
+          "Neck of gallbladder",
+          "Head of pancreas",
+          "Uncinate process of pancreas",
+          "Neck of pancreas",
+          "Body of pancreas",
+          "Tail of pancreas"
+        ]
+      },
+      "Gallbladder junction closeup": {
+        "type": "ORTHO",
+        "position": [
+          -0.3,
+          0.05,
+          3
+        ],
+        "target": [
+          -0.3,
+          0.05,
+          0.12
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "ortho_width": 0.9,
+        "hidden": [
+          "Right lobe of liver",
+          "Left lobe of liver",
+          "Quadrate lobe",
+          "Caudate lobe",
+          "Porta hepatis",
+          "Bare area of liver",
+          "Coronary ligament",
+          "Right triangular ligament",
+          "Falciform ligament",
+          "Left triangular ligament",
+          "Round ligament of liver (ligamentum teres)",
+          "Ligamentum venosum",
+          "Head of pancreas",
+          "Uncinate process of pancreas",
+          "Neck of pancreas",
+          "Body of pancreas",
+          "Tail of pancreas"
+        ]
+      },
+      "Ampulla exposure": {
+        "type": "ORTHO",
+        "position": [
+          -0.44,
+          -0.48,
+          3
+        ],
+        "target": [
+          -0.44,
+          -0.48,
+          -0.06
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "ortho_width": 0.65,
+        "hidden": [
+          "Right lobe of liver",
+          "Left lobe of liver",
+          "Quadrate lobe",
+          "Caudate lobe",
+          "Porta hepatis",
+          "Bare area of liver",
+          "Coronary ligament",
+          "Right triangular ligament",
+          "Falciform ligament",
+          "Left triangular ligament",
+          "Round ligament of liver (ligamentum teres)",
+          "Ligamentum venosum",
+          "Fundus of gallbladder",
+          "Body of gallbladder",
+          "Neck of gallbladder",
+          "Head of pancreas",
+          "Uncinate process of pancreas",
+          "Neck of pancreas",
+          "Body of pancreas",
+          "Tail of pancreas",
+          "Duodenum: superior part (D1)",
+          "Duodenum: descending part (D2)",
+          "Duodenum: horizontal part (D3)",
+          "Duodenum: ascending part (D4)",
+          "Duodenal mucosa (circular folds)",
+          "Pylorus (cut end of stomach)",
+          "Jejunum (cut)"
+        ]
+      },
+      "Duct terminal inspection": {
+        "type": "ORTHO",
+        "position": [
+          -0.45,
+          -0.5,
+          3
+        ],
+        "target": [
+          -0.45,
+          -0.5,
+          -0.07
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "ortho_width": 0.3,
+        "hidden": [
+          "Right lobe of liver",
+          "Left lobe of liver",
+          "Quadrate lobe",
+          "Caudate lobe",
+          "Porta hepatis",
+          "Bare area of liver",
+          "Coronary ligament",
+          "Right triangular ligament",
+          "Falciform ligament",
+          "Left triangular ligament",
+          "Round ligament of liver (ligamentum teres)",
+          "Ligamentum venosum",
+          "Fundus of gallbladder",
+          "Body of gallbladder",
+          "Neck of gallbladder",
+          "Cystic duct",
+          "Right hepatic duct",
+          "Left hepatic duct",
+          "Common hepatic duct",
+          "Sphincter of Oddi (hepatopancreatic sphincter)",
+          "Head of pancreas",
+          "Uncinate process of pancreas",
+          "Neck of pancreas",
+          "Body of pancreas",
+          "Tail of pancreas",
+          "Duodenum: superior part (D1)",
+          "Duodenum: descending part (D2)",
+          "Duodenum: horizontal part (D3)",
+          "Duodenum: ascending part (D4)",
+          "Duodenal mucosa (circular folds)",
+          "Major duodenal papilla",
+          "Minor duodenal papilla",
+          "Pylorus (cut end of stomach)",
+          "Jejunum (cut)",
+          "Hepatic veins",
+          "Hepatic portal vein",
+          "Splenic vein",
+          "Superior mesenteric vein",
+          "Inferior mesenteric vein",
+          "Inferior vena cava",
+          "Abdominal aorta",
+          "Coeliac trunk",
+          "Common hepatic artery",
+          "Hepatic artery proper",
+          "Right hepatic artery",
+          "Left hepatic artery",
+          "Cystic artery",
+          "Gastroduodenal artery",
+          "Splenic artery",
+          "Left gastric artery (cut)",
+          "Superior mesenteric artery"
+        ]
+      }
+    },
+    "start_view": "Anterior overview",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "cut_on": false,
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Gross schematic source coordinates preserved; 0.1 m/unit is a display convention, not a measured anatomical reconstruction."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "hepatobiliary_static_refinement",
+      "display_name": "Hepatobiliary anatomy",
+      "summary": "Preserved gross schematic liver, gallbladder, biliary tree, pancreas, duodenum and vessels. Exposure views isolate existing relationships; enclosed flow is not established.",
+      "metres_per_unit": 0.1,
+      "scale_note": "Gross schematic source coordinates preserved; 0.1 m/unit is a display convention, not a measured anatomical reconstruction.",
+      "viewer_cameras": {
+        "Anterior overview": {
+          "type": "ORTHO",
+          "position": [
+            0,
+            0,
+            5
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "ortho_width": 3.2,
+          "hidden": []
+        },
+        "Visceral overview": {
+          "type": "ORTHO",
+          "position": [
+            0,
+            -3,
+            4
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "ortho_width": 3.2,
+          "hidden": []
+        },
+        "Posterior overview": {
+          "type": "ORTHO",
+          "position": [
+            0,
+            0,
+            -5
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "ortho_width": 3.2,
+          "hidden": []
+        },
+        "Duct and vessel exposure": {
+          "type": "ORTHO",
+          "position": [
+            0,
+            0,
+            5
+          ],
+          "target": [
+            -0.05,
+            -0.05,
+            0.1
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "ortho_width": 2.9,
+          "hidden": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas"
+          ]
+        },
+        "Gallbladder junction closeup": {
+          "type": "ORTHO",
+          "position": [
+            -0.3,
+            0.05,
+            3
+          ],
+          "target": [
+            -0.3,
+            0.05,
+            0.12
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "ortho_width": 0.9,
+          "hidden": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas"
+          ]
+        },
+        "Ampulla exposure": {
+          "type": "ORTHO",
+          "position": [
+            -0.44,
+            -0.48,
+            3
+          ],
+          "target": [
+            -0.44,
+            -0.48,
+            -0.06
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "ortho_width": 0.65,
+          "hidden": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)"
+          ]
+        },
+        "Duct terminal inspection": {
+          "type": "ORTHO",
+          "position": [
+            -0.45,
+            -0.5,
+            3
+          ],
+          "target": [
+            -0.45,
+            -0.5,
+            -0.07
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "ortho_width": 0.3,
+          "hidden": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ]
+        }
+      },
+      "start_view": "Anterior overview"
+    }
+  },
+  "source_part_names": [
+    "Right lobe of liver",
+    "Left lobe of liver",
+    "Quadrate lobe",
+    "Caudate lobe",
+    "Porta hepatis",
+    "Bare area of liver",
+    "Coronary ligament",
+    "Right triangular ligament",
+    "Falciform ligament",
+    "Left triangular ligament",
+    "Round ligament of liver (ligamentum teres)",
+    "Ligamentum venosum",
+    "Fundus of gallbladder",
+    "Body of gallbladder",
+    "Neck of gallbladder",
+    "Cystic duct",
+    "Right hepatic duct",
+    "Left hepatic duct",
+    "Common hepatic duct",
+    "Common bile duct",
+    "Hepatopancreatic ampulla (of Vater)",
+    "Sphincter of Oddi (hepatopancreatic sphincter)",
+    "Head of pancreas",
+    "Uncinate process of pancreas",
+    "Neck of pancreas",
+    "Body of pancreas",
+    "Tail of pancreas",
+    "Main pancreatic duct",
+    "Accessory pancreatic duct",
+    "Duodenum: superior part (D1)",
+    "Duodenum: descending part (D2)",
+    "Duodenum: horizontal part (D3)",
+    "Duodenum: ascending part (D4)",
+    "Duodenal mucosa (circular folds)",
+    "Major duodenal papilla",
+    "Minor duodenal papilla",
+    "Pylorus (cut end of stomach)",
+    "Jejunum (cut)",
+    "Hepatic veins",
+    "Hepatic portal vein",
+    "Splenic vein",
+    "Superior mesenteric vein",
+    "Inferior mesenteric vein",
+    "Inferior vena cava",
+    "Abdominal aorta",
+    "Coeliac trunk",
+    "Common hepatic artery",
+    "Hepatic artery proper",
+    "Right hepatic artery",
+    "Left hepatic artery",
+    "Cystic artery",
+    "Gastroduodenal artery",
+    "Splenic artery",
+    "Left gastric artery (cut)",
+    "Superior mesenteric artery"
+  ],
+  "part_names": [
+    "Right lobe of liver",
+    "Left lobe of liver",
+    "Quadrate lobe",
+    "Caudate lobe",
+    "Porta hepatis",
+    "Bare area of liver",
+    "Coronary ligament",
+    "Right triangular ligament",
+    "Falciform ligament",
+    "Left triangular ligament",
+    "Round ligament of liver (ligamentum teres)",
+    "Ligamentum venosum",
+    "Fundus of gallbladder",
+    "Body of gallbladder",
+    "Neck of gallbladder",
+    "Cystic duct",
+    "Right hepatic duct",
+    "Left hepatic duct",
+    "Common hepatic duct",
+    "Common bile duct",
+    "Hepatopancreatic ampulla (of Vater)",
+    "Sphincter of Oddi (hepatopancreatic sphincter)",
+    "Head of pancreas",
+    "Uncinate process of pancreas",
+    "Neck of pancreas",
+    "Body of pancreas",
+    "Tail of pancreas",
+    "Main pancreatic duct",
+    "Accessory pancreatic duct",
+    "Duodenum: superior part (D1)",
+    "Duodenum: descending part (D2)",
+    "Duodenum: horizontal part (D3)",
+    "Duodenum: ascending part (D4)",
+    "Duodenal mucosa (circular folds)",
+    "Major duodenal papilla",
+    "Minor duodenal papilla",
+    "Pylorus (cut end of stomach)",
+    "Jejunum (cut)",
+    "Hepatic veins",
+    "Hepatic portal vein",
+    "Splenic vein",
+    "Superior mesenteric vein",
+    "Inferior mesenteric vein",
+    "Inferior vena cava",
+    "Abdominal aorta",
+    "Coeliac trunk",
+    "Common hepatic artery",
+    "Hepatic artery proper",
+    "Right hepatic artery",
+    "Left hepatic artery",
+    "Cystic artery",
+    "Gastroduodenal artery",
+    "Splenic artery",
+    "Left gastric artery (cut)",
+    "Superior mesenteric artery"
+  ],
+  "parts": [
+    {
+      "name": "Right lobe of liver",
+      "group": "Liver",
+      "color": "#8c3b2d",
+      "description": "Right lobe of the liver: the largest lobe, about five sixths of the liver's bulk, filling the right hypochondrium under the right dome of the diaphragm. Anteriorly it is separated from the left lobe by the attachment of the falciform ligament; on the visceral surface it lies to the right of the gallbladder fossa and the groove for the inferior vena cava. Its visceral surface carries impressions for the right colic flexure, the right kidney and suprarenal gland and the duodenum. Functionally the liver is divided differently: Cantlie's line (gallbladder fossa to IVC, followed by the middle hepatic vein) splits it into right and left 'hemilivers' of roughly equal size, each with its own portal vein, hepatic artery and bile duct - the basis of the eight Couinaud segments and of hepatectomy. The liver is the largest gland (~1.5 kg): it stores glycogen, makes plasma proteins (albumin, clotting factors), detoxifies drugs and ammonia and secretes ~600 mL of bile a day.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Left lobe of liver",
+      "group": "Liver",
+      "color": "#80352a",
+      "description": "Left lobe of the liver: the thinner, flattened lobe extending into the epigastrium and left hypochondrium, to the left of the falciform ligament and of the fissures for the ligamentum teres and ligamentum venosum. Its visceral surface bears the gastric impression and the omental tuberosity, which lies against the lesser omentum; its superior surface carries the shallow cardiac impression. It is anchored to the diaphragm by the left triangular ligament. The anatomical left lobe corresponds to Couinaud segments II and III (the left lateral section), the usual graft in living-donor liver transplantation for a child.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Quadrate lobe",
+      "group": "Liver",
+      "color": "#97483a",
+      "description": "Quadrate lobe: the rectangular area of the visceral surface between the gallbladder fossa (right), the fissure for the ligamentum teres (left), the porta hepatis (behind) and the inferior border (in front). Anatomically part of the right lobe but functionally part of the left liver (Couinaud segment IVb), because it is supplied by the left branches of the portal vein and hepatic artery and drained by the left hepatic duct. It rests on the pylorus and the first part of the duodenum.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Caudate lobe",
+      "group": "Liver",
+      "color": "#8f4333",
+      "description": "Caudate lobe (with the caudate and papillary processes): the lobe on the posterior surface between the groove for the inferior vena cava (right) and the fissure for the ligamentum venosum (left), above and behind the porta hepatis. The caudate process joins it to the right lobe between the IVC and the porta; the papillary process bulges down towards the lesser sac. Couinaud segment I: it receives portal and arterial branches from both sides and drains by several short veins straight into the IVC - which is why it is spared and enlarges in Budd-Chiari syndrome (hepatic vein thrombosis), while the rest of the liver congests.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Porta hepatis",
+      "group": "Liver",
+      "color": "#d8c49c",
+      "description": "Porta hepatis (hilum of the liver): the transverse fissure, about 5 cm long, on the visceral surface between the quadrate lobe in front and the caudate lobe behind - the crossbar of the H formed by the fissures and fossae of the visceral surface. The hepatic portal vein and the hepatic artery proper enter here and the right and left hepatic ducts leave, together with lymphatics and the hepatic nerve plexus; the ducts lie in front, the arteries in the middle and the portal vein behind. The layers of the lesser omentum (hepatoduodenal ligament) attach to its margins, and the connective tissue sheath shown here is the hilar plate, a condensation of the liver capsule (Glisson) that surrounds the portal triad structures as they enter.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.14,
+        55.0,
+        0.18,
+        0
+      ]
+    },
+    {
+      "name": "Bare area of liver",
+      "group": "Liver",
+      "color": "#5e3a31",
+      "description": "Bare area of the liver: a large triangular area on the posterior surface of the right lobe that has no peritoneal covering and lies directly against the diaphragm, held by loose areolar tissue. It is outlined by the superior and inferior layers of the coronary ligament, which meet laterally at the right triangular ligament; the groove for the IVC is its base. Because it is extraperitoneal, infection can spread from here to the thorax (subphrenic abscess) and lymph drains through the diaphragm to mediastinal nodes; small veins here form a portosystemic anastomosis with phrenic veins.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.3,
+        70.0,
+        0.2,
+        0
+      ]
+    },
+    {
+      "name": "Coronary ligament",
+      "group": "Liver ligaments",
+      "color": "#e3d4c3",
+      "description": "Coronary ligament: the peritoneal reflection from the diaphragm onto the posterior surface of the right lobe, in two layers that enclose the bare area. The superior layer continues from the right layer of the falciform ligament; the inferior layer reflects onto the right kidney and suprarenal gland (hepatorenal ligament). The two layers meet laterally as the right triangular ligament. Shown cut where the peritoneum left the liver for the diaphragm.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.06,
+        80.0,
+        0.2,
+        0
+      ]
+    },
+    {
+      "name": "Right triangular ligament",
+      "group": "Liver ligaments",
+      "color": "#e3d4c3",
+      "description": "Right triangular ligament: the short lateral fold where the superior and inferior layers of the coronary ligament meet at the apex of the bare area, attaching the right lobe to the diaphragm.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.06,
+        80.0,
+        0.2,
+        0
+      ]
+    },
+    {
+      "name": "Falciform ligament",
+      "group": "Liver ligaments",
+      "color": "#dcc8b8",
+      "description": "Falciform ligament: a sickle-shaped double fold of peritoneum attaching the anterior and superior surfaces of the liver to the diaphragm and the anterior abdominal wall down to the umbilicus. It marks the division between the anatomical right and left lobes on the diaphragmatic surface. Its free lower border contains the round ligament (ligamentum teres) and the small paraumbilical veins; superiorly its two layers separate - the right joins the superior layer of the coronary ligament, the left the anterior layer of the left triangular ligament. It is a ventral mesentery derivative and is cut here where it met the body wall.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.06,
+        80.0,
+        0.2,
+        0
+      ]
+    },
+    {
+      "name": "Left triangular ligament",
+      "group": "Liver ligaments",
+      "color": "#e3d4c3",
+      "description": "Left triangular ligament: a double fold of peritoneum attaching the superior surface of the left lobe to the diaphragm. Its anterior layer is continuous with the left layer of the falciform ligament, its posterior layer with the lesser omentum; its free left end often contains a fibrous remnant of liver tissue (appendix fibrosa hepatis). It is divided to mobilise the left lobe at operation.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.06,
+        80.0,
+        0.2,
+        0
+      ]
+    },
+    {
+      "name": "Round ligament of liver (ligamentum teres)",
+      "group": "Liver ligaments",
+      "color": "#efe3c6",
+      "description": "Round ligament of the liver (ligamentum teres hepatis): the fibrous remnant of the left umbilical vein, which in the fetus carried oxygenated blood from the placenta to the left branch of the portal vein and on through the ductus venosus. It runs in the free edge of the falciform ligament from the umbilicus to the notch in the inferior border, then in the fissure for the ligamentum teres to the left branch of the portal vein. In portal hypertension the paraumbilical veins that run with it reopen and carry portal blood to the veins of the abdominal wall around the umbilicus (caput medusae); the ligament can also be recanalised for access to the portal system.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        60.0,
+        0.15,
+        1
+      ]
+    },
+    {
+      "name": "Ligamentum venosum",
+      "group": "Liver ligaments",
+      "color": "#d9c9a9",
+      "description": "Ligamentum venosum: the fibrous remnant of the ductus venosus, which in the fetus shunted placental blood from the left branch of the portal vein past the liver sinusoids into the inferior vena cava. It lies deep in the fissure for the ligamentum venosum, between the caudate and left lobes, and the lesser omentum attaches along the fissure. The ductus closes within days of birth; failure of closure is a congenital portosystemic shunt.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        60.0,
+        0.15,
+        1
+      ]
+    },
+    {
+      "name": "Fundus of gallbladder",
+      "group": "Gallbladder & bile ducts",
+      "color": "#4f8048",
+      "description": "Fundus of the gallbladder: the rounded blind end that projects beyond the inferior border of the liver and touches the anterior abdominal wall at the tip of the ninth costal cartilage, where the right midclavicular line meets the costal margin. Here an inflamed gallbladder is felt: pressure during deep inspiration stops the breath with pain (Murphy's sign). A fundus folded over on itself is the benign 'Phrygian cap' variant.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Body of gallbladder",
+      "group": "Gallbladder & bile ducts",
+      "color": "#487a43",
+      "description": "Body of the gallbladder: the main part of the pear-shaped sac (7-10 cm long, ~50 mL), lying in the gallbladder fossa on the visceral surface of the liver, covered by peritoneum on its free surface and resting on the transverse colon and the first and second parts of the duodenum - through which a large gallstone can erode (cholecystoenteric fistula, gallstone ileus). The gallbladder stores bile and concentrates it 5-10 times by absorbing salt and water across its simple columnar epithelium; cholecystokinin, released by fat in the duodenum, contracts it.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Neck of gallbladder",
+      "group": "Gallbladder & bile ducts",
+      "color": "#41703d",
+      "description": "Neck of the gallbladder: the narrow, S-shaped end pointing towards the porta hepatis. Its mucosa forms variable mucosal folds near the cystic duct, and a pouch on its inferior wall (Hartmann's pouch) is where gallstones commonly lodge, blocking the outflow: biliary colic, and acute cholecystitis if the obstruction persists. A stone impacted here can compress the common hepatic duct and cause jaundice (Mirizzi syndrome).",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Cystic duct",
+      "group": "Gallbladder & bile ducts",
+      "color": "#b1c948",
+      "description": "Cystic duct: joins the neck of the gallbladder to the common hepatic duct, usually on its right side, to form the (common) bile duct. The mucosal folds of Heister are variable separate oblique or transverse crescents, represented here by four folds projecting into the lumen. With the common hepatic duct and the inferior surface of the liver it bounds the cystohepatic triangle (Calot's triangle), which contains the cystic artery and the cystic lymph node; the 'critical view of safety' in laparoscopic cholecystectomy clears this triangle so that only two structures - cystic duct and cystic artery - are seen entering the gallbladder before they are clipped, protecting the bile duct from injury.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Right hepatic duct",
+      "group": "Gallbladder & bile ducts",
+      "color": "#a9c43a",
+      "description": "Right hepatic duct: drains bile from the right liver (Couinaud segments V-VIII) through its anterior and posterior sectoral ducts, emerging from the porta hepatis to join the left hepatic duct. It is short (~1 cm) and runs almost vertically. Bile flows from hepatocytes into canaliculi, then canals of Hering, interlobular ducts in the portal triads, and so to the hepatic ducts - opposite to the flow of blood.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Left hepatic duct",
+      "group": "Gallbladder & bile ducts",
+      "color": "#a9c43a",
+      "description": "Left hepatic duct: drains the left liver (segments II-IV) and the left part of the caudate lobe. Longer (~2 cm) and more horizontal than the right, it runs along the base of the quadrate lobe to the confluence at the right end of the porta hepatis. A tumour of the confluence (hilar cholangiocarcinoma, Klatskin tumour) obstructs both ducts and causes painless jaundice.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Common hepatic duct",
+      "group": "Gallbladder & bile ducts",
+      "color": "#a9c43a",
+      "description": "Common hepatic duct: formed at the porta hepatis by the union of the right and left hepatic ducts; about 3 cm long, it descends in the free edge of the lesser omentum (hepatoduodenal ligament), to the right of the hepatic artery proper and in front of the portal vein, until the cystic duct joins it. It forms the left border of Calot's triangle; misidentifying it as the cystic duct is the classic cause of bile duct injury at cholecystectomy.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Common bile duct",
+      "group": "Gallbladder & bile ducts",
+      "color": "#9dba30",
+      "description": "Common bile duct (bile duct): 6-8 cm long and up to ~6 mm wide, formed by the cystic and common hepatic ducts. It has four parts: supraduodenal (in the free edge of the lesser omentum, right-anterior to the portal vein, with the hepatic artery on its left - the portal triad felt in the Pringle manoeuvre), retroduodenal (behind the first part of the duodenum), pancreatic (in a groove or tunnel in the back of the pancreatic head, in front of the IVC) and intraduodenal (oblique through the wall of the second part). It ends by joining the main pancreatic duct in the hepatopancreatic ampulla. A stone in the duct (choledocholithiasis) or a carcinoma of the pancreatic head blocks it: obstructive jaundice with pale stools, dark urine and itching.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Hepatopancreatic ampulla (of Vater)",
+      "group": "Gallbladder & bile ducts",
+      "color": "#bccd4f",
+      "description": "Hepatopancreatic ampulla (ampulla of Vater): the short dilatation within the wall of the second part of the duodenum where the bile duct and the main pancreatic duct unite, opening at the summit of the major duodenal papilla. Because bile and pancreatic juice share this common channel, a small gallstone impacted here can let bile reflux into the pancreatic duct and obstruct pancreatic outflow - gallstone pancreatitis - as well as blocking bile (jaundice). Ampullary carcinoma presents early with painless jaundice.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Sphincter of Oddi (hepatopancreatic sphincter)",
+      "group": "Gallbladder & bile ducts",
+      "color": "#b25a4c",
+      "description": "Hepatopancreatic sphincter (sphincter of Oddi): a complex of smooth muscle around the ampulla and the terminal bile and pancreatic ducts, independent of the duodenal muscle, with its own choledochal sphincter (on the bile duct - keeps it closed between meals so bile backs up the cystic duct into the gallbladder) and pancreatic sphincter. Cholecystokinin relaxes it as the gallbladder contracts; opioids (morphine) contract it. Endoscopic sphincterotomy (at ERCP) cuts it to extract bile duct stones; sphincter dysfunction causes biliary-type pain.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.08,
+        70.0,
+        0.35,
+        1
+      ]
+    },
+    {
+      "name": "Head of pancreas",
+      "group": "Pancreas",
+      "color": "#e4ba8b",
+      "description": "Head of the pancreas: the thickest part, lying in the C-shaped concavity of the duodenum, in front of the inferior vena cava and the left renal vein, at the level of L2. The bile duct runs in a groove or tunnel on its posterior surface, and the gastroduodenal and pancreaticoduodenal arteries on and around it. About 70% of pancreatic cancers arise here: compression of the bile duct gives painless obstructive jaundice with a palpable, non-tender gallbladder (Courvoisier's law); treatment is pancreaticoduodenectomy (Whipple operation). The pancreas is an exocrine gland (acini secrete digestive enzymes, duct cells secrete bicarbonate to neutralise acid chyme) and an endocrine gland (islets secrete insulin, glucagon and somatostatin).",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ]
+    },
+    {
+      "name": "Uncinate process of pancreas",
+      "group": "Pancreas",
+      "color": "#dcae7d",
+      "description": "Uncinate process: the hook-shaped extension of the lower part of the head that curves to the left behind the superior mesenteric vein (and often the artery), in front of the aorta and IVC. It develops from the ventral pancreatic bud, which rotates round the duodenum with the bile duct and fuses with the dorsal bud. A tumour here can involve the superior mesenteric vessels early.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ]
+    },
+    {
+      "name": "Neck of pancreas",
+      "group": "Pancreas",
+      "color": "#e9c294",
+      "description": "Neck of the pancreas: the short (~2 cm), narrow part joining the head to the body, lying in front of the portal vein, which is formed behind it by the union of the superior mesenteric and splenic veins. The pylorus lies in front of it. Its posterior surface is grooved by the portal vein, and surgeons tunnel behind the neck along this plane during pancreaticoduodenectomy.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ]
+    },
+    {
+      "name": "Body of pancreas",
+      "group": "Pancreas",
+      "color": "#e3b98a",
+      "description": "Body of the pancreas: runs to the left and slightly upward across the aorta, the origin of the superior mesenteric artery, the left crus of the diaphragm, the left suprarenal gland and the left kidney, forming the bed of the stomach behind the lesser sac. The splenic artery runs a tortuous course along its upper border and the splenic vein lies in a groove on its back. Because it lies across the vertebral column it is crushed in blunt upper-abdominal trauma (e.g. against a bicycle handlebar), causing traumatic pancreatitis or duct transection; a pseudocyst can form in the lesser sac.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ]
+    },
+    {
+      "name": "Tail of pancreas",
+      "group": "Pancreas",
+      "color": "#dbb183",
+      "description": "Tail of the pancreas: the narrow, mobile left end, lying in the splenorenal ligament with the splenic vessels and reaching the hilum of the spleen - it can be injured during splenectomy, causing a pancreatic fistula. Islets are most numerous in the tail.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ]
+    },
+    {
+      "name": "Main pancreatic duct",
+      "group": "Pancreas",
+      "color": "#ece27a",
+      "description": "Main pancreatic duct (duct of Wirsung): runs from the tail through the body and neck, turning downward in the head to join the bile duct in the hepatopancreatic ampulla (major papilla). Its lumen varies along its course; the head is represented here at about 2 mm. It receives short tributaries along its length. It carries ~1.5 L/day of alkaline, enzyme-rich pancreatic juice. Obstruction (a stone at the ampulla, a tumour, chronic pancreatitis strictures) raises pressure in the duct and activates enzymes within the gland - pancreatitis.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Accessory pancreatic duct",
+      "group": "Pancreas",
+      "color": "#e2d466",
+      "description": "Accessory pancreatic duct (duct of Santorini): drains the upper anterior part of the head, running from the main duct to the minor duodenal papilla. It is the persisting proximal part of the duct of the dorsal pancreatic bud, and it often communicates with the main duct, so it can act as a bypass when the main duct is blocked.",
+      "alpha": 1.0,
+      "category": "duct",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Duodenum: superior part (D1)",
+      "group": "Duodenum",
+      "color": "#e2a58f",
+      "description": "Superior (first) part of the duodenum: about 5 cm long, running from the pylorus to the right, upward and backward at L1 to the superior duodenal flexure beside the neck of the gallbladder. Its first 2 cm - the duodenal cap or ampulla - is mobile, intraperitoneal and smooth-walled inside; the rest is retroperitoneal. The bile duct, gastroduodenal artery and portal vein pass behind it. Most duodenal ulcers occur in the cap: a posterior ulcer can erode the gastroduodenal artery (major bleeding), an anterior one can perforate into the peritoneal cavity. The duodenum receives acid chyme from the stomach and neutralises it with bile, pancreatic bicarbonate and the alkaline mucus of its Brunner glands.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Duodenum: descending part (D2)",
+      "group": "Duodenum",
+      "color": "#dd9d88",
+      "description": "Descending (second) part of the duodenum: 7-10 cm long, running down on the right of L1-L3 in front of the hilum of the right kidney, wrapped round the head of the pancreas. It is opened here from the front to show its mucosa with circular folds and, on its posteromedial wall, the major duodenal papilla (bile and main pancreatic ducts) and the minor papilla above it (accessory pancreatic duct). The transverse colon crosses in front of it. It marks the embryological junction of foregut and midgut, at the papilla, and its blood supply changes there from the coeliac trunk to the superior mesenteric artery.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Duodenum: horizontal part (D3)",
+      "group": "Duodenum",
+      "color": "#e0a18b",
+      "description": "Horizontal (third) part of the duodenum: 6-8 cm long, crossing from right to left at L3 in front of the IVC and aorta and behind the superior mesenteric artery and vein. It can be compressed in the angle between the aorta and the superior mesenteric artery (SMA syndrome), typically after rapid weight loss, causing high intestinal obstruction.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Duodenum: ascending part (D4)",
+      "group": "Duodenum",
+      "color": "#dc9b86",
+      "description": "Ascending (fourth) part of the duodenum: about 2.5 cm long, rising on the left of the aorta to the duodenojejunal flexure at L2, which is suspended by the suspensory muscle of the duodenum (ligament of Treitz) - the landmark dividing upper from lower gastrointestinal bleeding and the point from which the small bowel is run at laparotomy. Malrotation places the flexure to the right of the midline.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Duodenal mucosa (circular folds)",
+      "group": "Duodenum",
+      "color": "#c9665d",
+      "description": "Duodenal mucosa with circular folds (plicae circulares): permanent transverse folds of mucosa and submucosa, crescent-shaped, that begin in the second part and become taller and more crowded in the jejunum; with villi and microvilli they multiply the absorptive surface. The first part (the cap) is smooth. Histology: simple columnar epithelium with goblet cells on villi, and duodenal (Brunner) glands in the submucosa secreting alkaline mucus. A longitudinal fold runs down from the major papilla.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.12,
+        115.0,
+        0.75,
+        0
+      ]
+    },
+    {
+      "name": "Major duodenal papilla",
+      "group": "Duodenum",
+      "color": "#dc877c",
+      "description": "Major duodenal papilla: the nipple-like mound on the posteromedial wall of the descending (second) part of the duodenum, about 7-10 cm from the pylorus, where the hepatopancreatic ampulla opens. A hooding fold lies over it and a longitudinal fold runs down from it - the landmarks used to cannulate it at ERCP. Bile and pancreatic juice enter the duodenum here: bile salts emulsify fat into small droplets, giving pancreatic lipase a much larger surface to act on.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.12,
+        115.0,
+        0.75,
+        0
+      ]
+    },
+    {
+      "name": "Minor duodenal papilla",
+      "group": "Duodenum",
+      "color": "#dc877c",
+      "description": "Minor duodenal papilla: a smaller mound about 2 cm above and slightly in front of the major papilla, where the accessory pancreatic duct (of Santorini) opens. In pancreas divisum (~7% of people; the dorsal and ventral pancreatic ducts fail to fuse) most of the pancreas drains through this small opening, which can cause recurrent pancreatitis.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.12,
+        115.0,
+        0.75,
+        0
+      ]
+    },
+    {
+      "name": "Pylorus (cut end of stomach)",
+      "group": "Stomach & jejunum (cut ends)",
+      "color": "#d9998a",
+      "description": "Pylorus and pyloric antrum of the stomach (cut): the pyloric canal ends at the pyloric sphincter, a thickening of the circular smooth muscle that meters chyme into the duodenum and prevents duodenogastric reflux. Its position is the transpyloric plane (L1), a key abdominal landmark. Hypertrophy of this muscle in infants (pyloric stenosis) causes projectile vomiting and a palpable 'olive'.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Jejunum (cut)",
+      "group": "Stomach & jejunum (cut ends)",
+      "color": "#dea28f",
+      "description": "Jejunum (cut): the small intestine continues from the duodenojejunal flexure as the jejunum, now suspended on the mesentery; it has thicker walls, taller and denser circular folds and fewer arterial arcades than the ileum.",
+      "alpha": 1.0,
+      "category": "organ",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        100.0,
+        0.7,
+        0
+      ]
+    },
+    {
+      "name": "Hepatic veins",
+      "group": "Veins",
+      "color": "#3160b5",
+      "description": "Hepatic veins (right, middle and left): short, valveless veins that run between the liver's portal territories - the middle vein in Cantlie's plane between the functional right and left liver - collecting blood from the central veins of the lobules, and open into the inferior vena cava just below the diaphragm, with extra small veins from the caudate lobe. They are the liver's only venous outflow, embedded in the parenchyma without surrounding connective tissue. Their obstruction (Budd-Chiari syndrome) causes painful hepatomegaly and ascites; in right heart failure back-pressure through them gives the 'nutmeg liver'.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 1.7,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Hepatic portal vein",
+      "group": "Veins",
+      "color": "#6a57b3",
+      "description": "Hepatic portal vein: about 8 cm long, formed behind the neck of the pancreas at L1-L2 by the union of the superior mesenteric and splenic veins. It ascends behind the first part of the duodenum and then in the free edge of the lesser omentum, behind the bile duct and hepatic artery (forming the anterior boundary of the omental foramen), and divides at the porta hepatis into right and left branches that ramify with the arteries and ducts to the portal triads. It brings ~75% of the liver's blood (nutrient-rich, low-oxygen blood from the gut, spleen, pancreas and gallbladder) - hepatic artery and portal blood mix in the sinusoids and drain to the central veins. Portal hypertension (usually cirrhosis) opens portosystemic anastomoses: oesophageal and gastric varices (left gastric to oesophageal veins), rectal varices, caput medusae (paraumbilical veins) and retroperitoneal collaterals, with splenomegaly and ascites.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Splenic vein",
+      "group": "Veins",
+      "color": "#6a57b3",
+      "description": "Splenic vein: drains the spleen, running from the splenic hilum to the right in a groove on the posterior surface of the tail and body of the pancreas, receiving short pancreatic veins, the short gastric and left gastro-omental veins and usually the inferior mesenteric vein, and joining the superior mesenteric vein behind the neck of the pancreas. Splenic vein thrombosis (from pancreatitis or pancreatic cancer) causes isolated gastric varices ('left-sided' portal hypertension).",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Superior mesenteric vein",
+      "group": "Veins",
+      "color": "#6a57b3",
+      "description": "Superior mesenteric vein: drains the small intestine, caecum, ascending and transverse colon, head of the pancreas and part of the stomach. It ascends in the root of the mesentery to the right of the superior mesenteric artery, crosses in front of the third part of the duodenum and the uncinate process, and joins the splenic vein behind the neck of the pancreas to form the portal vein.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Inferior mesenteric vein",
+      "group": "Veins",
+      "color": "#6a57b3",
+      "description": "Inferior mesenteric vein: drains the left colon, sigmoid and upper rectum; it ascends to the left of the duodenojejunal flexure and ends behind the body of the pancreas, usually in the splenic vein (or in the superior mesenteric vein or the confluence). Its rectal tributaries form a portosystemic anastomosis with the middle and inferior rectal veins.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Inferior vena cava",
+      "group": "Veins",
+      "color": "#3160b5",
+      "description": "Inferior vena cava: returns blood from the lower body, ascending on the right of the vertebral column, behind the head of the pancreas, the bile duct and the portal vein (forming the posterior boundary of the omental foramen), and then in a deep groove on the bare area of the liver, where it receives the hepatic veins before piercing the central tendon of the diaphragm at T8 to enter the right atrium.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Abdominal aorta",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Abdominal aorta: enters the abdomen through the aortic hiatus at T12 and descends on the left of the vertebral bodies, giving the coeliac trunk (T12) and the superior mesenteric artery (L1) - the arteries of the foregut and midgut - behind the pancreas.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Coeliac trunk",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Coeliac trunk: the artery of the foregut, a 1-2 cm trunk arising from the front of the aorta at T12 just above the pancreas, dividing into the left gastric, splenic and common hepatic arteries. It supplies the liver, gallbladder, stomach, spleen, the upper duodenum and much of the pancreas.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Common hepatic artery",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Common hepatic artery: runs to the right from the coeliac trunk along the upper border of the head of the pancreas, behind the lesser sac, and divides into the gastroduodenal artery and the hepatic artery proper. The liver gets ~25% of its blood but about half of its oxygen from the hepatic artery.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Hepatic artery proper",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Hepatic artery proper: continues from the common hepatic artery after the gastroduodenal branch, gives the right gastric artery, and ascends in the hepatoduodenal ligament, to the left of the bile duct and in front of the portal vein, dividing near the porta hepatis into right and left hepatic arteries. Compressing the free edge of the lesser omentum (Pringle manoeuvre) stops hepatic arterial and portal inflow during liver bleeding.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Right hepatic artery",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Right hepatic artery: usually passes behind the common hepatic duct into Calot's triangle, where it gives the cystic artery, and enters the right liver. In ~15% of people it arises instead from the superior mesenteric artery (replaced right hepatic artery) and runs behind the portal vein - important in cholecystectomy and pancreatic surgery.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Left hepatic artery",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Left hepatic artery: runs to the left along the porta hepatis to the left liver, giving a branch to the caudate lobe and often the middle hepatic artery to segment IV. It may arise from the left gastric artery (replaced left hepatic artery, ~10%).",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Cystic artery",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Cystic artery: usually arises from the right hepatic artery in Calot's triangle and runs to the neck of the gallbladder, dividing into superficial and deep branches over its free and hepatic surfaces. It is an end artery: inflammation and distension of the gallbladder can compromise it, leading to gangrene and perforation in acute cholecystitis. It is clipped with the cystic duct at cholecystectomy.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Gastroduodenal artery",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Gastroduodenal artery: arises from the common hepatic artery and descends behind the first part of the duodenum, dividing into the right gastro-omental and the superior pancreaticoduodenal arteries, which supply the pancreatic head and duodenum and anastomose with the inferior pancreaticoduodenal arteries from the SMA. A posterior duodenal ulcer erodes it, causing massive haematemesis or melaena.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Splenic artery",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Splenic artery: the largest branch of the coeliac trunk, running a tortuous course to the left along the upper border of the pancreas, supplying the pancreatic body and tail (dorsal and great pancreatic arteries) and giving the short gastric and left gastro-omental arteries before entering the splenic hilum. A common site of visceral aneurysm and of erosion by pancreatic pseudocysts.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Left gastric artery (cut)",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Left gastric artery (cut): the smallest branch of the coeliac trunk, running up to the cardia and then along the lesser curvature of the stomach; it gives oesophageal branches, and its vein (the left gastric or coronary vein) is the route of oesophageal varices in portal hypertension.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Superior mesenteric artery",
+      "group": "Arteries",
+      "color": "#c9312c",
+      "description": "Superior mesenteric artery: the artery of the midgut, arising from the aorta at L1 about 1 cm below the coeliac trunk. It passes behind the neck of the pancreas and then in front of the uncinate process and the third part of the duodenum into the root of the mesentery, with the superior mesenteric vein on its right. Embolism to it causes acute mesenteric ischaemia - pain out of proportion to the examination.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    }
+  ]
+}

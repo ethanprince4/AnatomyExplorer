@@ -1,7 +1,7 @@
-// Install-Anatomy-Explorer-Windows.exe, the program new Windows users download. The Windows installer is bigger than
+// Install-Layered-Human-Windows.exe, the program new Windows users download. The Windows installer is bigger than
 // GitHub allows in one file, so a release carries it in parts. This program downloads them with one progress bar,
 // checks each part's SHA-256 as it arrives and writes them straight into one installer file. It then opens the
-// installer, and deletes the download once Anatomy Explorer is installed. Run again after a stop, it carries on where
+// installer, and deletes the download once Layered Human is installed. Run again after a stop, it carries on where
 // the download left off.
 //
 // Release.cs, written by packaging/prepare_release_assets.py for each release, says where the parts are and what they
@@ -48,7 +48,7 @@ static class Program
     static int Main(string[] args)
     {
         string root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                                   "AnatomyExplorer-download");
+                                   "LayeredHuman-download");
         string status = null;
         bool downloadOnly = false;
         for (int i = 0; i < args.Length; i++)
@@ -287,7 +287,7 @@ class InstallerForm : Form
     bool Request(FileStream file, SHA256 sha, Part part, long start, ref long have)
     {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Release.Base + "/" + part.Name);
-        request.UserAgent = "AnatomyExplorer-installer/" + Release.Version;
+        request.UserAgent = "LayeredHuman-installer/" + Release.Version;
         request.Timeout = 30000;
         request.ReadWriteTimeout = 60000;
         if (have > 0) request.AddRange(have);

@@ -13,7 +13,11 @@ STAGE = ROOT / "packaging" / "build" / "stage"
 VERSION = os.environ.get("APP_VERSION", "0.0.0")
 CHANNEL = os.environ.get("APP_CHANNEL", "stable")
 RELEASE_TAG = os.environ.get("APP_RELEASE_TAG", f"v{VERSION}")
-APP_NAME = "Anatomy Explorer Experimental" if CHANNEL == "experimental" else "Anatomy Explorer"
+APP_NAME = "Layered Human Experimental" if CHANNEL == "experimental" else "Layered Human"
+sys.path.insert(0, str(ROOT / "packaging"))
+from release_storage import ci_links_enabled
+LINK_MODEL_DATA = ci_links_enabled()
+DEFERRED_SEED = []
 
 # Everything the app reads at run time. Personal data (data/user), the raw Z-Anatomy source and scratch output are
 # never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py).
@@ -41,7 +45,13 @@ def data_files():
     if not seed and (ROOT / "data/local_model_library/library.json").is_file():
         seed = ROOT / "data/local_model_library"
     if seed:
-        out.extend(seed_files(seed, STAGE / "release-seeds"))
+        selected = seed_files(seed, STAGE / "release-seeds", link_assets=LINK_MODEL_DATA)
+        if LINK_MODEL_DATA:
+            # COLLECT/BUNDLE otherwise copy the entire multi-GB library again.
+            # Install the same immutable files after their normal code collection.
+            DEFERRED_SEED.extend(selected)
+        else:
+            out.extend(selected)
     for rel in DATA_DIRS:
         if seed and rel in {"data/micro_cache", "data/models", "models"}:
             continue  # The post-only seed contains every selected model and companion.
@@ -166,20 +176,22 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name="AnatomyExplorer",
+    name="LayeredHuman",
     console=bool(os.environ.get("AE_CONSOLE_BUILD")),
     icon=icon,
     upx=False,
     target_arch="arm64" if sys.platform == "darwin" else None,
     codesign_identity=None,
 )
-coll = COLLECT(exe, a.binaries, a.datas, name="AnatomyExplorer", upx=False)
-
 if sys.platform == "darwin":
     app = BUNDLE(
-        coll,
+        # BUNDLE accepts EXE + TOCs directly. Building an unused COLLECT first
+        # allocated a second full application folder on the Mac runner.
+        exe, a.binaries, a.datas,
         name=APP_NAME + ".app",
         icon=icon,
+        # Retain the installed identity while CFBundleDisplayName and the .app
+        # filename use Layered Human.
         bundle_identifier="io.github.ethanprince4.anatomyexplorer" + (".experimental" if CHANNEL == "experimental" else ""),
         version=VERSION,
         info_plist={
@@ -192,3 +204,11 @@ if sys.platform == "darwin":
             "NSRequiresAquaSystemAppearance": False,
         },
     )
+else:
+    coll = COLLECT(exe, a.binaries, a.datas, name="LayeredHuman", upx=False)
+
+if DEFERRED_SEED:
+    from model_library_seed import install_seed_files
+    frozen_root = Path(app.name) / "Contents/Resources" if sys.platform == "darwin" else Path(coll.name) / "_internal"
+    install_seed_files(DEFERRED_SEED, frozen_root)
+    # build.py signs the final Mac app after adding these data and launcher aliases.

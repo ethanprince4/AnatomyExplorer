@@ -22,8 +22,8 @@ def main(argv=None):
     from .config import DATA_DIR, ROOT
     from .gpu.renderer import WGSL
     app = QApplication([])
-    app.setApplicationName("AnatomyExplorerRuntimeCheck")
-    app.setOrganizationName("AnatomyExplorerReleaseQA")
+    app.setApplicationName("LayeredHumanRuntimeCheck")
+    app.setOrganizationName("LayeredHumanReleaseQA")
     assert QColor("red").isValid()
     assert (DATA_DIR / "anatomy.json").exists()
     # the wgpu model renderer is on by default; without its shaders it would quietly fall back to OpenGL

@@ -18,11 +18,11 @@ echo Building 3D microanatomy models ^(about half a minute^)...
 ".venv\Scripts\python.exe" tools\build_micro.py || goto :error
 echo Creating desktop shortcut...
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-  "$s=(New-Object -ComObject WScript.Shell).CreateShortcut([Environment]::GetFolderPath('Desktop')+'\Anatomy Explorer.lnk');" ^
+  "$s=(New-Object -ComObject WScript.Shell).CreateShortcut([Environment]::GetFolderPath('Desktop')+'\Layered Human.lnk');" ^
   "$s.TargetPath='%~dp0.venv\Scripts\pythonw.exe'; $s.Arguments='-m app'; $s.WorkingDirectory='%~dp0';" ^
-  "$s.IconLocation='%~dp0app\resources\icon.ico'; $s.Description='Anatomy Explorer'; $s.Save()"
+  "$s.IconLocation='%~dp0app\resources\icon.ico'; $s.Description='Layered Human'; $s.Save()"
 echo.
-echo Done. Launch "Anatomy Explorer" from your desktop.
+echo Done. Launch "Layered Human" from your desktop.
 pause
 exit /b 0
 :error

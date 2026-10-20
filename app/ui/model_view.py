@@ -18,11 +18,12 @@ import numpy as np
 from PySide6.QtCore import QTimer, Qt, QUrl, Signal
 from PySide6.QtGui import QActionGroup
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QPushButton, QSlider,
-                               QScrollArea, QSplitter, QGridLayout, QToolButton, QVBoxLayout, QWidget)
+                               QScrollArea, QSplitter, QGridLayout, QToolButton, QVBoxLayout, QWidget, QWidgetAction)
 
 from ..actions import key_text
 from ..config import DEFAULT_SETTINGS
 from ..state import SceneState
+from ..terminology import american_text
 from ..viewer.dataset import ModelDataset
 from ..viewer.part_guide import load_part_guide
 from ..viewer.viewport import SECTION_NAMES, ModelViewport
@@ -30,6 +31,7 @@ from . import theme
 from .flow import FlowLayout
 from .outline import Outline, OutlineItem
 from .search_panel import normalized
+from .model_presentation import chooser_views, structure_family_title, view_title
 
 ROLE = Qt.UserRole + 1
 _LOG = logging.getLogger(__name__)
@@ -202,12 +204,106 @@ def model_intro(entry):
     return brief(summary, 150)
 
 
-def describe_view(name, rec):
+def catalogue_overview_name(model):
+    """Prefer a whole-scene camera over a saved specialty opening in the catalogue.
+
+    Keep the author's camera and visibility record intact. Models with a broad
+    opening under another name (a folded wall or an anterior eye) retain it.
+    Explicit lesson, practice and reference views do not use this resolver.
+    """
+    cameras = getattr(model, "cameras", {})
+    names = [name for name in getattr(model, "camera_order", ()) if name in cameras]
+    names.extend(name for name in cameras if name not in names)
+    start = getattr(model, "sidecar", {}).get("start_view")
+    overviews = []
+    for name in names:
+        title = re.sub(r"^\d+\s*[.:\-]?\s*", "", name).casefold().strip()
+        if ":" not in title and (title in {"overview", "whole model", "whole block", "whole node", "home"}
+                                or title.endswith(" overview") or title.startswith("family overview")):
+            overviews.append(name)
+    if start in overviews:
+        return start
+    return next(iter(overviews), start if start in cameras else next(iter(names), None))
+
+
+def install_catalogue_home(model, model_id, *, cutaway=False):
+    """Add a whole teaching-display view without changing any authored preset.
+
+    Detached insets belong in the catalogue opening. Restoration covers still
+    leave their teaching windows open; the kidney's separately registered
+    source export remains available in its own named views. The heart keeps
+    its explicitly requested Overview mask.
+    """
+    overview = catalogue_overview_name(model)
+    if not getattr(model, "sidecar", {}).get("local_library") or model_id == "whole_heart":
+        return overview
+    if overview is None:
+        return None
+    record = deepcopy(model.cameras[overview])
+    opening_angles = {
+        "female_reproductive": (45.0, 18.0),
+        "skeletal_muscle": (65.0, 18.0),
+        "stomach_wall": (15.0, 18.0),
+    }
+    if model_id in opening_angles:
+        # Face the exposed teaching surfaces while retaining the full model.
+        yaw, pitch = np.radians(opening_angles[model_id])
+        target = np.asarray(record["target"], dtype=float)
+        distance = np.linalg.norm(np.asarray(record["position"], dtype=float) - target)
+        direction = np.array([np.cos(pitch)*np.sin(yaw), np.sin(pitch), np.cos(pitch)*np.cos(yaw)])
+        record["position"] = (target + distance*direction).tolist()
+        record["up"] = [0, 1, 0]
+    authored_hidden = set(record.get("hidden") or ())
+    hidden = []
+    for item in model.items:
+        key = str(item.key)
+        name = key.casefold()
+        cover = key in authored_hidden and any(text in name for text in
+            ("restoration cover", "dissection cover", "anterior cover:", "wall cover", "cytoplasmic caps"))
+        source_export = model_id == "kidney_nephron" and key.startswith("Source section /")
+        if cover or source_export:
+            hidden.append(key)
+    # These specimens already expose their teaching anatomy in the geometry.
+    # An additional corner cut removes useful detail from their opening view.
+    cutaway = cutaway and model_id not in {"skeletal_muscle", "stomach_wall", "duodenum"}
+    record.update(hidden=hidden, cut_on=bool(cutaway), group="Overview",
+                  note="The full teaching model, including its separate detail displays.")
+    record.pop("state", None)
+    name = "Full teaching model"
+    model.cameras[name] = record
+    model.camera_order = [name] + [key for key in model.camera_order if key != name]
+    return name
+
+
+def catalogue_inset_indices(model, model_id):
+    """Detached displays that must survive the main specimen's corner cut.
+
+    These are authored, already opened teaching specimens. A cut at the main
+    specimen's origin can otherwise discard an entire off-origin display.
+    """
+    groups = {
+        "spleen": ("Filtering detail",),
+        "tooth": ("Adult tooth types", "Coronal dentin-pulp histology"),
+        "thin_skin": ("cellular field", "unilocular cell field"),
+        "thick_skin": ("cellular detail", "Epidermal detail"),
+        "kidney_nephron": ("Nephron /",),
+        "male_reproductive": ("(inset,",),
+        "female_reproductive": ("Magnified:", "Mammary gland (breast)"),
+        "ear": ("Inset:",),
+        "jejunum": ("Representative epithelial field", "Retained villus fields"),
+        "colon_wall": ("Cell detail",),
+        "pancreas": ("Teaching ",),
+        "neuron": ("Node detail", "Synapse:"),
+    }.get(model_id, ())
+    return {item.index for item in model.items if any(text in item.group for text in groups)}
+
+
+def describe_view(name, rec, model_id=None):
     """A reader's name for a stored camera: its own note or name, else the direction it looks from."""
     if rec.get("note") and len(name) > 3:
-        return name
+        return view_title(model_id, name, rec)
     if len(name) > 3:
-        return name
+        return view_title(model_id, name, rec)
     pos, tgt = np.asarray(rec["position"], float), np.asarray(rec["target"], float)
     d = pos - tgt
     d /= max(np.linalg.norm(d), 1e-12)
@@ -255,7 +351,11 @@ class ModelView(QWidget):
             from ..viewer.procedural import cutaway_planes
             self.gl_widget.cut_planes = cutaway_planes(cut)
             self.gl_widget.cut_on = False
-        self._view_names = list(m.camera_order)
+        self._catalogue_home_view = install_catalogue_home(m, entry.id,
+            cutaway=self.gl_widget.cut_planes is not None)
+        self._authored_item_clips = tuple(getattr(item, "clip", True) for item in m.items)
+        self._catalogue_inset_ids = catalogue_inset_indices(m, entry.id) if m.sidecar.get('local_library') else set()
+        self._view_names = chooser_views(entry.id, m.camera_order)
 
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -313,6 +413,20 @@ class ModelView(QWidget):
         self.studio.section.setMenu(self.section_btn.menu())
         self.studio.hideRequested.connect(self.hide_selection)
         self.studio.set_stored_views(self._view_names,self.vmodel.cameras,self.set_named_view,entry.id)
+        self.studio.simplify_model_controls()
+        self.selection_buttons=[self.studio.selection_isolate,self.studio.selection_hide]
+        if self.cut is not None:
+            self.studio.cutaway.setChecked(self.cut.isChecked())
+            self.studio.cutaway.toggled.connect(self.cut.setChecked)
+            self.cut.toggled.connect(self.studio.cutaway.setChecked)
+            self.studio.cutaway.show()
+        # Section adjustment belongs to the dock popup, alongside its plane
+        # actions, instead of reopening a second instrument on the right wall.
+        menu=self.section_btn.menu()
+        self.section_position_action=QWidgetAction(menu)
+        self.section_position_action.setDefaultWidget(self.section_bar)
+        self.section_position_action.setVisible(False)
+        menu.insertAction(menu.actions()[-2],self.section_position_action)
 
         g = self.gl_widget
         g.structureClicked.connect(self._clicked)
@@ -355,20 +469,30 @@ class ModelView(QWidget):
             self.studio.set_loading(not getattr(g,'interactive_ready',False),getattr(g,'graphics_error',''))
 
     def _graphics_ready(self):
+        if not getattr(self, '_initial_home_framed', False):
+            self._initial_home_framed = True
+            if not (self.studio._lesson_mode or self.studio._reference_mode or self.studio._practice):
+                # Constructor-time sizes precede the real window layout, and
+                # runtime opening presets may replace that early camera fit.
+                self.studio.arrange()
+                self._frame_home_composition(False)
+                self.gl_widget.camera.snap()
+                self.gl_widget.invalidate_labels()
         self.studio.set_loading(False)
 
     def _graphics_failed(self,message):
         self.studio.set_loading(True,error=message)
 
-    def _fully_visible(self, *, authored_start=False):
+    def _fully_visible(self, *, authored_start=False, start_view=None, catalogue_home=False):
         state=self.state
+        self._set_catalogue_clipping(catalogue_home)
         # Some review GLBs author an opening camera whose hidden list is part
         # of the intended starting composition. Preserve that mask only when
         # the sidecar explicitly opts in and the named camera actually owns a
         # hidden list. Procedural recipe masks apply only when resetting to
         # their authored start view; lesson focus can still clear all filters.
         sidecar = getattr(self.vmodel, "sidecar", {}) or {}
-        start_view = sidecar.get("start_view")
+        start_view = start_view or sidecar.get("start_view")
         if authored_start and not start_view and "V1" in getattr(self.vmodel,"cameras",{}):start_view="V1"
         start_record = (getattr(self.vmodel, "cameras", {}) or {}).get(start_view, {})
         preserve_start_visibility = (
@@ -382,7 +506,7 @@ class ModelView(QWidget):
         state.opaque_materials=False
         procedural_start=(authored_start and getattr(self.vmodel,"kind",None)=="procedural"
                           and isinstance(start_record,dict) and "hidden" in start_record)
-        if procedural_start:
+        if catalogue_home or procedural_start:
             hidden=set(start_record.get("hidden") or ())
             state.hidden[:]=[getattr(item,"key",None) in hidden for item in self.vmodel.items]
         elif not preserve_start_visibility:
@@ -392,8 +516,9 @@ class ModelView(QWidget):
         state.system_alpha[:]=1.0
         _,state.part_alpha=tissue_opacity(self.vmodel,getattr(getattr(self,'entry',None),'id',''))
         state.depth_cut=0.0;state.depth_band=0.0
-        self.gl_widget.cut_on=False
-        if getattr(self,'cut',None) is not None:self.cut.setChecked(False)
+        self.gl_widget.cut_on=bool(catalogue_home and self.gl_widget.cut_planes is not None
+                                  and start_record.get("cut_on", True))
+        if getattr(self,'cut',None) is not None:self.cut.setChecked(self.gl_widget.cut_on)
         if getattr(self,'opacity',None) is not None:self.opacity.setValue(100)
         self.clear_sections()
         state._vis_dirty()
@@ -511,7 +636,10 @@ class ModelView(QWidget):
         except Exception as exc:
             self.runtime_opening_error = str(exc)
         finally:
-            self._fully_visible(authored_start=True)
+            if getattr(self, "studio", None) is not None and self._catalogue_overview_context():
+                self.reset_view(animate=False)
+            else:
+                self._fully_visible(authored_start=True)
             self.state.clear_selection()
             self._show_selection()
             self.runtime_opening_done = True
@@ -604,20 +732,7 @@ class ModelView(QWidget):
         self.selection_status.setStyleSheet(theme.text_css(theme.TEXT_2, theme.FS_SMALL))
         sl.addWidget(self.selection_status)
         self.selection_status.hide()
-        row = FlowLayout(spacing=6)
         self.selection_buttons = []
-        for text, fn, tip in (("Isolate", self._isolate_current, "Show only the highlighted part or group (I)"),
-                              ("Hide", self._hide_current, "Hide the highlighted part or group (H)"),
-                              ("Show all", self.show_all, "Show every part again (Shift+H)")):
-            b = QPushButton(text)
-            b.setToolTip(tip)
-            b.clicked.connect(fn)
-            row.addWidget(b)
-            if text != "Show all":
-                b.setProperty("variant","primary")
-                b.setEnabled(False)
-                self.selection_buttons.append(b)
-        sl.addLayout(row)
         self.lessons_button = QPushButton("Related lessons")
         self.lessons_button.setAccessibleName("Browse authored lessons for this model")
         self.lessons_button.clicked.connect(lambda: self.lessonsRequested.emit(self.entry.id))
@@ -636,7 +751,7 @@ class ModelView(QWidget):
         """Parts under plain categories (the model's guide, else its group keys' own "A / B" paths). A group of one
         part is that part's row; a larger group is a row of its parts. Copies of one structure that differ only by a
         number ("Lining cell 12", "Lining cell 12 nucleus") share one row per kind, so a group of 176 cells and nuclei
-        lists as three rows; a group that is all one kind is that row. Top-level categories start open."""
+        lists as three rows; a group that is all one kind is that row. Categories start collapsed."""
         self._sync = True
         self._search_text = {}             # id(row) -> normalised search text, filled lazily by _filter_tree
         self._sids_memo = {}               # id(row) -> its part ids (the tree is fixed once built)
@@ -650,13 +765,15 @@ class ModelView(QWidget):
         self.family_titles = {}            # frozenset of part ids -> title, for the selection label
         self.same_structure = {}           # part id -> every part id of its structure (meshes sharing a name)
         self.guide = load_part_guide(self.entry.id, set(getattr(self.content, "tissues", {}) or {}))
+        for group in self.vmodel.groups:
+            group.title = american_text(self.guide.titles.get(group.key, group.title))
         self.flat_parts = (len(self.vmodel.groups) == 1 and
                            self.vmodel.groups[0].title.casefold() == "parts")
         categories = {}
 
         def checkable(row, title, tip=""):
-            row.setText(0, title)
-            row.setData(0, Qt.AccessibleTextRole, title)
+            row.setText(0, american_text(title))
+            row.setData(0, Qt.AccessibleTextRole, american_text(title))
             if tip:
                 row.setToolTip(0, tip[:300])
             row.setCheckable(True)
@@ -674,7 +791,7 @@ class ModelView(QWidget):
                 return self.tree.invisibleRootItem()
             if path not in categories:
                 row = heading(OutlineItem(category(path[:-1])), path[-1], ("category", path))
-                row.setExpanded(len(path) == 1)
+                row.setExpanded(False)
                 categories[path] = row
                 self.category_items.append(row)
             return categories[path]
@@ -714,6 +831,9 @@ class ModelView(QWidget):
             path, title = self.guide.path(g.key, g.title)
             parent = category(path)
             kinds = structure_families([self.vmodel.items[i].name for i in g.items])
+            family = structure_family_title(self.entry.id, g.key)
+            if family:
+                kinds = [(family, list(range(len(g.items))), False)]
             if len(g.items) > 1 and len(kinds) == 1 and kinds[0][0] is not None and not kinds[0][2]:
                 family_row(parent, kinds[0][0], list(g.items), False)      # one structure, several meshes
             elif self.entry.id == "cardiac_muscle" or (len(g.items) > 1 and len(kinds) == 1 and
@@ -875,6 +995,16 @@ class ModelView(QWidget):
         self.selection_status.setText(label if selected else "Select a structure to read its details.")
         for button in self.selection_buttons:
             button.setEnabled(bool(selected) and self.click_hook is None)
+        if hasattr(self,'studio'):
+            enabled=bool(selected) and self.click_hook is None
+            self.studio.isolate.setEnabled(enabled)
+            self.studio.selection_isolate.setEnabled(enabled)
+            self.studio.selection_details.setEnabled(enabled)
+            can_hide=enabled and self._can_hide(selected)
+            for button in (self.studio.hide_selected,self.studio.selection_hide):
+                button.setEnabled(can_hide)
+                button.setToolTip('Show all before hiding the isolated selection' if enabled and not can_hide
+                                  else 'Hide the selected structure (H)')
         if not selected:
             self.tree.clearSelection()
         else:
@@ -912,10 +1042,7 @@ class ModelView(QWidget):
             self.state.isolate(sids)
 
     def _hide_current(self):
-        sids = self._current_or_selected()
-        if sids:
-            self.state.set_hidden(sids, True)
-            self._show_selection()
+        self.hide_selection()
 
     # ------------------------------------------------------------------ top bar
     def _bar(self):
@@ -943,10 +1070,10 @@ class ModelView(QWidget):
             named = all(len(n) > 3 for n in self._view_names)
             if named and len(self._view_names) <= 3 and all(len(n) <= 22 for n in self._view_names):
                 for n in self._view_names:
-                    b = QPushButton(n)
+                    b = QPushButton(view_title(self.entry.id, n, m.cameras[n]))
                     b.setCheckable(True)
                     rec = m.cameras[n]
-                    b.setToolTip(rec.get("note", n) + "  (Page Down / Page Up step through the views)")
+                    b.setToolTip(american_text(rec.get("note", n)) + "  (Page Down / Page Up step through the views)")
                     b.clicked.connect(lambda _=False, v=n: self.set_named_view(v))
                     bar.addWidget(b)
                     self.view_buttons[n] = b
@@ -957,16 +1084,16 @@ class ModelView(QWidget):
                 self.view_choice.setMinimumContentsLength(16)
                 self.view_choice.addItem("Choose a stored view", None)
                 for name in self._view_names:
-                    self.view_choice.addItem(describe_view(name, m.cameras[name]), name)
+                    self.view_choice.addItem(describe_view(name, m.cameras[name], self.entry.id), name)
                     self.view_choice.setItemData(self.view_choice.count() - 1,
-                                                 m.cameras[name].get("note", name), Qt.ToolTipRole)
+                                                 american_text(m.cameras[name].get("note", name)), Qt.ToolTipRole)
                 self.view_choice.activated.connect(lambda index: self.set_named_view(self.view_choice.itemData(index))
                                                    if self.view_choice.itemData(index) is not None else None)
                 bar.addWidget(labelled("View", self.view_choice))
         if m.has_teased:
             self.teased = QCheckBox("Teased")
             names = [n for n, st in m.states.items() if st["offsets"]]
-            self.teased.setToolTip((m.states[names[0]].get("description") or "Open the model's teased state") + " (T)")
+            self.teased.setToolTip(american_text(m.states[names[0]].get("description") or "Open the model's teased state") + " (T)")
             self.teased.toggled.connect(lambda on: g.show_state(names[0] if on else "assembled"))
             bar.addWidget(self.teased)
         else:
@@ -1013,7 +1140,7 @@ class ModelView(QWidget):
         self.explode.setRange(0, 100)
         self.explode.setFixedWidth(120)
         self.explode.valueChanged.connect(lambda v: (g.set_explode(v / 100.0), g.update()))
-        bar.addWidget(labelled("Separate layers" if m.kind == "procedural" else "Separate parts", self.explode))
+        bar.addWidget(labelled("Separate layers" if m.kind == "procedural" or getattr(m, "_native_layer_explode", False) else "Separate parts", self.explode))
         for text, fn, tip in (("X-ray others", self.toggle_xray, "Everything but the selection goes see-through (X)"),
                               ("Isolate", self.isolate_selection, "Show only the selection (I)"),
                               ("Show all", self.show_all, "Show every part (Shift+H)"),
@@ -1142,6 +1269,7 @@ class ModelView(QWidget):
         g = self.gl_widget
         box, s, f = self.section_rows[k]
         if on:
+            self._set_catalogue_clipping(False)
             if not f.isChecked() and k in (1, 2):
                 f.blockSignals(True)
                 f.setChecked(True)          # coronal from the front, transverse from above, as the atlas cuts
@@ -1157,6 +1285,8 @@ class ModelView(QWidget):
             a.blockSignals(False)
         box.setVisible(on)
         self.section_bar.setVisible(any(x is not None for x in g.sections))
+        if hasattr(self,'section_position_action'):
+            self.section_position_action.setVisible(any(x is not None for x in g.sections))
         self._mark_section()
         if hasattr(self, "studio"):
             if on:self.studio.show_card("section", True)
@@ -1198,7 +1328,7 @@ class ModelView(QWidget):
         anim = getattr(self.vmodel, "animation", None)
         self.play = QPushButton("Play")
         self.play.setCheckable(True)
-        self.play.setToolTip(f"Play the {(anim.title if anim else self.vmodel.clip.name).lower()} (Space)")
+        self.play.setToolTip(f"Play the {american_text(anim.title if anim else self.vmodel.clip.name).lower()} (Space)")
         self.play.toggled.connect(self._play_toggled)
         bar.addWidget(self.play)
         self.speed = QComboBox()
@@ -1243,7 +1373,7 @@ class ModelView(QWidget):
             self.scrub.setValue(int(round(f * 1000)) % 1001)
             self.scrub.blockSignals(False)
         anim = getattr(self.vmodel, "animation", None)
-        self.phase_label.setText(anim.phase_label(f) if anim is not None else "")
+        self.phase_label.setText(american_text(anim.phase_label(f)) if anim is not None else "")
 
     def hideEvent(self, e):
         # nothing animates behind another tab
@@ -1258,6 +1388,7 @@ class ModelView(QWidget):
         The caller first sets its case visibility, camera and labels. Subsequent
         Home/Show all commands return to that case, never the full library model.
         """
+        self._set_catalogue_clipping(False)
         g=self.gl_widget;camera=g.camera
         if getattr(camera,'animating',False) and callable(getattr(camera,'snap',None)):camera.snap()
         self._reference_baseline={
@@ -1305,17 +1436,36 @@ class ModelView(QWidget):
         g.update()
         return True
 
+    def _catalogue_overview_context(self):
+        studio = getattr(self, "studio", None)
+        return studio is not None and not any(getattr(studio, name, False)
+                                              for name in ("_lesson_mode", "_reference_mode", "_practice"))
+
+    def _set_catalogue_clipping(self, on):
+        originals = getattr(self, "_authored_item_clips", ())
+        insets = getattr(self, "_catalogue_inset_ids", ())
+        for item, original in zip(self.vmodel.items, originals):
+            item.clip = bool(original and not (on and item.index in insets))
+
     def reset_view(self, animate=True):
         if getattr(self,'_reference_baseline',None) is not None:
             return self.reset_reference_scene()
-        self.gl_widget.reset_view(animate=animate)
-        self._fully_visible(authored_start=True)
+        catalogue = self._catalogue_overview_context()
+        overview = (self._catalogue_home_view or catalogue_overview_name(self.vmodel)) if catalogue else None
+        if overview:
+            self.gl_widget.set_named_view(overview, animate=animate, visibility=True)
+        else:
+            self.gl_widget.reset_view(animate=animate)
+        standalone = catalogue and bool(getattr(self.vmodel, "sidecar", {}).get("local_library"))
+        self._fully_visible(authored_start=True, start_view=overview, catalogue_home=standalone)
+        if standalone:
+            self.explode.setValue(0)
         self._frame_home_composition(animate)
 
     def _frame_home_composition(self, animate=True):
         """Fit the current home-view visibility to the viewport with room for its fixed overlays.
 
-        The authored home camera still supplies direction and visibility. This only adjusts its target and framing;
+        The home record supplies direction and visibility. This only adjusts its target and framing;
         choosing a named/detail camera continues to use the authored record unchanged.
         """
         if getattr(getattr(self,'studio',None),'_lesson_mode',False):return
@@ -1336,11 +1486,48 @@ class ModelView(QWidget):
         aspect = g.aspect()
         distance = camera.fit_distance(radius * 1.15, aspect)
         ortho_width = camera.ortho_fit_width(lo, hi, aspect, camera.yaw, camera.pitch, radius) * 1.15
-        camera.animate_to((lo + hi) / 2.0, distance, camera.yaw, camera.pitch,
+        target = (lo + hi) / 2.0
+        insets = getattr(g, 'label_stage_insets', None)
+        if insets is not None and g.width() > 0 and g.height() > 0:
+            # Use the actual instrument-free rectangle rather than a fixed
+            # full-window margin. Wide specimens otherwise sit under the tree
+            # and Reveal controls even though they fit inside the viewport.
+            left, top, right, bottom = insets
+            width, height = g.width(), g.height()
+            if getattr(getattr(self, 'studio', None), '_annotation_mode', False):
+                for side_key, (x, _y, zone_width, _height) in getattr(g, 'label_caption_zones', {}).items():
+                    if side_key < 0:
+                        left = max(left, x+zone_width+24)
+                    else:
+                        right = max(right, width-x+24)
+            rx = max(.15, (width-left-right)/width) / 1.08
+            ry = max(.15, (height-top-bottom)/height) / 1.08
+            sx, sy = (left-right)/width, (bottom-top)/height
+            side, up, back = camera.basis()
+            corners = np.array([[x,y,z] for x in (lo[0],hi[0])
+                                for y in (lo[1],hi[1]) for z in (lo[2],hi[2])]) - target
+            cx, cy, cz = corners @ side, corners @ up, corners @ back
+            tx, ty = camera.half_tans(aspect)
+            if camera.ortho:
+                ortho_width = max(2*np.abs(cx).max()/(min(aspect,1)*rx),
+                                  2*np.abs(cy).max()*max(aspect,1)/ry,
+                                  camera.min_distance)
+                hx, hy = ortho_width/2*min(aspect,1), ortho_width/2/max(aspect,1)
+                distance = ortho_width/(2*max(tx,ty))
+            else:
+                distance = max(float(np.max(cz+np.abs(cx/tx+sx*cz)/rx)),
+                               float(np.max(cz+np.abs(cy/ty+sy*cz)/ry)), camera.min_distance)
+                hx, hy = distance*tx, distance*ty
+                ortho_width = 2*distance*max(tx,ty)
+            target = target-side*sx*hx-up*sy*hy
+        camera.animate_to(target, distance, camera.yaw, camera.pitch,
                           g.duration() if animate else 0.0, ortho_width=ortho_width)
         g.update()
 
     def set_named_view(self, name):
+        if name == "Full teaching model" and name == self._catalogue_home_view and self._catalogue_overview_context():
+            self.reset_view()
+            return
         self.gl_widget.set_named_view(name)
 
     def step_view(self, step):
@@ -1352,10 +1539,13 @@ class ModelView(QWidget):
         self.set_named_view(names[(i + step) % len(names)])
 
     def _view_changed(self, name):
+        self._set_catalogue_clipping(self._catalogue_overview_context()
+                                    and name == self._catalogue_home_view)
         self._current_view = name
         if hasattr(self,'studio'):
             index=self._view_names.index(name)+1 if name in self._view_names else None
-            self.studio.set_current_view(name, f'{name} · View {index} of {len(self._view_names)}' if index else '')
+            title = view_title(self.entry.id, name, self.vmodel.cameras.get(name))
+            self.studio.set_current_view(name, f'{title} · View {index} of {len(self._view_names)}' if index else '')
         choice = getattr(self, "view_choice", None)
         if choice is not None:
             choice.setCurrentIndex(max(0, choice.findData(name)))
@@ -1367,6 +1557,7 @@ class ModelView(QWidget):
                 previous = self.cut.blockSignals(True)
                 self.cut.setChecked(self.gl_widget.cut_on)
                 self.cut.blockSignals(previous)
+                self.studio.cutaway.setChecked(self.gl_widget.cut_on)
             for k, section in enumerate(self.gl_widget.sections):
                 self.set_section(k, section is not None)
 
@@ -1410,9 +1601,17 @@ class ModelView(QWidget):
             self.state.isolate(self.state.selected)
             self.gl_widget.frame_structures(self.state.selected)
 
+    def _can_hide(self,sids):
+        if not sids:return False
+        if self.state.isolated is None:return True
+        remaining=self.state.visible_mask().copy()
+        remaining[list(sids)]=False
+        return bool(remaining.any())
+
     def hide_selection(self):
-        if self.state.selected:
-            self.state.set_hidden(list(self.state.selected), True)
+        selected=list(self.state.selected)
+        if self._can_hide(selected):
+            self.state.set_hidden(selected, True)
             self._show_selection()
 
     def show_all(self):
@@ -1504,10 +1703,12 @@ class ModelView(QWidget):
             m.addAction("Frame", lambda: self.gl_widget.frame_structures(self.state.selected))
             m.addAction("X-ray others", self.toggle_xray)
             m.addAction("Isolate", self.isolate_selection)
-            m.addAction("Hide", self.hide_selection)
+            m.addAction("Hide", self.hide_selection).setEnabled(self._can_hide(list(self.state.selected)))
             g = self.vmodel.group_of(sid)
             if g is not None and len(g.items) > 1:
-                m.addAction(f"Hide all {g.title.lower()}", lambda: self.state.set_hidden(g.items, True))
+                action=m.addAction(f"Hide all {g.title.lower()}", lambda: self.state.set_hidden(g.items, True)
+                                   if self._can_hide(list(g.items)) else None)
+                action.setEnabled(self._can_hide(list(g.items)))
                 m.addAction(f"Select all {g.title.lower()}", lambda: (self.state.select(g.items), self._show_selection()))
             if it.atlas:
                 m.addAction("Show in the atlas", lambda: self.atlasRequested.emit(list(it.atlas)))
@@ -1536,11 +1737,11 @@ class ModelView(QWidget):
         bits.append(f"{int(st.visible_mask().sum()):,} of {len(m.items):,} parts visible")
         e = self.entry
         if e.kind == "procedural":
-            credit = "Anatomy Explorer · procedural model made for the app"
+            credit = "Layered Human · procedural model made for the app"
         elif e.id.startswith("file:"):
-            credit = f"Anatomy Explorer · {getattr(e, 'path', e.name)}"
+            credit = f"Layered Human · {getattr(e, 'path', e.name)}"
         else:
-            credit = "Anatomy Explorer · 3D model made for the app"
+            credit = "Layered Human · 3D model made for the app"
         return title, bits, credit
 
     # ------------------------------------------------------------------ lessons & practice

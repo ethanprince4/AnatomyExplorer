@@ -15,7 +15,7 @@ probe requests no Accessibility permission, touches no study app, and uploads
 synthetic JSONL only. A pass does not validate the user's external AX client or
 physical tree interaction.
 
-The separate `AnatomyExplorer-Mac-Diagnostic` artifact contains an ad-hoc signed
+The separate `LayeredHuman-Mac-Diagnostic` artifact contains an ad-hoc signed
 Apple-silicon app with Python/Qt/NumPy/ModernGL and packaged CA roots. It contains
 no anatomy geometry, model drafts, updater activation, installer, or personal
 data. Its default launch automatically collects GPU controls, runtime/DPR,
@@ -25,19 +25,19 @@ It compares default OpenSSL trust with explicit packaged roots without disabling
 verification. The default-trust control belongs to this diagnostic interpreter,
 not the original installed client's interpreter. It performs no tree crash probe.
 
-After its artifact is verified, extract `AnatomyExplorer-Mac-Diagnostic.zip` into
-Downloads and launch `Anatomy Explorer Diagnostic.app`. macOS may require the same
+After its artifact is verified, extract `LayeredHuman-Mac-Diagnostic.zip` into
+Downloads and launch `Layered Human Diagnostic.app`. macOS may require the same
 normal Open action as the existing ad-hoc app; no quarantine removal, security
 setting or new permission is part of these instructions. Alternatively the single
 Terminal command after extraction is:
 
 ```sh
-"$HOME/Downloads/Anatomy Explorer Diagnostic.app/Contents/MacOS/AnatomyExplorerDiagnostic"
+"$HOME/Downloads/Layered Human Diagnostic.app/Contents/MacOS/LayeredHumanDiagnostic"
 ```
 
 Allow approximately 30–90 seconds with working HTTPS; network timeouts can take
 up to three minutes per isolated task. The completion dialog gives the report
-location and Finder selects it: `/tmp/AnatomyExplorer-Diagnostic-*/report.json`
+location and Finder selects it: `/tmp/LayeredHuman-Diagnostic-*/report.json`
 (macOS may display the equivalent `/var/folders/.../T/` temporary path).
 Share that JSON manually. Nothing uploads automatically. No source checkout,
 Python install, Xcode, or study-app interaction is required. The diagnostic app

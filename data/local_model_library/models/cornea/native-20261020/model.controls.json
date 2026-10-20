@@ -1,0 +1,997 @@
+{
+  "native": {
+    "summary": "Preserved layered corneal teaching specimen with whole stellate-cell pocket refinement",
+    "metres_per_unit": 0.00055,
+    "viewer_cameras": {
+      "Overview": {
+        "position": [
+          2.8,
+          2.4,
+          3.4
+        ],
+        "target": [
+          0,
+          0.7,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": []
+      },
+      "Layer section": {
+        "position": [
+          -0.45,
+          0.7,
+          3
+        ],
+        "target": [
+          -0.45,
+          0.7,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.8,
+        "hidden": []
+      },
+      "Epithelium closeup": {
+        "position": [
+          -0.6,
+          1.35,
+          1.5
+        ],
+        "target": [
+          -0.6,
+          1.17,
+          0.05
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.68,
+        "hidden": [
+          "Stromal lamellae",
+          "Keratocytes",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves"
+        ]
+      },
+      "Stroma isolated": {
+        "position": [
+          -1.3,
+          1.6,
+          2
+        ],
+        "target": [
+          -0.55,
+          0.72,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.3,
+        "hidden": [
+          "Basal columnar cells",
+          "Limbal epithelial stem cells",
+          "Wing cells",
+          "Limbal epithelium (extra layers)",
+          "Superficial squamous cells",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Bowman layer",
+          "Epithelial basement membrane",
+          "Schwalbe line",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Subbasal plexus & free nerve endings"
+        ]
+      },
+      "Endothelium posterior": {
+        "position": [
+          -0.4,
+          -1,
+          1.7
+        ],
+        "target": [
+          -0.5,
+          0.23,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.15,
+        "hidden": [
+          "Basal columnar cells",
+          "Limbal epithelial stem cells",
+          "Wing cells",
+          "Limbal epithelium (extra layers)",
+          "Superficial squamous cells",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Bowman layer",
+          "Epithelial basement membrane",
+          "Stromal lamellae",
+          "Keratocytes",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ]
+      },
+      "Keratocytes alone": {
+        "type": "ORTHO",
+        "position": [
+          -1.5,
+          1.5,
+          2
+        ],
+        "target": [
+          -0.55,
+          0.7,
+          0
+        ],
+        "ortho_width": 1.4,
+        "hidden": [
+          "Basal columnar cells",
+          "Limbal epithelial stem cells",
+          "Wing cells",
+          "Limbal epithelium (extra layers)",
+          "Superficial squamous cells",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Bowman layer",
+          "Epithelial basement membrane",
+          "Stromal lamellae",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ]
+      },
+      "Epithelial section closeup": {
+        "type": "ORTHO",
+        "position": [
+          -0.55,
+          1.14,
+          3
+        ],
+        "target": [
+          -0.55,
+          1.14,
+          0.58
+        ],
+        "ortho_width": 0.68,
+        "hidden": [
+          "Limbal epithelial stem cells",
+          "Limbal epithelium (extra layers)",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Stromal lamellae",
+          "Keratocytes",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ]
+      },
+      "Keratocyte whole closeup": {
+        "type": "ORTHO",
+        "position": [
+          -0.35,
+          0.92,
+          0.22
+        ],
+        "target": [
+          -0.235,
+          0.764,
+          -0.012
+        ],
+        "ortho_width": 0.19,
+        "hidden": [
+          "Basal columnar cells",
+          "Limbal epithelial stem cells",
+          "Wing cells",
+          "Limbal epithelium (extra layers)",
+          "Superficial squamous cells",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Bowman layer",
+          "Epithelial basement membrane",
+          "Stromal lamellae",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ]
+      }
+    },
+    "start_view": "Overview",
+    "scale_note": "Vertical teaching scale 0.55mm/unit; laterally compressed specimen, enlarged representative cells; 22 stromal tiers.",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "cut_on": false,
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Vertical teaching scale 0.55mm/unit; laterally compressed specimen, enlarged representative cells; 22 stromal tiers."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "cornea_p2_refined_v4",
+      "display_name": "Cornea",
+      "summary": "Preserved layered corneal teaching specimen with whole stellate-cell pocket refinement",
+      "metres_per_unit": 0.00055,
+      "viewer_cameras": {
+        "Overview": {
+          "position": [
+            2.8,
+            2.4,
+            3.4
+          ],
+          "target": [
+            0,
+            0.7,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 2.8,
+          "hidden": []
+        },
+        "Layer section": {
+          "position": [
+            -0.45,
+            0.7,
+            3
+          ],
+          "target": [
+            -0.45,
+            0.7,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 1.8,
+          "hidden": []
+        },
+        "Epithelium closeup": {
+          "position": [
+            -0.6,
+            1.35,
+            1.5
+          ],
+          "target": [
+            -0.6,
+            1.17,
+            0.05
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.68,
+          "hidden": [
+            "Stromal lamellae",
+            "Keratocytes",
+            "Pre-Descemet (Dua) layer",
+            "Descemet membrane",
+            "Schwalbe line",
+            "Endothelium",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal vascular arcades",
+            "Sclera",
+            "Schlemm canal",
+            "Collector channels & aqueous veins",
+            "Trabecular meshwork",
+            "Stromal nerves"
+          ]
+        },
+        "Stroma isolated": {
+          "position": [
+            -1.3,
+            1.6,
+            2
+          ],
+          "target": [
+            -0.55,
+            0.72,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 1.3,
+          "hidden": [
+            "Basal columnar cells",
+            "Limbal epithelial stem cells",
+            "Wing cells",
+            "Limbal epithelium (extra layers)",
+            "Superficial squamous cells",
+            "Conjunctival goblet cells",
+            "Tear film",
+            "Bowman layer",
+            "Epithelial basement membrane",
+            "Schwalbe line",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal vascular arcades",
+            "Sclera",
+            "Schlemm canal",
+            "Collector channels & aqueous veins",
+            "Trabecular meshwork",
+            "Subbasal plexus & free nerve endings"
+          ]
+        },
+        "Endothelium posterior": {
+          "position": [
+            -0.4,
+            -1,
+            1.7
+          ],
+          "target": [
+            -0.5,
+            0.23,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 1.15,
+          "hidden": [
+            "Basal columnar cells",
+            "Limbal epithelial stem cells",
+            "Wing cells",
+            "Limbal epithelium (extra layers)",
+            "Superficial squamous cells",
+            "Conjunctival goblet cells",
+            "Tear film",
+            "Bowman layer",
+            "Epithelial basement membrane",
+            "Stromal lamellae",
+            "Keratocytes",
+            "Pre-Descemet (Dua) layer",
+            "Descemet membrane",
+            "Schwalbe line",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal vascular arcades",
+            "Sclera",
+            "Schlemm canal",
+            "Collector channels & aqueous veins",
+            "Trabecular meshwork",
+            "Stromal nerves",
+            "Subbasal plexus & free nerve endings"
+          ]
+        },
+        "Keratocytes alone": {
+          "type": "ORTHO",
+          "position": [
+            -1.5,
+            1.5,
+            2
+          ],
+          "target": [
+            -0.55,
+            0.7,
+            0
+          ],
+          "ortho_width": 1.4,
+          "hidden": [
+            "Basal columnar cells",
+            "Limbal epithelial stem cells",
+            "Wing cells",
+            "Limbal epithelium (extra layers)",
+            "Superficial squamous cells",
+            "Conjunctival goblet cells",
+            "Tear film",
+            "Bowman layer",
+            "Epithelial basement membrane",
+            "Stromal lamellae",
+            "Pre-Descemet (Dua) layer",
+            "Descemet membrane",
+            "Schwalbe line",
+            "Endothelium",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal vascular arcades",
+            "Sclera",
+            "Schlemm canal",
+            "Collector channels & aqueous veins",
+            "Trabecular meshwork",
+            "Stromal nerves",
+            "Subbasal plexus & free nerve endings"
+          ]
+        },
+        "Epithelial section closeup": {
+          "type": "ORTHO",
+          "position": [
+            -0.55,
+            1.14,
+            3
+          ],
+          "target": [
+            -0.55,
+            1.14,
+            0.58
+          ],
+          "ortho_width": 0.68,
+          "hidden": [
+            "Limbal epithelial stem cells",
+            "Limbal epithelium (extra layers)",
+            "Conjunctival goblet cells",
+            "Tear film",
+            "Stromal lamellae",
+            "Keratocytes",
+            "Pre-Descemet (Dua) layer",
+            "Descemet membrane",
+            "Schwalbe line",
+            "Endothelium",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal vascular arcades",
+            "Sclera",
+            "Schlemm canal",
+            "Collector channels & aqueous veins",
+            "Trabecular meshwork",
+            "Stromal nerves",
+            "Subbasal plexus & free nerve endings"
+          ]
+        },
+        "Keratocyte whole closeup": {
+          "type": "ORTHO",
+          "position": [
+            -0.35,
+            0.92,
+            0.22
+          ],
+          "target": [
+            -0.235,
+            0.764,
+            -0.012
+          ],
+          "ortho_width": 0.19,
+          "hidden": [
+            "Basal columnar cells",
+            "Limbal epithelial stem cells",
+            "Wing cells",
+            "Limbal epithelium (extra layers)",
+            "Superficial squamous cells",
+            "Conjunctival goblet cells",
+            "Tear film",
+            "Bowman layer",
+            "Epithelial basement membrane",
+            "Stromal lamellae",
+            "Pre-Descemet (Dua) layer",
+            "Descemet membrane",
+            "Schwalbe line",
+            "Endothelium",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal vascular arcades",
+            "Sclera",
+            "Schlemm canal",
+            "Collector channels & aqueous veins",
+            "Trabecular meshwork",
+            "Stromal nerves",
+            "Subbasal plexus & free nerve endings"
+          ]
+        }
+      },
+      "start_view": "Overview",
+      "scale_note": "Vertical teaching scale 0.55mm/unit; laterally compressed specimen, enlarged representative cells; 22 stromal tiers."
+    }
+  },
+  "source_part_names": [
+    "Basal columnar cells",
+    "Limbal epithelial stem cells",
+    "Wing cells",
+    "Limbal epithelium (extra layers)",
+    "Superficial squamous cells",
+    "Conjunctival goblet cells",
+    "Tear film",
+    "Bowman layer",
+    "Epithelial basement membrane",
+    "Stromal lamellae",
+    "Keratocytes",
+    "Pre-Descemet (Dua) layer",
+    "Descemet membrane",
+    "Schwalbe line",
+    "Endothelium",
+    "Limbal stroma & palisades of Vogt",
+    "Limbal vascular arcades",
+    "Sclera",
+    "Schlemm canal",
+    "Collector channels & aqueous veins",
+    "Trabecular meshwork",
+    "Stromal nerves",
+    "Subbasal plexus & free nerve endings"
+  ],
+  "part_names": [
+    "Basal columnar cells",
+    "Limbal epithelial stem cells",
+    "Wing cells",
+    "Limbal epithelium (extra layers)",
+    "Superficial squamous cells",
+    "Conjunctival goblet cells",
+    "Tear film",
+    "Bowman layer",
+    "Epithelial basement membrane",
+    "Stromal lamellae",
+    "Keratocytes",
+    "Pre-Descemet (Dua) layer",
+    "Descemet membrane",
+    "Schwalbe line",
+    "Endothelium",
+    "Limbal stroma & palisades of Vogt",
+    "Limbal vascular arcades",
+    "Sclera",
+    "Schlemm canal",
+    "Collector channels & aqueous veins",
+    "Trabecular meshwork",
+    "Stromal nerves",
+    "Subbasal plexus & free nerve endings"
+  ],
+  "parts": [
+    {
+      "name": "Basal columnar cells",
+      "group": "Epithelium",
+      "color": "#b58db5",
+      "description": "Basal columnar cells: a single row of tall cells anchored by hemidesmosomes to their basement membrane - the only mitotic cells of the central epithelium, replenished by cells migrating in from the limbus (the X, Y, Z hypothesis). Recurrent erosion follows weak basal adhesion. Fewer enlarged representative cell footprints are used schematically for teaching.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Limbal epithelial stem cells",
+      "group": "Limbus",
+      "color": "#6e4a38",
+      "description": "Limbal epithelial stem cells: small, melanin-capped basal cells deep in the epithelial crypts between the palisades of Vogt, sheltered by their niche of stroma, vessels, nerves and melanocytes. They renew the corneal epithelium and act as a barrier to the conjunctiva: limbal stem cell deficiency (chemical burns, aniridia, Stevens-Johnson) lets vascularised conjunctiva grow over the cornea; cultured limbal grafts replace them. The representative niches occupy basal palisade troughs across the specimen, not a continuous sheet of stem cells.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Wing cells",
+      "group": "Epithelium",
+      "color": "#dcc0d6",
+      "description": "Wing cells: 2-3 layers of polygonal cells with wing-like lateral processes, between the basal and superficial cells. Most free nerve endings of the cornea end among them.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Limbal epithelium (extra layers)",
+      "group": "Limbus",
+      "color": "#d4b4cf",
+      "description": "Limbal epithelium: at the corneoscleral junction the epithelium thickens to 10 or more cell layers and dips between the palisades of Vogt, then changes into conjunctival epithelium. Three representative extra tiers taper into the peripheral epithelium; specimen cuts are aligned through all populations.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 3.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Superficial squamous cells",
+      "group": "Epithelium",
+      "color": "#f3e5ee",
+      "description": "Superficial squamous cells: 2-3 layers of flat, non-keratinised cells covered with microplicae and a glycocalyx of membrane mucins that holds the tear film, sealed by tight junctions. They desquamate into the tears; the whole epithelium turns over in 7-10 days.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 4,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Conjunctival goblet cells",
+      "group": "Limbus",
+      "color": "#75b9dc",
+      "description": "Conjunctival goblet cells secrete MUC5AC, a gel-forming mucin in the tear film. This secreted mucin is distinct from the membrane-associated mucins of the superficial epithelial glycocalyx. Goblet cells are lost in cicatricial conjunctivitis and vitamin A deficiency. Fifteen enlarged representative cells are restricted to conjunctival epithelium; the conjunctival specimen cut exposes their profiles.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 4,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Tear film",
+      "group": "Epithelium",
+      "color": "#b9e3f2",
+      "description": "Tear film: a thin surface lipid layer overlies a mixed mucoaqueous component supplied chiefly by lacrimal secretion and including soluble mucins such as goblet-cell MUC5AC. Membrane-associated epithelial mucins form the underlying glycocalyx and support wetting and barrier function. The air-tear interface provides the primary refracting surface; blinking redistributes and renews the film. Tear-film instability contributes to dry-eye disease. This single top sheet represents the whole tear film; it does not resolve its molecular components or simulate breakup.",
+      "alpha": 0.28,
+      "category": "csf",
+      "label": false,
+      "rank": 5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Bowman layer",
+      "group": "Anterior cornea",
+      "color": "#f1e7cc",
+      "description": "Bowman layer (8-12 µm): acellular, randomly woven collagen (types I and V), the condensed anterior stroma. It ends abruptly at the limbus and never regenerates: wounds through it heal with a scar. PRK removes it; it is ruptured in keratoconus.",
+      "alpha": 1,
+      "category": "cartilage",
+      "label": false,
+      "rank": 1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Epithelial basement membrane",
+      "group": "Anterior cornea",
+      "color": "#d6c4a4",
+      "description": "The true basement membrane anchors the basal epithelium and is distinct from Bowman layer. Its displayed 0.55-micrometre thickness is enlarged to keep it selectable; no native ultrastructural thickness is implied.",
+      "alpha": 1,
+      "category": "cartilage",
+      "label": false,
+      "rank": 1.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Stromal lamellae",
+      "group": "Stroma",
+      "color": "#d3e0ec",
+      "description": "Stromal lamellae: ~90% of corneal thickness in 200-250 flat lamellae, each a sheet of parallel type I collagen fibrils of uniform diameter (~30 nm) held at a regular spacing by keratan sulphate proteoglycans (lumican, keratocan) - the lattice that makes the cornea transparent. Neighbouring lamellae cross roughly at right angles in the posterior stroma, obliquely and interwoven in the anterior third, which holds the corneal curvature. Oedema disturbs the spacing and clouds the cornea; LASIK reshapes the anterior stroma; keratoconus thins it. This teaching block shows 22 enlarged representative lamellar tiers; preferred stromal directions do not imply that every neighbouring pair is perpendicular. The anterior tiers show oblique courses, not a literal reconstruction of three-dimensional lamellar interweaving or bow-spring insertions into Bowman layer.",
+      "alpha": 1.0,
+      "category": "tendon",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Keratocytes",
+      "group": "Stroma",
+      "color": "#6d8cc4",
+      "description": "Keratocytes: flattened, dendritic fibroblasts lying between the lamellae, linked into a network by gap junctions. They make the matrix and are packed with crystallins (ALDH, transketolase) that keep them from scattering light; after injury they turn into fibroblasts and myofibroblasts, causing haze and scarring. Sparse representative cells on six sampled stromal levels; their number is a teaching simplification, not a density measurement.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Pre-Descemet (Dua) layer",
+      "group": "Posterior cornea",
+      "color": "#e3e9ef",
+      "description": "Pre-Descemet (Dua) layer: the authored representation of collagen immediately anterior to Descemet membrane, described through human donor-cornea dissection studies. Its status as a separate anatomical layer remains debated. In the surgical big-bubble distinction, type-1 cleavage separates deeper stroma from the pre-Descemet tissue and Descemet membrane; type-2 cleavage separates Descemet membrane from the anterior collagen tissue. These are surgical cleavage planes, not normal open spaces. No physiological thickness is inferred from this teaching band.",
+      "alpha": 1.0,
+      "category": "cartilage",
+      "label": false,
+      "rank": -2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Descemet membrane",
+      "group": "Posterior cornea",
+      "color": "#efe0b0",
+      "description": "Descemet membrane: basement membrane of the endothelium (collagen VIII and IV) with a banded fetal layer and a non-banded layer that thickens from ~3 µm at birth to over 10 µm in old age. Guttae in Fuchs dystrophy, Haab striae in congenital glaucoma, and copper in its periphery forms the Kayser-Fleischer ring of Wilson disease.",
+      "alpha": 1,
+      "category": "cartilage",
+      "label": false,
+      "rank": -3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Schwalbe line",
+      "group": "Drainage angle",
+      "color": "#e8d49a",
+      "description": "Schwalbe line: the rounded end of Descemet membrane, marking the anterior limit of the trabecular meshwork and the peripheral end of the cornea on gonioscopy. When prominent and displaced it is a posterior embryotoxon (Axenfeld-Rieger syndrome). Drawn as the enlarged terminal band of Descemet membrane, with a shared edge rather than an independent cylinder crossing it.",
+      "alpha": 1,
+      "category": "cartilage",
+      "label": false,
+      "rank": -3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Endothelium",
+      "group": "Posterior cornea",
+      "color": "#8cbfd8",
+      "description": "Endothelium: an intact posterior monolayer of predominantly hexagonal cells on Descemet membrane. Its barrier and energy-dependent transport functions help maintain stromal hydration and transparency in a pump-leak balance. Na+/K+-ATPase supports ionic gradients; bicarbonate-linked transport and buffering participate in fluid regulation rather than acting as a single literal water pump. Adult human cells normally have insufficient proliferative replacement in vivo; surviving cells enlarge and migrate when cells are lost. Endothelial failure permits oedema and loss of transparency. The displayed mosaic is representative, not a cell-density assay.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": -4,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Limbal stroma & palisades of Vogt",
+      "group": "Limbus",
+      "color": "#eed3c6",
+      "description": "Limbal stroma and palisades of Vogt: loose, vascular connective tissue whose radial fibrovascular ridges (the palisades) interdigitate with the limbal epithelium; beyond the limbus it becomes the substantia propria of the conjunctiva and Tenon capsule.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.12,
+        70.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Limbal vascular arcades",
+      "group": "Limbus",
+      "color": "#d63d33",
+      "description": "Limbal vascular arcades: branches of the anterior ciliary arteries end in hairpin capillary loops in the palisades, stopping short of the cornea, which is avascular - it lives on aqueous humour, tears, atmospheric oxygen and these limbal vessels. Hypoxia (contact lenses) or inflammation drives them into the cornea as corneal neovascularisation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Sclera",
+      "group": "Limbus",
+      "color": "#f3eee2",
+      "description": "Sclera: dense irregular collagen with fibrils of varied diameter and spacing interwoven in every direction - which is why it is white and opaque while the cornea, made of the same collagen, is clear. At the limbus its fibres run circumferentially; the scleral spur behind Schlemm canal anchors the ciliary muscle.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        0.0,
+        0.0,
+        3
+      ]
+    },
+    {
+      "name": "Schlemm canal",
+      "group": "Drainage angle",
+      "color": "#9cc9e3",
+      "description": "Schlemm canal: a circular, endothelium-lined channel in the scleral sulcus. Aqueous crosses its inner wall through giant vacuoles and pores and leaves by collector channels to the aqueous and episcleral veins. It is the target of canaloplasty and many micro-invasive glaucoma devices; blood refluxes into it on gonioscopy when episcleral venous pressure is high.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Collector channels & aqueous veins",
+      "group": "Drainage angle",
+      "color": "#86a8dd",
+      "description": "Collector channels and aqueous veins: outlets from the outer wall of Schlemm canal through the sclera to the deep scleral and episcleral venous plexuses. The branch walls terminate at the lumen interfaces. Wall contact at their junction is intended. Two simple schematic ostia represent the many variable orifices in a whole eye.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Trabecular meshwork",
+      "group": "Drainage angle",
+      "color": "#d6b27e",
+      "description": "Trabecular meshwork: perforated collagen beams covered by trabecular endothelial cells, stretching from Schwalbe line to the scleral spur - uveal and corneoscleral meshwork on the chamber side, juxtacanalicular tissue against the canal, where most outflow resistance lies. It drains ~80-90% of the aqueous (conventional outflow). Increased resistance raises intraocular pressure in open-angle glaucoma; ciliary muscle contraction (pilocarpine) pulls the spur and opens the meshwork.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": -3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.14,
+        55.0,
+        0.18,
+        0
+      ]
+    },
+    {
+      "name": "Stromal nerves",
+      "group": "Nerves",
+      "color": "#f0cf45",
+      "description": "Stromal nerves: branches of the long ciliary nerves (ophthalmic division of V) that enter the stroma radially at the limbus and lose their myelin within ~1 mm so the cornea stays transparent, then turn forwards and pierce Bowman layer. The cornea is the most densely innervated tissue in the body, the afferent limb of the corneal (blink) reflex; loss of innervation causes neurotrophic keratopathy.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.07,
+        65.0,
+        0.3,
+        1
+      ]
+    },
+    {
+      "name": "Subbasal plexus & free nerve endings",
+      "group": "Nerves",
+      "color": "#f5dc6a",
+      "description": "Subbasal nerve plexus and free nerve endings: long beaded fibres running between the basal cells and Bowman layer, sending terminals up among the wing and superficial cells - why abrasions are so painful. Confocal microscopy counts them in diabetic neuropathy.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 2.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.07,
+        65.0,
+        0.3,
+        1
+      ]
+    }
+  ]
+}

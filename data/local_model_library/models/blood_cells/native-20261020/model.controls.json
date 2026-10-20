@@ -1,0 +1,1153 @@
+{
+  "native": {
+    "summary": "Retained source blood-cell comparison: mature/band granulocytes, lymphocytes, monocyte, red cells and platelets, with schematic clot and plasma samples. Arrangement is a teaching comparison, not a physiological census.",
+    "scale_note": "Retained source proportions; teaching samples are arranged separately. Enlarged T/B receptors are explicitly schematic. 31.25 micrometres per unit is inferred from the retained erythrocyte diameter (~0.24 unit = 7.5 micrometres); no dimensional recalibration.",
+    "start_view": "Overview",
+    "viewer_cameras": {
+      "Overview": {
+        "type": "ORTHO",
+        "target": [
+          0.2,
+          0,
+          0
+        ],
+        "position": [
+          0.2,
+          3.5,
+          0.25
+        ],
+        "ortho_width": 3.25,
+        "cut_on": false,
+        "hidden": []
+      },
+      "Granulocyte comparison": {
+        "type": "ORTHO",
+        "target": [
+          -0.3,
+          0,
+          0.4
+        ],
+        "position": [
+          -0.3,
+          3.5,
+          0.65
+        ],
+        "ortho_width": 2.0,
+        "cut_on": false,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ]
+      },
+      "Mature and band nuclei": {
+        "type": "ORTHO",
+        "target": [
+          -0.745,
+          0,
+          0.4
+        ],
+        "position": [
+          -0.745,
+          3.5,
+          0.65
+        ],
+        "ortho_width": 0.98,
+        "cut_on": false,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ]
+      },
+      "Lymphocyte comparison": {
+        "type": "ORTHO",
+        "target": [
+          -0.65,
+          0,
+          -0.24
+        ],
+        "position": [
+          -0.65,
+          3.5,
+          0.010000000000000009
+        ],
+        "ortho_width": 1.22,
+        "cut_on": false,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ]
+      },
+      "Monocyte": {
+        "type": "ORTHO",
+        "target": [
+          0.87,
+          0,
+          0.4
+        ],
+        "position": [
+          0.87,
+          3.5,
+          0.65
+        ],
+        "ortho_width": 0.78,
+        "cut_on": false,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ]
+      },
+      "Red cells and platelets": {
+        "type": "ORTHO",
+        "target": [
+          0.74,
+          0,
+          -0.32
+        ],
+        "position": [
+          0.74,
+          3.5,
+          -0.07
+        ],
+        "ortho_width": 1.88,
+        "cut_on": false,
+        "hidden": [
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Plasma"
+        ]
+      },
+      "Preserved nuclear sections": {
+        "type": "ORTHO",
+        "target": [
+          -0.04,
+          0,
+          0.16
+        ],
+        "position": [
+          -0.04,
+          3.5,
+          0.41000000000000003
+        ],
+        "ortho_width": 2.75,
+        "cut_on": false,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ]
+      },
+      "Section oblique": {
+        "type": "ORTHO",
+        "target": [
+          -0.3,
+          -0.04,
+          0.38
+        ],
+        "position": [
+          -0.3,
+          2,
+          1.4
+        ],
+        "ortho_width": 2.0,
+        "cut_on": false,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ]
+      }
+    },
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": false,
+    "metres_per_unit": 3.125e-05,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Retained source proportions; teaching samples are arranged separately. Enlarged T/B receptors are explicitly schematic. 31.25 micrometres per unit is inferred from the retained erythrocyte diameter (~0.24 unit = 7.5 micrometres); no dimensional recalibration."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "blood_cells_preserved",
+      "display_name": "Blood cells (preserved source)",
+      "summary": "Retained source blood-cell comparison: mature/band granulocytes, lymphocytes, monocyte, red cells and platelets, with schematic clot and plasma samples. Arrangement is a teaching comparison, not a physiological census.",
+      "scale_note": "Retained source proportions; teaching samples are arranged separately. Enlarged T/B receptors are explicitly schematic. 31.25 micrometres per unit is inferred from the retained erythrocyte diameter (~0.24 unit = 7.5 micrometres); no dimensional recalibration.",
+      "start_view": "Overview",
+      "viewer_cameras": {
+        "Overview": {
+          "type": "ORTHO",
+          "target": [
+            0.2,
+            0,
+            0
+          ],
+          "position": [
+            0.2,
+            3.5,
+            0.25
+          ],
+          "ortho_width": 3.25,
+          "cut_on": false,
+          "hidden": []
+        },
+        "Granulocyte comparison": {
+          "type": "ORTHO",
+          "target": [
+            -0.3,
+            0,
+            0.4
+          ],
+          "position": [
+            -0.3,
+            3.5,
+            0.65
+          ],
+          "ortho_width": 2.0,
+          "cut_on": false,
+          "hidden": [
+            "Erythrocytes",
+            "Rouleau",
+            "Erythrocyte cross-section",
+            "Platelets",
+            "T lymphocyte",
+            "B lymphocyte",
+            "Large lymphocyte",
+            "T lymphocyte nucleus",
+            "B lymphocyte nucleus",
+            "Large lymphocyte nucleus",
+            "T-cell receptor (schematic)",
+            "B-cell surface immunoglobulin (schematic)",
+            "Monocyte",
+            "Monocyte nucleus",
+            "Fibrin",
+            "Activated platelets",
+            "Plasma"
+          ]
+        },
+        "Mature and band nuclei": {
+          "type": "ORTHO",
+          "target": [
+            -0.745,
+            0,
+            0.4
+          ],
+          "position": [
+            -0.745,
+            3.5,
+            0.65
+          ],
+          "ortho_width": 0.98,
+          "cut_on": false,
+          "hidden": [
+            "Erythrocytes",
+            "Rouleau",
+            "Erythrocyte cross-section",
+            "Platelets",
+            "Eosinophil",
+            "Eosinophil nucleus",
+            "Eosinophil granules",
+            "Basophil",
+            "Basophil nucleus",
+            "Basophil granules",
+            "T lymphocyte",
+            "B lymphocyte",
+            "Large lymphocyte",
+            "T lymphocyte nucleus",
+            "B lymphocyte nucleus",
+            "Large lymphocyte nucleus",
+            "T-cell receptor (schematic)",
+            "B-cell surface immunoglobulin (schematic)",
+            "Monocyte",
+            "Monocyte nucleus",
+            "Fibrin",
+            "Activated platelets",
+            "Plasma"
+          ]
+        },
+        "Lymphocyte comparison": {
+          "type": "ORTHO",
+          "target": [
+            -0.65,
+            0,
+            -0.24
+          ],
+          "position": [
+            -0.65,
+            3.5,
+            0.010000000000000009
+          ],
+          "ortho_width": 1.22,
+          "cut_on": false,
+          "hidden": [
+            "Erythrocytes",
+            "Rouleau",
+            "Erythrocyte cross-section",
+            "Platelets",
+            "Neutrophil",
+            "Band neutrophil",
+            "Neutrophil nucleus",
+            "Neutrophil granules",
+            "Eosinophil",
+            "Eosinophil nucleus",
+            "Eosinophil granules",
+            "Basophil",
+            "Basophil nucleus",
+            "Basophil granules",
+            "Monocyte",
+            "Monocyte nucleus",
+            "Fibrin",
+            "Activated platelets",
+            "Plasma"
+          ]
+        },
+        "Monocyte": {
+          "type": "ORTHO",
+          "target": [
+            0.87,
+            0,
+            0.4
+          ],
+          "position": [
+            0.87,
+            3.5,
+            0.65
+          ],
+          "ortho_width": 0.78,
+          "cut_on": false,
+          "hidden": [
+            "Erythrocytes",
+            "Rouleau",
+            "Erythrocyte cross-section",
+            "Platelets",
+            "Neutrophil",
+            "Band neutrophil",
+            "Neutrophil nucleus",
+            "Neutrophil granules",
+            "Eosinophil",
+            "Eosinophil nucleus",
+            "Eosinophil granules",
+            "Basophil",
+            "Basophil nucleus",
+            "Basophil granules",
+            "T lymphocyte",
+            "B lymphocyte",
+            "Large lymphocyte",
+            "T lymphocyte nucleus",
+            "B lymphocyte nucleus",
+            "Large lymphocyte nucleus",
+            "T-cell receptor (schematic)",
+            "B-cell surface immunoglobulin (schematic)",
+            "Fibrin",
+            "Activated platelets",
+            "Plasma"
+          ]
+        },
+        "Red cells and platelets": {
+          "type": "ORTHO",
+          "target": [
+            0.74,
+            0,
+            -0.32
+          ],
+          "position": [
+            0.74,
+            3.5,
+            -0.07
+          ],
+          "ortho_width": 1.88,
+          "cut_on": false,
+          "hidden": [
+            "Neutrophil",
+            "Band neutrophil",
+            "Neutrophil nucleus",
+            "Neutrophil granules",
+            "Eosinophil",
+            "Eosinophil nucleus",
+            "Eosinophil granules",
+            "Basophil",
+            "Basophil nucleus",
+            "Basophil granules",
+            "T lymphocyte",
+            "B lymphocyte",
+            "Large lymphocyte",
+            "T lymphocyte nucleus",
+            "B lymphocyte nucleus",
+            "Large lymphocyte nucleus",
+            "T-cell receptor (schematic)",
+            "B-cell surface immunoglobulin (schematic)",
+            "Monocyte",
+            "Monocyte nucleus",
+            "Plasma"
+          ]
+        },
+        "Preserved nuclear sections": {
+          "type": "ORTHO",
+          "target": [
+            -0.04,
+            0,
+            0.16
+          ],
+          "position": [
+            -0.04,
+            3.5,
+            0.41000000000000003
+          ],
+          "ortho_width": 2.75,
+          "cut_on": false,
+          "hidden": [
+            "Erythrocytes",
+            "Rouleau",
+            "Erythrocyte cross-section",
+            "Platelets",
+            "Neutrophil",
+            "Band neutrophil",
+            "Neutrophil granules",
+            "Eosinophil",
+            "Eosinophil granules",
+            "Basophil",
+            "Basophil granules",
+            "T lymphocyte",
+            "B lymphocyte",
+            "Large lymphocyte",
+            "T-cell receptor (schematic)",
+            "B-cell surface immunoglobulin (schematic)",
+            "Monocyte",
+            "Fibrin",
+            "Activated platelets",
+            "Plasma"
+          ]
+        },
+        "Section oblique": {
+          "type": "ORTHO",
+          "target": [
+            -0.3,
+            -0.04,
+            0.38
+          ],
+          "position": [
+            -0.3,
+            2,
+            1.4
+          ],
+          "ortho_width": 2.0,
+          "cut_on": false,
+          "hidden": [
+            "Erythrocytes",
+            "Rouleau",
+            "Erythrocyte cross-section",
+            "Platelets",
+            "T lymphocyte",
+            "B lymphocyte",
+            "Large lymphocyte",
+            "T lymphocyte nucleus",
+            "B lymphocyte nucleus",
+            "Large lymphocyte nucleus",
+            "T-cell receptor (schematic)",
+            "B-cell surface immunoglobulin (schematic)",
+            "Monocyte",
+            "Monocyte nucleus",
+            "Fibrin",
+            "Activated platelets",
+            "Plasma"
+          ]
+        }
+      },
+      "home_view": "+y",
+      "cut_on": false,
+      "metres_per_unit": 3.125e-05
+    }
+  },
+  "source_part_names": [
+    "Erythrocytes",
+    "Rouleau",
+    "Erythrocyte cross-section",
+    "Platelets",
+    "Neutrophil",
+    "Band neutrophil",
+    "Neutrophil nucleus",
+    "Neutrophil granules",
+    "Eosinophil",
+    "Eosinophil nucleus",
+    "Eosinophil granules",
+    "Basophil",
+    "Basophil nucleus",
+    "Basophil granules",
+    "T lymphocyte",
+    "B lymphocyte",
+    "Large lymphocyte",
+    "T lymphocyte nucleus",
+    "B lymphocyte nucleus",
+    "Large lymphocyte nucleus",
+    "T-cell receptor (schematic)",
+    "B-cell surface immunoglobulin (schematic)",
+    "Monocyte",
+    "Monocyte nucleus",
+    "Fibrin",
+    "Activated platelets",
+    "Plasma"
+  ],
+  "part_names": [
+    "Erythrocytes",
+    "Rouleau",
+    "Erythrocyte cross-section",
+    "Platelets",
+    "Neutrophil",
+    "Band neutrophil",
+    "Neutrophil nucleus",
+    "Neutrophil granules",
+    "Eosinophil",
+    "Eosinophil nucleus",
+    "Eosinophil granules",
+    "Basophil",
+    "Basophil nucleus",
+    "Basophil granules",
+    "T lymphocyte",
+    "B lymphocyte",
+    "Large lymphocyte",
+    "T lymphocyte nucleus",
+    "B lymphocyte nucleus",
+    "Large lymphocyte nucleus",
+    "T-cell receptor (schematic)",
+    "B-cell surface immunoglobulin (schematic)",
+    "Monocyte",
+    "Monocyte nucleus",
+    "Fibrin",
+    "Activated platelets",
+    "Plasma"
+  ],
+  "parts": [
+    {
+      "name": "Erythrocytes",
+      "group": "Red cells & platelets",
+      "color": "#c9564d",
+      "description": "Erythrocytes (red blood cells): the most numerous cells, ~4.5-5.5 million/mm3 (lower in women). Anucleate, pink-staining biconcave discs ~7.5-7.8 um across and ~2.5 um thick at the rim, ~0.8 um at the centre - hence the pale central pallor (about a third of the diameter) on a smear. The biconcave shape gives a large surface for gas exchange, keeps every haemoglobin molecule close to the membrane, and lets the cell fold through 3 um capillaries and splenic slits. No nucleus or mitochondria: glycolysis only, so they cannot use the oxygen they carry. Packed with haemoglobin (~33% of the cell). Made in red bone marrow (erythropoiesis, driven by renal erythropoietin in hypoxia), released as reticulocytes (~1%), live ~120 days and are removed by macrophages of the spleen and liver. Fall in anaemia and haemorrhage; rise (polycythaemia) at altitude, in chronic hypoxia, with EPO-secreting tumours and in polycythaemia vera. Here three whole source cells are selected for shape comparison; the illustrative sample does not depict physiological cell frequency.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Rouleau",
+      "group": "Red cells & platelets",
+      "color": "#bd4c48",
+      "description": "Rouleau: red cells stacked face to face like a pile of coins. A few form in thick areas of any smear, but extensive rouleaux mean more positively charged plasma proteins (fibrinogen, immunoglobulins) neutralising the negative surface charge (zeta potential) that normally keeps red cells apart - inflammation, pregnancy and above all multiple myeloma. Rouleaux sediment fast, which is what the erythrocyte sedimentation rate (ESR) measures.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Erythrocyte cross-section",
+      "group": "Red cells & platelets",
+      "color": "#d06a60",
+      "description": "Erythrocyte cut through its centre: the section is a dumbbell - thick rim, thin centre - which is why red cells show central pallor. Size to compare with the white cells: a red cell is ~7.5 um, about the size of a small lymphocyte's nucleus. Spherocytes (hereditary spherocytosis) lose this shape and the pallor; sickle cells (HbS polymerises when deoxygenated) become rigid crescents that block capillaries.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Platelets",
+      "group": "Red cells & platelets",
+      "color": "#7f52aa",
+      "description": "Platelets (thrombocytes): 150,000-400,000/mm3. Anucleate fragments of megakaryocytes in the bone marrow (one megakaryocyte sheds ~2,000-4,000), 2-4 um discs that stain purple on a smear - a granular purple centre (granulomere: alpha and dense granules) and a pale blue rim (hyalomere) - seen singly or in small clumps. Live ~7-10 days; a third are pooled in the spleen. Production is driven by liver thrombopoietin. They plug breaches in vessel walls (adhere via von Willebrand factor to collagen, activate, aggregate via fibrinogen bridges on GPIIb/IIIa) and provide the surface on which the coagulation cascade makes thrombin. Low (thrombocytopenia): petechiae, purpura, mucosal bleeding - ITP, marrow failure, leukaemia, DIC, hypersplenism, heparin (HIT). High (thrombocytosis): reactive after bleeding, iron deficiency, inflammation or splenectomy, or essential thrombocythaemia. Four resting platelets are placed together in a dedicated comparison position, not scattered beside the monocyte.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.18,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Neutrophil",
+      "group": "Granulocytes",
+      "color": "#c898b6",
+      "description": "Neutrophil (polymorphonuclear leukocyte): the most common white cell, 60-70% of leukocytes (about 2,000-7,500/mm3), 10-12 um (~1.5 red cells). Nucleus of 3-5 lobes joined by thin chromatin threads; pale pink-lilac cytoplasm with fine, barely visible granules. Made in the bone marrow, circulate only 6-10 hours and live 1-2 days in the tissues. They are the first cells to arrive at acute inflammation: they roll, adhere and squeeze between endothelial cells (diapedesis), then phagocytose and kill bacteria with their granule enzymes and oxidative burst (NADPH oxidase, myeloperoxidase); dead neutrophils make pus. Rise (neutrophilia) in acute bacterial infection (appendicitis, pneumonia), tissue damage, corticosteroids, stress and CML; immature band forms appear (left shift). Fall (neutropenia) with chemotherapy, some drugs (carbimazole, clozapine), viral infection and marrow failure - with a high risk of bacterial and fungal sepsis. Hypersegmented nuclei (6+ lobes) suggest B12/folate deficiency.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Band neutrophil",
+      "group": "Granulocytes",
+      "color": "#c494b2",
+      "description": "Band neutrophil: an immature neutrophil whose nucleus is still an unsegmented, curved band (a U or C of even width) - normally under 5% of white cells. More bands in the blood (a 'left shift') means the marrow is releasing neutrophils early, typically in acute bacterial infection or sepsis.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Neutrophil nucleus",
+      "group": "Granulocytes",
+      "color": "#38175f",
+      "description": "This selectable part contains the nuclei of both neighboring neutrophil samples: the mature sample has four dark-purple lobes connected by thin chromatin bridges, while the band sample has one continuous curved nucleus. The band form precedes segmentation. Showing both carriers together supports the maturation comparison; it does not mean the band nucleus is segmented.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.24,
+        260.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Neutrophil granules",
+      "group": "Granulocytes",
+      "color": "#a0689f",
+      "description": "Neutrophil granules: fine, pale lilac-pink dust ('neutrophilic' - they take up neither dye strongly). Primary (azurophilic) granules are lysosomes holding myeloperoxidase, elastase and defensins; the more numerous secondary (specific) granules hold lactoferrin, lysozyme and collagenase. Coarse, dark 'toxic granulation' appears in severe infection. Only a few representative granules are shown; counts are deliberately reduced for teaching and do not indicate a natural granule count. Rounded granules protrude slightly from the exposed cytoplasmic section to show their form; their lower portions remain embedded in cytoplasm, not floating above it.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Eosinophil",
+      "group": "Granulocytes",
+      "color": "#dc9d88",
+      "description": "Eosinophil: 2-4% of white cells, 12-14 um (~2 red cells). A bilobed 'spectacles' nucleus and cytoplasm packed with large, uniform, bright orange-red granules (they bind the acidic dye eosin). Circulate for hours, then live ~1-2 weeks in tissues, especially under the mucosa of the gut, airways and skin. They kill helminths too large to phagocytose by releasing granule proteins onto them, and modulate allergic reactions (they degrade histamine and leukotrienes but also cause tissue damage in asthma). Rise (eosinophilia) in allergy (asthma, hay fever, eczema), parasitic worm infection (e.g. trichinosis, Strongyloides, schistosomiasis), drug reactions, Addison disease, Hodgkin lymphoma and eosinophilic granulomatosis with polyangiitis. Fall with corticosteroids and acute stress.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Eosinophil nucleus",
+      "group": "Granulocytes",
+      "color": "#3e1d68",
+      "description": "Eosinophil nucleus: usually two plump lobes joined by a thin band, like a pair of spectacles or a telephone receiver, and less condensed than a neutrophil's.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.24,
+        260.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Eosinophil granules",
+      "group": "Granulocytes",
+      "color": "#e2502a",
+      "description": "Eosinophil (specific) granules: large (0.5-1 um), round, refractile and orange-red with eosin. Each has a crystalline core of major basic protein surrounded by eosinophil cationic protein, eosinophil peroxidase and eosinophil-derived neurotoxin - toxic to worms and to host epithelium. Charcot-Leyden crystals are composed of galectin-10, a different eosinophil protein concentrated mainly in peripheral cytoplasm, rather than the major-basic-protein granule core. Only a few representative granules are shown; counts are deliberately reduced for teaching and do not indicate a natural granule count. Rounded granules protrude slightly from the exposed cytoplasmic section to show their form; their lower portions remain embedded in cytoplasm, not floating above it.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.12,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Basophil",
+      "group": "Granulocytes",
+      "color": "#a88cc6",
+      "description": "Basophil: the rarest white cell, 0.5-1%, 8-10 um. The nucleus is S-shaped or bilobed but largely hidden by coarse, dark blue-purple cytoplasmic granules in a 2D smear projection. Granules do not enter the nuclear volume; this section exposes the nucleus and keeps the granules outside it. Granules hold histamine (vasodilator, increases capillary permeability) and heparin (anticoagulant); the surface carries IgE receptors, so allergen cross-linking releases them - like the tissue mast cell, which it resembles but is a different lineage. Lives hours to days. Rise (basophilia) in allergic and inflammatory reactions, hypothyroidism and especially chronic myeloid leukaemia and other myeloproliferative disorders.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Basophil nucleus",
+      "group": "Granulocytes",
+      "color": "#4c2e7c",
+      "description": "Basophil nucleus: S-shaped or bilobed, paler than a neutrophil's, and on a smear mostly obscured by the cytoplasmic granules in projection. This teaching cutaway shows its boundary without granules inside it.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.24,
+        260.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Basophil granules",
+      "group": "Granulocytes",
+      "color": "#26114f",
+      "description": "Basophil granules: large, uneven, deep blue-purple (basophilic - they bind the basic dye because of their sulphated heparin; metachromatic). They contain histamine, heparin and chemotactic factors and are released within seconds in anaphylaxis. Water-soluble, so on a poor smear they may be washed out, leaving empty spaces. Only a few representative granules are shown; counts are deliberately reduced for teaching and do not indicate a natural granule count. Rounded granules protrude slightly from the exposed cytoplasmic section to show their form; their lower portions remain embedded in cytoplasm, not floating above it.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.12,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "T lymphocyte",
+      "group": "Agranulocytes",
+      "color": "#5b8bd0",
+      "description": "Small lymphocyte: the commonest lymphocyte, 6-9 um - about the size of a red cell. A round, very dense, dark purple nucleus (sometimes slightly indented) nearly fills the cell, leaving a thin rim (halo) of sky-blue cytoplasm. Lymphocytes are 20-30% of white cells, the second most numerous. B and T cells look identical on Wright stain: both arise from marrow stem cells; B cells mature in the bone marrow and become antibody-secreting plasma cells (humoral immunity); T cells mature in the thymus and kill virus-infected and tumour cells or direct the immune response (cell-mediated immunity). Most lymphocytes live in lymph nodes, spleen and MALT and recirculate between blood and lymph; memory cells live for years. Rise (lymphocytosis) in viral infections (infectious mononucleosis with atypical lymphocytes, CMV, hepatitis), pertussis, tuberculosis and chronic lymphocytic leukaemia. Fall (lymphopenia) with corticosteroids, HIV (CD4 T cells), chemotherapy and immunodeficiency. This sample represents a resting T lymphocyte. Its teal paired surface receptor is a greatly enlarged schematic functional cue; shape and stain do not identify it as T.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "B lymphocyte",
+      "group": "Agranulocytes",
+      "color": "#5b8bd0",
+      "description": "Small lymphocyte: the commonest lymphocyte, 6-9 um - about the size of a red cell. A round, very dense, dark purple nucleus (sometimes slightly indented) nearly fills the cell, leaving a thin rim (halo) of sky-blue cytoplasm. Lymphocytes are 20-30% of white cells, the second most numerous. B and T cells look identical on Wright stain: both arise from marrow stem cells; B cells mature in the bone marrow and become antibody-secreting plasma cells (humoral immunity); T cells mature in the thymus and kill virus-infected and tumour cells or direct the immune response (cell-mediated immunity). Most lymphocytes live in lymph nodes, spleen and MALT and recirculate between blood and lymph; memory cells live for years. Rise (lymphocytosis) in viral infections (infectious mononucleosis with atypical lymphocytes, CMV, hepatitis), pertussis, tuberculosis and chronic lymphocytic leukaemia. Fall (lymphopenia) with corticosteroids, HIV (CD4 T cells), chemotherapy and immunodeficiency. This sample represents a resting B lymphocyte with the same morphology and size as the T-cell sample. The enlarged gold Y is membrane-bound immunoglobulin (B-cell receptor), not secreted antibody. Activated B-lineage plasmablasts and plasma cells secrete antibodies. Receptor shape/size here is schematic.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Large lymphocyte",
+      "group": "Agranulocytes",
+      "color": "#6a96d4",
+      "description": "Large lymphocyte: this 11.2 um teaching sample has more pale-blue cytoplasm and a relatively eccentric round nucleus than the two small lymphocytes. Large lymphocytes occur across activation states and lymphocyte lineages; size alone cannot identify activation or natural-killer identity. Some large granular lymphocytes have azurophilic granules, but those granules are not separately modeled in this retained sample.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "T lymphocyte nucleus",
+      "group": "Agranulocytes",
+      "color": "#2c1352",
+      "description": "Lymphocyte nucleus: round or slightly indented, with dense, coarsely clumped dark chromatin; in the small lymphocyte it fills almost the whole cell. Nuclear size is the easiest yardstick on a smear: a small lymphocyte nucleus is about one red cell across. This nucleus belongs only to the T-cell sample.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.24,
+        260.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "B lymphocyte nucleus",
+      "group": "Agranulocytes",
+      "color": "#2c1352",
+      "description": "Lymphocyte nucleus: round or slightly indented, with dense, coarsely clumped dark chromatin; in the small lymphocyte it fills almost the whole cell. Nuclear size is the easiest yardstick on a smear: a small lymphocyte nucleus is about one red cell across. This nucleus belongs only to the B-cell sample.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.24,
+        260.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Large lymphocyte nucleus",
+      "group": "Agranulocytes",
+      "color": "#2c1352",
+      "description": "Lymphocyte nucleus: round or slightly indented, with dense, coarsely clumped dark chromatin; in the small lymphocyte it fills almost the whole cell. Nuclear size is the easiest yardstick on a smear: a small lymphocyte nucleus is about one red cell across. This selectable part belongs to the retained large-lymphocyte sample.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.24,
+        260.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "T-cell receptor (schematic)",
+      "group": "Agranulocytes",
+      "color": "#38b7b1",
+      "description": "Resting T and B lymphocytes cannot be reliably distinguished by ordinary Wright-stain morphology. These surface receptors are greatly enlarged schematic functional cues, not structures visible at this cell scale. The cells and their nuclei keep the same small-lymphocyte morphology and a normal thin cytoplasmic rim. The paired receptor symbol represents a T-cell antigen receptor: conventional T cells recognize peptide presented by MHC and can direct immune responses or kill infected cells.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "B-cell surface immunoglobulin (schematic)",
+      "group": "Agranulocytes",
+      "color": "#edb64d",
+      "description": "Resting T and B lymphocytes cannot be reliably distinguished by ordinary Wright-stain morphology. These surface receptors are greatly enlarged schematic functional cues, not structures visible at this cell scale. The cells and their nuclei keep the same small-lymphocyte morphology and a normal thin cytoplasmic rim. The Y represents membrane-bound immunoglobulin, the B-cell antigen receptor, which recognizes native antigen. This resting B cell is not depicted secreting antibody. After activation, B-lineage plasmablasts and plasma cells secrete antibodies; a plasma cell has a different morphology.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Monocyte",
+      "group": "Agranulocytes",
+      "color": "#7085b4",
+      "description": "Monocyte: the largest white cell, 12-20 um (~2-3 red cells), 3-8% of leukocytes. Abundant grey-blue 'ground glass' cytoplasm, often with small vacuoles and a fine dust of azurophil granules, around a large kidney- or horseshoe-shaped nucleus with lacy, less condensed chromatin. Made in the bone marrow, monocytes circulate before recruitment into tissues, where they can differentiate into macrophages that phagocytose microbes and debris and present antigen. Tissue-resident macrophage populations have distinct developmental origins; microglia are principally embryonically derived and should not be presented as routine descendants of circulating adult monocytes. Rise (monocytosis) in chronic infection (tuberculosis, endocarditis, brucellosis), recovery from acute infection, inflammatory bowel disease, sarcoidosis and chronic myelomonocytic leukaemia. The round depressions on this authored section are intentional small vacuoles; the intact underside is smooth.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Monocyte nucleus",
+      "group": "Agranulocytes",
+      "color": "#5b3d8a",
+      "description": "Monocyte nucleus: large, eccentric, kidney-bean or horseshoe shaped, with a delicate lacy (open) chromatin pattern that stains paler than a lymphocyte's - the two features that separate a monocyte from a large lymphocyte.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.2,
+        180.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Fibrin",
+      "group": "Clot",
+      "color": "#e4c0c8",
+      "description": "Fibrin: the coagulation cascade ends with thrombin cutting soluble fibrinogen (a liver-made plasma protein) into fibrin monomers that polymerise into long strands, cross-linked by factor XIIIa. The mesh traps red cells and platelets to form a stable clot (secondary haemostasis). Plasmin later dissolves it (fibrinolysis; D-dimers are the breakdown products). Clotting factors II, VII, IX and X need vitamin K, which warfarin blocks; haemophilia A and B lack factors VIII and IX. This view retains ten connected paths from the original network near the two activated platelets. Fiber ends fit the platelet exterior without passing through its body. Rounded closed terminals indicate the sampled teaching extent, not free cut fragments or a natural network density.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Activated platelets",
+      "group": "Clot",
+      "color": "#6a3d98",
+      "description": "Activated platelets: on contact with collagen, thrombin or ADP they change from smooth discs into spiky spheres with long pseudopods, release dense-granule contents such as ADP and serotonin and alpha-granule proteins including fibrinogen, vWF and PDGF; they also synthesize thromboxane A2, which helps recruit and activate more platelets, and aggregate into the primary haemostatic plug. Aspirin blocks thromboxane A2 synthesis for the platelet's whole 7-10 day life; clopidogrel blocks the ADP (P2Y12) receptor. Clot retraction by their actin-myosin pulls the fibrin mesh tight.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": true,
+      "rank": 0.0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.15,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Plasma",
+      "group": "Plasma",
+      "color": "#efd98a",
+      "description": "Schematic plasma sample: this small yellow glob represents the fluid surrounding blood cells; it is not a discrete cell or a literal droplet in circulating blood. Plasma: the straw-coloured fluid that makes up ~55% of blood volume (the formed elements are the other ~45%, the haematocrit). It is ~91% water plus plasma proteins - albumin (~60%, made by the liver, holds oncotic pressure and carries drugs, bilirubin and hormones), globulins (alpha and beta transport proteins; gamma globulins are antibodies made by plasma cells) and fibrinogen (liver; becomes fibrin in a clot). The liver also makes most clotting factors. It carries electrolytes (Na+, K+, Cl-, HCO3-), glucose, lipids, hormones and wastes such as urea. Serum is plasma with the fibrinogen and clotting factors used up by clotting.",
+      "alpha": 1.0,
+      "category": "csf",
+      "label": true,
+      "rank": -1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

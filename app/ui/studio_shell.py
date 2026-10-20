@@ -3,7 +3,7 @@
 Every command routes to the existing application owner; no demo scenes or data.
 """
 from PySide6.QtCore import Qt, Signal, QSize, QEvent, QRectF
-from PySide6.QtGui import QPainter, QPen, QIcon
+from PySide6.QtGui import QPainter, QPen, QIcon, QColor, QImage, QLinearGradient
 from PySide6.QtWidgets import (QWidget,QVBoxLayout,QHBoxLayout,QPushButton,
                                QLineEdit,QToolButton,QLabel,QMenu,QDockWidget,QScrollArea,QFrame,QSplitter,QStackedWidget,QSizePolicy)
 from . import theme
@@ -41,7 +41,8 @@ class RailButton(QToolButton):
         fm = p.fontMetrics()
         icon_size = self.iconSize()
         content_height = icon_size.height() + 7 + fm.height()
-        top = max(2, (self.height() - content_height) // 2 - 2)
+        offset = 0 if self.objectName() == 'studioRailUtility' else 2
+        top = max(2, (self.height() - content_height) // 2 - offset)
         mode = QIcon.Disabled if not self.isEnabled() else QIcon.Active if self.isChecked() or self.underMouse() else QIcon.Normal
         pixmap = self.icon().pixmap(icon_size,mode,QIcon.On if self.isChecked() else QIcon.Off)
         p.drawPixmap((self.width() - icon_size.width()) // 2, top, pixmap)
@@ -71,7 +72,7 @@ class NavigationRail(QWidget):
         self.room_buttons = []
         self.utility_buttons = []
         self.column = QVBoxLayout(self)
-        self.column.setContentsMargins(0, 18, 1, 26)
+        self.column.setContentsMargins(0, 18, 1, 0)
         self.column.setSpacing(0)
         self.mark = QLabel(self)
         self.mark.setObjectName('studioRailMark')
@@ -92,7 +93,7 @@ class NavigationRail(QWidget):
         self.foot = QWidget(self)
         self.foot.setObjectName('studioRailFoot')
         self.foot_layout = QVBoxLayout(self.foot)
-        self.foot_layout.setContentsMargins(0, 12, 0, 0)
+        self.foot_layout.setContentsMargins(0, 19, 0, 19)
         self.foot_layout.setSpacing(2)
         self.column.addWidget(self.foot)
 
@@ -110,7 +111,9 @@ class NavigationRail(QWidget):
         compact = 12 + 44 + 10 + 6*room_compact + 5*2 + 12 + 3*foot_compact + 4 + 12 + count_height
         amount = max(0.0, min(1.0, (self.height() - compact) / max(1, full - compact)))
         blend = lambda small, large: round(small + (large-small)*amount)
-        self.column.setContentsMargins(0, blend(12,18), 1, blend(12,26))
+        self.column.setContentsMargins(0, blend(12,18), 1, 0)
+        foot_space = 12 + blend(12,26)
+        self.foot_layout.setContentsMargins(0, foot_space//2, 0, foot_space-foot_space//2)
         self.column.itemAt(1).spacerItem().changeSize(0, blend(10,46), QSizePolicy.Minimum, QSizePolicy.Fixed)
         self.room_layout.setSpacing(blend(2,10))
         for button in self.room_buttons:
@@ -456,8 +459,43 @@ def atlas_dock(window):
     host.general_tools.append(tools)
     holder.addWidget(dock);holder.addStretch();return host
 
+class DetailsBackdrop(QWidget):
+    """Continue the gallery wall behind prose, with a soft edge over the scene."""
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
+        self._key = self._image = None
+
+    def paintEvent(self, event):
+        from .wall_background import viewport_background
+        palette = theme.palette()
+        colours = viewport_background(self, {'custom_background': True,
+            'bg_top': palette['stage_top'], 'bg_bottom': palette['stage_bottom']})
+        width, height = self.width(), self.height()
+        key = (width, height, colours['bg_top'], colours['bg_bottom'])
+        if key != self._key and width > 0 and height > 0:
+            layer = QImage(width, height, QImage.Format_ARGB32_Premultiplied)
+            layer.fill(Qt.transparent)
+            painter = QPainter(layer)
+            wall = QLinearGradient(0, 0, 0, height)
+            wall.setColorAt(0, QColor(colours['bg_top']))
+            wall.setColorAt(1, QColor(colours['bg_bottom']))
+            painter.fillRect(layer.rect(), wall)
+            edge = QLinearGradient(0, 0, min(144, width), 0)
+            edge.setColorAt(0, QColor(255, 255, 255, 0))
+            edge.setColorAt(1, QColor(255, 255, 255, 255))
+            painter.setCompositionMode(QPainter.CompositionMode_DestinationIn)
+            painter.fillRect(layer.rect(), edge)
+            painter.end()
+            self._key, self._image = key, layer
+        if self._image is not None:
+            painter = QPainter(self)
+            painter.drawImage(0, 0, self._image)
+
+
 class FloatingPanels:
-    """Keep legacy dock APIs while presenting ordinary in-workspace cards."""
+    """Keep legacy dock APIs for utility cards and the right-side entry reader."""
     def __init__(self, window):
         self.window = window
         self.host = window.workspace
@@ -472,7 +510,8 @@ class FloatingPanels:
                 return False
         self.filter=ResizeFilter(self.host)
         self.host.installEventFilter(self.filter)
-        for panel in (window.left_dock,window.right_dock):self.register(panel)
+        self.register(window.left_dock)
+        self.register(window.right_dock,wrap_content=False)
         window.tabs.currentChanged.connect(self.update_title)
         self.update_title()
         self.layout()
@@ -480,18 +519,21 @@ class FloatingPanels:
         if panel in self.panels:return
         self.panels.append(panel)
         panel._studio_width=preferred_width
+        is_details=panel is self.window.right_dock
         was_visible=not panel.isHidden()
         self.window.removeDockWidget(panel)
         panel.setParent(self.host,Qt.Widget)
         panel.installEventFilter(self.filter)
         panel.setAllowedAreas(Qt.NoDockWidgetArea)
         panel.setFeatures(QDockWidget.DockWidgetClosable)
-        panel.setObjectName('studioFloatingPanel')
+        panel.setObjectName('studioDetailsPanel' if is_details else 'studioFloatingPanel')
+        panel.setMinimumWidth(0)
         panel.setAttribute(Qt.WA_StyledBackground,True)
         title=QWidget(panel);title.setObjectName('studioFloatingTitleBar');title.setAttribute(Qt.WA_StyledBackground,True)
-        row=QHBoxLayout(title);row.setContentsMargins(14,10,10,8)
+        row=QHBoxLayout(title)
+        row.setContentsMargins(*( (6,0,0,12) if is_details else (14,10,10,8) ))
         label=QLabel(panel.windowTitle());label.setObjectName('studioFloatingTitle');panel._studio_title=label;row.addWidget(label);row.addStretch()
-        close=QPushButton('Close');close.setObjectName('studioFloatingClose');close.setProperty('variant','quiet');close.setAccessibleName('Close '+panel.windowTitle());close.clicked.connect(panel.hide);row.addWidget(close)
+        close=QPushButton('Close');close.setObjectName('studioFloatingClose');close.setProperty('variant','quiet');close.setAccessibleName('Close '+panel.windowTitle());close.clicked.connect(self.window.close_details if is_details else panel.hide);row.addWidget(close)
         panel.setTitleBarWidget(title)
         content=panel.widget();panel._studio_content=content
         content.setProperty('studioWallSurface',True)
@@ -522,6 +564,8 @@ class FloatingPanels:
         panel.clearMask()
     def shown(self,panel,visible):
         if visible:
+            if panel is self.window.left_dock:
+                self.window.right_dock.hide()
             if self.host.width()<1100:
                 for other in self.panels:
                     if other is not panel:other.hide()
@@ -535,6 +579,8 @@ class FloatingPanels:
             top=self.window.studio_header.subject.geometry().bottom()+12
         available=max(120,h-top-20)
         for index,panel in enumerate(self.panels):
+            if panel is self.window.right_dock:
+                continue  # Positioned over the right reading rail by the workspace.
             content=panel._studio_content
             minimum=max(340,content.minimumSizeHint().width() + 26)
             # Same share of the window as on the 2560x1440 screen the sizes were set on; never larger than that.

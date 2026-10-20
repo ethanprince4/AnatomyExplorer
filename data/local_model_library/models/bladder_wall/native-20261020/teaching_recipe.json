@@ -1,0 +1,292 @@
+{
+  "model_id": "bladder_wall_static_refinement",
+  "display_name": "Bladder wall",
+  "summary": "Distended bladder dome wall with continuous umbrella cells, their nuclei and vesicles, supporting tissue, muscle, vessels and nerves.",
+  "metres_per_unit": 0.001,
+  "scale_note": "Schematic distended dome specimen; cellular layers are enlarged for visibility, so one world scale does not calibrate every structure.",
+  "cut_on": false,
+  "start_view": "Intact wall",
+  "viewer_cameras": {
+    "Intact wall": {
+      "position": [
+        2.7,
+        2.5,
+        3.3
+      ],
+      "target": [
+        0,
+        0.5,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.8,
+      "hidden": [
+        "Uroplakin plaques (apical membrane)"
+      ]
+    },
+    "Wall section": {
+      "position": [
+        0,
+        0.55,
+        3.3
+      ],
+      "target": [
+        0,
+        0.55,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.6,
+      "hidden": [
+        "Uroplakin plaques (apical membrane)"
+      ]
+    },
+    "Urothelial section": {
+      "position": [
+        1.7,
+        2.8,
+        2.8
+      ],
+      "target": [
+        0,
+        0.82,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.3,
+      "hidden": [
+        "Fusiform vesicles cover",
+        "Uroplakin plaques (apical membrane)",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ]
+    },
+    "Umbrella closeup": {
+      "position": [
+        0.65,
+        1.5,
+        1.5
+      ],
+      "target": [
+        0.4,
+        0.81,
+        0.2
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.25,
+      "hidden": [
+        "Fusiform vesicles cover",
+        "Uroplakin plaques (apical membrane)",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ]
+    },
+    "Umbrella interiors": {
+      "position": [
+        0.7,
+        1.5,
+        1.0
+      ],
+      "target": [
+        0.155,
+        0.806,
+        -0.16
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.54,
+      "hidden": [
+        "Basal cells",
+        "Intermediate cells",
+        "Uroplakin plaques (apical membrane)",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia",
+        "Umbrella cells"
+      ]
+    },
+    "Detrusor interlacing": {
+      "position": [
+        2.7,
+        2.5,
+        3.3
+      ],
+      "target": [
+        0,
+        0.3,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.7,
+      "hidden": [
+        "Basal cells",
+        "Intermediate cells",
+        "Uroplakin plaques (apical membrane)",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia",
+        "Umbrella cells",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles cover"
+      ]
+    },
+    "Vascular routes": {
+      "position": [
+        2.7,
+        2.5,
+        3.3
+      ],
+      "target": [
+        0,
+        0.42,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.7,
+      "hidden": [
+        "Basal cells",
+        "Intermediate cells",
+        "Uroplakin plaques (apical membrane)",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Autonomic nerves & intramural ganglia",
+        "Umbrella cells",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles cover"
+      ]
+    },
+    "Deep wall": {
+      "position": [
+        2.7,
+        -1.8,
+        3.3
+      ],
+      "target": [
+        0,
+        0.08,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.6,
+      "hidden": [
+        "Basal cells",
+        "Intermediate cells",
+        "Uroplakin plaques (apical membrane)",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Umbrella cells",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles cover"
+      ]
+    }
+  }
+}

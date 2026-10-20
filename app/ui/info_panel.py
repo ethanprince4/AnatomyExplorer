@@ -6,7 +6,7 @@ from urllib.parse import quote, unquote
 from PySide6.QtCore import Signal, QUrl, Qt
 from PySide6.QtCore import QTimer
 from PySide6.QtGui import QColor, QTextDocument
-from PySide6.QtWidgets import QPushButton, QTextBrowser, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QFrame, QPushButton, QTextBrowser, QVBoxLayout, QWidget
 
 from ..actions import default_key_text
 from .flow import FlowLayout
@@ -155,6 +155,27 @@ class InfoPanel(QWidget):
         self.actions_bar.hide()
         self.show_welcome()
 
+    def set_wall_mode(self):
+        """One scrolling entry on the continuous wall; scene controls stay in the scene."""
+        self.wall_mode = True
+        self.setObjectName("studioDetailsContent")
+        self.setMinimumWidth(0)
+        self.layout().setSpacing(12)
+        self.browser.setFrameShape(QFrame.NoFrame)
+        self.browser.setAutoFillBackground(False)
+        self.browser.viewport().setAutoFillBackground(False)
+        self.browser.document().setDocumentMargin(6)
+        self.browser.setStyleSheet(
+            f'QTextBrowser {{background:transparent;border:0;}}'
+            f'QScrollBar:vertical {{background:transparent;width:4px;margin:0;}}'
+            f'QScrollBar::handle:vertical {{background:{theme.BORDER_STRONG};min-height:24px;'
+            f'border:0;border-radius:2px;}}'
+            f'QScrollBar::handle:vertical:hover {{background:{theme.MUTED};}}'
+            f'QScrollBar::add-line:vertical,QScrollBar::sub-line:vertical {{height:0;}}'
+            f'QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical {{background:transparent;}}')
+        self.actions_bar.hide()
+        self.set_font_scale(self._font_scale)
+
     # ------------------------------------------------------------------ plumbing
     def _anchor(self, url):
         s = url.toString()
@@ -182,6 +203,8 @@ class InfoPanel(QWidget):
         self._body = body
         pos = self.browser.verticalScrollBar().value()
         actions, self._pending_actions = self._pending_actions, []
+        if getattr(self, "wall_mode", False):
+            actions = []
         active = {action for _label, action in actions}
         for action, button in self._action_buttons.items():
             if action not in active:
@@ -206,9 +229,9 @@ class InfoPanel(QWidget):
         """The welcome heading. `size` (pt) is only set when it has to be smaller than the h1 style makes it
         (a plain h1 ignores an inline font size in Qt's rich text, so the smaller form is a bold paragraph)."""
         if size is None:
-            return "<h1>Anatomy Explorer</h1>"
+            return "<h1>Layered Human</h1>"
         return (f'<p style="font-size:{size:.2f}pt; font-weight:700; color:{theme.TEXT_STRONG}; '
-                f'margin:0 0 3px 0">Anatomy Explorer</p>')
+                f'margin:0 0 3px 0">Layered Human</p>')
 
     def _heading_width(self, size=None):
         """Width of the welcome heading on one line, measured on a small copy of the page."""
@@ -258,8 +281,12 @@ class InfoPanel(QWidget):
         f.setPointSizeF(theme.FS_BODY * scale)
         self.browser.setFont(f)
         self.browser.document().setDefaultFont(f)
+        css = CSS
+        if getattr(self, "wall_mode", False):
+            css += (f'h1 {{font-family:"{theme.display_font_family()}";font-weight:400;'
+                    'margin-bottom:12px;}')
         css = re.sub(r"(font-size:\s*)([0-9.]+)pt",
-                     lambda match: f"{match[1]}{float(match[2]) * scale:g}pt", CSS)
+                     lambda match: f"{match[1]}{float(match[2]) * scale:g}pt", css)
         self.browser.document().setDefaultStyleSheet(css)
         if self._view:
             self._rerender()
@@ -296,7 +323,7 @@ class InfoPanel(QWidget):
         if not body:
             return ""
         is_open = self._open.get(key, default)
-        arrow = "&#9662;" if is_open else "&#9656;"
+        arrow = self._disclosure(is_open)
         cnt = f' <span class="count">({count})</span>' if count is not None else ""
         head = (f'<table width="100%" cellspacing="0" cellpadding="0" style="margin-top:8px"><tr>'
                 f'<td class="sechead"><a class="sec" href="tog:{quote(key, safe="")}">{arrow}&nbsp;&nbsp;{esc(title)}</a>{cnt}</td>'
@@ -305,10 +332,16 @@ class InfoPanel(QWidget):
 
     def _subsection(self, key, title, body, default=False):
         is_open = self._open.get(key, default)
-        arrow = "&#9662;" if is_open else "&#9656;"
+        arrow = self._disclosure(is_open)
         head = (f'<table cellspacing="0" cellpadding="0"><tr><td class="subhead">'
                 f'<a class="sub" href="tog:{quote(key, safe="")}">{arrow}&nbsp; {esc(title)}</a></td></tr></table>')
         return head + (f'<div style="margin:2px 0 6px 20px">{body}</div>' if is_open else "")
+
+    def _disclosure(self, is_open):
+        from .studio_style import ROOT
+        path = ROOT / "icons" / ("graphite/down.svg" if is_open else "specimen/forward.svg")
+        size = round(12 * self._font_scale)
+        return f'<img src="{path.as_uri()}" width="{size}" height="{size}" alt="">'
 
     def _summary_and_description(self, def_key):
         if not def_key or def_key not in self.ds.definitions:

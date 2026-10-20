@@ -7,14 +7,17 @@
       "scale_note": "Native field: 1 unit = 750 micrometres. Detached filtering detail is enlarged schematically; do not use it for morphometry.",
       "variants": {
         "post": {
-          "path": "models/spleen/v4/model.npz",
+          "path": "models/spleen/native-20261020/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/spleen/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/spleen/v4/recipe.json"
+            "teaching_recipe": "models/spleen/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "oesophagus_wall": {
       "name": "Oesophageal Wall",
@@ -25,11 +28,14 @@
           "path": "models/oesophagus_wall/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/oesophagus_wall/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/oesophagus_wall/v4/recipe.json"
+            "teaching_recipe": "models/oesophagus_wall/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "stomach_wall": {
       "name": "Stomach Wall",
@@ -40,11 +46,14 @@
           "path": "models/stomach_wall/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/stomach_wall/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/stomach_wall/v4/recipe.json"
+            "teaching_recipe": "models/stomach_wall/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "ileum": {
       "name": "Ileum",
@@ -55,11 +64,14 @@
           "path": "models/ileum/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/ileum/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/ileum/v4/recipe.json"
+            "teaching_recipe": "models/ileum/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "tooth": {
       "name": "Tooth",
@@ -70,11 +82,14 @@
           "path": "models/tooth/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/tooth/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/tooth/v4/recipe.json"
+            "teaching_recipe": "models/tooth/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "tongue_papillae": {
       "name": "Tongue Papillae",
@@ -85,26 +100,32 @@
           "path": "models/tongue_papillae/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/tongue_papillae/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/tongue_papillae/v4/recipe.json"
+            "teaching_recipe": "models/tongue_papillae/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "bladder_wall": {
       "name": "Bladder Wall",
-      "summary": "Static distended dome wall patch; intact layers and reversible cellular sections.",
+      "summary": "Distended bladder dome wall with continuous umbrella cells, their nuclei and vesicles, supporting tissue, muscle, vessels and nerves.",
       "scale_note": "Schematic distended dome specimen; cellular layers are enlarged for visibility, so one world scale does not calibrate every structure.",
       "variants": {
         "post": {
-          "path": "models/bladder_wall/v4/model.npz",
+          "path": "models/bladder_wall/native-20261020/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/bladder_wall/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/bladder_wall/v4/recipe.json"
+            "teaching_recipe": "models/bladder_wall/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "thin_skin": {
       "name": "Thin Skin",
@@ -115,26 +136,14 @@
           "path": "models/thin_skin/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/thin_skin/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/thin_skin/v4/recipe.json"
+            "teaching_recipe": "models/thin_skin/native-20261020/teaching_recipe.json"
           }
         }
-      }
-    },
-    "scalp": {
-      "name": "Scalp",
-      "summary": "Distinct scalp tissue display with preserved three-follicle arrangement and one refined cellular follicular unit",
-      "scale_note": "Original open-foreground/rear-panel scalp display preserved. Cellular sampling is confined to one native follicular unit. Narrow anterior dermal attachment support is explicitly reconstructed teaching context. Specimen stops at galea; deeper scalp layers excluded.",
-      "variants": {
-        "post": {
-          "path": "models/scalp/v4/model.npz",
-          "format": "npz",
-          "static_recipe": true,
-          "companions": {
-            "teaching_recipe": "models/scalp/v4/recipe.json"
-          }
-        }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "thick_skin": {
       "name": "Thick Skin",
@@ -145,11 +154,14 @@
           "path": "models/thick_skin/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/thick_skin/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/thick_skin/v4/recipe.json"
+            "teaching_recipe": "models/thick_skin/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "blood_cells": {
       "name": "Blood Cells",
@@ -158,8 +170,9 @@
           "path": "models/blood_cells/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/blood_cells/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/blood_cells/v4/recipe.json"
+            "teaching_recipe": "models/blood_cells/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -169,7 +182,9 @@
         "blood",
         "bone_marrow",
         "spleen"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "cardiac_muscle": {
       "summary": "Preserved source-authored cardiac muscle tissue section with static inspection presets.",
@@ -293,15 +308,17 @@
       "name": "Cardiac Muscle",
       "variants": {
         "post": {
-          "path": "models/cardiac_muscle/v4/model.npz",
+          "path": "models/cardiac_muscle/native-20261020/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/cardiac_muscle/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/cardiac_muscle/v4/recipe.json",
-            "catalog": "models/cardiac_muscle/v4/catalog.json"
+            "teaching_recipe": "models/cardiac_muscle/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "cornea": {
       "name": "Cornea",
@@ -310,8 +327,9 @@
           "path": "models/cornea/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/cornea/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/cornea/v4/recipe.json"
+            "teaching_recipe": "models/cornea/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -320,7 +338,9 @@
       "histology": [
         "cornea",
         "strat_squamous_nk"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "elastic_artery": {
       "name": "Elastic Artery",
@@ -329,8 +349,9 @@
           "path": "models/elastic_artery/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/elastic_artery/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/elastic_artery/v4/recipe.json"
+            "teaching_recipe": "models/elastic_artery/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -338,7 +359,9 @@
       "scale_note": "Source teaching scale retained: nominal 19 mm lumen, one unit 13.5714 mm. Twelve enlarged representative elastic sheets include boundary laminae. Aggregate smooth-muscle media has no separately selectable cell bodies or nuclei. Blood cells and furnishing dimensions are enlarged schematic representatives. Native corner section is display clipping, not geometry deletion.",
       "histology": [
         "elastic_artery"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "whole_heart": {
       "name": "Heart",
@@ -347,14 +370,10 @@
           "path": "models/whole_heart/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/whole_heart/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/whole_heart/v4/recipe.json",
-            "catalog": "models/whole_heart/v4/catalog.json"
-          },
-          "runtime_controls": {
-            "viewer": {
-              "mixed_schematic_scale": true
-            }
+            "teaching_recipe": "models/whole_heart/native-20261020/teaching_recipe.json",
+            "catalog": "models/whole_heart/native-20261020/catalog.json"
           }
         }
       },
@@ -899,7 +918,9 @@
           "right_ventricle_outflow_tract"
         ]
       },
-      "order": 1
+      "order": 1,
+      "collection": "microanatomy",
+      "oriented": false
     },
     "hepatobiliary": {
       "name": "Hepatobiliary system",
@@ -908,8 +929,9 @@
           "path": "models/hepatobiliary/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/hepatobiliary/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/hepatobiliary/v4/recipe.json"
+            "teaching_recipe": "models/hepatobiliary/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -920,7 +942,9 @@
         "gallbladder",
         "pancreas",
         "duodenum"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "kidney_nephron": {
       "name": "Kidney",
@@ -929,9 +953,10 @@
           "path": "models/kidney_nephron/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/kidney_nephron/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/kidney_nephron/v4/recipe.json",
-            "catalog": "models/kidney_nephron/v4/catalog.json"
+            "teaching_recipe": "models/kidney_nephron/native-20261020/teaching_recipe.json",
+            "catalog": "models/kidney_nephron/native-20261020/catalog.json"
           }
         }
       },
@@ -1269,17 +1294,20 @@
           "group:S26"
         ]
       },
-      "order": 2
+      "order": 2,
+      "collection": "microanatomy",
+      "oriented": false
     },
     "liver_lobule": {
       "name": "Liver Lobule",
       "variants": {
         "post": {
-          "path": "models/liver_lobule/v4/model.npz",
+          "path": "models/liver_lobule/native-20261020/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/liver_lobule/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/liver_lobule/v4/recipe.json"
+            "teaching_recipe": "models/liver_lobule/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1288,7 +1316,9 @@
       "histology": [
         "liver",
         "gallbladder"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "lung_acinus_review_v2": {
       "name": "Lung Acinus",
@@ -1297,8 +1327,9 @@
           "path": "models/lung_acinus_review_v2/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/lung_acinus_review_v2/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/lung_acinus_review_v2/v4/recipe.json"
+            "teaching_recipe": "models/lung_acinus_review_v2/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1308,7 +1339,9 @@
         "lung",
         "bronchiole",
         "simple_squamous"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "lymph_node": {
       "name": "Lymph Node",
@@ -1317,8 +1350,9 @@
           "path": "models/lymph_node/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/lymph_node/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/lymph_node/v4/recipe.json"
+            "teaching_recipe": "models/lymph_node/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1327,7 +1361,9 @@
       "histology": [
         "lymph_node",
         "tonsil"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "muscular_artery": {
       "name": "Muscular Artery",
@@ -1336,8 +1372,9 @@
           "path": "models/muscular_artery/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/muscular_artery/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/muscular_artery/v4/recipe.json"
+            "teaching_recipe": "models/muscular_artery/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1346,7 +1383,9 @@
       "histology": [
         "muscular_artery",
         "capillaries"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "peripheral_nerve": {
       "name": "Peripheral Nerve",
@@ -1355,8 +1394,9 @@
           "path": "models/peripheral_nerve/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/peripheral_nerve/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/peripheral_nerve/v4/recipe.json"
+            "teaching_recipe": "models/peripheral_nerve/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1365,7 +1405,9 @@
       "histology": [
         "peripheral_nerve",
         "ganglion"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "retina": {
       "name": "Retina",
@@ -1374,8 +1416,9 @@
           "path": "models/retina/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/retina/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/retina/v4/recipe.json"
+            "teaching_recipe": "models/retina/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1384,7 +1427,9 @@
       "histology": [
         "retina",
         "eye"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "skeletal_muscle": {
       "name": "Skeletal Muscle",
@@ -1393,8 +1438,9 @@
           "path": "models/skeletal_muscle/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/skeletal_muscle/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/skeletal_muscle/v4/recipe.json"
+            "teaching_recipe": "models/skeletal_muscle/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1402,7 +1448,9 @@
       "scale_note": "Multiscale schematic; seven representative fascicles and enlarged myofibrillar detail are not measured density or one common physical scale.",
       "histology": [
         "skeletal_muscle"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "thyroid_parathyroid_review_v2": {
       "name": "Thyroid and Parathyroid",
@@ -1411,16 +1459,19 @@
           "path": "models/thyroid_parathyroid_review_v2/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/thyroid_parathyroid_review_v2/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/thyroid_parathyroid_review_v2/v4/recipe.json",
-            "colors": "models/thyroid_parathyroid_review_v2/v4/vertex_colors.npz",
-            "color_contract": "models/thyroid_parathyroid_review_v2/v4/color_contract.json"
+            "teaching_recipe": "models/thyroid_parathyroid_review_v2/native-20261020/teaching_recipe.json",
+            "color_contract": "models/thyroid_parathyroid_review_v2/native-20261020/color_contract.json",
+            "colors": "models/thyroid_parathyroid_review_v2/v4/vertex_colors.npz"
           }
         }
       },
       "summary": "Separate magnified thyroid and parathyroid tissue specimens. Static anatomy only.",
       "scale_note": "500 micrometres per unit; representative cells and basal lamina enlarged. Separate specimens, not a whole-organ reconstruction. Saved specimen cuts are intentional.",
-      "histology": []
+      "histology": [],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "trachea_wall": {
       "name": "Trachea Wall",
@@ -1429,8 +1480,9 @@
           "path": "models/trachea_wall/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/trachea_wall/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/trachea_wall/v4/recipe.json"
+            "teaching_recipe": "models/trachea_wall/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1441,7 +1493,9 @@
         "pseudostratified",
         "hyaline_cartilage",
         "bronchus"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "vein_wall": {
       "name": "Vein Wall",
@@ -1450,8 +1504,9 @@
           "path": "models/vein_wall/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/vein_wall/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/vein_wall/v4/recipe.json"
+            "teaching_recipe": "models/vein_wall/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1459,7 +1514,9 @@
       "scale_note": "Existing schematic teaching scale retained. Paired nearly closed valve pose and narrow slit are preserved. Representative enlarged blood cells and wall routes; no separate cellular nuclei or cytoplasms are modeled. Axial lumen remains open; section planes are native display clipping.",
       "histology": [
         "vein"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "male_reproductive": {
       "name": "Male reproductive system",
@@ -1468,8 +1525,9 @@
           "path": "models/male_reproductive/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/male_reproductive/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/male_reproductive/v4/recipe.json"
+            "teaching_recipe": "models/male_reproductive/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1484,17 +1542,20 @@
         "penis",
         "urethra",
         "bladder"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "female_reproductive": {
       "name": "Female reproductive system",
       "variants": {
         "post": {
-          "path": "models/female_reproductive/v4/model.npz",
+          "path": "models/female_reproductive/native-20261020/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/female_reproductive/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/female_reproductive/v4/recipe.json"
+            "teaching_recipe": "models/female_reproductive/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1511,7 +1572,9 @@
         "strat_squamous_nk",
         "smooth_muscle",
         "adipose"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "ear": {
       "name": "Ear",
@@ -1520,8 +1583,9 @@
           "path": "models/ear/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/ear/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/ear/v4/recipe.json"
+            "teaching_recipe": "models/ear/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1530,7 +1594,9 @@
       "histology": [
         "ear",
         "elastic_cartilage"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "eyeball": {
       "name": "Eye",
@@ -1539,8 +1605,9 @@
           "path": "models/eyeball/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/eyeball/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/eyeball/v4/recipe.json"
+            "teaching_recipe": "models/eyeball/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1550,7 +1617,9 @@
         "retina",
         "cornea",
         "eye"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "compact_bone": {
       "name": "Compact Bone",
@@ -1559,8 +1628,9 @@
           "path": "models/compact_bone/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/compact_bone/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/compact_bone/v4/recipe.json"
+            "teaching_recipe": "models/compact_bone/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1571,17 +1641,20 @@
         "spongy_bone",
         "ossification",
         "bone_marrow"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "axillary_skin": {
       "name": "Axillary Skin",
       "variants": {
         "post": {
-          "path": "models/axillary_skin/v4/model.npz",
-          "format": "npz",
+          "path": "models/axillary_skin/glb-20261020/model.glb",
+          "format": "glb",
           "static_recipe": true,
+          "runtime_controls": "models/axillary_skin/glb-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/axillary_skin/v4/recipe.json"
+            "viewer": "models/axillary_skin/glb-20261020/model.viewer.json"
           }
         }
       },
@@ -1590,7 +1663,9 @@
       "histology": [
         "sweat_glands",
         "hair_follicle"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "ileocecal_rectum": {
       "name": "Ileocecal region and rectum",
@@ -1599,8 +1674,9 @@
           "path": "models/ileocecal_rectum/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/ileocecal_rectum/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/ileocecal_rectum/v4/recipe.json"
+            "teaching_recipe": "models/ileocecal_rectum/native-20261020/teaching_recipe.json"
           }
         }
       },
@@ -1611,7 +1687,9 @@
         "appendix",
         "anal_canal",
         "ileum"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "jejunum": {
       "histology": [
@@ -1630,21 +1708,24 @@
           "path": "models/jejunum/v4/model.npz",
           "format": "npz",
           "static_recipe": true,
+          "runtime_controls": "models/jejunum/native-20261020/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/jejunum/v4/recipe.json"
+            "teaching_recipe": "models/jejunum/native-20261020/teaching_recipe.json"
           }
         }
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "capillary_bed": {
       "name": "Capillaries and Lymphatic Capillaries",
       "variants": {
         "post": {
-          "path": "models/capillary_bed/32e9bd04397d/refined.npz",
+          "path": "models/capillary_bed/native-20261020/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate",
-          "static_recipe": true
+          "static_recipe": true,
+          "runtime_controls": "models/capillary_bed/native-20261020/model.controls.json",
+          "companions": {}
         }
       },
       "summary": "A capillary network to scale, cut through its middle: an arteriole with its three tunics, the metarteriole and its precapillary sphincters, arterial and venous capillaries (red to blue, red cells in single file), the thoroughfare channel into the venule, an arteriovenous anastomosis (glomus), and a blind-ended lymphatic capillary with overlapping endothelial flaps and anchoring filaments draining into a valved lymphatic vessel. Beside it, 3 times larger: continuous, fenestrated and sinusoidal capillaries cut lengthwise.",
@@ -1659,7 +1740,9 @@
         "lymph_node",
         "liver_lobule",
         "kidney_nephron"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "lymph_drainage": {
       "name": "Lymphatic Trunks and Ducts",
@@ -1667,9 +1750,9 @@
         "post": {
           "path": "models/lymph_drainage/f98254cfa719/refined.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate",
-          "static_recipe": true
+          "static_recipe": true,
+          "runtime_controls": "models/lymph_drainage/native-20261020/model.controls.json",
+          "companions": {}
         }
       },
       "summary": "Where lymph returns to the blood. The cisterna chyli collects the intestinal and lumbar trunks in front of L1-L2; the thoracic duct climbs through the aortic hiatus and the posterior mediastinum, crosses to the left and empties into the left venous angle. The short right lymphatic duct takes the right jugular, subclavian and bronchomediastinal trunks to the right venous angle. Green = thoracic duct territory, teal = right lymphatic duct territory.",
@@ -1680,7 +1763,9 @@
       "related": [
         "lymph_node",
         "capillary_bed"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     },
     "duodenum": {
       "name": "Duodenum Wall",
@@ -1688,9 +1773,9 @@
         "post": {
           "path": "models/duodenum/331cf3c45775/refined.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate",
-          "static_recipe": true
+          "static_recipe": true,
+          "runtime_controls": "models/duodenum/native-20261020/model.controls.json",
+          "companions": {}
         }
       },
       "summary": "A duodenal wall block: leaf-like villi covered by enterocytes and goblet cells, crypts with Paneth and stem cells, the lamina propria with lacteals and capillaries, the muscularis mucosae, a submucosa full of Brunner glands whose ducts open into the crypts, the Meissner and Auerbach plexuses, inner circular and outer longitudinal muscle, and the serosa. Brunner glands in the submucosa are what identify the duodenum.",
@@ -1709,7 +1794,9 @@
         "structures": [
           "Duodenum"
         ]
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "colon_wall": {
       "name": "Colon Wall",
@@ -1717,9 +1804,9 @@
         "post": {
           "path": "models/colon_wall/6c4d5fee78de/refined.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate",
-          "static_recipe": true
+          "static_recipe": true,
+          "runtime_controls": "models/colon_wall/native-20261020/model.controls.json",
+          "companions": {}
         }
       },
       "summary": "A colon wall block: a flat surface with crypt openings (no villi), straight test-tube crypts full of goblet cells with stem cells at their bases, lamina propria rich in immune cells and capillaries, a lymphoid follicle crossing the muscularis mucosae, the submucosa with vessels and Meissner's plexus, inner circular muscle, Auerbach's plexus, the outer longitudinal muscle thickened into a taenia coli, and the serosa.",
@@ -1747,7 +1834,9 @@
           "Colon",
           "Large intestine"
         ]
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "pancreas": {
       "name": "Pancreas: Acini and Islets",
@@ -1755,9 +1844,9 @@
         "post": {
           "path": "models/pancreas/3bbaf20c3100/refined.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate",
-          "static_recipe": true
+          "static_recipe": true,
+          "runtime_controls": "models/pancreas/native-20261020/model.controls.json",
+          "companions": {}
         }
       },
       "summary": "Pancreas: serous acini with basophilic bases and apical zymogen granules, centroacinar cells and intercalated ducts (no striated ducts), intralobular and interlobular ducts, and an islet of Langerhans with intermingled beta, alpha, delta and PP cells around a dense capillary network. A separate teaching set on the right repeats the islet and the exocrine units with space around them.",
@@ -1783,7 +1872,9 @@
           "Pancreatic duct",
           "Accessory pancreatic duct"
         ]
-      }
+      },
+      "collection": "microanatomy",
+      "oriented": false
     },
     "neuron": {
       "name": "Neuron: Cell, Node of Ranvier and Synapse",
@@ -1791,9 +1882,9 @@
         "post": {
           "path": "models/neuron/f2af36c066a0/refined.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate",
-          "static_recipe": true
+          "static_recipe": true,
+          "runtime_controls": "models/neuron/native-20261020/model.controls.json",
+          "companions": {}
         }
       },
       "summary": "A multipolar neuron: dendrites, a cell body with nucleus, nucleolus, Nissl substance (rough ER), Golgi and mitochondria, the axon hillock and initial segment, an axon wrapped in myelin with nodes of Ranvier, and axon terminals with boutons. Two enlargements: a node of Ranvier with its sodium channels, and an excitatory synapse with vesicles, active zone, calcium channels, AMPA receptors and the postsynaptic density.",
@@ -1806,7 +1897,9 @@
       "related": [
         "peripheral_nerve",
         "skeletal_muscle"
-      ]
+      ],
+      "collection": "microanatomy",
+      "oriented": false
     }
   }
 }

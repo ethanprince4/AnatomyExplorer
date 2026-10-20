@@ -626,7 +626,7 @@ def run_native_trace(path, seconds=120, use_saved_view_settings=False, _on_ready
         ds = Dataset(config.DATA_DIR)
         window = MainWindow(ds, restore=False)
         view = window.viewport
-        window.setWindowTitle("Anatomy Explorer — native picking capture")
+        window.setWindowTitle("Layered Human — native picking capture")
         window.resize(1120, 760)
         latest_pointer = {}
 

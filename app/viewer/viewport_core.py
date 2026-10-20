@@ -1011,7 +1011,8 @@ class ViewportCore:
                 if it.group in seen_groups:
                     continue
                 seen_groups[it.group] = i
-                chosen.append((i, it.group))
+                group = self.model.group_of(i)
+                chosen.append((i, group.title if group is not None else it.group))
             else:
                 chosen.append((i, self.reference_labels.get(i, it.name)))
             if len(chosen) >= limit:
@@ -1413,8 +1414,10 @@ class ViewportCore:
                 or not self.settings.get("show_hover_tooltip", True)):
             return
         it = self.model.items[sid]
-        text = it.group if getattr(self.model, 'label_by_family', False) else it.name
-        sub = it.group if it.group != text else ""
+        group = self.model.group_of(it.index)
+        group_title = group.title if group is not None else it.group
+        text = group_title if getattr(self.model, 'label_by_family', False) else it.name
+        sub = group_title if group_title != text else ""
         font = QFont(self.font())
         font.setPointSizeF(9.5)
         font.setBold(True)

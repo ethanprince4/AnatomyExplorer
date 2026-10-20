@@ -3,11 +3,13 @@ import unicodedata
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
+from .terminology import canonical_name
+
 
 def normalize(text):
     text = unicodedata.normalize("NFKD", text or "")
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
-    text = text.lower().replace("—", " ")
+    text = canonical_name(text).replace("—", " ")
     text = re.sub(r"[^a-z0-9]+", " ", text)
     return text.strip()
 
@@ -92,13 +94,13 @@ class SearchIndex:
         by_base = {}
         for s in ds.structures:
             if not s.get("role"):
-                by_base.setdefault(s["base"].lower(), []).append(s["id"])
-        group_of = {n["name"].lower(): nid for nid, n in ds.nodes.items() if n["kind"] != "structure"}
+                by_base.setdefault(canonical_name(s["base"]), []).append(s["id"])
+        group_of = {canonical_name(n["name"]): nid for nid, n in ds.nodes.items() if n["kind"] != "structure"}
         added = []
         for entry in content.clinical:
             sids = []
             for t in entry["targets"]:
-                key = t.lower()
+                key = canonical_name(t)
                 if key in by_base:
                     sids += by_base[key]
                 elif key in group_of:

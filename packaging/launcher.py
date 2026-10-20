@@ -57,7 +57,7 @@ elif sys.platform in {"win32", "darwin"}:
             sys.exit(0)
         from PySide6.QtWidgets import QApplication, QMessageBox
         qt = QApplication([])
-        QMessageBox.warning(None, "Anatomy Explorer", f"Could not start the app: {exc}")
+        QMessageBox.warning(None, "Layered Human", f"Could not start the app: {exc}")
         sys.exit(1)
 
 runpy.run_module("app", run_name="__main__", alter_sys=True)

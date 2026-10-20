@@ -22,4 +22,8 @@ From this directory, run `python site/build.py`. It writes `site/dist/`, a stand
 
 The hero uses the 26% depth plate rendered by the application. The site’s PA chest radiograph is by Mikael Häggström (CC0); its simple-columnar micrograph is from Berkshire Community College Bioscience Image Library (CC0). Each is credited on the page with a direct Wikimedia Commons source link. The production app’s separate Z-Anatomy and BodyParts3D CC BY-SA attribution remains in the app’s licensing record.
 
-The Windows button links to the latest GitHub release page because it does not currently publish the packaged EXE produced by the release preparer. It must not link to a guessed direct-download filename. The Mac button links to the published `Install-Anatomy-Explorer-Mac.dmg`.
+The Windows button links to the latest GitHub release page. The Mac button uses
+the new release helper filename `Install-Layered-Human-Mac.dmg`; release packaging
+produces `Install-Layered-Human-Windows.exe` for Windows. Publish those assets with
+this website update. The existing repository address is retained for updater
+compatibility; see [the branding migration](../../branding.md).

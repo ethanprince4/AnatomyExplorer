@@ -1,6 +1,6 @@
 #!/bin/bash
-# Installs the Anatomy Explorer disk image from its GitHub release parts. packaging/prepare_release_assets.py
-# fills in the @...@ values and copies the result into Contents/Resources of "Install Anatomy Explorer.app".
+# Installs the Layered Human disk image from its GitHub release parts. packaging/prepare_release_assets.py
+# fills in the @...@ values and copies the result into Contents/Resources of "Install Layered Human.app".
 #   install.sh plan                        prints the folder to install into, then yes or no (a copy is already there)
 #   install.sh install WORK DEST yes|no    downloads, checks, joins, mounts and copies; WORK/status tells the applet how far it is
 # Written for bash 3.2, the /bin/bash that ships with macOS.
@@ -10,6 +10,7 @@ BASE='@BASE@'
 DMG='@DMG@'
 BUNDLE='@BUNDLE@'
 TOTAL=@TOTAL@
+BUNDLE_BYTES=@BUNDLEBYTES@
 PARTS=(
 @PARTS@
 )
@@ -51,10 +52,18 @@ run_install() {
   trap 'fail "The installer stopped unexpectedly. The details are in $WORK/log.txt"' ERR
   trap cleanup EXIT
 
-  local free_kb
+  local free_kb required_bytes dest_free_kb
+  # Keep all downloaded parts, the joined DMG and the new uncompressed app
+  # simultaneously until copying succeeds. The previous app is still retained.
+  required_bytes=$(( TOTAL * 2 + BUNDLE_BYTES + 1073741824 ))
   free_kb=$(df -Pk "$WORK" | awk 'NR == 2 {print $4}')
-  if [ "$free_kb" -lt $(( TOTAL * 2 / 1024 + 1048576 )) ]; then
-    fail "Not enough free disk space. Free about $(( (TOTAL * 2 + 1073741824) / 1000000000 + 1 )) GB and run the installer again."
+  if [ "$free_kb" -lt $(( (required_bytes + 1023) / 1024 )) ]; then
+    fail "Not enough free disk space. Free about $(( (required_bytes + 999999999) / 1000000000 )) GB and run the installer again."
+  fi
+  mkdir -p "$dest" || fail "The folder $dest could not be created."
+  dest_free_kb=$(df -Pk "$dest" | awk 'NR == 2 {print $4}')
+  if [ "$dest_free_kb" -lt $(( (BUNDLE_BYTES + 1073741824 + 1023) / 1024 )) ]; then
+    fail "Not enough free disk space in $dest. Free about $(( (BUNDLE_BYTES + 1073741824 + 999999999) / 1000000000 )) GB there and run the installer again."
   fi
 
   local count=${#PARTS[@]} n=0 entry name sum got

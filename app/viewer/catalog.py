@@ -17,13 +17,14 @@ import weakref
 from collections import OrderedDict
 
 from ..config import ROOT
+from ..terminology import american_text, canonical_name, display_content
 
 META_DIR = ROOT / "data" / "content" / "models"
 KIND_ORDER = {"glb": 0, "procedural": 1}
 
 
 def _norm(s):
-    return " ".join(str(s or "").lower().split())
+    return " ".join(canonical_name(s).split())
 
 
 def singular(name):
@@ -57,12 +58,13 @@ class ModelEntry:
         self.id = id
         from ..variants.display_names import display_name
         self.name = display_name(id, name)
-        self.summary = summary
-        self.targets = targets or {}
+        self.summary = american_text(summary)
+        self.targets = {**(targets or {}), **{key: [american_text(name) for name in targets[key]]
+                                            for key in ("structures", "contains") if targets and key in targets}}
         self.histology = list(histology)
         self.related = list(related)
-        self.clinical = [tuple(c) for c in clinical]
-        self.scale_note = scale_note
+        self.clinical = display_content([tuple(c) for c in clinical], text=True)
+        self.scale_note = american_text(scale_note)
         self.credit_html = ""
         self.aliases = {}
 

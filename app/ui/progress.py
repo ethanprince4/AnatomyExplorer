@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (QDialog, QDialogButtonBox, QFrame, QGridLayout, Q
                                QScrollArea, QVBoxLayout, QWidget)
 
 from .. import srs
+from ..terminology import american_text
 from . import theme
 from .flow import FlowLayout
 
@@ -161,7 +162,7 @@ class ProgressDialog(QDialog):
         weak.setWordWrap(True)
         weak.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         for key, missed, seen, rate in srs.weakest(stats, limit=30):
-            label = str(stats.get(key, {}).get("label") or key)
+            label = american_text(str(stats.get(key, {}).get("label") or key))
             weak.addItem(QListWidgetItem(f"{label}\nMissed {missed} of {seen} answers ({round(rate * 100)}%)"))
         if not weak.count():
             item = QListWidgetItem("No repeated misses yet. This list appears after an item has at least two answers.")

@@ -1,0 +1,805 @@
+{
+  "native": {
+    "summary": "Preserved static hierarchical muscle teaching model.",
+    "metres_per_unit": 0.001,
+    "scale_note": "Multiscale schematic; seven representative fascicles and enlarged myofibrillar detail are not measured density or one common physical scale.",
+    "viewer_cameras": {
+      "Overview": {
+        "position": [
+          2.7,
+          2.1,
+          2.3
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.7,
+        "hidden": []
+      },
+      "Fascicle and fiber": {
+        "position": [
+          2.1,
+          1.0,
+          1.7
+        ],
+        "target": [
+          0.2,
+          0.0,
+          0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.7,
+        "hidden": [
+          "Epimysium",
+          "Epimysial collagen bundles"
+        ]
+      },
+      "Peripheral nuclei": {
+        "position": [
+          1.4,
+          1.5,
+          2.2
+        ],
+        "target": [
+          0.65,
+          0.18,
+          0.38
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.7,
+        "hidden": [
+          "Epimysium",
+          "Epimysial collagen bundles",
+          "Perimysium",
+          "Endomysium"
+        ]
+      },
+      "Myofibril closeup": {
+        "position": [
+          1.25,
+          0.32,
+          0.85
+        ],
+        "target": [
+          1.02,
+          0.07,
+          0.486
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.33,
+        "hidden": [
+          "Epimysium",
+          "Epimysial collagen bundles",
+          "Perimysium",
+          "Endomysium",
+          "Muscle fibres",
+          "Myonuclei",
+          "Satellite cells",
+          "Endomysial capillaries",
+          "Perimysial arterioles",
+          "Perimysial venules",
+          "Motor nerve branch",
+          "Neuromuscular junction",
+          "Motor end plate",
+          "Muscle spindle capsule",
+          "Intrafusal fibres",
+          "Nuclear bag & chain nuclei",
+          "Annulospiral (Ia) sensory ending"
+        ]
+      },
+      "Muscle spindle": {
+        "position": [
+          0.8,
+          0.3,
+          0.9
+        ],
+        "target": [
+          0.28,
+          -0.08,
+          0.52
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.46,
+        "hidden": [
+          "Epimysium",
+          "Epimysial collagen bundles",
+          "Perimysium",
+          "Endomysium",
+          "Muscle fibres",
+          "Myonuclei",
+          "Satellite cells",
+          "Endomysial capillaries",
+          "Perimysial arterioles",
+          "Perimysial venules",
+          "Myofibrils",
+          "A band",
+          "I band",
+          "H zone",
+          "M line",
+          "Z disc",
+          "T tubules",
+          "Sarcoplasmic reticulum",
+          "Motor nerve branch",
+          "Neuromuscular junction",
+          "Motor end plate"
+        ]
+      }
+    },
+    "start_view": "Overview",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": true,
+    "scale_note": "Multiscale schematic; seven representative fascicles and enlarged myofibrillar detail are not measured density or one common physical scale."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "skeletal_muscle_static_refinement",
+      "display_name": "Skeletal muscle",
+      "summary": "Preserved static hierarchical muscle teaching model.",
+      "metres_per_unit": 0.001,
+      "scale_note": "Multiscale schematic; seven representative fascicles and enlarged myofibrillar detail are not measured density or one common physical scale.",
+      "viewer_cameras": {
+        "Overview": {
+          "position": [
+            2.7,
+            2.1,
+            2.3
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 2.7,
+          "hidden": []
+        },
+        "Fascicle and fiber": {
+          "position": [
+            2.1,
+            1.0,
+            1.7
+          ],
+          "target": [
+            0.2,
+            0.0,
+            0.1
+          ],
+          "type": "ORTHO",
+          "ortho_width": 1.7,
+          "hidden": [
+            "Epimysium",
+            "Epimysial collagen bundles"
+          ]
+        },
+        "Peripheral nuclei": {
+          "position": [
+            1.4,
+            1.5,
+            2.2
+          ],
+          "target": [
+            0.65,
+            0.18,
+            0.38
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.7,
+          "hidden": [
+            "Epimysium",
+            "Epimysial collagen bundles",
+            "Perimysium",
+            "Endomysium"
+          ]
+        },
+        "Myofibril closeup": {
+          "position": [
+            1.25,
+            0.32,
+            0.85
+          ],
+          "target": [
+            1.02,
+            0.07,
+            0.486
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.33,
+          "hidden": [
+            "Epimysium",
+            "Epimysial collagen bundles",
+            "Perimysium",
+            "Endomysium",
+            "Muscle fibres",
+            "Myonuclei",
+            "Satellite cells",
+            "Endomysial capillaries",
+            "Perimysial arterioles",
+            "Perimysial venules",
+            "Motor nerve branch",
+            "Neuromuscular junction",
+            "Motor end plate",
+            "Muscle spindle capsule",
+            "Intrafusal fibres",
+            "Nuclear bag & chain nuclei",
+            "Annulospiral (Ia) sensory ending"
+          ]
+        },
+        "Muscle spindle": {
+          "position": [
+            0.8,
+            0.3,
+            0.9
+          ],
+          "target": [
+            0.28,
+            -0.08,
+            0.52
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.46,
+          "hidden": [
+            "Epimysium",
+            "Epimysial collagen bundles",
+            "Perimysium",
+            "Endomysium",
+            "Muscle fibres",
+            "Myonuclei",
+            "Satellite cells",
+            "Endomysial capillaries",
+            "Perimysial arterioles",
+            "Perimysial venules",
+            "Myofibrils",
+            "A band",
+            "I band",
+            "H zone",
+            "M line",
+            "Z disc",
+            "T tubules",
+            "Sarcoplasmic reticulum",
+            "Motor nerve branch",
+            "Neuromuscular junction",
+            "Motor end plate"
+          ]
+        }
+      },
+      "start_view": "Overview",
+      "home_view": "Overview",
+      "cut_on": false
+    }
+  },
+  "source_part_names": [
+    "Epimysium",
+    "Epimysial collagen bundles",
+    "Perimysium",
+    "Endomysium",
+    "Muscle fibres",
+    "Myonuclei",
+    "Satellite cells",
+    "Endomysial capillaries",
+    "Perimysial arterioles",
+    "Perimysial venules",
+    "Myofibrils",
+    "A band",
+    "I band",
+    "H zone",
+    "M line",
+    "Z disc",
+    "T tubules",
+    "Sarcoplasmic reticulum",
+    "Motor nerve branch",
+    "Neuromuscular junction",
+    "Motor end plate",
+    "Muscle spindle capsule",
+    "Intrafusal fibres",
+    "Nuclear bag & chain nuclei",
+    "Annulospiral (Ia) sensory ending"
+  ],
+  "part_names": [
+    "Epimysium",
+    "Epimysial collagen bundles",
+    "Perimysium",
+    "Endomysium",
+    "Muscle fibres",
+    "Myonuclei",
+    "Satellite cells",
+    "Endomysial capillaries",
+    "Perimysial arterioles",
+    "Perimysial venules",
+    "Myofibrils",
+    "A band",
+    "I band",
+    "H zone",
+    "M line",
+    "Z disc",
+    "T tubules",
+    "Sarcoplasmic reticulum",
+    "Motor nerve branch",
+    "Neuromuscular junction",
+    "Motor end plate",
+    "Muscle spindle capsule",
+    "Intrafusal fibres",
+    "Nuclear bag & chain nuclei",
+    "Annulospiral (Ia) sensory ending"
+  ],
+  "parts": [
+    {
+      "name": "Epimysium",
+      "group": "Connective tissue",
+      "color": "#e9dfc9",
+      "description": "Epimysium: the dense irregular connective-tissue coat of the whole muscle, mostly type I collagen. It is continuous inwards with the perimysium and outwards with the tendon and deep fascia, so the pull of every fibre is summed onto the tendon. It is the plane developed surgically between muscles.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 2,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.025,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Epimysial collagen bundles",
+      "group": "Connective tissue",
+      "color": "#d9c7a0",
+      "description": "Coarse type I collagen bundles of the epimysium, laid in two crossing helical sets (a cross-ply) so the sheath resists overstretch yet lets the belly shorten and widen as it contracts.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": 2.2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        45.0,
+        0.12,
+        1
+      ]
+    },
+    {
+      "name": "Perimysium",
+      "group": "Connective tissue",
+      "color": "#dcc49c",
+      "description": "Perimysium: thinner connective-tissue septa that divide the muscle into fascicles and wrap each one. It carries the larger arterioles, venules and nerve branches and houses the muscle spindles. Fascicles are the 'grain' of meat. In dermatomyositis the perimysial vessels are the target and fibres at the edge of each fascicle waste (perifascicular atrophy).",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 1.5,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.025,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Endomysium",
+      "group": "Connective tissue",
+      "color": "#f2e6d8",
+      "description": "Endomysium: the delicate reticular (type III collagen) fibres and basal lamina around each individual muscle fibre, carrying the capillaries; satellite cells sit beneath its basal lamina. In cross-section it is the thin pale net between the polygonal fibres. Cytotoxic T cells invade it in polymyositis and inclusion-body myositis.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 1,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.025,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Muscle fibres",
+      "group": "Muscle fibres",
+      "color": "#b0463f",
+      "description": "Skeletal muscle fibres: each a single multinucleated cell (a syncytium formed by fusion of myoblasts), 10–100 µm wide and up to many centimetres long, packed with myofibrils whose aligned sarcomeres give the cross-striations. In transverse section they are polygonal, pressed together with endomysium between them, nuclei at the edge. Slow oxidative (type I) and fast glycolytic (type II) fibres are intermixed in a checkerboard; clumping of one type signals denervation and reinnervation. Seven fascicles and fewer larger fibres are representative schematic samples, not measured cellular density.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        45.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Myonuclei",
+      "group": "Muscle fibres",
+      "color": "#3f3584",
+      "description": "Myonuclei: hundreds of flattened, elongated nuclei per fibre lying at the periphery just beneath the sarcolemma - in a transverse section, dark dots at the edge of each fibre. Internal (central) nuclei mark regeneration or a myopathy (centronuclear myopathy, myotonic dystrophy).",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.6,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Satellite cells",
+      "group": "Muscle fibres",
+      "color": "#2f8c85",
+      "description": "Satellite cells: muscle stem cells (Pax7+) wedged between the sarcolemma and the basal lamina. Injury or training activates them to divide and fuse into fibres, repairing and enlarging them; their exhaustion drives the progression of Duchenne dystrophy. Cardiac muscle has none and cannot regenerate.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.7,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Endomysial capillaries",
+      "group": "Nerves & vessels",
+      "color": "#d8433b",
+      "description": "Endomysial capillaries: several around every fibre, running mostly along it with cross-links and loops. Slow oxidative (type I, red) fibres have the richest supply, and exercise training adds capillaries. These are representative longitudinal cut segments, not an authored connected arterial-to-venous network.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.6,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Perimysial arterioles",
+      "group": "Nerves & vessels",
+      "color": "#c3302b",
+      "description": "Perimysial arterioles: branches of the muscle's artery running between fascicles in the perimysium, feeding the endomysial capillary beds. Their smooth muscle relaxes within seconds of contraction starting (exercise hyperaemia).",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.6,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Perimysial venules",
+      "group": "Nerves & vessels",
+      "color": "#386db1",
+      "description": "Perimysial venules: collect the capillary blood between fascicles. Contraction squeezes the veins of the limb muscles, and with their valves this 'muscle pump' returns blood to the heart.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 1.6,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Myofibrils",
+      "group": "Muscle fibres",
+      "color": "#d98377",
+      "description": "Myofibrils: 1–2 µm cylinders filling the fibre, each a chain of sarcomeres in series. Neighbouring myofibrils keep their bands in register, which is why the whole fibre looks striated. Shown fraying out of the cut end of one fibre, enlarged and with fewer, longer sarcomeres than life.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.4,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "A band",
+      "group": "Sarcomere",
+      "color": "#8a2c3b",
+      "description": "A band (anisotropic, dark): the length of the thick myosin filaments (~1.6 µm), including their overlap with thin filaments. Its width stays constant during contraction - the key observation behind the sliding-filament theory.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "I band",
+      "group": "Sarcomere",
+      "color": "#f2c4ba",
+      "description": "I band (isotropic, light): thin actin filaments only (with troponin and tropomyosin) either side of a Z disc. It shortens during contraction as the thin filaments slide towards the M line.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "H zone",
+      "group": "Sarcomere",
+      "color": "#c9676a",
+      "description": "H zone: the centre of the A band, where thick filaments are not overlapped by thin ones. It narrows and can vanish at full contraction.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "M line",
+      "group": "Sarcomere",
+      "color": "#4a1c34",
+      "description": "M line: myomesin and M-protein (with creatine kinase) cross-linking the thick filaments at the centre of the sarcomere.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Z disc",
+      "group": "Sarcomere",
+      "color": "#2c2346",
+      "description": "Z disc (Z line): the α-actinin lattice anchoring the thin filaments and titin of neighbouring sarcomeres; a sarcomere runs from one Z disc to the next (~2.5 µm at rest). Desmin ties the Z discs to each other and to the sarcolemma. The rods of nemaline myopathy are Z-disc material.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 0.3,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "T tubules",
+      "group": "Sarcomere",
+      "color": "#6fb6d8",
+      "description": "Transverse (T) tubules: inward extensions of the sarcolemma that carry the action potential deep into the fibre. In mammalian skeletal muscle they ring each myofibril at every A–I junction (two per sarcomere), where voltage-sensing DHP (Cav1.1) receptors are coupled mechanically to ryanodine receptors of the SR.",
+      "alpha": 1.0,
+      "category": "other",
+      "label": false,
+      "rank": 0.35,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Sarcoplasmic reticulum",
+      "group": "Sarcomere",
+      "color": "#9fcf8a",
+      "description": "Sarcoplasmic reticulum: a sleeve of smooth ER round each myofibril that stores Ca²⁺. Its terminal cisternae flank every T tubule, forming a triad; RyR1 releases Ca²⁺ to start contraction and SERCA pumps it back to relax. RyR1 mutations cause malignant hyperthermia with volatile anaesthetics and suxamethonium (treated with dantrolene).",
+      "alpha": 1.0,
+      "category": "other",
+      "label": false,
+      "rank": 0.35,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Motor nerve branch",
+      "group": "Nerves & vessels",
+      "color": "#f0cf45",
+      "description": "Intramuscular motor nerve branch: myelinated axons of α motor neurons running in the perimysium and branching to supply many fibres scattered through the muscle. One motor neuron and all the fibres it supplies form a motor unit - a handful in the extraocular muscles, over a thousand in gastrocnemius.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 2.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.07,
+        65.0,
+        0.3,
+        1
+      ]
+    },
+    {
+      "name": "Neuromuscular junction",
+      "group": "Nerves & vessels",
+      "color": "#f7dd6a",
+      "description": "Neuromuscular junction (axon terminal): the motor axon loses its myelin and ends in a spray of terminal boutons lying in shallow gutters on the fibre, one junction per fibre near its middle. Each impulse releases acetylcholine onto nicotinic receptors. Botulinum toxin blocks release; antibodies to the receptor cause myasthenia gravis and to presynaptic P/Q Ca²⁺ channels Lambert–Eaton syndrome; rocuronium competes for the receptor.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 2.6,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Motor end plate",
+      "group": "Nerves & vessels",
+      "color": "#c77f9a",
+      "description": "Motor end plate (sole plate): the specialised patch of fibre under the terminal - a raised cushion of sarcoplasm with clustered sole-plate nuclei and junctional folds whose crests are packed with acetylcholine receptors, with acetylcholinesterase in the synaptic cleft.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 2.55,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Muscle spindle capsule",
+      "group": "Muscle spindle",
+      "color": "#e6e2d6",
+      "description": "Muscle spindle capsule: a fusiform connective-tissue capsule, continuous with perineurium, lying in the perimysium parallel to the ordinary (extrafusal) fibres, with a fluid-filled periaxial space round its equator. Spindles are densest in muscles for fine control (hand, neck, eye). A central window is removed for teaching; the remaining capsule is opaque.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 1.8,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Intrafusal fibres",
+      "group": "Muscle spindle",
+      "color": "#d9807a",
+      "description": "Intrafusal fibres: small modified muscle fibres inside the spindle - nuclear bag fibres (nuclei crowded into a swollen equator) and thinner nuclear chain fibres (nuclei in a single row). Only their striated polar ends contract, driven by γ motor neurons, which keeps the spindle taut and sensitive while the muscle shortens (α–γ coactivation).",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": 1.8,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        45.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Nuclear bag & chain nuclei",
+      "group": "Muscle spindle",
+      "color": "#4a3b98",
+      "description": "Nuclei of the intrafusal fibres: clustered in the equatorial bag of nuclear bag fibres, in a single file in nuclear chain fibres - the origin of their names.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 1.85,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Annulospiral (Ia) sensory ending",
+      "group": "Muscle spindle",
+      "color": "#f2c230",
+      "description": "Primary (annulospiral, group Ia) sensory ending: the Ia afferent coils round the equator of each intrafusal fibre and fires when it is stretched, signalling muscle length and its rate of change. It synapses directly on α motor neurons of the same muscle - the monosynaptic stretch (tendon-jerk) reflex.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 1.9,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    }
+  ]
+}

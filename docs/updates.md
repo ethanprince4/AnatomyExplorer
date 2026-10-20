@@ -6,6 +6,10 @@ Windows installer keeps its AppId and usual install locations; Mac users drag
 the new app into Applications once. That original installation stays available
 as a fallback. Mac Intel builds are not distributed by this project.
 
+The public product and new installers are named **Layered Human**. The current
+GitHub feed address and protocol-1 compatibility assets remain available for
+existing installations; see [branding and upgrade compatibility](branding.md).
+
 The app checks and downloads quietly on every launch while you study, unless
 you disable automatic updates. Recent checks from an earlier launch do not skip
 this launch. Failed checks retry with bounded backoff; a successful check does
@@ -89,8 +93,10 @@ No OS trust store or certificate policy is changed.
 The trust root is HTTPS to the hard-coded repository's GitHub release API. The
 API's SHA-256 asset digest authenticates the manifest to that trusted source; the
 manifest binds version, platform, protocol, exact file paths, hashes and pack
-ranges. Only that repository's exact release URLs and GitHub's HTTPS release
-CDN hosts are accepted. No token is stored or sent. Downloads have bounded sizes
+ranges. Exact release URLs under the existing `ethanprince4/AnatomyExplorer`
+identity and its reserved successor `ethanprince4/LayeredHuman` are accepted;
+packs must use the same repository and release as their manifest. GitHub's HTTPS
+release CDN hosts remain allowed for redirects. No token is stored or sent. Downloads have bounded sizes
 and bounded decompression. Paths reject traversal, Windows aliases, duplicate
 case-folded names, mutable/personal folders and conflicting directory entries.
 This is trusted GitHub-account delivery, not a separate publisher signature:

@@ -13,7 +13,7 @@ This is the approved handoff for the selected Specimen website at layeredhuman.c
 
 ## Installer links
 
-- Mac: the published asset `Install-Anatomy-Explorer-Mac.dmg` at the GitHub latest-release download URL.
+- Mac: the published asset `Install-Layered-Human-Mac.dmg` at the GitHub latest-release download URL.
 - Windows: the GitHub latest-release page. Link directly to a Windows executable only after that exact asset is present in a published release. At present the release page is the truthful destination; describe its helper and steps as listed there.
 
 ## Visual and interaction decisions

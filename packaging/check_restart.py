@@ -17,7 +17,7 @@ import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app.updater import (MAC_MANIFEST, MANIFEST, UpdateError, UpdateStore,
-                         atomic_json, lock, manifest_path, sha)
+                         application_executable, atomic_json, lock, sha, write_manifests)
 
 
 class Packs:
@@ -142,7 +142,7 @@ def main():
     supervisor = None
     helper = None
     try:
-        base = root / 'base' / ('Anatomy Explorer.app' if mac else 'AnatomyExplorer')
+        base = root / 'base' / ('Layered Human.app' if mac else 'LayeredHuman')
         def copy_file(src, dst):
             relative = Path(src).relative_to(bundle).as_posix()
             if relative.startswith(('Contents/Resources/data/', 'Contents/Resources/models/',
@@ -173,7 +173,7 @@ def main():
                     item['chunks'] = [sha(raw)]
                     baseline['blobs'][sha(raw)] = {'pack': next(iter(baseline['packs'])),
                                                  'offset': 0, 'size': 1, 'raw_size': len(raw)}
-            atomic_json(manifest_path(base), baseline)
+            write_manifests(base, baseline)
         profile = root / ('home/Library/Application Support' if mac else 'profile')
         settings_dir = root / 'qt-settings'
         env = dict(os.environ, AE_TEST_SETTINGS_DIR=str(settings_dir), AE_RESTART_PROBE=str(root))
@@ -202,7 +202,7 @@ def main():
         script_file = root / 'ui-probe.py'
         script_file.write_text(UI_PROBE, encoding='utf-8')
         script = 'wait:1000;eval:exec(open(' + repr(str(script_file)) + ", encoding='utf-8').read())"
-        executable = base / ('Contents/MacOS/AnatomyExplorer' if mac else 'AnatomyExplorer.exe')
+        executable = application_executable(base, mac)
         store = UpdateStore(base, profile / 'AnatomyExplorer/updates' / sha(str(base).casefold().encode())[:16])
         supervisor = subprocess.Popen([str(executable), '--script', script], env=env)
         until(lambda: (root / 'baseline-ui.json').exists())

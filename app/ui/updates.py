@@ -146,7 +146,7 @@ class UpdateController(QObject):
                 except RuntimeError:
                     self.closed.set()
 
-        threading.Thread(target=work, name="AnatomyExplorer-update", daemon=True).start()
+        threading.Thread(target=work, name="LayeredHuman-update", daemon=True).start()
 
     def finish(self, completion):
         if self.closed.is_set():
@@ -178,7 +178,7 @@ class UpdateController(QObject):
             return
         channel = "Experimental preview" if store_for().policy()[0] == "experimental" else "Stable"
         if result["status"] == "ready":
-            text = f"{channel} version {result['version']} is ready. It will open next time you launch Anatomy Explorer."
+            text = f"{channel} version {result['version']} is ready. It will open next time you launch Layered Human."
             if result.get("downloaded"):
                 text += f" Downloaded {result['downloaded'] / 1024**2:.1f} MiB."
             self.window.statusBar().showMessage(text, 20000)
@@ -212,7 +212,7 @@ class UpdateController(QObject):
             return
         self.notified_ready = key
         notice = QMessageBox(self.window)
-        notice.setWindowTitle("Anatomy Explorer update ready")
+        notice.setWindowTitle("Layered Human update ready")
         notice.setText(f"Version {result['version']} has downloaded and is ready to apply.")
         notice.setInformativeText("Restart to apply the update, or keep studying and apply it on your next launch.")
         restart = notice.addButton("Restart to apply", QMessageBox.AcceptRole)
@@ -260,8 +260,8 @@ class UpdateController(QObject):
             request.arm()
         except (OSError, UpdateError) as exc:
             request.cancel()
-            QMessageBox.warning(None, "Anatomy Explorer restart",
-                                "Open Anatomy Explorer normally to finish applying the update. "
+            QMessageBox.warning(None, "Layered Human restart",
+                                "Open Layered Human normally to finish applying the update. "
                                 "Your study data is retained.\n\n" + str(exc))
 
     def offer_replace(self):
@@ -324,7 +324,7 @@ class UpdateController(QObject):
                 result = {"error": str(exc)}
             self.deliver(self.replaced, result)
 
-        threading.Thread(target=work, name="AnatomyExplorer-replace", daemon=True).start()
+        threading.Thread(target=work, name="LayeredHuman-replace", daemon=True).start()
 
     def finish_replace(self, result):
         self.replacing = False
@@ -345,7 +345,7 @@ class UpdateController(QObject):
         if self.closed.is_set():
             return
         dlg = QDialog(self.window)
-        dlg.setWindowTitle("Anatomy Explorer updates")
+        dlg.setWindowTitle("Layered Human updates")
         dlg.setMinimumWidth(460)
         lay = QVBoxLayout(dlg)
         intro = QLabel("Updates download changed parts in the background. They open on your next launch; your current study session keeps running. Some releases change large assets and need a larger download.")

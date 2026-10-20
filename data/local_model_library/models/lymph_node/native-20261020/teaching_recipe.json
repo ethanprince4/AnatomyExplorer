@@ -1,0 +1,238 @@
+{
+  "model_id": "lymph_node_static_refinement",
+  "display_name": "Lymph node: preserved anatomy and reversible section",
+  "summary": "Static lymph node microanatomy with reversible coronal section.",
+  "metres_per_unit": 0.001,
+  "home_view": [
+    0,
+    0
+  ],
+  "cut_on": false,
+  "start_view": "02 Coronal compartments",
+  "viewer_cameras": {
+    "01 Whole node": {
+      "position": [
+        0.4,
+        0.7,
+        3.8
+      ],
+      "target": [
+        0,
+        0.02,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.95,
+      "hidden": [],
+      "cut_on": false
+    },
+    "02 Coronal compartments": {
+      "position": [
+        0.25,
+        0.6,
+        3.7
+      ],
+      "target": [
+        0,
+        0.01,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.65,
+      "hidden": [
+        "Anterior cover: Capsule",
+        "Anterior cover: Trabeculae",
+        "Anterior cover: Hilum connective tissue",
+        "Anterior cover: Subcapsular sinus",
+        "Anterior cover: Trabecular sinuses",
+        "Anterior cover: Outer cortex (B-cell zone)",
+        "Anterior cover: Primary follicles",
+        "Anterior cover: Mantle zone (secondary follicles)",
+        "Anterior cover: Germinal centre - light zone",
+        "Anterior cover: Germinal centre - dark zone",
+        "Anterior cover: Paracortex (T-cell zone)",
+        "Anterior cover: High endothelial venules",
+        "Anterior cover: Medullary cords",
+        "Anterior cover: Medullary sinuses",
+        "Anterior cover: Reticular fibre meshwork",
+        "Anterior cover: Sinus macrophages",
+        "Anterior cover: Afferent lymphatic vessels",
+        "Anterior cover: Efferent lymphatic vessel",
+        "Anterior cover: Lymphatic valves",
+        "Anterior cover: Artery (hilar and medullary branches)",
+        "Anterior cover: Vein (hilar and medullary tributaries)"
+      ],
+      "cut_on": false
+    },
+    "03 Follicular cortex": {
+      "position": [
+        -0.55,
+        0.5,
+        2.3
+      ],
+      "target": [
+        -0.5,
+        0.2,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.95,
+      "hidden": [
+        "Anterior cover: Capsule",
+        "Anterior cover: Trabeculae",
+        "Anterior cover: Hilum connective tissue",
+        "Anterior cover: Subcapsular sinus",
+        "Anterior cover: Trabecular sinuses",
+        "Anterior cover: Outer cortex (B-cell zone)",
+        "Anterior cover: Primary follicles",
+        "Anterior cover: Mantle zone (secondary follicles)",
+        "Anterior cover: Germinal centre - light zone",
+        "Anterior cover: Germinal centre - dark zone",
+        "Anterior cover: Paracortex (T-cell zone)",
+        "Anterior cover: High endothelial venules",
+        "Anterior cover: Medullary cords",
+        "Anterior cover: Medullary sinuses",
+        "Anterior cover: Reticular fibre meshwork",
+        "Anterior cover: Sinus macrophages",
+        "Anterior cover: Afferent lymphatic vessels",
+        "Anterior cover: Efferent lymphatic vessel",
+        "Anterior cover: Lymphatic valves",
+        "Anterior cover: Artery (hilar and medullary branches)",
+        "Anterior cover: Vein (hilar and medullary tributaries)"
+      ],
+      "cut_on": false
+    },
+    "04 Medulla and hilum": {
+      "position": [
+        0.12,
+        0.2,
+        2.8
+      ],
+      "target": [
+        0,
+        -0.24,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.35,
+      "hidden": [
+        "Anterior cover: Capsule",
+        "Anterior cover: Trabeculae",
+        "Anterior cover: Hilum connective tissue",
+        "Anterior cover: Subcapsular sinus",
+        "Anterior cover: Trabecular sinuses",
+        "Anterior cover: Outer cortex (B-cell zone)",
+        "Anterior cover: Primary follicles",
+        "Anterior cover: Mantle zone (secondary follicles)",
+        "Anterior cover: Germinal centre - light zone",
+        "Anterior cover: Germinal centre - dark zone",
+        "Anterior cover: Paracortex (T-cell zone)",
+        "Anterior cover: High endothelial venules",
+        "Anterior cover: Medullary cords",
+        "Anterior cover: Medullary sinuses",
+        "Anterior cover: Reticular fibre meshwork",
+        "Anterior cover: Sinus macrophages",
+        "Anterior cover: Afferent lymphatic vessels",
+        "Anterior cover: Efferent lymphatic vessel",
+        "Anterior cover: Lymphatic valves",
+        "Anterior cover: Artery (hilar and medullary branches)",
+        "Anterior cover: Vein (hilar and medullary tributaries)"
+      ],
+      "cut_on": false
+    },
+    "05 Lymph space relationships": {
+      "position": [
+        0.4,
+        0.5,
+        3.2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Anterior cover: Capsule",
+        "Anterior cover: Trabeculae",
+        "Anterior cover: Hilum connective tissue",
+        "Anterior cover: Subcapsular sinus",
+        "Anterior cover: Trabecular sinuses",
+        "Anterior cover: Outer cortex (B-cell zone)",
+        "Anterior cover: Primary follicles",
+        "Anterior cover: Mantle zone (secondary follicles)",
+        "Anterior cover: Germinal centre - light zone",
+        "Anterior cover: Germinal centre - dark zone",
+        "Anterior cover: Paracortex (T-cell zone)",
+        "Anterior cover: High endothelial venules",
+        "Anterior cover: Medullary cords",
+        "Anterior cover: Medullary sinuses",
+        "Anterior cover: Reticular fibre meshwork",
+        "Anterior cover: Sinus macrophages",
+        "Anterior cover: Afferent lymphatic vessels",
+        "Anterior cover: Efferent lymphatic vessel",
+        "Anterior cover: Lymphatic valves",
+        "Anterior cover: Artery (hilar and medullary branches)",
+        "Anterior cover: Vein (hilar and medullary tributaries)",
+        "Capsule",
+        "Trabeculae",
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Paracortex (T-cell zone)",
+        "High endothelial venules"
+      ],
+      "cut_on": false
+    },
+    "06 Paracortex and HEVs": {
+      "position": [
+        0.05,
+        0.4,
+        2.5
+      ],
+      "target": [
+        -0.09,
+        0.2,
+        0.06
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.73,
+      "hidden": [
+        "Anterior cover: Capsule",
+        "Anterior cover: Trabeculae",
+        "Anterior cover: Hilum connective tissue",
+        "Anterior cover: Subcapsular sinus",
+        "Anterior cover: Trabecular sinuses",
+        "Anterior cover: Outer cortex (B-cell zone)",
+        "Anterior cover: Primary follicles",
+        "Anterior cover: Mantle zone (secondary follicles)",
+        "Anterior cover: Germinal centre - light zone",
+        "Anterior cover: Germinal centre - dark zone",
+        "Anterior cover: Paracortex (T-cell zone)",
+        "Anterior cover: High endothelial venules",
+        "Anterior cover: Medullary cords",
+        "Anterior cover: Medullary sinuses",
+        "Anterior cover: Reticular fibre meshwork",
+        "Anterior cover: Sinus macrophages",
+        "Anterior cover: Afferent lymphatic vessels",
+        "Anterior cover: Efferent lymphatic vessel",
+        "Anterior cover: Lymphatic valves",
+        "Anterior cover: Artery (hilar and medullary branches)",
+        "Anterior cover: Vein (hilar and medullary tributaries)",
+        "Outer cortex (B-cell zone)",
+        "Subcapsular sinus",
+        "Capsule",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone"
+      ],
+      "cut_on": false
+    }
+  },
+  "scale_note": "Original normalized source units preserved; 1 mm/unit is a display convention, not measured patient anatomy.",
+  "clinical": []
+}

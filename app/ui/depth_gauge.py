@@ -26,6 +26,7 @@ class DepthGauge(QSlider):
         self.setStyleSheet('QSlider#dissectionDepthGauge {min-height:460px;padding:0;}')
         self.setMinimumSize(230, 460)
         self.only_layer = QCheckBox('Show only this layer', self)
+        self.only_layer.setObjectName('depthLayerOnly')
         self.only_layer.setAccessibleName('Show only the current dissection layer')
         self.only_layer.toggled.connect(self.onlyLayerToggled)
         self.only_layer.toggled.connect(lambda _on:self.update())
@@ -38,6 +39,11 @@ class DepthGauge(QSlider):
     def _scale(self):
         screen_scale=max(1.0,min(1.35,self.height()/820))
         return max(.8, min(1.6, self.font().pointSizeF() / theme.FS_BODY * screen_scale))
+
+    def _text_scale(self):
+        # A taller rule needs more space, not oversized text. Qt already handles
+        # display DPI; keep the captions stable when the active stop changes.
+        return max(1.0, min(1.15, self.width()/310))
 
     def setValue(self, value):
         super().setValue(value)
@@ -68,14 +74,15 @@ class DepthGauge(QSlider):
     def _layout_checkbox(self):
         line_x, _, _ = self._rule()
         s = self._scale()
+        text_scale = self._text_scale()
         level, _ = self._current_stop()
         y = self._point_y(level)
         nxt = next((v for v,_ in self.stops if v > level), 1)
         compact = self._point_y(nxt)-y < 55*s
         self.only_layer.setStyleSheet(
-            f'QCheckBox {{background:transparent;border:0;color:{theme.TEXT_2};'
-            f'font-family:"{theme.font_family()}";font-size:{13*s}px;spacing:6px;}}'
-            f'QCheckBox::indicator {{width:{12*s}px;height:{12*s}px;border-radius:0;}}')
+            f'QCheckBox#depthLayerOnly {{background:transparent;border:0;color:{theme.TEXT_2};'
+            f'font-family:"{theme.font_family()}";font-size:{round(10*text_scale)}px;font-weight:400;spacing:5px;}}'
+            f'QCheckBox#depthLayerOnly::indicator {{width:{10*text_scale}px;height:{10*text_scale}px;border-radius:0;}}')
         height = max(round(20*s),self.only_layer.sizeHint().height())
         width = min(round(line_x-22*s),self.only_layer.sizeHint().width())
         # Short windows cannot fit another line between the first two stop names.
@@ -116,8 +123,8 @@ class DepthGauge(QSlider):
             y = self._point_y(level)
             p.setPen(QPen(theme.qc(palette['leader']),1))
             p.drawLine(QPointF(x-17*s,y),QPointF(x-3*s,y))
-            font = theme.font_for('prose',size=20 if level==stop else 16,
-                                  weight=460 if level==stop else 400,scale=s)
+            font = theme.font_for('prose',size=16,
+                                  weight=500 if level==stop else 400,scale=self._text_scale())
             font.setItalic(True)
             p.setFont(font)
             p.setPen(theme.qc(theme.TEXT if level==stop else theme.MUTED if level<stop else theme.TEXT_2))

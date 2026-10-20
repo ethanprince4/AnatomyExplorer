@@ -13,7 +13,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app.updater import (CHUNK_SIZE, MAC_MANIFEST, MANIFEST, PACK_SIZE, atomic_json,
-                         manifest_path, safe_path, sha, validate_manifest)
+                         PUBLIC_MAC_MANIFEST, PUBLIC_MANIFEST, legacy_manifest,
+                         manifest_names, safe_path, sha, validate_manifest, write_manifests)
 
 
 def create_payload(bundle, output, version, platform="windows-x64", install_manifest=True,
@@ -45,7 +46,7 @@ def create_payload(bundle, output, version, platform="windows-x64", install_mani
             for name in names:
                 p = Path(directory) / name
                 rel = p.relative_to(bundle).as_posix()
-                if name in {MANIFEST, MAC_MANIFEST}:
+                if name in {MANIFEST, MAC_MANIFEST, PUBLIC_MANIFEST, PUBLIC_MAC_MANIFEST}:
                     continue
                 safe_path(rel, platform)
                 if p.is_symlink():
@@ -67,6 +68,7 @@ def create_payload(bundle, output, version, platform="windows-x64", install_mani
                             if pack_file:
                                 packs[pack_name] = pack_file.tell()
                                 pack_file.close()
+                            # Immutable installed validators require this protocol-1 prefix.
                             pack_name = f"AnatomyExplorer-{label}-pack-{len(packs):04d}.bin"
                             pack_file = open(output / pack_name, "wb")
                         blobs[digest] = {"pack": pack_name, "offset": pack_file.tell(), "size": len(compressed), "raw_size": len(block)}
@@ -81,10 +83,11 @@ def create_payload(bundle, output, version, platform="windows-x64", install_mani
     manifest = validate_manifest({"schema": 1, "launcher": 1, "platform": platform, "version": version,
                                   "channel": channel, "release_tag": release_tag,
                                   "files": files, "symlinks": links, "blobs": blobs, "packs": packs})
-    name = MAC_MANIFEST if platform == "macos-arm64" else MANIFEST
-    atomic_json(output / name, manifest)
+    public, legacy = manifest_names(platform)
+    atomic_json(output / public, manifest)
+    atomic_json(output / legacy, legacy_manifest(manifest))
     if install_manifest and platform == "windows-x64":
-        atomic_json(manifest_path(bundle), manifest)
+        write_manifests(bundle, manifest)
     print(f"{platform}: {len(files)} files, {len(links)} symlinks, {sum(f['size'] for f in files)} bundle bytes, {sum(packs.values())} feed bytes in {len(packs)} packs", flush=True)
     return manifest
 

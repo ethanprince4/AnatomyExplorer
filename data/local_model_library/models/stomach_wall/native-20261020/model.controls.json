@@ -1,0 +1,595 @@
+{
+  "native": {
+    "summary": "Cohesive fundic wall specimen with rugal core, gastric pit-to-branched-gland architecture and layered muscle. Deliberate front stromal window; no geometry labels.",
+    "metres_per_unit": 0.0006,
+    "scale_note": "Local static fundic/body specimen. One unit approximately 0.6 mm vertically; transverse gland caliber, muscle relief, vessel and nerve caliber are selectively enlarged. Cell regions and twelve pit families are teaching samples, not density measurements.",
+    "start_view": "Fundic wall",
+    "viewer_cameras": {
+      "Fundic wall": {
+        "position": [
+          8,
+          8,
+          11
+        ],
+        "target": [
+          0,
+          2.15,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 7.8,
+        "hidden": []
+      },
+      "Gland architecture": {
+        "position": [
+          5,
+          5.7,
+          9
+        ],
+        "target": [
+          0,
+          3,
+          0.5
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 6.5,
+        "hidden": [
+          "Lamina propria"
+        ]
+      },
+      "Enteric planes": {
+        "position": [
+          6,
+          5,
+          9
+        ],
+        "target": [
+          0,
+          1,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 7.8,
+        "hidden": [
+          "Lamina propria",
+          "Surface and gastric pit epithelium",
+          "Muscularis mucosae",
+          "Inner oblique muscle",
+          "Oblique bundle relief",
+          "Circular muscle dissection cover",
+          "Circular bundle relief",
+          "Myenteric connective dissection cover",
+          "Submucosal dissection cover",
+          "Mucous neck epithelial domains",
+          "Fundic gland body epithelium",
+          "Parietal epithelial domains",
+          "Chief-rich gland bases",
+          "Closed ECL cell representatives",
+          "Sectioned epithelial nuclei"
+        ]
+      },
+      "Pit close-up": {
+        "position": [
+          -2.05,
+          3.55,
+          6
+        ],
+        "target": [
+          -2.05,
+          3.15,
+          1.02
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.6,
+        "hidden": [
+          "Lamina propria"
+        ]
+      }
+    },
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "cut_on": false,
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": true,
+    "scale_note": "Local static fundic/body specimen. One unit approximately 0.6 mm vertically; transverse gland caliber, muscle relief, vessel and nerve caliber are selectively enlarged. Cell regions and twelve pit families are teaching samples, not density measurements."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "stomach_wall_static_overhaul",
+      "display_name": "Fundic stomach wall: static tissue rebuild",
+      "summary": "Cohesive fundic wall specimen with rugal core, gastric pit-to-branched-gland architecture and layered muscle. Deliberate front stromal window; no geometry labels.",
+      "metres_per_unit": 0.0006,
+      "scale_note": "Local static fundic/body specimen. One unit approximately 0.6 mm vertically; transverse gland caliber, muscle relief, vessel and nerve caliber are selectively enlarged. Cell regions and twelve pit families are teaching samples, not density measurements.",
+      "start_view": "Fundic wall",
+      "viewer_cameras": {
+        "Fundic wall": {
+          "position": [
+            8,
+            8,
+            11
+          ],
+          "target": [
+            0,
+            2.15,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 7.8,
+          "hidden": []
+        },
+        "Gland architecture": {
+          "position": [
+            5,
+            5.7,
+            9
+          ],
+          "target": [
+            0,
+            3,
+            0.5
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 6.5,
+          "hidden": [
+            "Lamina propria"
+          ]
+        },
+        "Enteric planes": {
+          "position": [
+            6,
+            5,
+            9
+          ],
+          "target": [
+            0,
+            1,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 7.8,
+          "hidden": [
+            "Lamina propria",
+            "Surface and gastric pit epithelium",
+            "Muscularis mucosae",
+            "Inner oblique muscle",
+            "Oblique bundle relief",
+            "Circular muscle dissection cover",
+            "Circular bundle relief",
+            "Myenteric connective dissection cover",
+            "Submucosal dissection cover",
+            "Mucous neck epithelial domains",
+            "Fundic gland body epithelium",
+            "Parietal epithelial domains",
+            "Chief-rich gland bases",
+            "Closed ECL cell representatives",
+            "Sectioned epithelial nuclei"
+          ]
+        },
+        "Pit close-up": {
+          "position": [
+            -2.05,
+            3.55,
+            6
+          ],
+          "target": [
+            -2.05,
+            3.15,
+            1.02
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 2.6,
+          "hidden": [
+            "Lamina propria"
+          ]
+        }
+      }
+    }
+  },
+  "source_part_names": [
+    "Chief-rich gland bases",
+    "Circular bundle relief",
+    "Circular muscle dissection cover",
+    "Closed ECL cell representatives",
+    "Fundic gland body epithelium",
+    "Inner oblique muscle",
+    "Lamina propria",
+    "Longitudinal bundle relief",
+    "Middle circular muscle",
+    "Mucous neck epithelial domains",
+    "Muscularis mucosae",
+    "Myenteric connective dissection cover",
+    "Myenteric connective tissue plane",
+    "Myenteric plexus",
+    "Oblique bundle relief",
+    "Outer longitudinal muscle",
+    "Parietal epithelial domains",
+    "Sectioned epithelial nuclei",
+    "Serosa",
+    "Submucosa and rugal core",
+    "Submucosal artery",
+    "Submucosal dissection cover",
+    "Submucosal lymphatic",
+    "Submucosal plexus",
+    "Submucosal vein",
+    "Surface and gastric pit epithelium"
+  ],
+  "part_names": [
+    "Chief-rich gland bases",
+    "Circular bundle relief",
+    "Circular muscle dissection cover",
+    "Closed ECL cell representatives",
+    "Fundic gland body epithelium",
+    "Inner oblique muscle",
+    "Lamina propria",
+    "Longitudinal bundle relief",
+    "Middle circular muscle",
+    "Mucous neck epithelial domains",
+    "Muscularis mucosae",
+    "Myenteric connective dissection cover",
+    "Myenteric connective tissue plane",
+    "Myenteric plexus",
+    "Oblique bundle relief",
+    "Outer longitudinal muscle",
+    "Parietal epithelial domains",
+    "Sectioned epithelial nuclei",
+    "Serosa",
+    "Submucosa and rugal core",
+    "Submucosal artery",
+    "Submucosal dissection cover",
+    "Submucosal lymphatic",
+    "Submucosal plexus",
+    "Submucosal vein",
+    "Surface and gastric pit epithelium"
+  ],
+  "parts": [
+    {
+      "name": "Chief-rich gland bases",
+      "group": "Gastric glands",
+      "color": "#7768b3",
+      "description": "Purple pyramidal/columnar chief-enriched mixed basal cells surround blind-ending gland branches above muscularis mucosae. Chief cells secrete pepsinogen and gastric lipase. Color domains represent regions, not a measured cell census.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Circular bundle relief",
+      "group": "Muscularis externa",
+      "color": "#ae5659",
+      "description": "Shallow oriented fascicle relief on its corresponding muscle sheet. Directional teaching convention; not arrows or individual muscle-cell reconstruction.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Circular muscle dissection cover",
+      "group": "Muscularis externa",
+      "color": "#ae5659",
+      "description": "Removable anterior teaching window of its named tissue layer. Contiguous with the retained posterior host when visible; hiding it exposes the normally embedded structures without implying a natural cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Closed ECL cell representatives",
+      "group": "Gastric glands",
+      "color": "#d8b26b",
+      "description": "Six small closed epithelial cells are embedded basally within representative gland walls with no exocrine-lumen contact. They release histamine toward interstitium; diameter and sample density are schematic. These are complementary fitted cells, not luminal spheres or molecular detail.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Fundic gland body epithelium",
+      "group": "Gastric glands",
+      "color": "#d4a39b",
+      "description": "Complementary body lining of long oxyntic gland branches. True lumens are empty and continuous to pits; two/three-branch sampling is schematic, not exact population density.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Inner oblique muscle",
+      "group": "Muscularis externa",
+      "color": "#ca8a7e",
+      "description": "Partial local oblique muscle layer on the submucosal side of circular muscle. Oblique muscle is regionally discontinuous; diagonal ridges are a teaching direction.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Lamina propria",
+      "group": "Mucosa",
+      "color": "#d9aaa5",
+      "description": "Connective tissue between fundic glands. Smooth fitted envelopes around enlarged cell samples are a schematic host simplification. The anterior stromal dissection window is deliberate teaching access; removed host is not an anatomical cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Longitudinal bundle relief",
+      "group": "Muscularis externa",
+      "color": "#bf746c",
+      "description": "Shallow oriented fascicle relief on its corresponding muscle sheet. Directional teaching convention; not arrows or individual muscle-cell reconstruction.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Middle circular muscle",
+      "group": "Muscularis externa",
+      "color": "#ae5659",
+      "description": "Middle circular smooth muscle layer. The local transverse direction is orthogonal to longitudinal bundles; no motion is simulated.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Mucous neck epithelial domains",
+      "group": "Gastric glands",
+      "color": "#e0b8aa",
+      "description": "Neck epithelial domains include mucous neck cells and renewal region; regional distribution is simplified. Neck is narrower and below the shallow pit.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Muscularis mucosae",
+      "group": "Mucosa",
+      "color": "#9a515d",
+      "description": "Thin continuous basal mucosal muscle follows the fold above the submucosa. Gland blind ends stay above this boundary.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Myenteric connective dissection cover",
+      "group": "Muscularis externa",
+      "color": "#d1afa1",
+      "description": "Removable anterior teaching window of its named tissue layer. Contiguous with the retained posterior host when visible; hiding it exposes the normally embedded structures without implying a natural cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Myenteric connective tissue plane",
+      "group": "Muscularis externa",
+      "color": "#d1afa1",
+      "description": "Thin connective tissue between longitudinal and circular muscle contains the myenteric plexus. Hiding this host exposes neural structures.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Myenteric plexus",
+      "group": "Enteric plexuses",
+      "color": "#efc85d",
+      "description": "Ganglia and connected neural strands between circular and longitudinal muscle. Neural caliber and ganglia enlarged for visibility; natural host is continuous connective tissue.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Oblique bundle relief",
+      "group": "Muscularis externa",
+      "color": "#ca8a7e",
+      "description": "Shallow oriented fascicle relief on its corresponding muscle sheet. Directional teaching convention; not arrows or individual muscle-cell reconstruction.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Outer longitudinal muscle",
+      "group": "Muscularis externa",
+      "color": "#bf746c",
+      "description": "Outer longitudinal smooth muscle sheet. Fine aligned ridges indicate a local direction, not individual myocytes or a whole-organ contraction.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Parietal epithelial domains",
+      "group": "Gastric glands",
+      "color": "#e88291",
+      "description": "Larger rounded pink secretory cells concentrated in upper and middle gland branches indicate parietal-rich regions. Secrete acid and intrinsic factor; no pumps, canaliculi or molecular channels are modeled.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Sectioned epithelial nuclei",
+      "group": "Gastric glands",
+      "color": "#574969",
+      "description": "Representative nuclear profiles within the retained section-plane epithelial wall of the deliberately half-sectioned front-left gland family. Elongated basal chief/columnar profiles and more rounded upper profiles are schematic, with enlarged nuclear dimensions. They are intracellular context, not additional gland lumens.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Serosa",
+      "group": "Serosa",
+      "color": "#dbc7a4",
+      "description": "Thin serosal connective tissue and mesothelial covering on the outer surface. Local wall specimen; omenta are outside scope.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosa and rugal core",
+      "group": "Submucosa",
+      "color": "#e4c6ad",
+      "description": "Connective tissue supports the local ruga together with mucosa. Vessels and submucosal plexus are embedded; revealing them by hiding the host does not imply natural empty cavities.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosal artery",
+      "group": "Vessels",
+      "color": "#c7515a",
+      "description": "Representative hollow submucosal vessel with open specimen-boundary ends. Caliber exaggerated for recognition; fine capillary/collecting beds and regional extra-wall routes are outside scope.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosal dissection cover",
+      "group": "Submucosa",
+      "color": "#e4c6ad",
+      "description": "Removable anterior teaching window of its named tissue layer. Contiguous with the retained posterior host when visible; hiding it exposes the normally embedded structures without implying a natural cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosal lymphatic",
+      "group": "Vessels",
+      "color": "#8bbba3",
+      "description": "Representative hollow submucosal vessel with open specimen-boundary ends. Caliber exaggerated for recognition; fine capillary/collecting beds and regional extra-wall routes are outside scope.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosal plexus",
+      "group": "Enteric plexuses",
+      "color": "#efc85d",
+      "description": "Ganglia and connected strands embedded within submucosal rugal core. Neural caliber and ganglia enlarged for visibility; natural host is continuous connective tissue.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosal vein",
+      "group": "Vessels",
+      "color": "#5886b9",
+      "description": "Representative hollow submucosal vessel with open specimen-boundary ends. Caliber exaggerated for recognition; fine capillary/collecting beds and regional extra-wall routes are outside scope.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Surface and gastric pit epithelium",
+      "group": "Gastric glands",
+      "color": "#f4d0b0",
+      "description": "Continuous surface mucous/foveolar lining invaginates into twelve shallow fundic pits, each feeding sampled families of two or three long gland branches. Surface and pit shells are Boolean-united, with no internal occupied seam; neck cells remain distinct. Transverse sampling is enlarged for recognition.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    }
+  ]
+}

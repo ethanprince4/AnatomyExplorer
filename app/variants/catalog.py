@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 
 from ..config import FROZEN, ROOT
+from ..terminology import american_text, display_content
 from .anatomy_variants import AdapterSpec, VariantStore, default_store_root
 
 
@@ -45,10 +46,19 @@ class DeferredVariantEntry:
             self.descriptor = meta.variants[self.variant]
             self.verification_state = "available"
         self.kind_name = ""
-        self.oriented = self.kind == "glb"
+        # File transport does not determine the teaching collection or whether
+        # the source axes represent anatomical directions.
+        self.collection = getattr(meta, "collection", None) or ("microanatomy" if self.kind == "procedural" else "3d")
+        orientation = getattr(meta, "oriented", None)
+        self.oriented = self.kind == "glb" if orientation is None else bool(orientation)
         for field in ("name", "summary", "targets", "histology", "related", "clinical", "scale_note", "aliases"):
             setattr(self, field, getattr(meta, field))
+        for field in ("name", "summary", "scale_note"):
+            setattr(self, field, american_text(getattr(self, field)))
+        self.clinical = display_content(self.clinical, text=True)
         self._retire_from_guide()
+        self.targets = {**self.targets, **{key: [american_text(name) for name in self.targets[key]]
+                                          for key in ("structures", "contains") if key in self.targets}}
         if self.id == "whole_heart":
             self.name = "Heart"
 
@@ -150,6 +160,11 @@ def load_active_catalog(*, store=None):
         catalog.store = store if store is not None else create_store()
         entries = catalog.store.catalog_index()
         for meta in entries:
+            # Axillary Skin replaces the retired Scalp catalogue specimen,
+            # including an old Scalp entry retained in a user's library.
+            if (meta.id == "scalp" and getattr(catalog.store, "is_local", False)
+                    and any(item.id == "axillary_skin" for item in entries)):
+                continue
             entry = DeferredVariantEntry(meta, catalog.store)
             catalog[entry.id] = entry
         if getattr(catalog.store, "is_local", False):

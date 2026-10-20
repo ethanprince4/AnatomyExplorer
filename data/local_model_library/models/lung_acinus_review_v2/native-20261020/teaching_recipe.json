@@ -1,0 +1,499 @@
+{
+  "model_id": "lung_acinus_review_v2",
+  "display_name": "Lung acinus and alveoli refined P2",
+  "summary": "Representative 14-airspace acinus with retained vascular routes, local wall windows, complete cellular nuclei and local layered capillary face.",
+  "metres_per_unit": 0.0012,
+  "viewer_cameras": {
+    "Acinus overview": {
+      "position": [
+        1.2,
+        -3,
+        -1.5
+      ],
+      "target": [
+        0,
+        0,
+        -0.05
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.1,
+      "hidden": [
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Conducting to respiratory transition": {
+      "position": [
+        -1.28,
+        0,
+        0
+      ],
+      "target": [
+        -0.62,
+        0,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 70,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Alveolar duct smooth muscle (knobs)",
+        "Type I pneumocytes",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Respiratory bronchiole alveolar opening": {
+      "position": [
+        -0.3,
+        -2,
+        -0.18
+      ],
+      "target": [
+        -0.3,
+        -0.3,
+        -0.24
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.9,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Terminal bronchiole",
+        "Bronchiolar smooth muscle",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Alveolar duct smooth muscle (knobs)",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Duct and sac mouths": {
+      "position": [
+        0.5,
+        -2,
+        -0.12
+      ],
+      "target": [
+        0.5,
+        -0.34,
+        -0.23
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.55,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Terminal bronchiole",
+        "Bronchiolar smooth muscle",
+        "Pores of Kohn",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Septal capillary relationships": {
+      "position": [
+        1.2,
+        -3,
+        -1.5
+      ],
+      "target": [
+        0,
+        0,
+        -0.05
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.1,
+      "hidden": [
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Complete Type I nucleus": {
+      "position": [
+        -0.26,
+        -0.3,
+        -1.0
+      ],
+      "target": [
+        -0.26,
+        -0.3,
+        -0.416
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.18,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Air–blood barrier — type I lining",
+        "Air–blood barrier — fused basal lamina",
+        "Air–blood barrier — endothelium and lumen",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Type II nucleus and lamellar bodies": {
+      "position": [
+        1.1,
+        -1.2,
+        -0.1
+      ],
+      "target": [
+        1.1,
+        -0.257,
+        -0.141
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.16,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)",
+        "Type I pneumocytes",
+        "Club cell nuclei",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Air–blood barrier — type I lining",
+        "Air–blood barrier — fused basal lamina",
+        "Air–blood barrier — endothelium and lumen",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Club cells from lumen": {
+      "position": [
+        -0.91,
+        0.07,
+        -0.1
+      ],
+      "target": [
+        -0.91,
+        0.18,
+        -0.012
+      ],
+      "type": "PERSP",
+      "fov_deg": 65,
+      "hidden": [
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Alveolar duct smooth muscle (knobs)",
+        "Type I pneumocytes",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Air–blood barrier — type I lining",
+        "Air–blood barrier — fused basal lamina",
+        "Air–blood barrier — endothelium and lumen",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Local thin barrier": {
+      "position": [
+        0.55,
+        -0.34,
+        -0.427
+      ],
+      "target": [
+        0.17,
+        -0.34,
+        -0.427
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.12,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)",
+        "Type I pneumocytes",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Restored local specimen walls": {
+      "position": [
+        1.2,
+        -3,
+        -1.5
+      ],
+      "target": [
+        0,
+        0,
+        -0.05
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.1,
+      "hidden": [
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Type I lining in its intact septal host": {
+      "position": [
+        -0.3,
+        -0.27,
+        -0.23
+      ],
+      "target": [
+        -0.2613,
+        -0.3048,
+        -0.4163
+      ],
+      "type": "PERSP",
+      "fov_deg": 55,
+      "hidden": [
+        "Terminal bronchiole",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Air–blood barrier — type I lining",
+        "Air–blood barrier — fused basal lamina",
+        "Air–blood barrier — endothelium and lumen",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Type II cell in its intact alveolar host": {
+      "position": [
+        1.02,
+        -0.34,
+        0
+      ],
+      "target": [
+        1.1026,
+        -0.2574,
+        -0.1414
+      ],
+      "type": "PERSP",
+      "fov_deg": 55,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)",
+        "Type I pneumocytes",
+        "Club cell nuclei",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Air–blood barrier — type I lining",
+        "Air–blood barrier — fused basal lamina",
+        "Air–blood barrier — endothelium and lumen",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Type I cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    },
+    "Layered capillary wall end section": {
+      "position": [
+        0.185,
+        -0.7,
+        -0.427
+      ],
+      "target": [
+        0.17,
+        -0.375,
+        -0.427
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.036,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)",
+        "Type I pneumocytes",
+        "Club cell nuclei",
+        "Type II nuclei",
+        "Type II lamellar bodies",
+        "Macrophage nuclei",
+        "Type I nuclei",
+        "Respiratory alveolar wall cover",
+        "Duct alveolar wall cover",
+        "Sac alveolar wall covers",
+        "Type I cytoplasmic caps",
+        "Type II cytoplasmic caps",
+        "Club cell cytoplasmic caps"
+      ],
+      "state": "assembled",
+      "cut_on": false
+    }
+  },
+  "start_view": "Acinus overview",
+  "cut_on": false,
+  "scale_note": "1200 micrometres per model unit with mixed teaching enlargement; not a patient morphometry model."
+}

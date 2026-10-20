@@ -203,9 +203,9 @@ QToolButton#studioSectionPlane:checked {{border-bottom:1px solid {p['accent']};}
 QLabel#studioCardTitle {{ color:{p['text']}; background:transparent; font-family:"Fira Sans";
   font-size:{18 * scale:.1f}px; font-weight:500; }}
 QLabel#studioSelectionTitle {{ color:{p['text']}; background:transparent; font-family:"Literata";
-  font-size:{24 * scale:.1f}px; font-weight:400; }}
+  font-size:{22 * scale:.1f}px; font-weight:400; }}
 QLabel#studioSelectionDescription {{ color:{p['text_2']}; background:transparent; font-family:"Literata";
-  font-size:{18 * scale:.1f}px; }}
+  font-size:{15 * scale:.1f}px; }}
 QWidget#studioTeaching QLabel {{ color:{p['text']}; background:transparent; }}
 QWidget#studioAtlasTools {{ background:transparent; border:0; }}
 QWidget#studioDock {{ background:transparent; color:{p['text']}; border:0; }}
@@ -221,6 +221,9 @@ QToolButton#studioAtlasTool:disabled {{ color:{p['text_3']}; }}
 QToolButton#studioAtlasTool::menu-indicator {{ image:url("{menu_arrow}"); width:8px; height:8px;
   subcontrol-origin:padding; subcontrol-position:right center; right:4px; }}
 QDockWidget#studioFloatingPanel {{ background:{wall}; color:{p['text']}; border:1px solid {p['hair']}; border-radius:6px; }}
+QDockWidget#studioDetailsPanel,
+QWidget#studioDetailsContent, QWidget#studioDetailsContent QWidget {{
+  background:transparent; color:{p['text']}; border:0; border-radius:0; }}
 QWidget[studioWallSurface="true"] {{ background:transparent; color:{p['text']}; border:0; border-radius:0; }}
 QDockWidget#studioFloatingPanel QScrollArea, QDockWidget#studioFloatingPanel QScrollArea > QWidget {{
   background:transparent; color:{p['text']}; border:0; border-radius:0; }}

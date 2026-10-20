@@ -1,0 +1,904 @@
+{
+  "native": {
+    "summary": "Preserved source-authored cardiac muscle tissue section with static inspection presets.",
+    "metres_per_unit": 1e-05,
+    "scale_note": "10 micrometres per source unit. Source-authored tissue sections and enlarged junction detail retained; no full-cell census implied.",
+    "viewer_cameras": {
+      "Overview": {
+        "type": "PERSP",
+        "position": [
+          29.737732,
+          27.567089,
+          -42.469883
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "up": [
+          -0.269278,
+          0.882948,
+          0.384569
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "fov_deg": 39.597753,
+        "lens_mm": 50.0,
+        "sensor_mm": 36.0,
+        "hidden": []
+      },
+      "Longitudinal section": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          0.0,
+          -130.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "up": [
+          -0.0,
+          1.0,
+          -0.0
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "ortho_width": 22.0,
+        "hidden": []
+      },
+      "Transverse section": {
+        "type": "ORTHO",
+        "position": [
+          140.0,
+          0.0,
+          -0.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "up": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "ortho_width": 19.555556,
+        "hidden": []
+      },
+      "Section closeup": {
+        "type": "PERSP",
+        "position": [
+          0.0,
+          0.0,
+          -13.944445
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -7.0
+        ],
+        "up": [
+          -0.0,
+          1.0,
+          -0.0
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "fov_deg": 39.597753,
+        "lens_mm": 50.0,
+        "sensor_mm": 36.0,
+        "hidden": []
+      },
+      "Nuclei and pale zones": {
+        "type": "ORTHO",
+        "position": [
+          0.0,
+          0.0,
+          -130.0
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "up": [
+          -0.0,
+          1.0,
+          -0.0
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "ortho_width": 22,
+        "hidden": [
+          "Capillaries",
+          "Cardiomyocyte (teased pair)",
+          "Cardiomyocytes",
+          "Desmosomes",
+          "Endomysium",
+          "Endomysium (teased pair)",
+          "Fascia adherens",
+          "Gap junctions",
+          "Intercalated discs",
+          "Red blood cells"
+        ]
+      },
+      "Capillary network": {
+        "type": "PERSP",
+        "position": [
+          29.737732,
+          27.567089,
+          -42.469883
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "up": [
+          -0.269278,
+          0.882948,
+          0.384569
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "fov_deg": 39.597753,
+        "lens_mm": 50.0,
+        "sensor_mm": 36.0,
+        "hidden": [
+          "Cardiomyocyte (teased pair)",
+          "Cardiomyocytes",
+          "Desmosomes",
+          "Endomysium",
+          "Endomysium (teased pair)",
+          "Fascia adherens",
+          "Gap junctions",
+          "Intercalated discs",
+          "Myocyte nuclei",
+          "Myocyte nucleus (teased pair)",
+          "Perinuclear zone (teased pair)",
+          "Perinuclear zones"
+        ]
+      },
+      "Intercalated disc detail": {
+        "type": "ORTHO",
+        "position": [
+          4.593392,
+          4.776912,
+          -14.376846
+        ],
+        "target": [
+          -0.7,
+          -0.1301,
+          -6.8171
+        ],
+        "up": [
+          -0.269278,
+          0.882948,
+          0.384569
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "fov_deg": 39.597753,
+        "lens_mm": 50.0,
+        "sensor_mm": 36.0,
+        "note": "hero_disc",
+        "state": "teased",
+        "ortho_width": 3.5,
+        "hidden": [
+          "Capillaries",
+          "Cardiomyocyte (teased pair)",
+          "Cardiomyocytes",
+          "Endomysium",
+          "Endomysium (teased pair)",
+          "Myocyte nuclei",
+          "Myocyte nucleus (teased pair)",
+          "Perinuclear zone (teased pair)",
+          "Perinuclear zones",
+          "Red blood cells"
+        ]
+      },
+      "Disc opened (teased)": {
+        "type": "ORTHO",
+        "position": [
+          4.593392,
+          4.776912,
+          -14.376846
+        ],
+        "target": [
+          -0.7,
+          -0.1301,
+          -6.8171
+        ],
+        "up": [
+          -0.269278,
+          0.882948,
+          0.384569
+        ],
+        "sensor_fit": "AUTO",
+        "clip": [
+          0.01,
+          1000.0
+        ],
+        "fov_deg": 39.597753,
+        "lens_mm": 50.0,
+        "sensor_mm": 36.0,
+        "note": "Opened disc: the cell on one side of the intercalated disc is hidden so the disc face shows.",
+        "state": "teased",
+        "ortho_width": 3.5,
+        "hidden": [
+          "Cardiomyocyte (teased pair)",
+          "Endomysium (teased pair)",
+          "Myocyte nucleus (teased pair)",
+          "Perinuclear zone (teased pair)"
+        ]
+      }
+    },
+    "start_view": "Overview",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "10 micrometres per source unit. Source-authored tissue sections and enlarged junction detail retained; no full-cell census implied."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "cardiac_muscle_static_refinement",
+      "display_name": "Cardiac muscle",
+      "summary": "Preserved source-authored cardiac muscle tissue section with static inspection presets.",
+      "metres_per_unit": 1e-05,
+      "scale_note": "10 micrometres per source unit. Source-authored tissue sections and enlarged junction detail retained; no full-cell census implied.",
+      "viewer_cameras": {
+        "Overview": {
+          "type": "PERSP",
+          "position": [
+            29.737732,
+            27.567089,
+            -42.469883
+          ],
+          "target": [
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "up": [
+            -0.269278,
+            0.882948,
+            0.384569
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "fov_deg": 39.597753,
+          "lens_mm": 50.0,
+          "sensor_mm": 36.0,
+          "hidden": []
+        },
+        "Longitudinal section": {
+          "type": "ORTHO",
+          "position": [
+            0.0,
+            0.0,
+            -130.0
+          ],
+          "target": [
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "up": [
+            -0.0,
+            1.0,
+            -0.0
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "ortho_width": 22.0,
+          "hidden": []
+        },
+        "Transverse section": {
+          "type": "ORTHO",
+          "position": [
+            140.0,
+            0.0,
+            -0.0
+          ],
+          "target": [
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "up": [
+            0.0,
+            1.0,
+            -0.0
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "ortho_width": 19.555556,
+          "hidden": []
+        },
+        "Section closeup": {
+          "type": "PERSP",
+          "position": [
+            0.0,
+            0.0,
+            -13.944445
+          ],
+          "target": [
+            0.0,
+            0.0,
+            -7.0
+          ],
+          "up": [
+            -0.0,
+            1.0,
+            -0.0
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "fov_deg": 39.597753,
+          "lens_mm": 50.0,
+          "sensor_mm": 36.0,
+          "hidden": []
+        },
+        "Nuclei and pale zones": {
+          "type": "ORTHO",
+          "position": [
+            0.0,
+            0.0,
+            -130.0
+          ],
+          "target": [
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "up": [
+            -0.0,
+            1.0,
+            -0.0
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "ortho_width": 22,
+          "hidden": [
+            "Capillaries",
+            "Cardiomyocyte (teased pair)",
+            "Cardiomyocytes",
+            "Desmosomes",
+            "Endomysium",
+            "Endomysium (teased pair)",
+            "Fascia adherens",
+            "Gap junctions",
+            "Intercalated discs",
+            "Red blood cells"
+          ]
+        },
+        "Capillary network": {
+          "type": "PERSP",
+          "position": [
+            29.737732,
+            27.567089,
+            -42.469883
+          ],
+          "target": [
+            0.0,
+            0.0,
+            -0.0
+          ],
+          "up": [
+            -0.269278,
+            0.882948,
+            0.384569
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "fov_deg": 39.597753,
+          "lens_mm": 50.0,
+          "sensor_mm": 36.0,
+          "hidden": [
+            "Cardiomyocyte (teased pair)",
+            "Cardiomyocytes",
+            "Desmosomes",
+            "Endomysium",
+            "Endomysium (teased pair)",
+            "Fascia adherens",
+            "Gap junctions",
+            "Intercalated discs",
+            "Myocyte nuclei",
+            "Myocyte nucleus (teased pair)",
+            "Perinuclear zone (teased pair)",
+            "Perinuclear zones"
+          ]
+        },
+        "Intercalated disc detail": {
+          "type": "ORTHO",
+          "position": [
+            4.593392,
+            4.776912,
+            -14.376846
+          ],
+          "target": [
+            -0.7,
+            -0.1301,
+            -6.8171
+          ],
+          "up": [
+            -0.269278,
+            0.882948,
+            0.384569
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "fov_deg": 39.597753,
+          "lens_mm": 50.0,
+          "sensor_mm": 36.0,
+          "note": "hero_disc",
+          "state": "teased",
+          "ortho_width": 3.5,
+          "hidden": [
+            "Capillaries",
+            "Cardiomyocyte (teased pair)",
+            "Cardiomyocytes",
+            "Endomysium",
+            "Endomysium (teased pair)",
+            "Myocyte nuclei",
+            "Myocyte nucleus (teased pair)",
+            "Perinuclear zone (teased pair)",
+            "Perinuclear zones",
+            "Red blood cells"
+          ]
+        },
+        "Disc opened (teased)": {
+          "type": "ORTHO",
+          "position": [
+            4.593392,
+            4.776912,
+            -14.376846
+          ],
+          "target": [
+            -0.7,
+            -0.1301,
+            -6.8171
+          ],
+          "up": [
+            -0.269278,
+            0.882948,
+            0.384569
+          ],
+          "sensor_fit": "AUTO",
+          "clip": [
+            0.01,
+            1000.0
+          ],
+          "fov_deg": 39.597753,
+          "lens_mm": 50.0,
+          "sensor_mm": 36.0,
+          "note": "Opened disc: the cell on one side of the intercalated disc is hidden so the disc face shows.",
+          "state": "teased",
+          "ortho_width": 3.5,
+          "hidden": [
+            "Cardiomyocyte (teased pair)",
+            "Endomysium (teased pair)",
+            "Myocyte nucleus (teased pair)",
+            "Perinuclear zone (teased pair)"
+          ]
+        }
+      },
+      "start_view": "Overview",
+      "home_view": "Overview",
+      "cut_on": false,
+      "states": [
+        {
+          "name": "assembled",
+          "offsets": {},
+          "description": "assembled"
+        },
+        {
+          "name": "teased",
+          "offsets": {
+            "Cardiomyocyte (teased pair)": [
+              0.45,
+              0.0,
+              0.0
+            ],
+            "Endomysium (teased pair)": [
+              0.45,
+              0.0,
+              0.0
+            ],
+            "Myocyte nucleus (teased pair)": [
+              0.45,
+              0.0,
+              0.0
+            ],
+            "Perinuclear zone (teased pair)": [
+              0.45,
+              0.0,
+              0.0
+            ]
+          },
+          "description": "Open the hero intercalated disc (intercalated_disc__013): cardiomyocyte 21 with its endomysium, nucleus and perinuclear zone slides 20 um back along the fibre so the disc faces and their fascia adherens, desmosomes and gap junctions show."
+        }
+      ]
+    }
+  },
+  "source_part_names": [
+    "Cardiomyocytes",
+    "Cardiomyocyte (teased pair)",
+    "Endomysium",
+    "Endomysium (teased pair)",
+    "Intercalated discs",
+    "Desmosomes",
+    "Fascia adherens",
+    "Gap junctions",
+    "Myocyte nuclei",
+    "Myocyte nucleus (teased pair)",
+    "Perinuclear zones",
+    "Perinuclear zone (teased pair)",
+    "Capillaries",
+    "Red blood cells",
+    "Fibroblasts"
+  ],
+  "part_names": [
+    "Cardiomyocytes",
+    "Cardiomyocyte (teased pair)",
+    "Endomysium",
+    "Endomysium (teased pair)",
+    "Intercalated discs",
+    "Desmosomes",
+    "Fascia adherens",
+    "Gap junctions",
+    "Myocyte nuclei",
+    "Myocyte nucleus (teased pair)",
+    "Perinuclear zones",
+    "Perinuclear zone (teased pair)",
+    "Capillaries",
+    "Red blood cells",
+    "Fibroblasts"
+  ],
+  "parts": [
+    {
+      "name": "Cardiomyocytes",
+      "group": "Cardiomyocyte",
+      "color": "#cb5f53",
+      "description": "Preserved source-authored cardiomyocyte. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Cardiomyocyte (teased pair)",
+      "group": "Cardiomyocyte",
+      "color": "#cb5f53",
+      "description": "Preserved source-authored cardiomyocyte. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Endomysium",
+      "group": "Endomysium",
+      "color": "#9dacbf",
+      "description": "Endomysium: thin, nearly transparent connective-tissue sleeve around one cardiomyocyte (open at the intercalated discs and at the cut faces).",
+      "label": false,
+      "alpha": 0.15,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": true,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Endomysium (teased pair)",
+      "group": "Endomysium",
+      "color": "#9dacbf",
+      "description": "Endomysium: thin, nearly transparent connective-tissue sleeve around one cardiomyocyte (open at the intercalated discs and at the cut faces).",
+      "label": false,
+      "alpha": 0.15,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": true,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Intercalated discs",
+      "group": "Intercalated disc",
+      "color": "#ffc619",
+      "description": "Preserved source-authored intercalated disc. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Desmosomes",
+      "group": "Junction desmosome",
+      "color": "#262626",
+      "description": "Preserved source-authored junction desmosome. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Fascia adherens",
+      "group": "Junction fascia adherens",
+      "color": "#7f3a00",
+      "description": "Preserved source-authored junction fascia adherens. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Gap junctions",
+      "group": "Junction gap",
+      "color": "#00859c",
+      "description": "Preserved source-authored junction gap. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Myocyte nuclei",
+      "group": "Nucleus myocyte",
+      "color": "#653581",
+      "description": "Preserved source-authored nucleus myocyte. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Myocyte nucleus (teased pair)",
+      "group": "Nucleus myocyte",
+      "color": "#653581",
+      "description": "Preserved source-authored nucleus myocyte. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Perinuclear zones",
+      "group": "Perinuclear zone",
+      "color": "#ffe9d2",
+      "description": "Preserved source-authored perinuclear zone. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Perinuclear zone (teased pair)",
+      "group": "Perinuclear zone",
+      "color": "#ffe9d2",
+      "description": "Preserved source-authored perinuclear zone. Static tissue section; no animated physiology.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Capillaries",
+      "group": "Capillary",
+      "color": "#f2bccb",
+      "description": "Capillary (hollow endothelial tube) in the endomysium between cardiomyocytes; colour grades from the arteriolar end (red, x=-10) to the venular end (blue-purple, x=+10).",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Red blood cells",
+      "group": "Red blood cell",
+      "color": "#9e101f",
+      "description": "Red blood cells in the capillary lumens; oxygenated red at the arteriolar end grading to deoxygenated purple at the venular end.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Fibroblasts",
+      "group": "Fibroblast",
+      "color": "#3b2a5c",
+      "description": "Interstitial fibroblasts: flat, elongated dark nuclei lying in the endomysium between the muscle fibres.",
+      "label": false,
+      "alpha": 1,
+      "category": "other",
+      "rank": 0,
+      "clip": false,
+      "bulk": false,
+      "detail": [
+        0.08,
+        60.0,
+        0.3,
+        0
+      ]
+    }
+  ]
+}

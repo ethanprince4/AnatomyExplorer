@@ -1,0 +1,917 @@
+{
+  "native": {
+    "summary": "Preserved source-authored three-fascicle nerve teaching block with finite layer inspection presets.",
+    "viewer_cameras": {
+      "Overview": {
+        "type": "ORTHO",
+        "position": [
+          3,
+          2,
+          1.8
+        ],
+        "target": [
+          -0.1,
+          0,
+          0
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 2.5,
+        "hidden": []
+      },
+      "Cross section": {
+        "type": "ORTHO",
+        "position": [
+          -3,
+          0,
+          0
+        ],
+        "target": [
+          -1,
+          0,
+          0
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 1.8,
+        "hidden": []
+      },
+      "Fascicles": {
+        "type": "ORTHO",
+        "position": [
+          2,
+          1.5,
+          1.1
+        ],
+        "target": [
+          0.15,
+          0,
+          0
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 1.55,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ]
+      },
+      "Single fibre sheath": {
+        "type": "ORTHO",
+        "position": [
+          1.7,
+          0.8,
+          1.2
+        ],
+        "target": [
+          0.7,
+          0.02,
+          0.28
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 0.52,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Endoneurial capillaries",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ]
+      },
+      "Internodes and nodes": {
+        "type": "ORTHO",
+        "position": [
+          1.7,
+          0.8,
+          1.2
+        ],
+        "target": [
+          0.7,
+          0.02,
+          0.28
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 0.52,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Endoneurial capillaries",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ]
+      },
+      "Nuclear pocket": {
+        "type": "ORTHO",
+        "position": [
+          0.855,
+          0,
+          1.313
+        ],
+        "target": [
+          0.855,
+          0,
+          0.313
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 0.16,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Axons",
+          "Nodes of Ranvier",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Endoneurial capillaries",
+          "Schwann basal lamina",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ]
+      },
+      "Nucleus isolated": {
+        "type": "ORTHO",
+        "position": [
+          0.855,
+          0,
+          1.313
+        ],
+        "target": [
+          0.855,
+          0,
+          0.313
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 0.08,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Axons",
+          "Nodes of Ranvier",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Endoneurial capillaries",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ]
+      },
+      "Remak bundle": {
+        "type": "ORTHO",
+        "position": [
+          1.5,
+          -0.079,
+          0.177
+        ],
+        "target": [
+          0.76,
+          -0.079,
+          0.177
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 0.18,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Axons",
+          "Nodes of Ranvier",
+          "Schwann cell nuclei",
+          "Endoneurial capillaries",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ]
+      },
+      "Axon isolated": {
+        "type": "ORTHO",
+        "position": [
+          1.7,
+          0.8,
+          1.2
+        ],
+        "target": [
+          0.7,
+          0.02,
+          0.28
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "ortho_width": 0.52,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Schwann cell nuclei",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Endoneurial capillaries",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ]
+      }
+    },
+    "start_view": "Overview",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": false,
+    "scale_note": "Representative three fascicles; enlarged fibres and shortened internodes; not literal fibre census.",
+    "metres_per_unit": 0.0015,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Representative three fascicles; enlarged fibres and shortened internodes; not literal fibre census."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "peripheral_nerve_static_refinement",
+      "display_name": "Peripheral nerve",
+      "summary": "Preserved source-authored three-fascicle nerve teaching block with finite layer inspection presets.",
+      "viewer_cameras": {
+        "Overview": {
+          "type": "ORTHO",
+          "position": [
+            3,
+            2,
+            1.8
+          ],
+          "target": [
+            -0.1,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 2.5,
+          "hidden": []
+        },
+        "Cross section": {
+          "type": "ORTHO",
+          "position": [
+            -3,
+            0,
+            0
+          ],
+          "target": [
+            -1,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 1.8,
+          "hidden": []
+        },
+        "Fascicles": {
+          "type": "ORTHO",
+          "position": [
+            2,
+            1.5,
+            1.1
+          ],
+          "target": [
+            0.15,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 1.55,
+          "hidden": [
+            "Epineurium",
+            "Epineurial collagen bundles",
+            "Epineurial fat",
+            "Vasa nervorum (arterioles)",
+            "Vasa nervorum (venules)"
+          ]
+        },
+        "Single fibre sheath": {
+          "type": "ORTHO",
+          "position": [
+            1.7,
+            0.8,
+            1.2
+          ],
+          "target": [
+            0.7,
+            0.02,
+            0.28
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 0.52,
+          "hidden": [
+            "Epineurium",
+            "Epineurial collagen bundles",
+            "Perineurium",
+            "Endoneurium",
+            "Endoneurial capillaries",
+            "Epineurial fat",
+            "Vasa nervorum (arterioles)",
+            "Vasa nervorum (venules)"
+          ]
+        },
+        "Internodes and nodes": {
+          "type": "ORTHO",
+          "position": [
+            1.7,
+            0.8,
+            1.2
+          ],
+          "target": [
+            0.7,
+            0.02,
+            0.28
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 0.52,
+          "hidden": [
+            "Epineurium",
+            "Epineurial collagen bundles",
+            "Perineurium",
+            "Endoneurium",
+            "Remak Schwann cells",
+            "Unmyelinated axons (C fibres)",
+            "Endoneurial capillaries",
+            "Schwann cell outer cytoplasm",
+            "Schwann basal lamina",
+            "Epineurial fat",
+            "Vasa nervorum (arterioles)",
+            "Vasa nervorum (venules)"
+          ]
+        },
+        "Nuclear pocket": {
+          "type": "ORTHO",
+          "position": [
+            0.855,
+            0,
+            1.313
+          ],
+          "target": [
+            0.855,
+            0,
+            0.313
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 0.16,
+          "hidden": [
+            "Epineurium",
+            "Epineurial collagen bundles",
+            "Perineurium",
+            "Endoneurium",
+            "Myelin sheaths (internodes)",
+            "Axons",
+            "Nodes of Ranvier",
+            "Remak Schwann cells",
+            "Unmyelinated axons (C fibres)",
+            "Endoneurial capillaries",
+            "Schwann basal lamina",
+            "Epineurial fat",
+            "Vasa nervorum (arterioles)",
+            "Vasa nervorum (venules)"
+          ]
+        },
+        "Nucleus isolated": {
+          "type": "ORTHO",
+          "position": [
+            0.855,
+            0,
+            1.313
+          ],
+          "target": [
+            0.855,
+            0,
+            0.313
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 0.08,
+          "hidden": [
+            "Epineurium",
+            "Epineurial collagen bundles",
+            "Perineurium",
+            "Endoneurium",
+            "Myelin sheaths (internodes)",
+            "Axons",
+            "Nodes of Ranvier",
+            "Remak Schwann cells",
+            "Unmyelinated axons (C fibres)",
+            "Endoneurial capillaries",
+            "Schwann cell outer cytoplasm",
+            "Schwann basal lamina",
+            "Epineurial fat",
+            "Vasa nervorum (arterioles)",
+            "Vasa nervorum (venules)"
+          ]
+        },
+        "Remak bundle": {
+          "type": "ORTHO",
+          "position": [
+            1.5,
+            -0.079,
+            0.177
+          ],
+          "target": [
+            0.76,
+            -0.079,
+            0.177
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 0.18,
+          "hidden": [
+            "Epineurium",
+            "Epineurial collagen bundles",
+            "Perineurium",
+            "Endoneurium",
+            "Myelin sheaths (internodes)",
+            "Axons",
+            "Nodes of Ranvier",
+            "Schwann cell nuclei",
+            "Endoneurial capillaries",
+            "Schwann cell outer cytoplasm",
+            "Schwann basal lamina",
+            "Epineurial fat",
+            "Vasa nervorum (arterioles)",
+            "Vasa nervorum (venules)"
+          ]
+        },
+        "Axon isolated": {
+          "type": "ORTHO",
+          "position": [
+            1.7,
+            0.8,
+            1.2
+          ],
+          "target": [
+            0.7,
+            0.02,
+            0.28
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "ortho_width": 0.52,
+          "hidden": [
+            "Epineurium",
+            "Epineurial collagen bundles",
+            "Perineurium",
+            "Endoneurium",
+            "Myelin sheaths (internodes)",
+            "Schwann cell nuclei",
+            "Remak Schwann cells",
+            "Unmyelinated axons (C fibres)",
+            "Endoneurial capillaries",
+            "Schwann cell outer cytoplasm",
+            "Schwann basal lamina",
+            "Epineurial fat",
+            "Vasa nervorum (arterioles)",
+            "Vasa nervorum (venules)"
+          ]
+        }
+      },
+      "start_view": "Overview",
+      "home_view": "Overview",
+      "cut_on": false,
+      "scale_note": "Representative three fascicles; enlarged fibres and shortened internodes; not literal fibre census.",
+      "metres_per_unit": 0.0015
+    }
+  },
+  "source_part_names": [
+    "Epineurium",
+    "Epineurial collagen bundles",
+    "Perineurium",
+    "Endoneurium",
+    "Myelin sheaths (internodes)",
+    "Axons",
+    "Nodes of Ranvier",
+    "Schwann cell nuclei",
+    "Remak Schwann cells",
+    "Unmyelinated axons (C fibres)",
+    "Endoneurial capillaries",
+    "Schwann cell outer cytoplasm",
+    "Schwann basal lamina",
+    "Epineurial fat",
+    "Vasa nervorum (arterioles)",
+    "Vasa nervorum (venules)"
+  ],
+  "part_names": [
+    "Epineurium",
+    "Epineurial collagen bundles",
+    "Perineurium",
+    "Endoneurium",
+    "Myelin sheaths (internodes)",
+    "Axons",
+    "Nodes of Ranvier",
+    "Schwann cell nuclei",
+    "Remak Schwann cells",
+    "Unmyelinated axons (C fibres)",
+    "Endoneurial capillaries",
+    "Schwann cell outer cytoplasm",
+    "Schwann basal lamina",
+    "Epineurial fat",
+    "Vasa nervorum (arterioles)",
+    "Vasa nervorum (venules)"
+  ],
+  "parts": [
+    {
+      "name": "Epineurium",
+      "group": "Connective tissue",
+      "color": "#e8dcc0",
+      "description": "Epineurium: the dense irregular connective tissue that binds the fascicles into a nerve - a tough outer coat plus looser interfascicular epineurium between the fascicles, carrying fat and the vasa nervorum. It can be half the cross-section of a large nerve, cushions the fascicles against compression, and is the layer sutured in an epineurial nerve repair. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Epineurial collagen bundles",
+      "group": "Connective tissue",
+      "color": "#e8dcc0",
+      "description": "Collagen bundles of the outer epineurium: type I collagen running mostly along the nerve, gently crimped, so a nerve can lengthen a few per cent as a joint moves before its fascicles are loaded. Beyond roughly 8–10 % stretch the intraneural blood flow and conduction fail. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Perineurium",
+      "group": "Connective tissue",
+      "color": "#cf9f86",
+      "description": "Perineurium: concentric lamellae of flattened perineurial cells (each layer with a basal lamina on both sides, joined by tight junctions) with thin collagen between them. It wraps every fascicle, gives it tensile strength, and with the endoneurial capillaries forms the blood–nerve barrier. Fascicles divide and merge along a nerve, so their number changes from level to level; a perineurial repair sutures fascicle to fascicle. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Endoneurium",
+      "group": "Connective tissue",
+      "color": "#d9aaa3",
+      "description": "Endoneurium: loose connective tissue (fine collagen, fibroblasts, a few mast cells and macrophages) between the individual nerve fibres inside a fascicle, bathed in endoneurial fluid. After an axon is cut, its endoneurial tube with the Schwann cells inside (bands of Büngner) guides regrowth at about 1–3 mm per day - which is why axonotmesis recovers and neurotmesis needs repair. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Myelin sheaths (internodes)",
+      "group": "Nerve fibres",
+      "color": "#f0eadb",
+      "description": "Myelin sheaths (internodes): each internode is the compacted spiral membrane of one Schwann cell - in the CNS one oligodendrocyte myelinates many axons. Myelin (P0, PMP22, MBP) insulates the axon so the impulse jumps from node to node. In life internodes are ~100 times the fibre diameter (0.2–1.5 mm); here they are drawn far shorter so several nodes fit in the block. In section each myelinated fibre is a pale ring round a central axon. Attacked in Guillain–Barré syndrome and CIDP; PMP22 duplication causes Charcot–Marie–Tooth disease type 1A. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "white_matter",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Axons",
+      "group": "Nerve fibres",
+      "color": "#e2a23e",
+      "description": "Myelinated axons: the conducting processes of motor neurons, large sensory neurons (Aα/Aβ) and Aδ pain and temperature fibres, 1–20 µm across; the axon is about 60–70 % of the fibre diameter (g-ratio). Conduction velocity rises with diameter, up to about 120 m/s. Cut axons degenerate distally (Wallerian degeneration). Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Nodes of Ranvier",
+      "group": "Nerve fibres",
+      "color": "#46a9d6",
+      "description": "Nodes of Ranvier: ~1 µm gaps between successive Schwann cells where the axon is bare and packed with voltage-gated Na⁺ channels (Nav1.6), with K⁺ channels hidden under the paranodal myelin. The action potential is regenerated only here - saltatory conduction. Antibodies to nodal gangliosides (GM1) cause the acute motor axonal form of Guillain–Barré. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Schwann cell nuclei",
+      "group": "Nerve fibres",
+      "color": "#4b56a8",
+      "description": "Schwann cell nuclei: one elongated nucleus per internode, in the thin collar of cytoplasm outside the myelin; the Remak Schwann cells have their own. Schwann cells come from the neural crest and give rise to schwannomas (bilateral vestibular schwannomas in neurofibromatosis type 2). Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Remak Schwann cells",
+      "group": "Nerve fibres",
+      "color": "#c9b3d4",
+      "description": "Remak (non-myelinating) Schwann cells: each holds a bundle of several thin axons, every one sunk in its own trough of Schwann cell cytoplasm with no myelin - a Remak bundle. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Unmyelinated axons (C fibres)",
+      "group": "Nerve fibres",
+      "color": "#d98a3c",
+      "description": "Unmyelinated axons (C fibres): 0.2–1.5 µm, conducting at 0.5–2 m/s - slow burning pain, temperature, itch and postganglionic sympathetic fibres. They outnumber the myelinated fibres in most cutaneous nerves and are lost early in small-fibre neuropathy (diabetes, amyloid). Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Endoneurial capillaries",
+      "group": "Vessels",
+      "color": "#98729b",
+      "description": "Endoneurial capillaries: continuous, non-fenestrated capillaries whose tight junctions form the vascular half of the blood–nerve barrier. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale. These are disconnected longitudinal representative segments, not an authored arteriole-to-venule network; neutral capillary colour has no flow gradient.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Schwann cell outer cytoplasm",
+      "group": "Nerve fibres",
+      "color": "#e3ced8",
+      "description": "Thin Schwann-cell layer, exaggerated schematically for teaching. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Schwann basal lamina",
+      "group": "Nerve fibres",
+      "color": "#d6c5cd",
+      "description": "Thin Schwann-cell layer, exaggerated schematically for teaching. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Epineurial fat",
+      "group": "Connective tissue",
+      "color": "#f2d77f",
+      "description": "Epineurial fat: lobules of adipocytes in the interfascicular epineurium that cushion the fascicles. Nerves with little fat and a superficial course (ulnar at the elbow, common fibular at the fibular neck) are the ones most prone to compression palsy. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "fat",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Vasa nervorum (arterioles)",
+      "group": "Vessels",
+      "color": "#cf3a31",
+      "description": "Vasa nervorum (arterioles): a longitudinal anastomosing plexus in the epineurium, fed segmentally by nearby arteries, whose branches pierce the perineurium obliquely to supply the endoneurial capillaries. Their occlusion in diabetes or vasculitis causes ischaemic mononeuropathy and mononeuritis multiplex (e.g. a painful third-nerve palsy that spares the pupil). Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Vasa nervorum (venules)",
+      "group": "Vessels",
+      "color": "#4f5fae",
+      "description": "Vasa nervorum (venules): epineurial veins draining the endoneurial capillaries back through the perineurium. Their oblique course through it is easily pinched when endoneurial pressure rises - one reason compression neuropathies (carpal tunnel) become ischaemic. Representative teaching sample: three fascicles and enlarged fibres; not a literal nerve census or clinical fibre scale.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ]
+    }
+  ]
+}

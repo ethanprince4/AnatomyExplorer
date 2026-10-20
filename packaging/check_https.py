@@ -17,7 +17,7 @@ def main(argv=None):
     parser.add_argument("--report", type=Path)
     args = parser.parse_args(argv)
     executable = args.executable.resolve()
-    with tempfile.TemporaryDirectory(prefix="AnatomyExplorer-https-") as d:
+    with tempfile.TemporaryDirectory(prefix="LayeredHuman-https-") as d:
         root = Path(d).resolve()
         report = root / "https.json"
         env = dict(os.environ, QT_QPA_PLATFORM="offscreen", LOCALAPPDATA=str(root / "profile"),

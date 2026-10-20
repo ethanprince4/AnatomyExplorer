@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (QDialog, QFrame, QHBoxLayout, QLabel, QPushButton
                                QWidget)
 
 from ..lessons import diagram_path
+from ..terminology import american_text
 from . import theme
 
 # Existing SVG teaching diagrams use light strokes on transparent backgrounds.
@@ -25,7 +26,14 @@ def renderer(diagram_id):
     if diagram_id in _RENDERERS:
         return _RENDERERS[diagram_id]
     path = diagram_path(diagram_id)
-    r = QSvgRenderer(str(path)) if path is not None else None
+    r = None
+    if path is not None:
+        try:
+            source = path.read_text(encoding="utf-8")
+            shown = american_text(source)
+            r = QSvgRenderer(str(path)) if shown == source else QSvgRenderer(shown.encode("utf-8"))
+        except (OSError, UnicodeError):
+            pass
     if r is not None and not r.isValid():
         r = None
     _RENDERERS[diagram_id] = r
@@ -221,7 +229,7 @@ class DiagramOverlay(QFrame):
             title = m.group(1).strip() if m else title
         except OSError:
             pass
-        self.title.setText(title)
+        self.title.setText(american_text(title))
         self.set_collapsed(False)
         self.show()
         self.raise_()

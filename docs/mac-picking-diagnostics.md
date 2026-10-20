@@ -36,8 +36,8 @@ single-action handoff.
    Frozen private builds use the same flags through their executable:
 
    ```sh
-   "/path/to/PRIVATE diagnostic.app/Contents/MacOS/AnatomyExplorer" --pick-diagnostics --gpu-controls-only --report "$HOME/Desktop/picking-gpu.json"
-   "/path/to/PRIVATE diagnostic.app/Contents/MacOS/AnatomyExplorer" --pick-diagnostics --native-trace --seconds 120 --report "$HOME/Desktop/picking-input.json"
+   "/path/to/PRIVATE diagnostic.app/Contents/MacOS/LayeredHuman" --pick-diagnostics --gpu-controls-only --report "$HOME/Desktop/picking-gpu.json"
+   "/path/to/PRIVATE diagnostic.app/Contents/MacOS/LayeredHuman" --pick-diagnostics --native-trace --seconds 120 --report "$HOME/Desktop/picking-input.json"
    ```
 
 Send the two JSON files and the observed anatomy/menu behavior to the parent

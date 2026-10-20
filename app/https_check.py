@@ -17,6 +17,10 @@ from . import updater as u
 from .tls import https_context
 
 INSTALLERS = {
+    "windows-x64": "LayeredHuman-Setup-Windows.exe",
+    "macos-arm64": "LayeredHuman-macOS-AppleSilicon.dmg",
+}
+LEGACY_INSTALLERS = {
     "windows-x64": "AnatomyExplorer-Setup-Windows.exe",
     "macos-arm64": "AnatomyExplorer-macOS-AppleSilicon.dmg",
 }
@@ -66,8 +70,8 @@ def check(platform=None):
     if manifest is None or not manifest["blobs"]:
         raise u.UpdateError("Stable release has no incremental update payload")
     tag = release["tag_name"]  # from_release has validated the numeric stable tag
-    prefix = f"https://github.com/{u.REPO}/releases/download/{tag}/"
-    name = u.MAC_MANIFEST if source.platform == "macos-arm64" else u.MANIFEST
+    prefix = source.release_prefix
+    name = source.manifest_name
     assets = {a["name"]: a for a in release.get("assets", [])}
     report["api"] = {"url": u.API, "published_stable": True, "release_tag": tag}
     report["manifest"] = {
@@ -94,9 +98,8 @@ def check(platform=None):
         "integrity_verified": True,
     }
 
-    installer_name = INSTALLERS[source.platform]
-    if installer_name not in assets:
-        installer_name += '.part001'
+    installer_name = next((name for base in (INSTALLERS[source.platform], LEGACY_INSTALLERS[source.platform])
+                           for name in (base, base + '.part001') if name in assets), INSTALLERS[source.platform])
     installer = assets.get(installer_name, {})
     size = installer.get("size")
     url = prefix + installer_name

@@ -3,6 +3,7 @@ Windows), and the Mac install.sh run with stub hdiutil/ditto."""
 import functools
 import hashlib
 import http.server
+import json
 import os
 import re
 import shutil
@@ -18,8 +19,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import prepare_release_assets as prep
 
 TAG = 'v4.0.1'
-DMG = 'AnatomyExplorer-macOS-AppleSilicon.dmg'
-BUNDLE = 'Anatomy Explorer.app'
+DMG = 'LayeredHuman-macOS-AppleSilicon.dmg'
+BUNDLE = 'Layered Human.app'
 
 # Stands in for hdiutil on Linux: attach copies the fixture app into -mountpoint and records the joined image.
 FAKE_HDIUTIL = '''#!/bin/sh
@@ -52,18 +53,18 @@ class SplitTests(unittest.TestCase):
     def test_windows_installer_is_split_and_described(self):
         folder = self.tmp / 'assets'
         folder.mkdir()
-        (folder / 'AnatomyExplorer-Setup-Windows.exe').write_bytes(b'abcdefghijkl')
+        (folder / 'LayeredHuman-Setup-Windows.exe').write_bytes(b'abcdefghijkl')
         if sys.platform != 'win32':
             with self.assertRaises(SystemExit):
                 prep.prepare(folder, TAG)
-            self.assertTrue((folder / 'AnatomyExplorer-Setup-Windows.exe.part001').exists())
+            self.assertTrue((folder / 'LayeredHuman-Setup-Windows.exe.part001').exists())
             return
         prep.prepare(folder, TAG)
         self.assertEqual(sorted(p.name for p in folder.iterdir()),
-                         ['AnatomyExplorer-Setup-Windows.exe.part001', 'AnatomyExplorer-Setup-Windows.exe.part002',
-                          'AnatomyExplorer-Setup-Windows.exe.part003', 'INSTALL-DOWNLOADS.md',
-                          'Install-Anatomy-Explorer-Windows.exe'])
-        self.assertEqual((folder / 'AnatomyExplorer-Setup-Windows.exe.part003').read_bytes(), b'ijkl')
+                         sorted(['LayeredHuman-Setup-Windows.exe.part001', 'LayeredHuman-Setup-Windows.exe.part002',
+                          'LayeredHuman-Setup-Windows.exe.part003', 'INSTALL-DOWNLOADS.md',
+                          'Install-Layered-Human-Windows.exe']))
+        self.assertEqual((folder / 'LayeredHuman-Setup-Windows.exe.part003').read_bytes(), b'ijkl')
         self.assertEqual((folder / prep.WINDOWS_HELPER).read_bytes()[:2], b'MZ')
         notes = (folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8')
         self.assertIn(f'- {prep.WINDOWS_HELPER} (Windows)', notes)
@@ -76,11 +77,11 @@ class SplitTests(unittest.TestCase):
                       source)
         self.assertLess(source.index(f'new Part("Setup.exe.part001", 4L, "{"a" * 64}"),'),
                         source.index(f'new Part("Setup.exe.part002", 2L, "{"b" * 64}"),'))
-        self.assertIn('public const string AppName = "Anatomy Explorer";', source)
+        self.assertIn('public const string AppName = "Layered Human";', source)
         self.assertIn('public const string Version = "4.0.1";', source)
         self.assertIn('[assembly: AssemblyVersion("4.0.1.0")]', source)
         preview = prep.windows_installer_source('https://x.test', 'v4.1.0-preview.2', 'Setup.exe', [])
-        self.assertIn('"Anatomy Explorer Experimental"', preview)
+        self.assertIn('"Layered Human Experimental"', preview)
         self.assertIn('[assembly: AssemblyVersion("4.1.0.0")]', preview)
         for name, digest in [('a"b.part001', 'a' * 64), ('Setup.exe.part001', 'not a digest')]:
             with self.assertRaises(ValueError):
@@ -89,7 +90,7 @@ class SplitTests(unittest.TestCase):
     def test_each_build_writes_its_own_notes_and_publishing_joins_them(self):
         folder = self.tmp / 'assets'
         folder.mkdir()
-        (folder / 'AnatomyExplorer-Setup-Windows.exe').write_bytes(b'abcdefghijkl')
+        (folder / 'LayeredHuman-Setup-Windows.exe').write_bytes(b'abcdefghijkl')
         with mock.patch.object(prep, 'build_windows_installer'):  # compiled only on Windows; the notes are the same
             prep.prepare(folder, TAG, 'INSTALL-DOWNLOADS-Windows.md')
         (folder / 'INSTALL-DOWNLOADS-macOS.md').write_text(
@@ -110,6 +111,8 @@ class SplitTests(unittest.TestCase):
         folder = self.tmp / 'assets'
         folder.mkdir()
         (folder / DMG).write_bytes(b'0123456789ABCDEF')
+        (folder / 'LayeredHuman-macOS-update.json').write_text(json.dumps(
+            {'schema': 1, 'platform': 'macos-arm64', 'files': [{'size': 1024}]}))
         if sys.platform != 'darwin':
             with self.assertRaises(SystemExit):
                 prep.prepare(folder, TAG)
@@ -145,12 +148,13 @@ class SplitTests(unittest.TestCase):
         self.assertEqual(linked, {prep.MAC_INSTALLER, prep.WINDOWS_HELPER})
 
     def test_installer_app_names_follow_the_channel(self):
-        self.assertEqual(prep.mac_app_name('v4.0.1'), 'Anatomy Explorer')
-        self.assertEqual(prep.mac_app_name('v4.1.0-preview.2'), 'Anatomy Explorer Experimental')
+        self.assertEqual(prep.mac_app_name('v4.0.1'), 'Layered Human')
+        self.assertEqual(prep.mac_app_name('v4.1.0-preview.2'), 'Layered Human Experimental')
 
     def test_generated_install_script_is_valid_bash(self):
         script = prep.mac_installer_script(f'file:///x/{TAG}', DMG, BUNDLE, 12,
-                                           [(f'{DMG}.part001', 'a' * 64), (f'{DMG}.part002', 'b' * 64)])
+                                           [(f'{DMG}.part001', 'a' * 64), (f'{DMG}.part002', 'b' * 64)],
+                                           bundle_bytes=1024)
         path = self.tmp / 'install.sh'
         path.write_text(script, encoding='utf-8')
         result = subprocess.run(['bash', '-n', str(path)], capture_output=True, text=True)
@@ -158,8 +162,8 @@ class SplitTests(unittest.TestCase):
         self.assertIn(f"'{DMG}.part002 {'b' * 64}'", script)
 
     def test_applescript_template_has_every_value(self):
-        source = prep.fill('Installer.applescript.in', {'@NAME@': 'Anatomy Explorer', '@VERSION@': TAG})
-        self.assertIn('property appName : "Anatomy Explorer"', source)
+        source = prep.fill('Installer.applescript.in', {'@NAME@': 'Layered Human', '@VERSION@': TAG})
+        self.assertIn('property appName : "Layered Human"', source)
         self.assertIn('path to resource "install.sh"', source)
         self.assertNotIn('@', source)
         # A variable named after an AppleScript property compiles but fails when it runs (set kind: -10006).
@@ -167,7 +171,58 @@ class SplitTests(unittest.TestCase):
 
     def test_unsafe_part_names_are_refused(self):
         with self.assertRaises(ValueError):
-            prep.mac_installer_script('file:///x', DMG, BUNDLE, 1, [('a b.part001', 'c' * 64)])
+            prep.mac_installer_script('file:///x', DMG, BUNDLE, 1, [('a b.part001', 'c' * 64)], bundle_bytes=1024)
+
+    def test_mac_helper_uses_actual_uncompressed_bundle_size_and_updates_install_notes(self):
+        folder = self.tmp / 'assets'
+        folder.mkdir()
+        (folder / DMG).write_bytes(b'0123456789ABCDEF')
+        uncompressed = 9_000_000_000
+        (folder / 'LayeredHuman-macOS-update.json').write_text(json.dumps(
+            {'schema': 1, 'platform': 'macos-arm64', 'files': [{'size': uncompressed - 20}, {'size': 20}]}))
+        self.assertEqual(prep.mac_bundle_bytes(folder), uncompressed)
+        script = prep.mac_installer_script(f'{prep.REPO}/{TAG}', DMG, BUNDLE, 3_000_000_000,
+                                           [(f'{DMG}.part001', 'a' * 64)], bundle_bytes=uncompressed)
+        self.assertIn('BUNDLE_BYTES=9000000000', script)
+        self.assertIn('TOTAL * 2 + BUNDLE_BYTES + 1073741824', script)
+        self.assertIn('df -Pk "$dest"', script)
+        self.assertEqual(prep.mac_required_bytes(3_000_000_000, uncompressed), 16_073_741_824)
+        with mock.patch.object(prep, 'build_mac_installer') as build:
+            prep.prepare(folder, TAG)
+        self.assertEqual(build.call_args.kwargs['bundle_bytes'], uncompressed)
+        self.assertIn('11 GB of free disk space', (folder / prep.NOTES).read_text())
+
+    def test_mac_helper_rejects_missing_or_invalid_bundle_size_metadata(self):
+        with self.assertRaisesRegex(ValueError, 'manifest beside'):
+            prep.mac_bundle_bytes(self.tmp)
+        (self.tmp / 'LayeredHuman-macOS-update.json').write_text(json.dumps(
+            {'schema': 1, 'platform': 'macos-arm64', 'files': [{'size': -1}]}))
+        with self.assertRaisesRegex(ValueError, 'valid bundle-size'):
+            prep.mac_bundle_bytes(self.tmp)
+
+    def test_mac_helper_refuses_tight_disk_before_downloading_a_large_uncompressed_app(self):
+        script = self.tmp / 'install.sh'
+        text = prep.mac_installer_script('https://example.invalid', DMG, BUNDLE, 3_000_000_000,
+                                        [(f'{DMG}.part001', 'a' * 64)], bundle_bytes=9_000_000_000)
+        # Functions avoid host-specific PATH rules for stub executables.
+        fixture = "df() { printf 'Filesystem 1024-blocks Used Available Capacity Mounted\\nfixture 20000000 0 15000000 0%% /\\n'; }\ncurl() { : > \"$DOWNLOAD_MARKER\"; return 1; }\n"
+        script.write_text(text.replace('set -euo pipefail\n', 'set -euo pipefail\n' + fixture), encoding='utf-8')
+        work = self.tmp / 'work'
+        work.mkdir()
+        # 15.36 GB available: enough for the former 2*DMG+1 GiB estimate, but
+        # insufficient for the real 9 GB extracted app plus retained downloads.
+        marker = self.tmp / 'download-started'
+        env = dict(os.environ, DOWNLOAD_MARKER=marker.as_posix())
+        git_bash = Path(r'C:\Program Files\Git\bin\bash.exe')
+        if sys.platform == 'win32' and git_bash.is_file():
+            env['PATH'] = str(git_bash.parents[1] / 'usr/bin') + os.pathsep + env['PATH']
+        bash = str(git_bash) if sys.platform == 'win32' and git_bash.is_file() else 'bash'
+        result = subprocess.run([bash, script.as_posix(), 'install', work.as_posix(),
+                                 (self.tmp / 'Applications').as_posix(), 'no'], env=env,
+                                capture_output=True, text=True, timeout=20)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn('Not enough free disk space. Free about 17 GB', (work / 'status').read_text())
+        self.assertFalse(marker.exists())
 
 
 class MacInstallScriptTests(unittest.TestCase):
@@ -199,7 +254,8 @@ class MacInstallScriptTests(unittest.TestCase):
             digest = (sums or {}).get(suffix) or hashlib.sha256(body).hexdigest()
             pairs.append((name, digest))
         total = sum(len(b) for b in self.parts.values())
-        script = prep.mac_installer_script(self.server.as_uri(), DMG, BUNDLE, total, pairs)
+        script = prep.mac_installer_script(self.server.as_uri(), DMG, BUNDLE, total, pairs,
+                                           bundle_bytes=sum(path.stat().st_size for path in self.fixture.rglob('*') if path.is_file()))
         path = self.tmp / 'install.sh'
         path.write_text(script, encoding='utf-8')
         path.chmod(0o755)
@@ -305,9 +361,9 @@ class RangeHandler(http.server.SimpleHTTPRequestHandler):
 
 @unittest.skipUnless(sys.platform == 'win32' and prep.CSC.is_file(), 'builds and runs the Windows installer program')
 class WindowsInstallerProgramTests(unittest.TestCase):
-    """Builds the real Install-Anatomy-Explorer-Windows.exe and runs it against a local server and a fake installer."""
+    """Builds the real Install-Layered-Human-Windows.exe and runs it against a local server and a fake installer."""
 
-    SETUP = 'AnatomyExplorer-Setup-Windows.exe'
+    SETUP = 'LayeredHuman-Setup-Windows.exe'
 
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())

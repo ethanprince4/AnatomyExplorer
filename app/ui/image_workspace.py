@@ -102,13 +102,15 @@ def control(text, name, tooltip="", parent=None):
 
 
 def searchable_text(*parts):
-    return " ".join(str(part or "") for part in parts).casefold()
+    from ..terminology import canonical_name
+    return canonical_name(" ".join(str(part or "") for part in parts))
 
 
 def matches_words(query, text):
     """Order-independent terms: 'kidney ct' finds the authored CT kidney case."""
-    haystack = text.casefold()
-    return all(word in haystack for word in query.strip().casefold().split())
+    from ..terminology import canonical_name
+    haystack = canonical_name(text)
+    return all(word in haystack for word in canonical_name(query).split())
 
 
 CARD_TEXT = theme.TEXT

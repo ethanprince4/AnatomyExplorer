@@ -25,6 +25,7 @@ import json
 from dataclasses import dataclass, field
 
 from ..config import ROOT
+from ..terminology import american_text, display_content
 
 GUIDE_DIR = ROOT / "data" / "content" / "model_parts"
 
@@ -58,7 +59,7 @@ class PartGuide:
         segments = [s.strip() for s in str(key).split(" / ") if s.strip()]
         if len(segments) > 1:
             return tuple(_sentence(s) for s in segments[:-1]), self.titles.get(key) or _sentence(segments[-1])
-        return (), self.titles.get(key) or title or str(key)
+        return (), american_text(self.titles.get(key) or title or str(key))
 
     def group(self, key):
         return self.groups.get(key) or GroupGuide()
@@ -76,7 +77,7 @@ class PartGuide:
 
 
 def _sentence(text):
-    text = str(text).strip()
+    text = american_text(str(text).strip())
     return text[:1].upper() + text[1:]
 
 
@@ -115,7 +116,7 @@ def load_part_guide(model_id, tissue_ids=None):
                 guide.order.append(key)
     titles = data.get("titles")
     if isinstance(titles, dict):
-        guide.titles = {k: v.strip() for k, v in titles.items() if isinstance(k, str) and isinstance(v, str) and v.strip()}
+        guide.titles = {k: american_text(v.strip()) for k, v in titles.items() if isinstance(k, str) and isinstance(v, str) and v.strip()}
     for key, raw in (data.get("groups") or {}).items() if isinstance(data.get("groups"), dict) else ():
         if not isinstance(key, str) or not isinstance(raw, dict):
             continue
@@ -125,14 +126,14 @@ def load_part_guide(model_id, tissue_ids=None):
         histology = _strings(raw.get("histology"), 3)
         if tissue_ids is not None:
             histology = [t for t in histology if t in tissue_ids]
-        guide.groups[key] = GroupGuide(description.strip(), raw.get("replace_part_descriptions") is True and
-                                       bool(description.strip()), clinical[:3], histology)
+        guide.groups[key] = GroupGuide(american_text(description.strip()), raw.get("replace_part_descriptions") is True and
+                                       bool(description.strip()), display_content(clinical[:3], text=True), histology)
     for raw in data.get("parts") or [] if isinstance(data.get("parts"), list) else ():
         text = raw.get("description") if isinstance(raw, dict) and isinstance(raw.get("description"), str) else ""
         for key in _strings(raw.get("keys")) if text.strip() else ():
-            guide.descriptions.setdefault(key, text.strip())
+            guide.descriptions.setdefault(key, american_text(text.strip()))
     names = data.get("names")
     if isinstance(names, dict):
-        guide.names = {k: v.strip() for k, v in names.items()
+        guide.names = {k: american_text(v.strip()) for k, v in names.items()
                        if isinstance(k, str) and isinstance(v, str) and 0 < len(v.strip()) <= 80}
     return guide

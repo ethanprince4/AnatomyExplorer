@@ -22,9 +22,15 @@ for stream in ("stdout", "stderr"):
         setattr(sys, stream, open(os.devnull, "w"))
 
 
+def installed_app():
+    # Include the prior installed bundle for users upgrading through its launcher.
+    apps = [Path("/Applications") / name for name in ("Layered Human.app", "Anatomy Explorer.app")]
+    return next((app for app in apps if (app / "Contents/Info.plist").is_file()), apps[0])
+
+
 def installed_identity():
     """Read only fixed app metadata; never enumerate personal files or launch it."""
-    app = Path("/Applications/Anatomy Explorer.app")
+    app = installed_app()
     plist = app / "Contents/Info.plist"
     if not plist.is_file():
         return {"found_in_applications": False}
@@ -59,7 +65,7 @@ def tls_probe():
                                 "interpretation": "Default trust of this isolated frozen interpreter; not the installed client's interpreter."}}
     try:
         opener = urllib.request.build_opener(SafeRedirect(), urllib.request.HTTPSHandler(context=context))
-        with opener.open(urllib.request.Request(API, headers={"User-Agent": "AnatomyExplorer-Diagnostic"}), timeout=20) as response:
+        with opener.open(urllib.request.Request(API, headers={"User-Agent": "LayeredHuman-Diagnostic"}), timeout=20) as response:
             result["default_trust"]["github_api_https_success"] = response.status == 200
             response.read(64)
     except Exception as exc:
@@ -75,7 +81,7 @@ def tls_probe():
 def task(name):
     if name == "gpu":
         from app.picking_diagnostics import run_gpu_controls, json_safe
-        metadata = Path("/Applications/Anatomy Explorer.app/Contents/Resources/data/anatomy/anatomy.json")
+        metadata = installed_app() / "Contents/Resources/data/anatomy/anatomy.json"
         result = json_safe(run_gpu_controls(metadata if sys.platform == "darwin" and metadata.is_file() else None))
         if sys.platform == "darwin":
             from runtime_binary import loaded_qcocoa_identity
@@ -106,7 +112,7 @@ def main(argv=None):
             result = {"success": False, "failure": "diagnostic_task_failed"}
         args.report.write_text(json.dumps(result, indent=2, allow_nan=False), encoding="utf-8")
         return 0 if result.get("success", result.get("passed", False)) else 1
-    directory = Path(tempfile.mkdtemp(prefix="AnatomyExplorer-Diagnostic-"))
+    directory = Path(tempfile.mkdtemp(prefix="LayeredHuman-Diagnostic-"))
     output = args.report or directory / "report.json"
     result = {"schema": 1, "purpose": "Unpublished diagnostic; not an app update",
               "runtime": {"os": platform.platform(), "machine": platform.machine(),
@@ -142,7 +148,7 @@ def main(argv=None):
     if not args.no_dialog:
         from PySide6.QtWidgets import QApplication, QMessageBox
         app = QApplication.instance() or QApplication([])
-        QMessageBox.information(None, "Anatomy Explorer diagnostic complete",
+        QMessageBox.information(None, "Layered Human diagnostic complete",
                                 "The report is ready. Nothing was installed or uploaded.\n\n" + str(output))
         if sys.platform == "darwin":
             subprocess.run(["/usr/bin/open", "-R", str(output)], check=False)

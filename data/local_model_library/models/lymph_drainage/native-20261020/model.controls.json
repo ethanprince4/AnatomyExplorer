@@ -1,0 +1,1300 @@
+{
+  "native": {
+    "summary": "Where lymph returns to the blood. The cisterna chyli collects the intestinal and lumbar trunks in front of L1-L2; the thoracic duct climbs through the aortic hiatus and the posterior mediastinum, crosses to the left and empties into the left venous angle. The short right lymphatic duct takes the right jugular, subclavian and bronchomediastinal trunks to the right venous angle. Green = thoracic duct territory, teal = right lymphatic duct territory.",
+    "scale_note": "Life size, 1 unit = 1 mm, built on the atlas body: the great veins, aorta, oesophagus, spine and lymph nodes are the atlas structures. The ducts and trunks are drawn at typical diameters and their courses are simplified.",
+    "viewer_cameras": {
+      "Whole system, from behind": {
+        "position": [
+          118.31,
+          108.31,
+          -1005.9
+        ],
+        "target": [
+          0,
+          -10,
+          -20
+        ],
+        "type": "PERSP",
+        "fov_deg": 30,
+        "hidden": [
+          "Cervical vertebrae",
+          "Thoracic vertebrae",
+          "Lumbar vertebrae",
+          "Diaphragm"
+        ],
+        "note": "Spine hidden, seen from behind: the cisterna chyli, the thoracic duct climbing between the aorta and the azygos vein, and the trunks gathering at the venous angles. Green = thoracic duct system, teal = right lymphatic duct system."
+      },
+      "Front view": {
+        "position": [
+          175.93,
+          107.29,
+          972.39
+        ],
+        "target": [
+          0,
+          -10,
+          -5
+        ],
+        "type": "PERSP",
+        "fov_deg": 30,
+        "hidden": [],
+        "note": "From the front, the thoracic duct is hidden behind the oesophagus and aorta; the trunks and both venous angles show at the root of the neck."
+      },
+      "Root of the neck: venous angles": {
+        "position": [
+          0.0,
+          322.41,
+          580.7
+        ],
+        "target": [
+          0,
+          150,
+          6
+        ],
+        "type": "ORTHO",
+        "ortho_width": 150.0,
+        "hidden": [],
+        "note": "The thoracic duct arches into the left venous angle; the short right lymphatic duct enters the right venous angle. The jugular, subclavian and bronchomediastinal trunks join each side."
+      },
+      "Thoracic duct from behind (close)": {
+        "position": [
+          44.72,
+          109.44,
+          -919.43
+        ],
+        "target": [
+          0,
+          20,
+          -25
+        ],
+        "type": "ORTHO",
+        "ortho_width": 430.0,
+        "hidden": [
+          "Cervical vertebrae",
+          "Thoracic vertebrae",
+          "Lumbar vertebrae",
+          "Diaphragm"
+        ],
+        "note": "Spine hidden: the thoracic duct climbs between the aorta and the azygos vein, then crosses to the left behind the oesophagus at about T4-T5."
+      },
+      "Thoracic duct from the right": {
+        "position": [
+          -885.72,
+          98.57,
+          -152.86
+        ],
+        "target": [
+          0,
+          10,
+          -20
+        ],
+        "type": "ORTHO",
+        "ortho_width": 430.0,
+        "hidden": [
+          "Diaphragm",
+          "Right subclavian vein",
+          "Clavicles"
+        ],
+        "note": "From the right: the duct lies on the front of the vertebral bodies, behind the oesophagus, and passes through the aortic hiatus with the aorta."
+      },
+      "Cisterna chyli and abdominal trunks": {
+        "position": [
+          -203.29,
+          -92.24,
+          459.75
+        ],
+        "target": [
+          0,
+          -160,
+          8
+        ],
+        "type": "ORTHO",
+        "ortho_width": 160.0,
+        "hidden": [
+          "Inferior vena cava",
+          "Diaphragm"
+        ],
+        "note": "The cisterna chyli in front of L1-L2, right of the aorta, receiving the intestinal trunk and the two lumbar trunks."
+      },
+      "Drainage territories": {
+        "position": [
+          0.0,
+          129.55,
+          890.53
+        ],
+        "target": [
+          0,
+          40,
+          -5
+        ],
+        "type": "ORTHO",
+        "ortho_width": 520.0,
+        "hidden": [],
+        "note": "Teal: the right lymphatic duct and its trunks (right head and neck, right arm, right thorax). Green: the thoracic duct and its tributaries (everything else)."
+      }
+    },
+    "start_view": "Front view",
+    "home_view": [
+      0.178,
+      0.117
+    ],
+    "metres_per_unit": 0.001,
+    "cut_on": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0.0,
+      0.0
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Life size, 1 unit = 1 mm, built on the atlas body: the great veins, aorta, oesophagus, spine and lymph nodes are the atlas structures. The ducts and trunks are drawn at typical diameters and their courses are simplified."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {},
+  "source_part_names": [
+    "Thoracic duct",
+    "Cisterna chyli",
+    "Intestinal trunk",
+    "Right lumbar trunk",
+    "Left lumbar trunk",
+    "Left jugular trunk",
+    "Left subclavian trunk",
+    "Left bronchomediastinal trunk",
+    "Right lymphatic duct",
+    "Right jugular trunk",
+    "Right subclavian trunk",
+    "Right bronchomediastinal trunk",
+    "Internal jugular veins",
+    "Left subclavian vein",
+    "Right subclavian vein",
+    "Left brachiocephalic vein",
+    "Right brachiocephalic vein",
+    "Superior vena cava",
+    "Inferior vena cava",
+    "Azygos vein",
+    "Hemiazygos vein",
+    "Ascending aorta",
+    "Aortic arch",
+    "Thoracic aorta",
+    "Abdominal aorta",
+    "Brachiocephalic trunk",
+    "Left common carotid artery",
+    "Left subclavian artery",
+    "Coeliac trunk",
+    "Oesophagus",
+    "Trachea",
+    "Cervical vertebrae",
+    "Thoracic vertebrae",
+    "Lumbar vertebrae",
+    "Clavicles",
+    "Diaphragm",
+    "Deep cervical lymph nodes",
+    "Lateral cervical lymph nodes",
+    "Axillary lymph nodes",
+    "Paratracheal lymph nodes",
+    "Tracheobronchial lymph nodes",
+    "Pre-aortic lymph nodes",
+    "Lateral aortic (lumbar) lymph nodes",
+    "Intermediate lumbar lymph nodes",
+    "Left lumbar lymph nodes"
+  ],
+  "part_names": [
+    "Thoracic duct",
+    "Cisterna chyli",
+    "Intestinal trunk",
+    "Right lumbar trunk",
+    "Left lumbar trunk",
+    "Left jugular trunk",
+    "Left subclavian trunk",
+    "Left bronchomediastinal trunk",
+    "Right lymphatic duct",
+    "Right jugular trunk",
+    "Right subclavian trunk",
+    "Right bronchomediastinal trunk",
+    "Internal jugular veins",
+    "Left subclavian vein",
+    "Right subclavian vein",
+    "Left brachiocephalic vein",
+    "Right brachiocephalic vein",
+    "Superior vena cava",
+    "Inferior vena cava",
+    "Azygos vein",
+    "Hemiazygos vein",
+    "Ascending aorta",
+    "Aortic arch",
+    "Thoracic aorta",
+    "Abdominal aorta",
+    "Brachiocephalic trunk",
+    "Left common carotid artery",
+    "Left subclavian artery",
+    "Coeliac trunk",
+    "Oesophagus",
+    "Trachea",
+    "Cervical vertebrae",
+    "Thoracic vertebrae",
+    "Lumbar vertebrae",
+    "Clavicles",
+    "Diaphragm",
+    "Deep cervical lymph nodes",
+    "Lateral cervical lymph nodes",
+    "Axillary lymph nodes",
+    "Paratracheal lymph nodes",
+    "Tracheobronchial lymph nodes",
+    "Pre-aortic lymph nodes",
+    "Lateral aortic (lumbar) lymph nodes",
+    "Intermediate lumbar lymph nodes",
+    "Left lumbar lymph nodes"
+  ],
+  "parts": [
+    {
+      "name": "Thoracic duct",
+      "group": "Thoracic duct system",
+      "color": "#3f9e4d",
+      "color_linear": [
+        0.04971,
+        0.34191,
+        0.07421
+      ],
+      "description": "Thoracic duct: the largest lymphatic vessel. It begins at the cisterna chyli, rises through the aortic hiatus of the diaphragm, runs up the posterior mediastinum on the vertebral bodies between the aorta and the azygos vein (behind the oesophagus), crosses to the left at about T4-T5, and arches at the root of the neck to empty into the left venous angle, where the left internal jugular and left subclavian veins meet. It drains the remainder of the body: everything except the right side of the head and neck, the right upper limb and the right thorax.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Cisterna chyli",
+      "group": "Thoracic duct system",
+      "color": "#5cb86a",
+      "color_linear": [
+        0.10702,
+        0.47932,
+        0.14413
+      ],
+      "description": "Cisterna chyli: the sac-like start of the thoracic duct, in front of the first and second lumbar vertebrae, to the right of the aorta. The intestinal and lumbar trunks empty into it, so after a fatty meal it is full of milky chyle.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Intestinal trunk",
+      "group": "Thoracic duct system",
+      "color": "#86cc8f",
+      "color_linear": [
+        0.22565,
+        0.57048,
+        0.25991
+      ],
+      "description": "Intestinal trunk: drains the abdominal organs, including the chyle from the lacteals of the intestinal villi, into the cisterna chyli.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Right lumbar trunk",
+      "group": "Thoracic duct system",
+      "color": "#86cc8f",
+      "color_linear": [
+        0.22565,
+        0.57048,
+        0.25991
+      ],
+      "description": "Lumbar trunk (right): drains the right lower limb, the pelvic and abdominal walls and the pelvic organs into the cisterna chyli. Both lumbar trunks go to the thoracic duct, so even the right leg drains to the thoracic duct.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left lumbar trunk",
+      "group": "Thoracic duct system",
+      "color": "#86cc8f",
+      "color_linear": [
+        0.22565,
+        0.57048,
+        0.25991
+      ],
+      "description": "Lumbar trunk (left): drains the left lower limb, the pelvic and abdominal walls and the pelvic organs into the cisterna chyli.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left jugular trunk",
+      "group": "Thoracic duct system",
+      "color": "#86cc8f",
+      "color_linear": [
+        0.22565,
+        0.57048,
+        0.25991
+      ],
+      "description": "Jugular trunk (left): drains the left side of the head and neck into the end of the thoracic duct.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left subclavian trunk",
+      "group": "Thoracic duct system",
+      "color": "#86cc8f",
+      "color_linear": [
+        0.22565,
+        0.57048,
+        0.25991
+      ],
+      "description": "Subclavian trunk (left): drains the left upper limb, the superficial thoracic wall and the left mammary gland into the end of the thoracic duct.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left bronchomediastinal trunk",
+      "group": "Thoracic duct system",
+      "color": "#86cc8f",
+      "color_linear": [
+        0.22565,
+        0.57048,
+        0.25991
+      ],
+      "description": "Bronchomediastinal trunk (left): drains the deep thoracic organs and the deep thoracic wall on the left into the end of the thoracic duct.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Right lymphatic duct",
+      "group": "Right lymphatic duct system",
+      "color": "#2f9fa0",
+      "color_linear": [
+        0.02843,
+        0.3467,
+        0.35153
+      ],
+      "description": "Right lymphatic duct: a short vessel at the root of the neck that empties into the right venous angle (right internal jugular and subclavian veins). It drains only the right side of the head and neck, the right upper limb and the right thorax.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Right jugular trunk",
+      "group": "Right lymphatic duct system",
+      "color": "#62c3c3",
+      "color_linear": [
+        0.12214,
+        0.54572,
+        0.54572
+      ],
+      "description": "Jugular trunk (right): drains the right side of the head and neck into the right lymphatic duct.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Right subclavian trunk",
+      "group": "Right lymphatic duct system",
+      "color": "#62c3c3",
+      "color_linear": [
+        0.12214,
+        0.54572,
+        0.54572
+      ],
+      "description": "Subclavian trunk (right): drains the right upper limb, the superficial thoracic wall and the right mammary gland into the right lymphatic duct.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Right bronchomediastinal trunk",
+      "group": "Right lymphatic duct system",
+      "color": "#62c3c3",
+      "color_linear": [
+        0.12214,
+        0.54572,
+        0.54572
+      ],
+      "description": "Bronchomediastinal trunk (right): drains the deep thoracic organs and the deep thoracic wall on the right into the right lymphatic duct.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Internal jugular veins",
+      "group": "Great veins",
+      "color": "#3d5ea8",
+      "color_linear": [
+        0.04667,
+        0.11193,
+        0.39157
+      ],
+      "description": "Internal jugular veins: each joins the subclavian vein behind the sternoclavicular joint at the venous angle, where lymph returns to the blood.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left subclavian vein",
+      "group": "Great veins",
+      "color": "#3d5ea8",
+      "color_linear": [
+        0.04667,
+        0.11193,
+        0.39157
+      ],
+      "description": "Left subclavian vein: it meets the left internal jugular vein at the left venous angle, which receives the thoracic duct.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Right subclavian vein",
+      "group": "Great veins",
+      "color": "#3d5ea8",
+      "color_linear": [
+        0.04667,
+        0.11193,
+        0.39157
+      ],
+      "description": "Right subclavian vein: it meets the right internal jugular vein at the right venous angle, which receives the right lymphatic duct.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left brachiocephalic vein",
+      "group": "Great veins",
+      "color": "#3d5ea8",
+      "color_linear": [
+        0.04667,
+        0.11193,
+        0.39157
+      ],
+      "description": "Left brachiocephalic vein (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Right brachiocephalic vein",
+      "group": "Great veins",
+      "color": "#3d5ea8",
+      "color_linear": [
+        0.04667,
+        0.11193,
+        0.39157
+      ],
+      "description": "Right brachiocephalic vein (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Superior vena cava",
+      "group": "Great veins",
+      "color": "#3d5ea8",
+      "color_linear": [
+        0.04667,
+        0.11193,
+        0.39157
+      ],
+      "description": "Superior vena cava (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Inferior vena cava",
+      "group": "Great veins",
+      "color": "#3d5ea8",
+      "color_linear": [
+        0.04667,
+        0.11193,
+        0.39157
+      ],
+      "description": "Inferior vena cava (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Azygos vein",
+      "group": "Great veins",
+      "color": "#4a6bb8",
+      "color_linear": [
+        0.06848,
+        0.14703,
+        0.47932
+      ],
+      "description": "Azygos vein (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Hemiazygos vein",
+      "group": "Great veins",
+      "color": "#4a6bb8",
+      "color_linear": [
+        0.06848,
+        0.14703,
+        0.47932
+      ],
+      "description": "Hemiazygos vein (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Ascending aorta",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Ascending aorta (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Aortic arch",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Aortic arch (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Thoracic aorta",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Thoracic aorta (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Abdominal aorta",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Abdominal aorta (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Brachiocephalic trunk",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Brachiocephalic trunk (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left common carotid artery",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Left common carotid artery (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left subclavian artery",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Left subclavian artery (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Coeliac trunk",
+      "group": "Aorta and branches",
+      "color": "#c0392b",
+      "color_linear": [
+        0.52712,
+        0.04092,
+        0.02416
+      ],
+      "description": "Coeliac trunk (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Oesophagus",
+      "group": "Viscera",
+      "color": "#d49a6a",
+      "color_linear": [
+        0.57048,
+        0.28095,
+        0.12597
+      ],
+      "description": "Oesophagus (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "gut",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Trachea",
+      "group": "Viscera",
+      "color": "#cfd8dc",
+      "color_linear": [
+        0.4978,
+        0.5475,
+        0.57048
+      ],
+      "description": "Trachea (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "airway",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Cervical vertebrae",
+      "group": "Skeleton",
+      "color": "#e8dcc0",
+      "color_linear": [
+        0.57048,
+        0.50655,
+        0.37428
+      ],
+      "description": "Cervical vertebrae (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "bone",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Thoracic vertebrae",
+      "group": "Skeleton",
+      "color": "#e8dcc0",
+      "color_linear": [
+        0.57048,
+        0.50655,
+        0.37428
+      ],
+      "description": "Thoracic vertebrae (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "bone",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Lumbar vertebrae",
+      "group": "Skeleton",
+      "color": "#e8dcc0",
+      "color_linear": [
+        0.57048,
+        0.50655,
+        0.37428
+      ],
+      "description": "Lumbar vertebrae (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "bone",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Clavicles",
+      "group": "Skeleton",
+      "color": "#e8dcc0",
+      "color_linear": [
+        0.57048,
+        0.50655,
+        0.37428
+      ],
+      "description": "Clavicles (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "bone",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Diaphragm",
+      "group": "Diaphragm",
+      "color": "#b5644f",
+      "color_linear": [
+        0.46208,
+        0.12744,
+        0.07819
+      ],
+      "description": "Diaphragm (see-through): the thoracic duct passes through the aortic hiatus with the aorta.",
+      "alpha": 0.35,
+      "category": "muscle",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Deep cervical lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Deep cervical lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Lateral cervical lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Lateral cervical lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Axillary lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Axillary lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Paratracheal lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Paratracheal lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Tracheobronchial lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Tracheobronchial lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Pre-aortic lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Pre-aortic lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Lateral aortic (lumbar) lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Lateral aortic (lumbar) lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Intermediate lumbar lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Intermediate lumbar lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Left lumbar lymph nodes",
+      "group": "Lymph nodes",
+      "color": "#b9d77e",
+      "color_linear": [
+        0.40801,
+        0.57048,
+        0.17647
+      ],
+      "description": "Left lumbar lymph nodes (from the atlas), shown for orientation.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": false,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

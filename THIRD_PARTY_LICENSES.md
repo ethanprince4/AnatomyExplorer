@@ -1,6 +1,6 @@
 # Third-party licences and credits
 
-Anatomy Explorer's own code and original content are under the MIT licence (see `LICENSE`). Everything listed
+Layered Human's own code and original content are under the MIT licence (see `LICENSE`). Everything listed
 here belongs to someone else and keeps its own licence. The MIT licence does **not** apply to it. Section 5 says
 which items are the project's own and what the owner has stated about the origin of some of them.
 
@@ -159,7 +159,7 @@ They are included under `licenses/qt-cocoa` in the Mac app (the binary itself is
 The rebuilt plugin is **arm64 only**, and macOS 13 or later is required. It retains native accessibility.
 
 The Windows and macOS installers are built with PyInstaller and contain these libraries. Where a wheel ships
-its licence files, `packaging/AnatomyExplorer.spec` copies them into the bundle under `licenses/`. The LGPL-3.0
+its licence files, `packaging/LayeredHuman.spec` copies them into the bundle under `licenses/`. The LGPL-3.0
 and GPL-3.0 texts for Qt/PySide6 are in `packaging/licenses/`, and so are the wgpu-py licence text and the MIT and
 Apache-2.0 texts of wgpu-native.
 
@@ -193,7 +193,7 @@ MIT and Apache-2.0 texts of wgpu-native (`packaging/licenses/wgpu-native-MIT.txt
 <https://github.com/gfx-rs/wgpu-native>). The wgpu-native binary also contains Rust libraries with licences of
 their own, which are not inventoried here.
 
-**Qt / PySide6 (LGPL-3.0).** Anatomy Explorer uses Qt 6 and PySide6 (Qt for Python) under the GNU Lesser General
+**Qt / PySide6 (LGPL-3.0).** Layered Human uses Qt 6 and PySide6 (Qt for Python) under the GNU Lesser General
 Public License version 3 (LGPL-3.0). Qt is copyrighted by The Qt Company Ltd. and other contributors. The full
 LGPL-3.0 text, and the GPL-3.0 text it builds on, are in `packaging/licenses/LGPL-3.0.txt` and
 `packaging/licenses/GPL-3.0.txt`, and the installed app carries them under `licenses/`. Qt and PySide6 are used

@@ -1,0 +1,110 @@
+{
+  "model_id": "stomach_wall_static_overhaul",
+  "display_name": "Fundic stomach wall: static tissue rebuild",
+  "summary": "Cohesive fundic wall specimen with rugal core, gastric pit-to-branched-gland architecture and layered muscle. Deliberate front stromal window; no geometry labels.",
+  "metres_per_unit": 0.0006,
+  "scale_note": "Local static fundic/body specimen. One unit approximately 0.6 mm vertically; transverse gland caliber, muscle relief, vessel and nerve caliber are selectively enlarged. Cell regions and twelve pit families are teaching samples, not density measurements.",
+  "start_view": "Fundic wall",
+  "viewer_cameras": {
+    "Fundic wall": {
+      "position": [
+        8,
+        8,
+        11
+      ],
+      "target": [
+        0,
+        2.15,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 7.8,
+      "hidden": []
+    },
+    "Gland architecture": {
+      "position": [
+        5,
+        5.7,
+        9
+      ],
+      "target": [
+        0,
+        3,
+        0.5
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 6.5,
+      "hidden": [
+        "Lamina propria"
+      ]
+    },
+    "Enteric planes": {
+      "position": [
+        6,
+        5,
+        9
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 7.8,
+      "hidden": [
+        "Lamina propria",
+        "Surface and gastric pit epithelium",
+        "Muscularis mucosae",
+        "Inner oblique muscle",
+        "Oblique bundle relief",
+        "Circular muscle dissection cover",
+        "Circular bundle relief",
+        "Myenteric connective dissection cover",
+        "Submucosal dissection cover",
+        "Mucous neck epithelial domains",
+        "Fundic gland body epithelium",
+        "Parietal epithelial domains",
+        "Chief-rich gland bases",
+        "Closed ECL cell representatives",
+        "Sectioned epithelial nuclei"
+      ]
+    },
+    "Pit close-up": {
+      "position": [
+        -2.05,
+        3.55,
+        6
+      ],
+      "target": [
+        -2.05,
+        3.15,
+        1.02
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.6,
+      "hidden": [
+        "Lamina propria"
+      ]
+    }
+  }
+}

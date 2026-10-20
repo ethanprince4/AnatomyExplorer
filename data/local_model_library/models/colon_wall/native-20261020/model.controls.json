@@ -1,0 +1,1253 @@
+{
+  "native": {
+    "summary": "A colon wall block: a flat surface with crypt openings (no villi), straight test-tube crypts full of goblet cells with stem cells at their bases, lamina propria rich in immune cells and capillaries, a lymphoid follicle crossing the muscularis mucosae, the submucosa with vessels and Meissner's plexus, inner circular muscle, Auerbach's plexus, the outer longitudinal muscle thickened into a taenia coli, and the serosa.",
+    "scale_note": "Tissue block in millimetres: 0.96 mm wide and 0.48 mm deep; crypts about 0.44 mm deep. The separate cell detail on the right is magnified 8 times, so the ruler applies to the tissue block only. Counts are representative.",
+    "viewer_cameras": {
+      "Whole block": {
+        "position": [
+          -1.963,
+          1.2087,
+          2.5096
+        ],
+        "target": [
+          0.0,
+          -0.3,
+          -0.24
+        ],
+        "type": "PERSP",
+        "fov_deg": 30,
+        "hidden": [],
+        "note": "Front face: straight colonic crypts cut lengthwise, a lymphoid follicle, the wall layers and a taenia coli."
+      },
+      "Crypts in section": {
+        "position": [
+          -0.3959,
+          0.3539,
+          4.9488
+        ],
+        "target": [
+          0.0,
+          -0.24,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.05,
+        "hidden": [],
+        "note": "Straight test-tube crypts lined by colonocytes and many goblet cells, stem cells at their bases, no villi."
+      },
+      "Lymphoid follicle": {
+        "position": [
+          -0.0511,
+          -0.1318,
+          4.9779
+        ],
+        "target": [
+          -0.3,
+          -0.53,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.52,
+        "hidden": [],
+        "note": "Solitary lymphoid follicle: pale germinal centre and dark mantle zone, crossing the muscularis mucosae."
+      },
+      "Pericryptal capillaries": {
+        "position": [
+          -2.6527,
+          1.7888,
+          3.4757
+        ],
+        "target": [
+          0.0,
+          -0.25,
+          -0.24
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.25,
+        "hidden": [
+          "Crypt colonocytes",
+          "Surface colonocytes",
+          "Goblet cells",
+          "Goblet cell mucin",
+          "Crypt stem cells",
+          "Brush border (microvilli)",
+          "Epithelial nuclei",
+          "Lamina propria",
+          "Lamina propria immune cells"
+        ],
+        "note": "Epithelium and lamina propria hidden: arterioles feed capillaries that climb each crypt to a ring around its mouth, drained by venules (red to blue)."
+      },
+      "Taenia coli and muscle layers": {
+        "position": [
+          0.0006,
+          -0.7006,
+          4.9875
+        ],
+        "target": [
+          0.25,
+          -0.95,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.85,
+        "hidden": [],
+        "note": "Inner circular muscle (fibres lengthwise) over the outer longitudinal layer, thickened into a taenia coli on the right."
+      },
+      "Cell detail (8×)": {
+        "position": [
+          -0.1944,
+          1.0272,
+          4.5375
+        ],
+        "target": [
+          0.97,
+          -0.37,
+          -0.12
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.75,
+        "hidden": [],
+        "note": "Separate region, magnified 8 times: colonocytes and crypt goblet cells with mucin granules, brush border, basement membrane, a capillary with red cells and a fibroblast."
+      },
+      "Enteric plexuses": {
+        "position": [
+          -2.2556,
+          -3.5069,
+          3.2688
+        ],
+        "target": [
+          0.0,
+          -0.75,
+          -0.24
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.5,
+        "hidden": [
+          "Inner circular muscle",
+          "Circular muscle nuclei",
+          "Myenteric connective septum",
+          "Outer longitudinal muscle and taenia coli",
+          "Longitudinal muscle nuclei",
+          "Serosal connective tissue",
+          "Mesothelium",
+          "Mesothelial nuclei",
+          "Submucosal connective tissue"
+        ],
+        "note": "Muscle coats and submucosal connective tissue hidden: Auerbach's plexus between the muscle layers and Meissner's plexus in the submucosa."
+      }
+    },
+    "start_view": "Whole block",
+    "metres_per_unit": 0.001,
+    "cut_on": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0.0,
+      -0.1375
+    ],
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Tissue block in millimetres: 0.96 mm wide and 0.48 mm deep; crypts about 0.44 mm deep. The separate cell detail on the right is magnified 8 times, so the ruler applies to the tissue block only. Counts are representative."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {},
+  "source_part_names": [
+    "Crypt colonocytes",
+    "Surface colonocytes",
+    "Goblet cells",
+    "Goblet cell mucin",
+    "Crypt stem cells",
+    "Brush border (microvilli)",
+    "Epithelial nuclei",
+    "Lamina propria",
+    "Lamina propria immune cells",
+    "Pericryptal capillary network",
+    "Mucosal arterioles",
+    "Mucosal venules",
+    "Muscularis mucosae",
+    "Lymphoid follicle: mantle zone",
+    "Lymphoid follicle: germinal centre",
+    "Lymphocyte nuclei",
+    "Submucosal connective tissue",
+    "Submucosal arterioles",
+    "Submucosal venules",
+    "Submucosal (Meissner) plexus",
+    "Inner circular muscle",
+    "Circular muscle nuclei",
+    "Myenteric connective septum",
+    "Myenteric (Auerbach) plexus",
+    "Myenteric ganglion neurons",
+    "Myenteric neuron nuclei",
+    "Outer longitudinal muscle and taenia coli",
+    "Longitudinal muscle nuclei",
+    "Serosal connective tissue",
+    "Mesothelium",
+    "Mesothelial nuclei",
+    "Cells 8×: colonocytes",
+    "Cells 8×: goblet cells",
+    "Cells 8×: goblet mucin",
+    "Cells 8×: mucin secretory granules",
+    "Cells 8×: nuclei",
+    "Cells 8×: brush border and microvilli",
+    "Cells 8×: basement membrane",
+    "Cells 8×: lamina propria",
+    "Cells 8×: capillary wall",
+    "Cells 8×: red blood cells",
+    "Cells 8×: fibroblast",
+    "Cells 8×: fibroblast nucleus"
+  ],
+  "part_names": [
+    "Crypt colonocytes",
+    "Surface colonocytes",
+    "Goblet cells",
+    "Goblet cell mucin",
+    "Crypt stem cells",
+    "Brush border (microvilli)",
+    "Epithelial nuclei",
+    "Lamina propria",
+    "Lamina propria immune cells",
+    "Pericryptal capillary network",
+    "Mucosal arterioles",
+    "Mucosal venules",
+    "Muscularis mucosae",
+    "Lymphoid follicle: mantle zone",
+    "Lymphoid follicle: germinal centre",
+    "Lymphocyte nuclei",
+    "Submucosal connective tissue",
+    "Submucosal arterioles",
+    "Submucosal venules",
+    "Submucosal (Meissner) plexus",
+    "Inner circular muscle",
+    "Circular muscle nuclei",
+    "Myenteric connective septum",
+    "Myenteric (Auerbach) plexus",
+    "Myenteric ganglion neurons",
+    "Myenteric neuron nuclei",
+    "Outer longitudinal muscle and taenia coli",
+    "Longitudinal muscle nuclei",
+    "Serosal connective tissue",
+    "Mesothelium",
+    "Mesothelial nuclei",
+    "Cells 8×: colonocytes",
+    "Cells 8×: goblet cells",
+    "Cells 8×: goblet mucin",
+    "Cells 8×: mucin secretory granules",
+    "Cells 8×: nuclei",
+    "Cells 8×: brush border and microvilli",
+    "Cells 8×: basement membrane",
+    "Cells 8×: lamina propria",
+    "Cells 8×: capillary wall",
+    "Cells 8×: red blood cells",
+    "Cells 8×: fibroblast",
+    "Cells 8×: fibroblast nucleus"
+  ],
+  "parts": [
+    {
+      "name": "Crypt colonocytes",
+      "group": "Epithelium",
+      "color": "#e3a790",
+      "color_linear": [
+        0.57048,
+        0.28885,
+        0.20926
+      ],
+      "description": "Absorptive columnar cells (colonocytes) lining the straight colonic crypts (of Lieberkühn). They take up water and salts; new cells from the crypt base move up to the surface.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Surface colonocytes",
+      "group": "Epithelium",
+      "color": "#e3a790",
+      "color_linear": [
+        0.57048,
+        0.28885,
+        0.20926
+      ],
+      "description": "Flat surface epithelium between the crypt openings. The colon has no villi: the surface is flat and pitted by crypt mouths.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Goblet cells",
+      "group": "Epithelium",
+      "color": "#82c1af",
+      "color_linear": [
+        0.22323,
+        0.53328,
+        0.42869
+      ],
+      "description": "Goblet cells are far more numerous in the colon than in the small intestine, especially in the crypts. Crypt goblets have broad bases and a rounded mucin mass; surface goblets have the classic cup and stalk.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Goblet cell mucin",
+      "group": "Epithelium",
+      "color": "#dbf2d1",
+      "color_linear": [
+        0.45639,
+        0.57048,
+        0.41136
+      ],
+      "description": "Mucin granules filling the goblet cells; the mucus lubricates the passage of increasingly solid faeces.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt stem cells",
+      "group": "Epithelium",
+      "color": "#bc91a8",
+      "color_linear": [
+        0.50289,
+        0.28315,
+        0.39157
+      ],
+      "description": "Stem and progenitor cells at the crypt base, renewing the epithelium every few days. Paneth cells are usually absent in the distal colon.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Brush border (microvilli)",
+      "group": "Epithelium",
+      "color": "#dbc699",
+      "color_linear": [
+        0.57048,
+        0.45544,
+        0.25801
+      ],
+      "description": "Short microvilli on the surface colonocytes (thickness exaggerated for visibility).",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Epithelial nuclei",
+      "group": "Epithelium",
+      "color": "#472d68",
+      "color_linear": [
+        0.06301,
+        0.02624,
+        0.13843
+      ],
+      "description": "Nuclei of the epithelial cells, basal in colonocytes and squeezed below the mucin in goblet cells.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Lamina propria",
+      "group": "Mucosa",
+      "color": "#e2b9a8",
+      "color_linear": [
+        0.57048,
+        0.36534,
+        0.2955
+      ],
+      "description": "Loose connective tissue packed between the crypts, rich in immune cells and capillaries.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        115,
+        0.55,
+        0
+      ]
+    },
+    {
+      "name": "Lamina propria immune cells",
+      "group": "Mucosa",
+      "color": "#5a4a7a",
+      "color_linear": [
+        0.10224,
+        0.06848,
+        0.19462
+      ],
+      "description": "Nuclei of lymphocytes and plasma cells scattered through the lamina propria (shown where the section cuts it).",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Pericryptal capillary network",
+      "group": "Mucosa",
+      "color": "#c95d65",
+      "color_linear": [
+        0.57048,
+        0.10709,
+        0.12729
+      ],
+      "description": "Capillaries rise along each crypt from the arterioles at its base and form a ring around the crypt mouth under the surface epithelium. Colour grades from arterial red to venous blue along the flow.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mucosal arterioles",
+      "group": "Mucosa",
+      "color": "#ba434c",
+      "color_linear": [
+        0.49102,
+        0.05613,
+        0.07227
+      ],
+      "description": "Arterioles rising from the submucosa through the muscularis mucosae to the base of each crypt.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 5.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mucosal venules",
+      "group": "Mucosa",
+      "color": "#547dae",
+      "color_linear": [
+        0.08866,
+        0.20508,
+        0.42327
+      ],
+      "description": "Venules draining the ring around each crypt mouth down between the crypts to the submucosal veins.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 5.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Muscularis mucosae",
+      "group": "Mucosa",
+      "color": "#a85965",
+      "color_linear": [
+        0.39157,
+        0.0999,
+        0.13014
+      ],
+      "description": "Thin smooth muscle layer at the base of the mucosa, just below the crypt bases. The lymphoid follicle breaks through it.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 5.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.08,
+        70,
+        0.35,
+        1
+      ]
+    },
+    {
+      "name": "Lymphoid follicle: mantle zone",
+      "group": "Lymphoid tissue",
+      "color": "#5b5f9e",
+      "color_linear": [
+        0.10462,
+        0.11444,
+        0.34191
+      ],
+      "description": "Dense ring of small lymphocytes (mantle zone) around a solitary lymphoid follicle, part of the gut-associated lymphoid tissue (GALT). Colonic follicles span the mucosa and submucosa.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 4.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        160,
+        0.95,
+        0
+      ]
+    },
+    {
+      "name": "Lymphoid follicle: germinal centre",
+      "group": "Lymphoid tissue",
+      "color": "#c9c3dd",
+      "color_linear": [
+        0.46151,
+        0.43142,
+        0.57048
+      ],
+      "description": "Pale germinal centre where activated B lymphocytes proliferate.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 4.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        120,
+        0.5,
+        0
+      ]
+    },
+    {
+      "name": "Lymphocyte nuclei",
+      "group": "Lymphoid tissue",
+      "color": "#2e2a55",
+      "color_linear": [
+        0.02732,
+        0.02315,
+        0.09084
+      ],
+      "description": "Lymphocyte nuclei where the section cuts the follicle: tightly packed in the mantle, larger and sparser in the germinal centre.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 4.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal connective tissue",
+      "group": "Submucosa",
+      "color": "#d3a99b",
+      "color_linear": [
+        0.57048,
+        0.34819,
+        0.28792
+      ],
+      "description": "Dense irregular connective tissue of the submucosa carrying the larger vessels and the submucosal plexus. The colon has no Brunner glands.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.12,
+        55,
+        0.18,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal arterioles",
+      "group": "Submucosa",
+      "color": "#b23e4b",
+      "color_linear": [
+        0.4452,
+        0.04817,
+        0.07036
+      ],
+      "description": "Arterioles of the submucosal plexus: thick muscular wall around a small lumen.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        80,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal venules",
+      "group": "Submucosa",
+      "color": "#587aad",
+      "color_linear": [
+        0.09759,
+        0.19462,
+        0.41789
+      ],
+      "description": "Venules of the submucosa: thin wall and a wider lumen.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        80,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal (Meissner) plexus",
+      "group": "Submucosa",
+      "color": "#c4a64c",
+      "color_linear": [
+        0.55201,
+        0.38133,
+        0.07227
+      ],
+      "description": "Submucosal (Meissner's) plexus: small ganglia and strands controlling secretion and local blood flow.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        65,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Inner circular muscle",
+      "group": "Muscularis externa",
+      "color": "#b56367",
+      "color_linear": [
+        0.46208,
+        0.12477,
+        0.13563
+      ],
+      "description": "Inner circular layer of the muscularis externa; its fibres run around the gut and appear lengthwise on the front face.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 3.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.07,
+        70,
+        0.35,
+        1
+      ]
+    },
+    {
+      "name": "Circular muscle nuclei",
+      "group": "Muscularis externa",
+      "color": "#5e3a52",
+      "color_linear": [
+        0.11193,
+        0.04231,
+        0.08438
+      ],
+      "description": "Cigar-shaped smooth muscle nuclei of the circular layer.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 3.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric connective septum",
+      "group": "Muscularis externa",
+      "color": "#c9a6a1",
+      "color_linear": [
+        0.57048,
+        0.37257,
+        0.34823
+      ],
+      "description": "Thin connective tissue between the two muscle layers, carrying the myenteric plexus.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        55,
+        0.18,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric (Auerbach) plexus",
+      "group": "Muscularis externa",
+      "color": "#c4a64c",
+      "color_linear": [
+        0.55201,
+        0.38133,
+        0.07227
+      ],
+      "description": "Myenteric (Auerbach's) plexus: ganglia linked by nerve strands that coordinate the muscle coats.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        65,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric ganglion neurons",
+      "group": "Muscularis externa",
+      "color": "#e2c98a",
+      "color_linear": [
+        0.57048,
+        0.43909,
+        0.19274
+      ],
+      "description": "Enteric neuron cell bodies inside the myenteric ganglia.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric neuron nuclei",
+      "group": "Muscularis externa",
+      "color": "#4f3d63",
+      "color_linear": [
+        0.07819,
+        0.04667,
+        0.12477
+      ],
+      "description": "Round nuclei of the enteric neurons.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Outer longitudinal muscle and taenia coli",
+      "group": "Muscularis externa",
+      "color": "#a74f52",
+      "color_linear": [
+        0.38643,
+        0.07819,
+        0.08438
+      ],
+      "description": "Outer longitudinal muscle. In the colon most of it is gathered into three bands, the taeniae coli; one band is the thick part on one side of this block, and the thin layer between bands is elsewhere. The fibres run along the gut, so the front face cuts them across.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.07,
+        70,
+        0.35,
+        3
+      ]
+    },
+    {
+      "name": "Longitudinal muscle nuclei",
+      "group": "Muscularis externa",
+      "color": "#5e3a52",
+      "color_linear": [
+        0.11193,
+        0.04231,
+        0.08438
+      ],
+      "description": "Smooth muscle nuclei of the longitudinal layer and taenia (end-on in the front face).",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Serosal connective tissue",
+      "group": "Serosa",
+      "color": "#d7bda6",
+      "color_linear": [
+        0.57048,
+        0.42786,
+        0.32116
+      ],
+      "description": "Thin connective tissue of the serosa, following the bulge of the taenia.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": true,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.08,
+        80,
+        0.2,
+        0
+      ]
+    },
+    {
+      "name": "Mesothelium",
+      "group": "Serosa",
+      "color": "#ead9c6",
+      "color_linear": [
+        0.57048,
+        0.48194,
+        0.39312
+      ],
+      "description": "Simple squamous mesothelium forming the free peritoneal surface.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": true,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mesothelial nuclei",
+      "group": "Serosa",
+      "color": "#5a4a6e",
+      "color_linear": [
+        0.10224,
+        0.06848,
+        0.15593
+      ],
+      "description": "Flattened nuclei of the mesothelial cells.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: colonocytes",
+      "group": "Cell detail (8×)",
+      "color": "#e3a790",
+      "color_linear": [
+        0.57048,
+        0.28885,
+        0.20926
+      ],
+      "description": "Cell detail, magnified 8 times and separate from the tissue block: absorptive colonocytes of the crypt wall, each with its basal nucleus.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: goblet cells",
+      "group": "Cell detail (8×)",
+      "color": "#82c1af",
+      "color_linear": [
+        0.22323,
+        0.53328,
+        0.42869
+      ],
+      "description": "Crypt goblet cells (8x): broad base, nucleus pushed down, the upper cell filled by a rounded mucin theca.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: goblet mucin",
+      "group": "Cell detail (8×)",
+      "color": "#dbf2d1",
+      "color_linear": [
+        0.45639,
+        0.57048,
+        0.41136
+      ],
+      "description": "Mucin theca of the goblet cell (8x), opened by the section.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: mucin secretory granules",
+      "group": "Cell detail (8×)",
+      "color": "#aebd81",
+      "color_linear": [
+        0.42327,
+        0.50888,
+        0.21953
+      ],
+      "description": "Individual mucinogen granules (about 1 micrometre) packed inside the goblet theca (8x).",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: nuclei",
+      "group": "Cell detail (8×)",
+      "color": "#472d68",
+      "color_linear": [
+        0.06301,
+        0.02624,
+        0.13843
+      ],
+      "description": "Basal nuclei of the colonocytes and goblet cells (8x).",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: brush border and microvilli",
+      "group": "Cell detail (8×)",
+      "color": "#dbc699",
+      "color_linear": [
+        0.57048,
+        0.45544,
+        0.25801
+      ],
+      "description": "Apical brush border, with two bundles of individual microvilli (about 1 micrometre tall, 8x).",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: basement membrane",
+      "group": "Cell detail (8×)",
+      "color": "#c9b395",
+      "color_linear": [
+        0.57048,
+        0.44037,
+        0.2937
+      ],
+      "description": "Basement membrane under the epithelium (thickened for visibility, 8x).",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: lamina propria",
+      "group": "Cell detail (8×)",
+      "color": "#e2b9a8",
+      "color_linear": [
+        0.57048,
+        0.36534,
+        0.2955
+      ],
+      "description": "Lamina propria beneath the epithelium (8x), holding a capillary and a fibroblast.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        15,
+        0.4,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: capillary wall",
+      "group": "Cell detail (8×)",
+      "color": "#b97f80",
+      "color_linear": [
+        0.48515,
+        0.21223,
+        0.21586
+      ],
+      "description": "A capillary just under the basement membrane, cut open to show its thin wall and lumen (8x).",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: red blood cells",
+      "group": "Cell detail (8×)",
+      "color": "#c23a3f",
+      "color_linear": [
+        0.53948,
+        0.04231,
+        0.04971
+      ],
+      "description": "Red blood cells in the capillary lumen (8x), for scale.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: fibroblast",
+      "group": "Cell detail (8×)",
+      "color": "#b8aa94",
+      "color_linear": [
+        0.47932,
+        0.40198,
+        0.29614
+      ],
+      "description": "A fibroblast of the lamina propria with slender processes (8x).",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Cells 8×: fibroblast nucleus",
+      "group": "Cell detail (8×)",
+      "color": "#6e5d7e",
+      "color_linear": [
+        0.15593,
+        0.10946,
+        0.20864
+      ],
+      "description": "Elongated fibroblast nucleus (8x).",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

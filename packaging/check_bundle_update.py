@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from app.updater import UpdateStore, read_manifest, sha
+from app.updater import UpdateStore, application_executable, read_manifest, sha
 
 
 class Packs:
@@ -46,7 +46,7 @@ def main():
         (user / name).write_bytes(content)
 
     def launch(folder):
-        subprocess.run([str(folder / "AnatomyExplorer.exe"), "--script", "wait:2000;quit:"], env=env, check=True, timeout=90)
+        subprocess.run([str(application_executable(folder)), "--script", "wait:2000;quit:"], env=env, check=True, timeout=90)
         settings.sync()
         assert settings.value("test/preserved") == "keep-me", "Qt settings lost"
         assert all((user / name).read_bytes() == content for name, content in fixtures.items()), "study files changed"

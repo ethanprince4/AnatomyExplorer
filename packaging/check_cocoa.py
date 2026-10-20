@@ -28,7 +28,7 @@ def main():
     final_hash = hashlib.sha256(plugin.read_bytes()).hexdigest()
     output = Path("packaging/build/frozen-cocoa")
     output.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="AnatomyExplorer-frozen-Cocoa-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="LayeredHuman-frozen-Cocoa-") as temporary:
         env = dict(os.environ, QT_QPA_PLATFORM="cocoa", AE_TEST_SETTINGS_DIR=temporary,
                    QT_OWNERSHIP_PLUGIN_SHA256=final_hash, QT_OWNERSHIP_WHEEL_ROOT=str(contents))
         # The frozen bootloader sets its own library search paths. Do not import SDK Qt.
