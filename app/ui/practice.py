@@ -29,6 +29,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QDockWidget, QFrame, QHBoxLayo
 from ..actions import key_text
 from .. import srs
 from ..storage import load_json, write_json
+from ..terminology import american_text
 from ..lessons import TYPE_NAME, build_session, default_length, item_key, practice_pool
 from . import theme
 from .diagram import DiagramView
@@ -61,7 +62,7 @@ TIPS = {
 
 
 def esc(s):
-    return html.escape(str(s or ""))
+    return html.escape(american_text(str(s or "")))
 
 
 class PracticeHome(QWidget):
@@ -644,7 +645,7 @@ class PracticeController:
         if kind in ("find", "name"):
             return item.get("structure", "")
         if kind == "find_micro":
-            return f"{item.get('part')} (in {item.get('model')})"
+            return american_text(f"{item.get('part')} (in {item.get('model')})")
         return " ".join(str(item.get("q", "")).split())[:120]
 
     @staticmethod

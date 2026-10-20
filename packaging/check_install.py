@@ -10,7 +10,8 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from app.updater import UpdateStore, manifest_channel
+from app.updater import UpdateStore, manifest_channel, read_manifest
+from release_storage import require_space
 
 
 def registered_name(target):
@@ -37,7 +38,11 @@ def main():
     if sys.platform != "win32" or os.environ.get("GITHUB_ACTIONS") != "true":
         raise SystemExit("Installer check is restricted to disposable Windows CI")
     installer = Path(sys.argv[1]).resolve()
-    with tempfile.TemporaryDirectory(prefix="AnatomyExplorer-install-check-") as d:
+    with tempfile.TemporaryDirectory(prefix="LayeredHuman-install-check-") as d:
+        if len(sys.argv) > 2:
+            original = read_manifest(Path(sys.argv[2]))
+            require_space(d, sum(entry['size'] for entry in original['files']) + 256 * 1024**2,
+                          'Disposable full Windows installation')
         target = Path(d).resolve() / "Application"
         subprocess.run([str(installer), "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CURRENTUSER", "/NOICONS",
                         "/TASKS=", f"/DIR={target}", f"/LOG={Path(d) / 'install.log'}"], check=True, timeout=600)
@@ -48,7 +53,7 @@ def main():
         assert (target / "unins000.exe").exists()
         # The name follows the build's channel (every stable installer up to v4.0.8 called itself Experimental).
         channel = manifest_channel(manifest)
-        expected = "Anatomy Explorer Experimental" if channel == "experimental" else "Anatomy Explorer"
+        expected = "Layered Human Experimental" if channel == "experimental" else "Layered Human"
         name = registered_name(target)
         assert name == expected, f"the {channel} installer registered itself as {name!r}, not {expected!r}"
         print(f"Verified first install of {name}: {manifest['version']},{len(manifest['files'])} complete hashed package files; no pending update")

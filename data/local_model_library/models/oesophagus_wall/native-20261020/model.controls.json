@@ -1,0 +1,878 @@
+{
+  "native": {
+    "summary": "Static folded oesophageal tissue with nonkeratinized squamous lining, compound submucosal glands and patent ducts, smooth muscle and enteric planes.",
+    "metres_per_unit": 0.0005,
+    "scale_note": "Local lower thoracic wall crop, one unit approximately 0.5 mm. Cell nuclear profiles, gland/duct caliber, nerves and vessels are selectively enlarged; sample counts do not indicate density. Regional muscle transitions and whole-organ sphincters are outside scope.",
+    "start_view": "Folded wall",
+    "viewer_cameras": {
+      "Folded wall": {
+        "position": [
+          8,
+          8,
+          11
+        ],
+        "target": [
+          0,
+          1.9,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 7.6,
+        "hidden": [
+          "Submucosa dissection cover",
+          "Lamina propria and papillae dissection cover"
+        ]
+      },
+      "Gland ducts": {
+        "position": [
+          5,
+          5.4,
+          10
+        ],
+        "target": [
+          0,
+          2.1,
+          0.65
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 6.8,
+        "hidden": [
+          "Submucosa dissection cover",
+          "Lamina propria and papillae dissection cover",
+          "Muscularis mucosae"
+        ]
+      },
+      "Enteric planes": {
+        "position": [
+          6,
+          5,
+          9
+        ],
+        "target": [
+          0,
+          0.9,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 7.6,
+        "hidden": [
+          "Submucosa dissection cover",
+          "Lamina propria and papillae dissection cover",
+          "Basal epithelial nuclear profiles",
+          "Basal squamous epithelial layer",
+          "Basement membrane",
+          "Flattened superficial nuclear profiles",
+          "Intermediate epithelial nuclear profiles",
+          "Intermediate squamous epithelial layers",
+          "Superficial nucleated squamous layers",
+          "Muscularis mucosae",
+          "Lamina propria and papillae",
+          "Circular fascicle relief",
+          "Inner circular smooth muscle dissection cover",
+          "Myenteric connective tissue plane dissection cover"
+        ]
+      },
+      "Squamous close-up": {
+        "position": [
+          -4,
+          4.5,
+          7
+        ],
+        "target": [
+          -1.4,
+          2.75,
+          1.65
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.2,
+        "hidden": [
+          "Submucosa dissection cover",
+          "Lamina propria and papillae dissection cover"
+        ]
+      },
+      "Papillary interface": {
+        "position": [
+          4,
+          5,
+          8
+        ],
+        "target": [
+          0,
+          2.6,
+          0.8
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 6,
+        "hidden": [
+          "Submucosa dissection cover",
+          "Lamina propria and papillae dissection cover",
+          "Basal epithelial nuclear profiles",
+          "Basal squamous epithelial layer",
+          "Basement membrane",
+          "Flattened superficial nuclear profiles",
+          "Intermediate epithelial nuclear profiles",
+          "Intermediate squamous epithelial layers",
+          "Superficial nucleated squamous layers"
+        ]
+      },
+      "Intact folded wall": {
+        "position": [
+          8,
+          8,
+          11
+        ],
+        "target": [
+          0,
+          1.9,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 7.6,
+        "hidden": []
+      },
+      "Glands isolated": {
+        "position": [
+          5,
+          5,
+          10
+        ],
+        "target": [
+          0,
+          2.1,
+          0.5
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 6.5,
+        "hidden": [
+          "Adventitia",
+          "Basal epithelial nuclear profiles",
+          "Basal squamous epithelial layer",
+          "Basement membrane",
+          "Circular fascicle relief",
+          "Flattened superficial nuclear profiles",
+          "Inner circular smooth muscle",
+          "Inner circular smooth muscle dissection cover",
+          "Intermediate epithelial nuclear profiles",
+          "Intermediate squamous epithelial layers",
+          "Lamina propria and papillae",
+          "Lamina propria and papillae dissection cover",
+          "Local lymphatic vessel",
+          "Longitudinal fascicle relief",
+          "Muscularis mucosae",
+          "Myenteric connective tissue plane",
+          "Myenteric connective tissue plane dissection cover",
+          "Myenteric plexus",
+          "Outer longitudinal smooth muscle",
+          "Papillary capillary loops and basal channels",
+          "Sparse submucosal plexus",
+          "Submucosa",
+          "Submucosa dissection cover",
+          "Submucosal artery",
+          "Submucosal vein",
+          "Superficial nucleated squamous layers"
+        ]
+      }
+    },
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "cut_on": false,
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Local lower thoracic wall crop, one unit approximately 0.5 mm. Cell nuclear profiles, gland/duct caliber, nerves and vessels are selectively enlarged; sample counts do not indicate density. Regional muscle transitions and whole-organ sphincters are outside scope."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "oesophagus_wall_static_overhaul",
+      "display_name": "Lower thoracic oesophageal wall",
+      "summary": "Static folded oesophageal tissue with nonkeratinized squamous lining, compound submucosal glands and patent ducts, smooth muscle and enteric planes.",
+      "metres_per_unit": 0.0005,
+      "orientation_note": "Native viewer x transverse, y luminal, z negative longitudinal. Blender source x transverse, y longitudinal, z luminal. Export and cameras use the same proper rotation.",
+      "scale_note": "Local lower thoracic wall crop, one unit approximately 0.5 mm. Cell nuclear profiles, gland/duct caliber, nerves and vessels are selectively enlarged; sample counts do not indicate density. Regional muscle transitions and whole-organ sphincters are outside scope.",
+      "start_view": "Folded wall",
+      "viewer_cameras": {
+        "Folded wall": {
+          "position": [
+            8,
+            8,
+            11
+          ],
+          "target": [
+            0,
+            1.9,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 7.6,
+          "hidden": [
+            "Submucosa dissection cover",
+            "Lamina propria and papillae dissection cover"
+          ]
+        },
+        "Gland ducts": {
+          "position": [
+            5,
+            5.4,
+            10
+          ],
+          "target": [
+            0,
+            2.1,
+            0.65
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 6.8,
+          "hidden": [
+            "Submucosa dissection cover",
+            "Lamina propria and papillae dissection cover",
+            "Muscularis mucosae"
+          ]
+        },
+        "Enteric planes": {
+          "position": [
+            6,
+            5,
+            9
+          ],
+          "target": [
+            0,
+            0.9,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 7.6,
+          "hidden": [
+            "Submucosa dissection cover",
+            "Lamina propria and papillae dissection cover",
+            "Basal epithelial nuclear profiles",
+            "Basal squamous epithelial layer",
+            "Basement membrane",
+            "Flattened superficial nuclear profiles",
+            "Intermediate epithelial nuclear profiles",
+            "Intermediate squamous epithelial layers",
+            "Superficial nucleated squamous layers",
+            "Muscularis mucosae",
+            "Lamina propria and papillae",
+            "Circular fascicle relief",
+            "Inner circular smooth muscle dissection cover",
+            "Myenteric connective tissue plane dissection cover"
+          ]
+        },
+        "Squamous close-up": {
+          "position": [
+            -4,
+            4.5,
+            7
+          ],
+          "target": [
+            -1.4,
+            2.75,
+            1.65
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 3.2,
+          "hidden": [
+            "Submucosa dissection cover",
+            "Lamina propria and papillae dissection cover"
+          ]
+        },
+        "Papillary interface": {
+          "position": [
+            4,
+            5,
+            8
+          ],
+          "target": [
+            0,
+            2.6,
+            0.8
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 6,
+          "hidden": [
+            "Submucosa dissection cover",
+            "Lamina propria and papillae dissection cover",
+            "Basal epithelial nuclear profiles",
+            "Basal squamous epithelial layer",
+            "Basement membrane",
+            "Flattened superficial nuclear profiles",
+            "Intermediate epithelial nuclear profiles",
+            "Intermediate squamous epithelial layers",
+            "Superficial nucleated squamous layers"
+          ]
+        },
+        "Intact folded wall": {
+          "position": [
+            8,
+            8,
+            11
+          ],
+          "target": [
+            0,
+            1.9,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 7.6,
+          "hidden": []
+        },
+        "Glands isolated": {
+          "position": [
+            5,
+            5,
+            10
+          ],
+          "target": [
+            0,
+            2.1,
+            0.5
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 6.5,
+          "hidden": [
+            "Adventitia",
+            "Basal epithelial nuclear profiles",
+            "Basal squamous epithelial layer",
+            "Basement membrane",
+            "Circular fascicle relief",
+            "Flattened superficial nuclear profiles",
+            "Inner circular smooth muscle",
+            "Inner circular smooth muscle dissection cover",
+            "Intermediate epithelial nuclear profiles",
+            "Intermediate squamous epithelial layers",
+            "Lamina propria and papillae",
+            "Lamina propria and papillae dissection cover",
+            "Local lymphatic vessel",
+            "Longitudinal fascicle relief",
+            "Muscularis mucosae",
+            "Myenteric connective tissue plane",
+            "Myenteric connective tissue plane dissection cover",
+            "Myenteric plexus",
+            "Outer longitudinal smooth muscle",
+            "Papillary capillary loops and basal channels",
+            "Sparse submucosal plexus",
+            "Submucosa",
+            "Submucosa dissection cover",
+            "Submucosal artery",
+            "Submucosal vein",
+            "Superficial nucleated squamous layers"
+          ]
+        }
+      }
+    }
+  },
+  "source_part_names": [
+    "Adventitia",
+    "Basal epithelial nuclear profiles",
+    "Basal squamous epithelial layer",
+    "Basement membrane",
+    "Circular fascicle relief",
+    "Compound submucosal gland 1",
+    "Compound submucosal gland 2",
+    "Compound submucosal gland 3",
+    "Flattened superficial nuclear profiles",
+    "Inner circular smooth muscle",
+    "Inner circular smooth muscle dissection cover",
+    "Intermediate epithelial nuclear profiles",
+    "Intermediate squamous epithelial layers",
+    "Lamina propria and papillae",
+    "Lamina propria and papillae dissection cover",
+    "Local lymphatic vessel",
+    "Longitudinal fascicle relief",
+    "Muscularis mucosae",
+    "Myenteric connective tissue plane",
+    "Myenteric connective tissue plane dissection cover",
+    "Myenteric plexus",
+    "Outer longitudinal smooth muscle",
+    "Papillary capillary loops and basal channels",
+    "Patent gland duct 1",
+    "Patent gland duct 2",
+    "Patent gland duct 3",
+    "Sparse submucosal plexus",
+    "Submucosa",
+    "Submucosa dissection cover",
+    "Submucosal artery",
+    "Submucosal vein",
+    "Superficial nucleated squamous layers"
+  ],
+  "part_names": [
+    "Adventitia",
+    "Basal epithelial nuclear profiles",
+    "Basal squamous epithelial layer",
+    "Basement membrane",
+    "Circular fascicle relief",
+    "Compound submucosal gland 1",
+    "Compound submucosal gland 2",
+    "Compound submucosal gland 3",
+    "Flattened superficial nuclear profiles",
+    "Inner circular smooth muscle",
+    "Inner circular smooth muscle dissection cover",
+    "Intermediate epithelial nuclear profiles",
+    "Intermediate squamous epithelial layers",
+    "Lamina propria and papillae",
+    "Lamina propria and papillae dissection cover",
+    "Local lymphatic vessel",
+    "Longitudinal fascicle relief",
+    "Muscularis mucosae",
+    "Myenteric connective tissue plane",
+    "Myenteric connective tissue plane dissection cover",
+    "Myenteric plexus",
+    "Outer longitudinal smooth muscle",
+    "Papillary capillary loops and basal channels",
+    "Patent gland duct 1",
+    "Patent gland duct 2",
+    "Patent gland duct 3",
+    "Sparse submucosal plexus",
+    "Submucosa",
+    "Submucosa dissection cover",
+    "Submucosal artery",
+    "Submucosal vein",
+    "Superficial nucleated squamous layers"
+  ],
+  "parts": [
+    {
+      "name": "Adventitia",
+      "group": "Outer connective tissue",
+      "color": "#dbc7a4",
+      "description": "Loose outer connective tissue of a lower thoracic specimen. No serosa is shown; short abdominal oesophagus is outside scope.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Basal epithelial nuclear profiles",
+      "group": "Squamous epithelium",
+      "color": "#574969",
+      "description": "Contained intracellular nuclear profiles within individually fitted cells. Modest deterministic size/shape variation preserves basal-to-surface flattening and retained superficial nuclei. Sampling is schematic.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Basal squamous epithelial layer",
+      "group": "Squamous epithelium",
+      "color": "#966181",
+      "description": "Thin basal cell domain follows stromal papillae. Its nuclei provide cell-scale context in the anterior tissue section.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Basement membrane",
+      "group": "Squamous epithelium",
+      "color": "#9e7d96",
+      "description": "Thin continuous shape-fitting epithelial-stromal interface. Thickness exaggerated; not a separate cell layer.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Circular fascicle relief",
+      "group": "Muscularis externa",
+      "color": "#ae5659",
+      "description": "Shallow relief indicates the local orthogonal fascicle direction. Muscle-cell ultrastructure and upper oesophageal skeletal striations are outside scope.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Compound submucosal gland 1",
+      "group": "Oesophageal glands",
+      "color": "#a8b9d2",
+      "description": "Six sampled blind-ending tubuloacinar secretory branches join a central collecting route. Hollow connected architecture is schematic, not a cell census. Mucous gland proper lies below muscularis mucosae.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Compound submucosal gland 2",
+      "group": "Oesophageal glands",
+      "color": "#a8b9d2",
+      "description": "Six sampled blind-ending tubuloacinar secretory branches join a central collecting route. Hollow connected architecture is schematic, not a cell census. Mucous gland proper lies below muscularis mucosae.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Compound submucosal gland 3",
+      "group": "Oesophageal glands",
+      "color": "#a8b9d2",
+      "description": "Six sampled blind-ending tubuloacinar secretory branches join a central collecting route. Hollow connected architecture is schematic, not a cell census. Mucous gland proper lies below muscularis mucosae.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Flattened superficial nuclear profiles",
+      "group": "Squamous epithelium",
+      "color": "#574969",
+      "description": "Contained intracellular nuclear profiles within individually fitted cells. Modest deterministic size/shape variation preserves basal-to-surface flattening and retained superficial nuclei. Sampling is schematic.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Inner circular smooth muscle",
+      "group": "Muscularis externa",
+      "color": "#ae5659",
+      "description": "Inner circular smooth muscle, oriented transversely in this opened local wall crop. No discrete lower sphincter ring is implied.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Inner circular smooth muscle dissection cover",
+      "group": "Muscularis externa",
+      "color": "#ae5659",
+      "description": "Removable front teaching window, fitted to its retained host. Hiding it reveals normally embedded tissue; this is a dissection opening, not a natural cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Intermediate epithelial nuclear profiles",
+      "group": "Squamous epithelium",
+      "color": "#574969",
+      "description": "Contained intracellular nuclear profiles within individually fitted cells. Modest deterministic size/shape variation preserves basal-to-surface flattening and retained superficial nuclei. Sampling is schematic.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Intermediate squamous epithelial layers",
+      "group": "Squamous epithelium",
+      "color": "#d6a3b5",
+      "description": "Multiple intermediate cell strata between basal and flattened superficial domains. Tissue is nonkeratinized stratified squamous; cellular sampling is schematic.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Lamina propria and papillae",
+      "group": "Mucosa",
+      "color": "#cfa7b3",
+      "description": "Connective tissue extends as low papillae into basal epithelium. Shape-fitting epithelial basal interfaces enclose these papillae; no villi or surface keratin.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Lamina propria and papillae dissection cover",
+      "group": "Mucosa",
+      "color": "#cfa7b3",
+      "description": "Removable front teaching window, fitted to its retained host. Hiding it reveals normally embedded tissue; this is a dissection opening, not a natural cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Local lymphatic vessel",
+      "group": "Vessels",
+      "color": "#8bbba3",
+      "description": "Hollow local through-specimen vessel with a sampled transverse course with patent boundary ends. Caliber enlarged. Extra-wall portal/systemic or collecting routes are outside this tissue crop.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Longitudinal fascicle relief",
+      "group": "Muscularis externa",
+      "color": "#bf746c",
+      "description": "Shallow relief indicates the local orthogonal fascicle direction. Muscle-cell ultrastructure and upper oesophageal skeletal striations are outside scope.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Muscularis mucosae",
+      "group": "Mucosa",
+      "color": "#9a515d",
+      "description": "Continuous longitudinal smooth-muscle sheet follows the fold. Gland ducts traverse fitted perforations in this sheet.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Myenteric connective tissue plane",
+      "group": "Muscularis externa",
+      "color": "#d1afa1",
+      "description": "Intermuscular connective tissue plane between longitudinal and circular muscle. The myenteric network lies within it.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Myenteric connective tissue plane dissection cover",
+      "group": "Muscularis externa",
+      "color": "#d1afa1",
+      "description": "Removable front teaching window, fitted to its retained host. Hiding it reveals normally embedded tissue; this is a dissection opening, not a natural cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Myenteric plexus",
+      "group": "Enteric plexuses",
+      "color": "#efc85d",
+      "description": "Sampled connected ganglia and neural strands within the intermuscular connective tissue plane. Caliber enlarged; no molecular machinery or motion.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Outer longitudinal smooth muscle",
+      "group": "Muscularis externa",
+      "color": "#bf746c",
+      "description": "Longitudinal smooth muscle of this lower thoracic sample. Upper skeletal and middle mixed regions are intentionally not combined into this local crop.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Papillary capillary loops and basal channels",
+      "group": "Vessels",
+      "color": "#c7515a",
+      "description": "Twelve sampled patent hairpin loops connect paired basal microvascular channels inside lamina propria. Tips remain below the shape-fitting basement membrane. Uniform red color does not encode oxygenation; capillary caliber and sampling are enlarged. No vessels occupy avascular epithelium.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Patent gland duct 1",
+      "group": "Oesophageal glands",
+      "color": "#bc99bd",
+      "description": "Continuous epithelial-walled duct from the gland collecting route through muscularis mucosae and mucosa to a true surface opening. Cuboidal to stratified-cuboidal duct lining is represented as a simplified wall; duct caliber exaggerated for inspection.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Patent gland duct 2",
+      "group": "Oesophageal glands",
+      "color": "#bc99bd",
+      "description": "Continuous epithelial-walled duct from the gland collecting route through muscularis mucosae and mucosa to a true surface opening. Cuboidal to stratified-cuboidal duct lining is represented as a simplified wall; duct caliber exaggerated for inspection.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Patent gland duct 3",
+      "group": "Oesophageal glands",
+      "color": "#bc99bd",
+      "description": "Continuous epithelial-walled duct from the gland collecting route through muscularis mucosae and mucosa to a true surface opening. Cuboidal to stratified-cuboidal duct lining is represented as a simplified wall; duct caliber exaggerated for inspection.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Sparse submucosal plexus",
+      "group": "Enteric plexuses",
+      "color": "#efc85d",
+      "description": "Sampled connected ganglia and neural strands within submucosa. Sparse oesophageal sampling, deliberately reduced relative to intestinal plexuses. Caliber enlarged; no molecular machinery or motion.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosa",
+      "group": "Submucosa",
+      "color": "#e4c6ad",
+      "description": "Connective tissue core of longitudinal mucosal folds, containing glands, vessels and sparse submucosal nerves. Sampled glands and fibers are enlarged for recognition.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosa dissection cover",
+      "group": "Submucosa",
+      "color": "#e4c6ad",
+      "description": "Removable front teaching window, fitted to its retained host. Hiding it reveals normally embedded tissue; this is a dissection opening, not a natural cavity.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosal artery",
+      "group": "Vessels",
+      "color": "#c7515a",
+      "description": "Hollow local through-specimen vessel with a sampled transverse course with patent boundary ends. Caliber enlarged. Extra-wall portal/systemic or collecting routes are outside this tissue crop.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Submucosal vein",
+      "group": "Vessels",
+      "color": "#5886b9",
+      "description": "Hollow local through-specimen vessel with a sampled transverse course with patent boundary ends. Caliber enlarged. Extra-wall portal/systemic or collecting routes are outside this tissue crop.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0
+    },
+    {
+      "name": "Superficial nucleated squamous layers",
+      "group": "Squamous epithelium",
+      "color": "#f2cdc9",
+      "description": "Two fitted strata of irregular broad flattened nonkeratinized cells line the lumen. Deterministic staggered polygonal packing and thin rounded seams are teaching samples; retained flattened nuclei are resolved on the section. No cornified layer or cell-density claim.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0
+    }
+  ]
+}

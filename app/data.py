@@ -4,6 +4,8 @@ from pathlib import Path
 
 import numpy as np
 
+from .terminology import american_text, display_content
+
 
 class Dataset:
     """Loads the prebuilt anatomy dataset (see tools/build_dataset.py)."""
@@ -34,6 +36,13 @@ class Dataset:
         self._definitions = None
         from .extra_content import apply as apply_extra, load as load_extra
         self.extra_definitions = apply_extra(self, load_extra(data_dir.parent / "content"))   # hand-written gaps
+        # Apply supplements against authored names before normalizing English
+        # labels. Stable node/definition keys, URLs and Latin remain unchanged.
+        self.systems = display_content(self.systems)
+        self.regions = display_content(self.regions)
+        self.structures = display_content(self.structures)
+        self.nodes = {key: display_content(node) for key, node in self.nodes.items()}
+        self.landmarks = display_content(self.landmarks)
 
         n = len(self.structures)
         self.n = n
@@ -104,6 +113,7 @@ class Dataset:
         if self._definitions is None:
             self._definitions = json.loads((self.dir / "definitions.json").read_text(encoding="utf-8"))
             self._definitions.update(self.extra_definitions)
+            self._definitions = {key: american_text(text) for key, text in self._definitions.items()}
         return self._definitions
 
     def load_geometry(self):
@@ -156,4 +166,4 @@ class Dataset:
         return [x for x in self.by_base[(s["base"], s["system"], s["role"])] if x != sid]
 
     def structures_named(self, base):
-        return list(self.by_name.get(base, ()))
+        return list(self.by_name.get(american_text(base), ()))

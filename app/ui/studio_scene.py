@@ -6,6 +6,8 @@ from PySide6.QtGui import QTextDocument, QIcon, QColor, QImage, QLinearGradient,
 from PySide6.QtCore import Qt, Signal, QEvent, QSize
 from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QToolButton,QScrollArea,QSizePolicy,QMenu,QLayout
 from .outline import Outline
+from .model_presentation import view_title
+from ..terminology import american_text
 
 
 class WallLetteringFade(QWidget):
@@ -67,7 +69,7 @@ class StudioScene(QWidget):
         # would dim the caption layer along with the tissue beneath it.
         self.wall_fade=WallLetteringFade(viewport)
         self.parts=parts;self._practice=False;self._initializing=True;self._lesson_mode=False;self._reference_mode=False
-        self._annotation_mode=False;self._annotation_restore=None
+        self._annotation_mode=False;self._annotation_restore=None;self._simplified=False;self._details_mode=False
         from .studio_style import display_css
         from . import theme
         self.breadcrumb=QLabel('Collection  /  3D models',self);self.breadcrumb.setObjectName('studioSceneBreadcrumb')
@@ -99,7 +101,8 @@ class StudioScene(QWidget):
         self.selection_actions=QWidget();self.selection_actions.setObjectName('selectionActions');self.selection_actions.setStyleSheet('QWidget#selectionActions { background: transparent; }');actions=QHBoxLayout(self.selection_actions);actions.setContentsMargins(0,0,0,0);actions.setSpacing(8)
         isolate=QPushButton('Isolate');isolate.setProperty('variant','primary');isolate.clicked.connect(self.isolateRequested);actions.addWidget(isolate)
         hide=QPushButton('Hide');hide.setProperty('variant','primary');hide.clicked.connect(self.hideRequested);actions.addWidget(hide)
-        details=QPushButton('Details');details.clicked.connect(self.detailsRequested);actions.addWidget(details);actions.addStretch();selection_layout.addWidget(self.selection_actions);self.selection.hide()
+        details=QPushButton('Details');details.setProperty('variant','primary');details.clicked.connect(self.detailsRequested);actions.addWidget(details);actions.addStretch();selection_layout.addWidget(self.selection_actions);self.selection.hide()
+        self.selection_isolate=isolate;self.selection_hide=hide
         self.selection_details=details
         self.stored_views=QScrollArea(self);self.stored_views.setObjectName('studioStoredViews');self.stored_views.setFrameShape(QFrame.NoFrame)
         self.stored_views.setWidgetResizable(True);self.stored_views.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded);self.stored_views.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -114,6 +117,8 @@ class StudioScene(QWidget):
             button.toggled.connect(lambda on,k=key:self.show_card(k,on))
         self.measure=self.add_tool('measure','Measure',checkable=True)
         self.xray=self.add_tool('xray','X-ray')
+        self.cutaway=self.add_tool('cutaway','Cutaway',checkable=True);self.cutaway.hide()
+        self.cutaway.setToolTip('Cut away a corner to reveal the inside of the model')
         self.isolate=self.add_tool('isolate','Isolate')
         self.hide_selected=self.add_tool('hide','Hide')
         self.section=QToolButton(self.dock);self.section.setObjectName('studioAtlasTool');self.section.setText('Section');self.section.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
@@ -137,12 +142,14 @@ class StudioScene(QWidget):
         more_menu=QMenu(self)
         more_menu.addAction('Show every part',self.show_all.click)
         self.show_all.hide()
+        self.instrument_actions={}
         for key,title in [('parts','Parts'),('reveal','Reveal controls'),('section','Cross-section')]:
             button=self.tools[key]
             action=more_menu.addAction(title);action.setCheckable(True)
             action.setChecked(key in ('parts','reveal'))
             action.toggled.connect(button.setChecked)
             button.toggled.connect(action.setChecked)
+            self.instrument_actions[key]=action
         for key in ('select','parts','reveal','section'):self.tools[key].hide()
         more=self.add_tool('more','');more.setIcon(icon('more'));more.setAccessibleName('More model tools');more.setMenu(more_menu)
         self.parts.installEventFilter(self)
@@ -161,6 +168,66 @@ class StudioScene(QWidget):
         self.loading_cover.hide()
         self.setMinimumSize(340,240)
 
+    def simplify_model_controls(self):
+        """Keep model reading and saved views in one naturally sized column.
+
+        Its outer scrollbar handles a short window or a long description. The
+        selected description never acquires its own scrollbar. Saved views use
+        the remaining height while the whole column scrolls only in tiny rooms.
+        """
+        for key in ('reveal','section'):
+            self.show_card(key,False)
+            self.instrument_actions[key].setVisible(False)
+        self.reading_wall=QScrollArea(self);self.reading_wall.setObjectName('studioStoredViews')
+        self.reading_wall.setFrameShape(QFrame.NoFrame);self.reading_wall.setWidgetResizable(True)
+        self.reading_wall.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.reading_wall.setAccessibleName('Selected structure and model views')
+        self.reading_body=QWidget();self.reading_body.setObjectName('studioStoredViewBody')
+        self.reading_layout=QVBoxLayout(self.reading_body);self.reading_layout.setContentsMargins(0,0,8,0)
+        self.reading_layout.setSpacing(24);self.reading_layout.setAlignment(Qt.AlignTop)
+        for widget in (self.selection,self.teaching,self.stored_views):
+            visible=not widget.isHidden();self.reading_layout.addWidget(widget);widget.setVisible(visible)
+        self.selection_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.stored_views.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.reading_wall.setWidget(self.reading_body)
+        self._simplified=True
+        self.arrange()
+
+    def _selection_in_reading_wall(self,on):
+        if not self._simplified:return
+        visible=not self.selection.isHidden()
+        if on:self.reading_layout.insertWidget(0,self.selection)
+        else:
+            self.selection.setParent(self)
+            for widget in (self.selection,self.selection_scroll):
+                widget.setMinimumHeight(0);widget.setMaximumHeight(16777215)
+        self.selection.setVisible(visible)
+        self.selection_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff if on else Qt.ScrollBarAsNeeded)
+        if not on:self.reading_wall.hide()
+
+    def set_details_mode(self,on):
+        """Replace the short reading rail with the floating full entry."""
+        self._details_mode=bool(on)
+        self.arrange()
+
+    def _arrange_dock(self,order,w,h):
+        buttons=[self.tools[key] for key in order if key in self.tools and not self.tools[key].isHidden()]
+        for button in self.tools.values():self.dock_layout.removeWidget(button)
+        self.dock.ensurePolished()
+        available=max(1,w-32);spacing=self.dock_layout.spacing()
+        columns=max(1,len(buttons))
+        while columns>1:
+            widths=[max(button.sizeHint().width() for button in buttons[column::columns]) for column in range(columns)]
+            if sum(widths)+spacing*(columns-1)+4<=available:break
+            columns-=1
+        for index,button in enumerate(buttons):self.dock_layout.addWidget(button,index//columns,index%columns)
+        self.dock_layout.invalidate();self.dock_layout.activate()
+        rows=max(1,ceil(len(buttons)/columns))
+        row_height=max([36]+[button.sizeHint().height() for button in buttons])
+        dock_h=rows*row_height+max(0,rows-1)*spacing+8
+        dock_w=min(self.dock.sizeHint().width(),available)
+        self.dock.setGeometry((w-dock_w)//2,max(0,h-dock_h-16),dock_w,dock_h)
+
     def set_lesson_mode(self, on):
         """Use only the model canvas in a lesson; restore library instruments on exit."""
         on = bool(on)
@@ -168,6 +235,7 @@ class StudioScene(QWidget):
             return
         overlays = [self.breadcrumb, self.subject, self.summary, self.status, self.dock,self.stored_views,
                     self.selection, self.teaching, *self.cards.values()]
+        if self._simplified:overlays.append(self.reading_wall)
         if on:
             self._lesson_restore = [(widget, not widget.isHidden()) for widget in overlays]
             self._lesson_mode = True
@@ -184,6 +252,7 @@ class StudioScene(QWidget):
         on=bool(on)
         if self._reference_mode==on:return
         self._reference_mode=on
+        self._selection_in_reading_wall(not on)
         if on:
             self._reference_restore=[(widget,not widget.isHidden()) for widget in
                 [self.subject,self.summary,self.stored_views,self.teaching,*self.cards.values(),*self.tools.values()]]
@@ -272,12 +341,12 @@ class StudioScene(QWidget):
         thumbnails={'Kidney':'kidney_v_kidney','Lobe':'kidney_v_lobe','Nephron (15x schematic)':'kidney_v_nephron','Corpuscle':'kidney_v_corpuscle','Juxtaglomerular apparatus':'kidney_v_jga','Podocytes':'kidney_v_podocytes'}
         for name in names:
             record=cameras.get(name,{})
-            title=str(record.get('title') or record.get('label') or name).strip()
+            title=view_title(model_id,name,record)
             if re.fullmatch(r'(?:v(?:iew)?\s*)?\d+',title,re.IGNORECASE):
-                title=str(record.get('note') or '').strip()
+                title=american_text(str(record.get('note') or '').strip())
             if not title or re.fullmatch(r'(?:v(?:iew)?\s*)?\d+',title,re.IGNORECASE):continue
-            group=record.get('group','')
-            if model_id=='kidney_nephron':group=kidney_groups.get(name,'Section diagram')
+            group=american_text(record.get('group',''))
+            if model_id=='kidney_nephron':group='' if name=='Full teaching model' else kidney_groups.get(name,'Tissue sections')
             if group not in groups:
                 box=QWidget();column=QVBoxLayout(box);column.setContentsMargins(0,0,0,0);column.setSpacing(6)
                 if group:
@@ -299,7 +368,7 @@ class StudioScene(QWidget):
 
     def set_current_view(self,name,caption=''):
         for key,tile in self.view_tiles.items():tile.setChecked(key==name)
-        self.summary.setText(caption);self.summary.setVisible(bool(caption) and not self._lesson_mode and not self._reference_mode)
+        self.summary.setText(american_text(caption));self.summary.setVisible(bool(caption) and not self._lesson_mode and not self._reference_mode)
 
     def show_function(self,on):
         if self._lesson_mode or self._reference_mode:on=False
@@ -314,6 +383,7 @@ class StudioScene(QWidget):
 
     def show_card(self,key,on=True):
         if self._lesson_mode or self._reference_mode:on=False
+        if self._simplified and key in ('reveal','section'):on=False
         if on and self.width()<820:self.selection.hide()
         if on and (key in ('reveal','section') or self.width()<820) and hasattr(self,'function'):
             self.function.setChecked(False)
@@ -401,6 +471,7 @@ class StudioScene(QWidget):
                 self.viewport.label_caption_zones={}
                 for widget in [self.breadcrumb,self.subject,self.summary,self.status,self.dock,
                                self.stored_views,self.selection,self.teaching,*self.cards.values()]:widget.hide()
+                if self._simplified:self.reading_wall.hide()
             elif self._reference_mode:
                 self.wall_fade.show()
                 for widget in [self.breadcrumb,self.subject,self.summary,self.status,self.stored_views,
@@ -431,6 +502,8 @@ class StudioScene(QWidget):
                 self.viewport.label_stage_insets=(20,104,20,84)
                 self.viewport.label_caption_zones={}
                 self.selection.raise_();self.dock.raise_()
+            elif self._simplified:
+                self._arrange_model_controls(w,h)
             else:
                 self.wall_fade.show()
                 margin=40 if w>=1300 else 28
@@ -442,15 +515,7 @@ class StudioScene(QWidget):
                 self.summary.setGeometry(margin,167,max(1,w-margin*2),40)
                 self.status.hide();self.breadcrumb.hide()
                 order=['section_menu','xray','isolate','hide','measure','labels','reset','more','function']
-                for button in self.tools.values():self.dock_layout.removeWidget(button)
-                column=0
-                for key in order:
-                    button=self.tools.get(key)
-                    if button is None or button.isHidden():continue
-                    self.dock_layout.addWidget(button,0,column);column+=1
-                self.dock_layout.invalidate();self.dock_layout.activate()
-                dock_w=min(self.dock.sizeHint().width(),max(1,w-32))
-                self.dock.setGeometry((w-dock_w)//2,max(0,h-60),dock_w,44)
+                self._arrange_dock(order,w,h)
                 instrument_bottom=self.dock.y()-20
                 instruments=[*self.cards.values(),self.selection,self.teaching]
                 if compact and any(not widget.isHidden() for widget in instruments):
@@ -546,3 +611,69 @@ class StudioScene(QWidget):
             if hasattr(self,'loading_cover'):
                 self.loading_cover.setGeometry(self.rect());self.loading_cover.raise_()
         finally:self._laying_out=False
+
+    def _arrange_model_controls(self,w,h):
+        self.wall_fade.show()
+        margin=40 if w>=1300 else 28
+        top=232 if h>=930 else 212
+        side=min(340,max(260,int(w*.27)))
+        compact=w<820
+        reading_width=min(420,max(340,int(w*.38))) if not self.selection.isHidden() else side
+        width=max(120,w-2*margin) if compact else reading_width
+        right=margin if compact else w-margin-width
+        self.subject.setGeometry(margin,104,max(1,w-margin*2),62)
+        self.summary.setGeometry(margin,167,max(1,w-margin*2),40)
+        self.status.hide();self.breadcrumb.hide()
+        order=('section_menu','cutaway','xray','isolate','hide','measure','labels','reset','more','function')
+        self._arrange_dock(order,w,h)
+        bottom=self.dock.y()-20
+        parts=self.cards['parts'];parts.setGeometry(margin,top,side,max(100,bottom-top))
+        tree=self.parts.findChild(Outline)
+        if tree is not None:
+            tree.setMinimumHeight(0);tree.setMaximumHeight(16777215)
+            tree.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        self.reading_wall.setGeometry(right,top,width,max(80,bottom-top))
+        # Reserve the outer scrollbar's extent so prose doesn't rewrap when it
+        # appears. Fixed content heights keep actions directly after the text.
+        text_width=max(80,width-28);text_height=0;shown=0
+        for label in (self.selection_title,self.selection_description):
+            label.setFixedWidth(text_width);label.setAlignment(Qt.AlignTop|Qt.AlignLeft)
+            document=QTextDocument();document.setDocumentMargin(0);document.setDefaultFont(label.font())
+            document.setPlainText(label.text());document.setTextWidth(text_width)
+            height=ceil(document.size().height())+4 if label.text() and not label.isHidden() else 0
+            label.setFixedHeight(height);text_height+=height;shown+=bool(height)
+        text_height+=max(0,shown-1)*self.selection_text.layout().spacing()
+        self.selection_text.setFixedHeight(text_height)
+        self.selection_scroll.setFixedHeight(text_height)
+        self.selection_actions.setMaximumWidth(text_width)
+        action_height=0 if self.selection_actions.isHidden() else self.selection_actions.sizeHint().height()
+        self.selection.setFixedHeight(text_height+(12+action_height if action_height else 0))
+        if not self.teaching.isHidden():
+            self.teaching.ensurePolished();layout=self.teaching.layout()
+            desired=layout.heightForWidth(text_width) if layout.hasHeightForWidth() else layout.sizeHint().height()
+            self.teaching.setFixedHeight(desired)
+        views=self.stored_views.widget()
+        if views is not None:
+            views.ensurePolished();layout=views.layout();layout.invalidate()
+            desired=layout.totalHeightForWidth(text_width) if layout.hasHeightForWidth() else layout.sizeHint().height()
+            desired=max(0,desired+4)
+            others=[widget for widget in (self.selection,self.teaching) if not widget.isHidden()]
+            used=sum(widget.height() for widget in others)+len(others)*self.reading_layout.spacing()
+            minimum=min(140,desired)
+            fits=used+minimum<=self.reading_wall.height()
+            self.stored_views.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded if fits else Qt.ScrollBarAlwaysOff)
+            self.stored_views.setFixedHeight(min(desired,max(minimum,self.reading_wall.height()-used)) if fits else desired)
+        self.reading_layout.invalidate();self.reading_layout.activate()
+        self.reading_body.setFixedHeight(self.reading_layout.sizeHint().height())
+        visible=not self._details_mode and any(not widget.isHidden() for widget in (self.selection,self.teaching,self.stored_views))
+        self.reading_wall.setVisible(visible)
+        inset_left=parts.geometry().right()+25 if not parts.isHidden() and not compact else 16
+        inset_right=w-right+24 if visible and not compact else 16
+        self.viewport.label_stage_insets=(inset_left,212,inset_right,80)
+        self.viewport.label_caption_zones={1:(right,212,side,max(1,h-292))} if self._annotation_mode else {}
+        if self._annotation_mode:self.viewport.label_caption_zones[-1]=(margin,212,side,max(1,h-292))
+        left_fade=max(inset_left,margin+side+24) if self._annotation_mode else inset_left
+        right_fade=max(inset_right,w-right+24) if self._annotation_mode else inset_right
+        self.wall_fade.set_zones((left_fade+150 if left_fade>16 else 0,260,
+                                  right_fade+150 if right_fade>16 else 0,h-self.dock.y()+100))
+        for widget in (self.subject,self.summary,parts,self.reading_wall,self.dock):widget.raise_()

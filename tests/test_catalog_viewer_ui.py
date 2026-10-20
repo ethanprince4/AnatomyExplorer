@@ -425,8 +425,22 @@ class ModelViewerTests(Widgets):
         self.assertTrue(view.studio.cards['parts'].isHidden())
         view.studio.label_pair.show_all.click()
         self.assertFalse(view.studio._annotation_mode)
-        self.assertFalse(view.studio.cards['reveal'].isHidden())
+        self.assertTrue(view.studio.cards['reveal'].isHidden())
         self.assertFalse(view.studio.cards['parts'].isHidden())
+
+    def test_isolated_selection_cannot_be_hidden_by_buttons_or_command(self):
+        view,_=self.panel()
+        view.state.select([0])
+        view.isolate_selection()
+        self.assertFalse(view.studio.selection_hide.isEnabled())
+        self.assertFalse(view.studio.hide_selected.isEnabled())
+        view.hide_selection()
+        view._hide_current()
+        np.testing.assert_array_equal(view.state.visible_mask(),[True,False])
+        view.show_all()
+        self.assertTrue(view.studio.selection_hide.isEnabled())
+        view.hide_selection()
+        np.testing.assert_array_equal(view.state.visible_mask(),[False,True])
 
     def test_single_parts_group_is_flat_and_filters_and_toggles(self):
         view, _ = self.panel()

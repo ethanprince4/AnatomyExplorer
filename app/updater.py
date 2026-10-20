@@ -20,15 +20,23 @@ import zlib
 from pathlib import Path
 from urllib.parse import urlsplit
 
-REPO = "ethanprince4/AnatomyExplorer"
+# Keep this feed address until existing installations have received the bridge
+# updater. Their immutable launchers reject assets from a renamed repository.
+LEGACY_REPO = "ethanprince4/AnatomyExplorer"
+REPO = LEGACY_REPO
+TRUSTED_REPOS = (LEGACY_REPO, "ethanprince4/LayeredHuman")
 API = f"https://api.github.com/repos/{REPO}/releases/latest"
 RELEASES_API = f"https://api.github.com/repos/{REPO}/releases?per_page=100"
 CHANNELS = {"stable", "experimental"}
 # Reserved numeric cores keep protocol-1 immutable launchers compatible. They
 # only accept numeric VERSION files and only activate a numerically newer app.
 PREVIEW_TAG_RE = re.compile(r"v([0-9]+)\.90\.([1-9][0-9]*)-preview\.([1-9][0-9]*)")
+# Immutable launchers still read these legacy protocol names.
 MANIFEST = "AnatomyExplorer-Windows-update.json"
 MAC_MANIFEST = "AnatomyExplorer-macOS-update.json"
+PUBLIC_MANIFEST = "LayeredHuman-Windows-update.json"
+PUBLIC_MAC_MANIFEST = "LayeredHuman-macOS-update.json"
+LEGACY_MAC_BUNDLE = "Anatomy Explorer.app"
 CHUNK_SIZE = 4 * 1024 * 1024
 PACK_SIZE = 64 * 1024 * 1024
 MAX_MANIFEST = 16 * 1024 * 1024
@@ -91,7 +99,7 @@ def safe_path(value, platform="windows-x64"):
     if platform == "macos-arm64":
         if parts[0] != "Contents" or len(parts) < 2:
             raise UpdateError("Update attempted to write outside the app bundle")
-    elif parts[0] not in {"_internal", "AnatomyExplorer.exe", "LICENSE.txt", "THIRD_PARTY_LICENSES.md"}:
+    elif parts[0] not in {"_internal", "LayeredHuman.exe", "AnatomyExplorer.exe", "LICENSE.txt", "THIRD_PARTY_LICENSES.md"}:
         raise UpdateError("Update attempted to write outside the application")
     if platform != "macos-arm64" and parts[0] != "_internal" and len(parts) != 1:
         raise UpdateError("Invalid application file")
@@ -187,9 +195,48 @@ def manifest_path(root):
     return root.parent / MAC_MANIFEST if root.suffix == ".app" else root / MANIFEST
 
 
+def manifest_names(platform):
+    """Prefer the public name, accepting immutable protocol-1 feeds as well."""
+    return ((PUBLIC_MAC_MANIFEST, MAC_MANIFEST) if platform == "macos-arm64"
+            else (PUBLIC_MANIFEST, MANIFEST))
+
+
+def installed_manifest_path(root):
+    root = Path(root)
+    directory = root.parent if root.suffix == ".app" else root
+    names = manifest_names("macos-arm64" if root.suffix == ".app" else "windows-x64")
+    return next((directory / name for name in names if (directory / name).exists()), manifest_path(root))
+
+
+def legacy_manifest(manifest):
+    """Old Windows validators allow only the original root executable name.
+
+    Both binaries have identical bytes. The legacy feed omits the public alias;
+    unchanged packs and hashes still let old launchers stage the complete app.
+    """
+    if manifest["platform"] != "windows-x64":
+        return manifest
+    return {**manifest, "files": [entry for entry in manifest["files"] if entry["path"] != "LayeredHuman.exe"]}
+
+
+def write_manifests(root, manifest):
+    root = Path(root)
+    directory = root.parent if root.suffix == ".app" else root
+    public, legacy = manifest_names(manifest["platform"])
+    atomic_json(directory / public, manifest)
+    atomic_json(directory / legacy, legacy_manifest(manifest))
+
+
+def application_executable(root, mac=False):
+    root = Path(root)
+    directory = root / "Contents/MacOS" if mac else root
+    public, legacy = ("LayeredHuman", "AnatomyExplorer") if mac else ("LayeredHuman.exe", "AnatomyExplorer.exe")
+    return directory / public if (directory / public).is_file() else directory / legacy
+
+
 def read_manifest(root):
     root = Path(root)
-    path = manifest_path(root)
+    path = installed_manifest_path(root)
     if root.suffix == ".app" and (not ID_RE.fullmatch(root.parent.name) and not root.parent.name.endswith(".staging") or not path.exists()):
         # Initial DMG install: inventory signed bytes locally, with no extra file
         # inserted into the signed bundle (that would break its resource seal).
@@ -222,7 +269,7 @@ def installed_metadata(root):
     manifest. Version/channel reads must not inventory gigabytes; verify still checks the staged update.
     """
     root = Path(root)
-    path = manifest_path(root)
+    path = installed_manifest_path(root)
     original_mac = root.suffix == ".app" and (
         not ID_RE.fullmatch(root.parent.name) and not root.parent.name.endswith(".staging") or not path.exists())
     if not original_mac:
@@ -285,7 +332,7 @@ def lock(path):
             fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError as exc:
         f.close()
-        raise UpdateError("Another Anatomy Explorer operation is still running") from exc
+        raise UpdateError("Another Layered Human operation is still running") from exc
     try:
         yield
     finally:
@@ -320,7 +367,7 @@ class GitHubSource:
         self.channel = channel
 
     def read(self, url, limit, headers=None, expected_range=None):
-        req = urllib.request.Request(trusted_url(url), headers={"User-Agent": "AnatomyExplorer-Updater/1", **(headers or {})})
+        req = urllib.request.Request(trusted_url(url), headers={"User-Agent": "LayeredHuman-Updater/1", **(headers or {})})
         # Diagnostic API credentials must never follow a redirect to asset hosts.
         authorization = req.get_header("Authorization")
         if authorization:
@@ -344,7 +391,7 @@ class GitHubSource:
             releases = json.loads(self.read(RELEASES_API, 8 * 1024 * 1024))
             if not isinstance(releases, list):
                 raise UpdateError("Invalid experimental release list")
-            name = MAC_MANIFEST if self.platform == "macos-arm64" else MANIFEST
+            names = manifest_names(self.platform)
             candidates = []
             for item in releases:
                 if not isinstance(item, dict) or item.get("draft") or item.get("prerelease") is not True:
@@ -353,7 +400,7 @@ class GitHubSource:
                     version = release_version(item.get("tag_name"), "experimental")
                 except UpdateError:
                     continue  # unrelated prereleases are never experimental feeds
-                if any(a.get("name") == name for a in item.get("assets", []) if isinstance(a, dict)):
+                if any(a.get("name") in names for a in item.get("assets", []) if isinstance(a, dict)):
                     candidates.append((version_tuple(version), item))
             if not candidates:
                 return None
@@ -364,14 +411,15 @@ class GitHubSource:
         if release.get("draft") or bool(release.get("prerelease")) != (self.channel == "experimental"):
             raise UpdateError("Release publication status differs from update channel")
         assets = {a["name"]: a for a in release.get("assets", [])}
-        name = MAC_MANIFEST if self.platform == "macos-arm64" else MANIFEST
-        if name not in assets:
+        name = next((name for name in manifest_names(self.platform) if name in assets), None)
+        if name is None:
             return None  # Older release or Mac-only release. No installer fallback download.
         asset = assets[name]
         tag = release.get("tag_name", "")
         version = release_version(tag, self.channel)
-        prefix = f"https://github.com/{REPO}/releases/download/{tag}/"
-        if asset.get("browser_download_url") != prefix + name:
+        prefixes = [f"https://github.com/{repo}/releases/download/{tag}/" for repo in TRUSTED_REPOS]
+        prefix = next((prefix for prefix in prefixes if asset.get("browser_download_url") == prefix + name), None)
+        if prefix is None:
             raise UpdateError("Manifest is not from the trusted repository release")
         digest = asset.get("digest", "")
         if not isinstance(digest, str) or not re.fullmatch(r"sha256:[0-9a-f]{64}", digest):
@@ -389,6 +437,7 @@ class GitHubSource:
             if a.get("size") != size or a.get("browser_download_url") != prefix + name:
                 raise UpdateError("Missing or untrusted release pack")
             self.urls[name] = prefix + name
+        self.manifest_name, self.release_prefix = asset["name"], prefix
         return manifest
 
     def chunk(self, blob, total):
@@ -501,7 +550,8 @@ class UpdateStore:
         path = self.versions / ident
         if path.is_symlink() or path.resolve().parent != self.versions.resolve():
             raise UpdateError("Unsafe version directory")
-        return path / "Anatomy Explorer.app" if self.mac else path
+        # Private staged folder: immutable Mac launchers require the old name.
+        return path / LEGACY_MAC_BUNDLE if self.mac else path
 
     def active(self):
         return self.path(self.state().get("current"))
@@ -572,7 +622,7 @@ class UpdateStore:
             identity = manifest["version"] + "-" + sha(json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode())[:16]
             final = self.path(identity)
             stage_folder = self.versions / (identity + ".staging")
-            stage = stage_folder / "Anatomy Explorer.app" if self.mac else stage_folder
+            stage = stage_folder / LEGACY_MAC_BUNDLE if self.mac else stage_folder
             cache = self.root / "chunks"
             for directory in (self.versions, cache, stage_folder):
                 if directory.is_symlink() or directory.resolve().parent != directory.parent.resolve():
@@ -664,7 +714,7 @@ class UpdateStore:
                     if p.exists():
                         raise UpdateError("Bundle symlink conflicts with a file")
                     p.symlink_to(link["target"])
-                atomic_json(manifest_path(stage), manifest)
+                write_manifests(stage, manifest)
                 self.verify(stage, manifest)
                 if final.exists():
                     self.verify(final, manifest)
@@ -911,7 +961,7 @@ def launch_managed(arguments, *, base=None, wait_seconds=0):
         for attempt in range(2):
             ready = store.root / (uuid.uuid4().hex + ".ready")
             env = dict(os.environ, AE_INSTALL_BASE=str(store.base), AE_READY_FILE=str(ready), PYINSTALLER_RESET_ENVIRONMENT="1")
-            executable = selected / ("Contents/MacOS/AnatomyExplorer" if store.mac else "AnatomyExplorer.exe")
+            executable = application_executable(selected, store.mac)
             try:
                 child = subprocess.Popen([str(executable), "--ae-managed", *arguments], env=env)
             except OSError:

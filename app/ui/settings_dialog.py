@@ -291,7 +291,7 @@ class SettingsDialog(QDialog):
 
     def _review_shot_rows(self, page, form):
         pics = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation) or str(Path.home())
-        default = str(Path(pics) / "Anatomy Explorer review shots")
+        default = str(Path(pics) / "Layered Human review shots")
         edit = QLineEdit(str(self.settings.get("review_shot_folder") or default))
         edit.setAccessibleName("Review shot folder")
         edit.setProperty("default_text", default)

@@ -1,0 +1,336 @@
+{
+  "model_id": "compact_bone_static_refinement",
+  "display_name": "Compact bone",
+  "summary": "Preserved compact bone teaching block with focused osteon, lacuna, canal-course and bone-cell disclosure views. Local osteoclast nuclear containment corrected.",
+  "metres_per_unit": 0.00065,
+  "scale_note": "Nominal 0.65 millimetres per model unit, inferred from the source metadata describing its 0.003-unit cement boundary as 2 micrometres. Displayed lamellar bands, cells and channel calibres are selectively enlarged; not a morphometric specimen.",
+  "home_view": [
+    0,
+    0
+  ],
+  "cut_on": false,
+  "cut_at": [
+    -0.1,
+    0
+  ],
+  "cutaway": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "start_view": "01 Overview",
+  "viewer_cameras": {
+    "01 Overview": {
+      "position": [
+        3,
+        3,
+        4
+      ],
+      "target": [
+        0.05,
+        0.65,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.2,
+      "hidden": [],
+      "cut_on": false
+    },
+    "02 Transverse section": {
+      "position": [
+        0,
+        4,
+        0.15
+      ],
+      "target": [
+        0,
+        1.25,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.8,
+      "hidden": [],
+      "cut_on": false
+    },
+    "03 Telescoped osteon": {
+      "position": [
+        1.5,
+        3,
+        1
+      ],
+      "target": [
+        0.25,
+        1.42,
+        -0.18
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.56,
+      "hidden": [],
+      "cut_on": false
+    },
+    "04 Lamella and carved lacuna": {
+      "position": [
+        -0.4,
+        3,
+        0.07
+      ],
+      "target": [
+        -0.4,
+        1.3,
+        -0.017
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.39,
+      "hidden": [],
+      "cut_on": false
+    },
+    "05 Osteocyte lacuna closeup": {
+      "position": [
+        -0.3887,
+        1.8,
+        -0.01
+      ],
+      "target": [
+        -0.3887,
+        1.3002,
+        -0.0173
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.085,
+      "hidden": [],
+      "cut_on": false
+    },
+    "06 Osteocyte and canalicular sleeves": {
+      "position": [
+        -0.3887,
+        1.45,
+        0.08
+      ],
+      "target": [
+        -0.3887,
+        1.3002,
+        -0.0173
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.075,
+      "hidden": [
+        "Central (Haversian) canals",
+        "Haversian arterioles & capillaries",
+        "Haversian venules",
+        "Haversian nerve fibres",
+        "Concentric lamellae (set A)",
+        "Concentric lamellae (set B)",
+        "Cement lines",
+        "Lamellar collagen fibres (telescoped osteon)",
+        "Perforating (Volkmann) canals",
+        "Volkmann canal vessels",
+        "Volkmann canal venule",
+        "Interstitial lamellae",
+        "Outer circumferential lamellae",
+        "Inner circumferential lamellae",
+        "Periosteum – cambium (osteogenic) layer",
+        "Periosteum – fibrous layer",
+        "Sharpey fibres",
+        "Periosteal artery",
+        "Periosteal vein",
+        "Periosteal nerve",
+        "Endosteum",
+        "Osteoblasts",
+        "Bone-lining cells",
+        "Osteoclasts (Howship lacunae)",
+        "Osteoclast nuclei",
+        "Trabeculae (spongy bone)",
+        "Red marrow",
+        "Marrow adipocytes",
+        "Nutrient artery branch",
+        "Marrow sinusoid & central vein"
+      ],
+      "cut_on": false
+    },
+    "07 Sectioned canal courses": {
+      "position": [
+        1.1,
+        2.1,
+        2.4
+      ],
+      "target": [
+        0,
+        0.7,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.8,
+      "hidden": [
+        "Concentric lamellae (set A)",
+        "Concentric lamellae (set B)",
+        "Cement lines",
+        "Lamellar collagen fibres (telescoped osteon)",
+        "Osteocytes in lacunae",
+        "Canaliculi",
+        "Interstitial lamellae",
+        "Outer circumferential lamellae",
+        "Inner circumferential lamellae",
+        "Periosteum – cambium (osteogenic) layer",
+        "Periosteum – fibrous layer",
+        "Sharpey fibres",
+        "Endosteum",
+        "Osteoblasts",
+        "Bone-lining cells",
+        "Osteoclasts (Howship lacunae)",
+        "Osteoclast nuclei",
+        "Trabeculae (spongy bone)",
+        "Red marrow",
+        "Marrow adipocytes"
+      ],
+      "cut_on": false
+    },
+    "08 Intact osteoclast on bone": {
+      "position": [
+        0.95,
+        1.5,
+        -0.13
+      ],
+      "target": [
+        0.8983,
+        1.2113,
+        -0.2318
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.16,
+      "hidden": [
+        "Red marrow",
+        "Nutrient artery branch",
+        "Marrow sinusoid & central vein"
+      ],
+      "cut_on": false
+    },
+    "09 Intracellular nuclei disclosure": {
+      "position": [
+        0.95,
+        1.5,
+        -0.13
+      ],
+      "target": [
+        0.8983,
+        1.2113,
+        -0.2318
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.16,
+      "hidden": [
+        "Osteoclasts (Howship lacunae)",
+        "Red marrow",
+        "Nutrient artery branch",
+        "Marrow sinusoid & central vein"
+      ],
+      "cut_on": false
+    },
+    "10 Bone surface cells": {
+      "position": [
+        2,
+        3,
+        2
+      ],
+      "target": [
+        0.95,
+        1.23,
+        -0.08
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.75,
+      "hidden": [
+        "Red marrow"
+      ],
+      "cut_on": false
+    },
+    "11 Inner cortex and trabeculae": {
+      "position": [
+        3,
+        2,
+        2
+      ],
+      "target": [
+        0.85,
+        0.75,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.8,
+      "hidden": [
+        "Red marrow"
+      ],
+      "cut_on": false
+    },
+    "12 Native corner section": {
+      "position": [
+        -2,
+        2,
+        3
+      ],
+      "target": [
+        0,
+        0.65,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.0,
+      "hidden": [],
+      "cut_on": true
+    },
+    "13 Whole nuclei isolated": {
+      "position": [
+        0.95,
+        1.5,
+        -0.13
+      ],
+      "target": [
+        0.8983,
+        1.222,
+        -0.2318
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.085,
+      "hidden": [
+        "Central (Haversian) canals",
+        "Haversian arterioles & capillaries",
+        "Haversian venules",
+        "Haversian nerve fibres",
+        "Concentric lamellae (set A)",
+        "Concentric lamellae (set B)",
+        "Cement lines",
+        "Lamellar collagen fibres (telescoped osteon)",
+        "Osteocytes in lacunae",
+        "Canaliculi",
+        "Perforating (Volkmann) canals",
+        "Volkmann canal vessels",
+        "Volkmann canal venule",
+        "Interstitial lamellae",
+        "Outer circumferential lamellae",
+        "Inner circumferential lamellae",
+        "Periosteum – cambium (osteogenic) layer",
+        "Periosteum – fibrous layer",
+        "Sharpey fibres",
+        "Periosteal artery",
+        "Periosteal vein",
+        "Periosteal nerve",
+        "Endosteum",
+        "Osteoblasts",
+        "Bone-lining cells",
+        "Osteoclasts (Howship lacunae)",
+        "Trabeculae (spongy bone)",
+        "Red marrow",
+        "Marrow adipocytes",
+        "Nutrient artery branch",
+        "Marrow sinusoid & central vein"
+      ],
+      "cut_on": false
+    }
+  }
+}

@@ -5,6 +5,8 @@ from collections import defaultdict
 
 import numpy as np
 
+from ..terminology import american_text
+
 
 class ModelDataset:
     def __init__(self, model):
@@ -38,7 +40,7 @@ class ModelDataset:
         return []
 
     def structures_named(self, name):
-        return list(self.by_name.get(name, ()))
+        return list(self.by_name.get(american_text(name), ()))
 
     def bounds_of(self, sids):
         return self.model.item_bounds(list(sids))

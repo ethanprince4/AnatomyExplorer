@@ -1,0 +1,50 @@
+{
+  "cameras": {
+    "Front cutaway": {
+      "type": "ORTHO",
+      "position": [
+        0.01,
+        0.008,
+        0.014
+      ],
+      "target": [
+        0,
+        0.003,
+        0
+      ],
+      "ortho_width": 0.0125,
+      "hidden": []
+    },
+    "Rear block": {
+      "type": "ORTHO",
+      "position": [
+        0.01,
+        0.008,
+        -0.014
+      ],
+      "target": [
+        0,
+        0.003,
+        0
+      ],
+      "ortho_width": 0.0125,
+      "hidden": []
+    }
+  },
+  "camera_order": [
+    "Front cutaway",
+    "Rear block"
+  ],
+  "start_view": "Front cutaway",
+  "um_per_bu": 1000000.0,
+  "provenance": {
+    "input_filename": "DRAFT_REVIEW_UNCORRECTED_native04.glb",
+    "input_sha256": "7931318f856f4a39a4d2f72c8480702c988d72bb7c8e1231576d01c0f2510ea9",
+    "review_glb_sha256": "d616150c09216d70cc491f2f484b8372dc4d1c60def2811c0bb8d49c75454dd3",
+    "original_materials_and_visibility_preserved": true,
+    "units": "glTF meters; original mm geometry under unchanged 0.001 root scale",
+    "round2_source_filename": "AXILLARY_SKIN_USER_REVISION_native04_FINAL.glb",
+    "round2_source_sha256": "7617939a7ac1e37c9f42c669451ea71769ce882220b8953d4dae1751f15873ee"
+  },
+  "preserve_start_visibility": true
+}

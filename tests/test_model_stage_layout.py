@@ -112,6 +112,27 @@ class ModelStageLayoutTests(unittest.TestCase):
         self.assertEqual(self.scene.view_tiles['3'].accessibleName(),'Renal vessels')
         self.assertEqual(self.scene.view_tiles['Corpuscle'].accessibleName(),'Corpuscle')
 
+    def test_selected_prose_grows_before_views_with_one_outer_scroll(self):
+        scene=self.scene;scene.simplify_model_controls()
+        scene.set_selection('Endomysium','Connective tissue surrounding each muscle cell.')
+        APP.processEvents();scene.arrange();APP.processEvents()
+        short_height=scene.selection.height()
+        self.assertLess(short_height,200)
+        self.assertGreater(scene.selection_actions.y(),scene.selection_scroll.geometry().bottom())
+        scene.resize(900,650)
+        scene.set_selection('Endomysium','Connective tissue surrounding each muscle cell. '*35)
+        APP.processEvents();scene.arrange();APP.processEvents()
+        self.assertGreater(scene.selection.height(),short_height)
+        self.assertEqual(scene.selection_scroll.verticalScrollBar().maximum(),0)
+        self.assertEqual(scene.stored_views.verticalScrollBar().maximum(),0)
+        self.assertGreater(scene.reading_wall.verticalScrollBar().maximum(),0)
+        self.assertGreater(scene.stored_views.y(),scene.selection.geometry().bottom())
+        scene.set_details_mode(True)
+        self.assertTrue(scene.reading_wall.isHidden())
+        self.assertEqual(scene.viewport.label_stage_insets[2],16)
+        scene.set_details_mode(False)
+        self.assertFalse(scene.reading_wall.isHidden())
+
     def test_parts_tree_keeps_available_height_when_room_shrinks(self):
         layout=self.scene.parts.layout()
         tree=Outline();tree.setRowHeight(31)

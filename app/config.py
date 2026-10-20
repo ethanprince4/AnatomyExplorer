@@ -143,5 +143,5 @@ DEFAULT_SETTINGS = {
     "double_click_action": "Focus",      # Focus | Isolate | X-ray focus
     "select_both_sides": False,
     "restore_session": True,
-    "review_shot_folder": "",      # "" = <Pictures>/Anatomy Explorer review shots
+    "review_shot_folder": "",      # "" = <Pictures>/Layered Human review shots
 }

@@ -4,13 +4,14 @@ from collections import OrderedDict, defaultdict
 
 from .config import ROOT, USER_DIR
 from .storage import load_json, write_json
+from .terminology import NameAliases, american_text, canonical_name, display_content
 
 CONTENT_DIR = ROOT / "data" / "content"
 HISTOLOGY_DIR = ROOT / "data" / "histology"
 
 
 def _norm(name):
-    return (name or "").strip().lower()
+    return canonical_name(name)
 
 
 class ContentIndex:
@@ -20,10 +21,11 @@ class ContentIndex:
         self.clin_by_name = defaultdict(list)
         for path in sorted(CONTENT_DIR.glob("clinical*.json")):
             try:
-                self.clinical.extend(json.loads(path.read_text(encoding="utf-8")))
+                self.clinical.extend(display_content(json.loads(path.read_text(encoding="utf-8"))))
             except ValueError as exc:
                 print(f"Could not read {path.name}: {exc}")
         for i, entry in enumerate(self.clinical):
+            entry["targets"] = [american_text(name) for name in entry["targets"]]
             entry["_id"] = i
             for t in entry["targets"]:
                 self.clin_by_name[_norm(t)].append(entry)
@@ -31,7 +33,10 @@ class ContentIndex:
         self.histology = {"tissues": [], "categories": []}
         path = HISTOLOGY_DIR / "catalog.json"
         if path.exists():
-            self.histology = json.loads(path.read_text(encoding="utf-8"))
+            self.histology = display_content(json.loads(path.read_text(encoding="utf-8")))
+            for tissue in self.histology["tissues"]:
+                # Histology's path is a visible breadcrumb, not a file path.
+                tissue["path"] = [american_text(name) for name in tissue.get("path", [])]
         self.tissues = {t["id"]: t for t in self.histology["tissues"]}
         self.tis_by_name = defaultdict(list)
         self.tis_by_group = defaultdict(list)
@@ -50,6 +55,7 @@ class ContentIndex:
             self.notes_path,
             lambda raw: {key: value for key, value in raw.items() if isinstance(value, str)}
             if isinstance(raw, dict) else {})
+        self.notes = NameAliases(self.notes)
 
         # every 3D model the model viewer opens: in-house GLB models, the procedural microanatomy models and the
         # downloaded ones (app/viewer/catalog.py)
@@ -76,7 +82,7 @@ class ContentIndex:
         self.micro_contains = [(_norm(s), m.id) for m in MODELS.values() for s in m.targets.get("contains", [])]
 
     def set_note(self, key, text):
-        notes = dict(self.notes)
+        notes = NameAliases(self.notes)
         if text:
             notes[key] = text
         else:

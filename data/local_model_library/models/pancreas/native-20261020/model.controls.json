@@ -1,0 +1,1976 @@
+{
+  "native": {
+    "summary": "Pancreas: serous acini with basophilic bases and apical zymogen granules, centroacinar cells and intercalated ducts (no striated ducts), intralobular and interlobular ducts, and an islet of Langerhans with intermingled beta, alpha, delta and PP cells around a dense capillary network. A separate teaching set on the right repeats the islet and the exocrine units with space around them.",
+    "scale_note": "Millimetres; both regions share one scale. Counts and spacing are chosen for teaching.",
+    "viewer_cameras": {
+      "Whole model": {
+        "position": [
+          -1.4644,
+          1.4672,
+          4.5975
+        ],
+        "target": [
+          -0.3,
+          0.07,
+          -0.06
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.35,
+        "hidden": [],
+        "note": "Left: the pancreatic lobule cut by a front section. Right: the teaching set with space around each example."
+      },
+      "Lobule": {
+        "position": [
+          -0.6632,
+          0.6197,
+          0.8089
+        ],
+        "target": [
+          0.0,
+          0.11,
+          -0.12
+        ],
+        "type": "PERSP",
+        "fov_deg": 30,
+        "hidden": [],
+        "note": "A pancreatic lobule: serous acini, the duct tree and an islet of Langerhans with its capillaries."
+      },
+      "Islet in the lobule": {
+        "position": [
+          -0.5801,
+          0.6151,
+          4.9507
+        ],
+        "target": [
+          -0.085,
+          0.12,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.2,
+        "hidden": [],
+        "note": "The islet in its section: pale endocrine cells intermingled around capillaries, surrounded by darker acini."
+      },
+      "Islets: surface, section, vascular window": {
+        "position": [
+          -0.615,
+          0.7457,
+          4.9444
+        ],
+        "target": [
+          -0.615,
+          0.15,
+          -0.02
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.56,
+        "hidden": [],
+        "note": "The same islet three ways: outer surface, cellular section, and a window cut to show its capillaries."
+      },
+      "Exocrine units and ducts": {
+        "position": [
+          -0.615,
+          0.9706,
+          4.8829
+        ],
+        "target": [
+          -0.615,
+          -0.01,
+          -0.02
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.42,
+        "hidden": [],
+        "note": "Two acinar sections, an intact acinus and a branching tubuloacinar unit, each draining into one collecting duct tree."
+      }
+    },
+    "start_view": "Whole model",
+    "metres_per_unit": 0.001,
+    "cut_on": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0.0,
+      -0.12
+    ],
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Millimetres; both regions share one scale. Counts and spacing are chosen for teaching."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {},
+  "source_part_names": [
+    "Lobule: Acinar cell nuclei",
+    "Lobule: Zymogen granules",
+    "Lobule: Acinar cells: basal cytoplasm",
+    "Lobule: Acinar cells: apical cytoplasm",
+    "Lobule: Centroacinar and duct cell nuclei",
+    "Lobule: Centroacinar cells",
+    "Lobule: Intercalated ducts",
+    "Lobule: Tubuloacinar cell nuclei",
+    "Lobule: Tubuloacinar zymogen granules",
+    "Lobule: Tubuloacinar cells: basal cytoplasm",
+    "Lobule: Tubuloacinar cells: apical cytoplasm",
+    "Lobule: Interlobular duct",
+    "Lobule: Duct epithelial nuclei",
+    "Lobule: Intralobular ducts",
+    "Lobule: Intercalated duct branches",
+    "Lobule: Beta cells (insulin)",
+    "Lobule: Alpha cells (glucagon)",
+    "Lobule: Delta cells (somatostatin)",
+    "Lobule: PP cells (pancreatic polypeptide)",
+    "Lobule: Islet cell nuclei",
+    "Lobule: Islet capillaries",
+    "Lobule: Arteriole",
+    "Lobule: Venule",
+    "Lobule: Insulo-acinar capillaries",
+    "Lobule: Connective tissue septa",
+    "Lobule: Fibroblast nuclei",
+    "Islet A: outer surface — Beta cells (insulin)",
+    "Islet A: outer surface — Alpha cells (glucagon)",
+    "Islet A: outer surface — Delta cells (somatostatin)",
+    "Islet A: outer surface — PP cells (pancreatic polypeptide)",
+    "Islet A: outer surface — Islet cell nuclei",
+    "Islet A: outer surface — Islet capillaries",
+    "Islet B: cellular section — Beta cells (insulin)",
+    "Islet B: cellular section — Alpha cells (glucagon)",
+    "Islet B: cellular section — Delta cells (somatostatin)",
+    "Islet B: cellular section — PP cells (pancreatic polypeptide)",
+    "Islet B: cellular section — Islet cell nuclei",
+    "Islet B: cellular section — Islet capillaries",
+    "Islet C: vascular window — Beta cells (insulin)",
+    "Islet C: vascular window — Alpha cells (glucagon)",
+    "Islet C: vascular window — Delta cells (somatostatin)",
+    "Islet C: vascular window — PP cells (pancreatic polypeptide)",
+    "Islet C: vascular window — Islet cell nuclei",
+    "Islet C: vascular window — Islet capillaries",
+    "Exocrine A · Sectioned acinus — Acinar cell nuclei",
+    "Exocrine A · Sectioned acinus — Zymogen granules",
+    "Exocrine A · Sectioned acinus — Acinar cells: basal cytoplasm",
+    "Exocrine A · Sectioned acinus — Acinar cells: apical cytoplasm",
+    "Exocrine A · Sectioned acinus — Centroacinar and duct cell nuclei",
+    "Exocrine A · Sectioned acinus — Centroacinar cells",
+    "Exocrine A · Sectioned acinus — Intercalated ducts",
+    "Exocrine C · Angled acinar section — Acinar cell nuclei",
+    "Exocrine C · Angled acinar section — Zymogen granules",
+    "Exocrine C · Angled acinar section — Acinar cells: basal cytoplasm",
+    "Exocrine C · Angled acinar section — Acinar cells: apical cytoplasm",
+    "Exocrine C · Angled acinar section — Centroacinar and duct cell nuclei",
+    "Exocrine C · Angled acinar section — Centroacinar cells",
+    "Exocrine C · Angled acinar section — Intercalated ducts",
+    "Exocrine B · Intact acinus — Acinar cell nuclei",
+    "Exocrine B · Intact acinus — Zymogen granules",
+    "Exocrine B · Intact acinus — Acinar cells: basal cytoplasm",
+    "Exocrine B · Intact acinus — Acinar cells: apical cytoplasm",
+    "Exocrine B · Intact acinus — Centroacinar and duct cell nuclei",
+    "Exocrine B · Intact acinus — Centroacinar cells",
+    "Exocrine B · Intact acinus — Intercalated ducts",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar cell nuclei",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar zymogen granules",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar cells: basal cytoplasm",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar cells: apical cytoplasm",
+    "Exocrine D · Open tubuloacinar unit — Centroacinar and duct cell nuclei",
+    "Exocrine D · Open tubuloacinar unit — Centroacinar cells",
+    "Exocrine D · Open tubuloacinar unit — Intercalated ducts",
+    "Exocrine Collecting ducts — Duct epithelial nuclei",
+    "Exocrine units — collecting duct tree"
+  ],
+  "part_names": [
+    "Lobule: Acinar cell nuclei",
+    "Lobule: Zymogen granules",
+    "Lobule: Acinar cells: basal cytoplasm",
+    "Lobule: Acinar cells: apical cytoplasm",
+    "Lobule: Centroacinar and duct cell nuclei",
+    "Lobule: Centroacinar cells",
+    "Lobule: Intercalated ducts",
+    "Lobule: Tubuloacinar cell nuclei",
+    "Lobule: Tubuloacinar zymogen granules",
+    "Lobule: Tubuloacinar cells: basal cytoplasm",
+    "Lobule: Tubuloacinar cells: apical cytoplasm",
+    "Lobule: Interlobular duct",
+    "Lobule: Duct epithelial nuclei",
+    "Lobule: Intralobular ducts",
+    "Lobule: Intercalated duct branches",
+    "Lobule: Beta cells (insulin)",
+    "Lobule: Alpha cells (glucagon)",
+    "Lobule: Delta cells (somatostatin)",
+    "Lobule: PP cells (pancreatic polypeptide)",
+    "Lobule: Islet cell nuclei",
+    "Lobule: Islet capillaries",
+    "Lobule: Arteriole",
+    "Lobule: Venule",
+    "Lobule: Insulo-acinar capillaries",
+    "Lobule: Connective tissue septa",
+    "Lobule: Fibroblast nuclei",
+    "Islet A: outer surface — Beta cells (insulin)",
+    "Islet A: outer surface — Alpha cells (glucagon)",
+    "Islet A: outer surface — Delta cells (somatostatin)",
+    "Islet A: outer surface — PP cells (pancreatic polypeptide)",
+    "Islet A: outer surface — Islet cell nuclei",
+    "Islet A: outer surface — Islet capillaries",
+    "Islet B: cellular section — Beta cells (insulin)",
+    "Islet B: cellular section — Alpha cells (glucagon)",
+    "Islet B: cellular section — Delta cells (somatostatin)",
+    "Islet B: cellular section — PP cells (pancreatic polypeptide)",
+    "Islet B: cellular section — Islet cell nuclei",
+    "Islet B: cellular section — Islet capillaries",
+    "Islet C: vascular window — Beta cells (insulin)",
+    "Islet C: vascular window — Alpha cells (glucagon)",
+    "Islet C: vascular window — Delta cells (somatostatin)",
+    "Islet C: vascular window — PP cells (pancreatic polypeptide)",
+    "Islet C: vascular window — Islet cell nuclei",
+    "Islet C: vascular window — Islet capillaries",
+    "Exocrine A · Sectioned acinus — Acinar cell nuclei",
+    "Exocrine A · Sectioned acinus — Zymogen granules",
+    "Exocrine A · Sectioned acinus — Acinar cells: basal cytoplasm",
+    "Exocrine A · Sectioned acinus — Acinar cells: apical cytoplasm",
+    "Exocrine A · Sectioned acinus — Centroacinar and duct cell nuclei",
+    "Exocrine A · Sectioned acinus — Centroacinar cells",
+    "Exocrine A · Sectioned acinus — Intercalated ducts",
+    "Exocrine C · Angled acinar section — Acinar cell nuclei",
+    "Exocrine C · Angled acinar section — Zymogen granules",
+    "Exocrine C · Angled acinar section — Acinar cells: basal cytoplasm",
+    "Exocrine C · Angled acinar section — Acinar cells: apical cytoplasm",
+    "Exocrine C · Angled acinar section — Centroacinar and duct cell nuclei",
+    "Exocrine C · Angled acinar section — Centroacinar cells",
+    "Exocrine C · Angled acinar section — Intercalated ducts",
+    "Exocrine B · Intact acinus — Acinar cell nuclei",
+    "Exocrine B · Intact acinus — Zymogen granules",
+    "Exocrine B · Intact acinus — Acinar cells: basal cytoplasm",
+    "Exocrine B · Intact acinus — Acinar cells: apical cytoplasm",
+    "Exocrine B · Intact acinus — Centroacinar and duct cell nuclei",
+    "Exocrine B · Intact acinus — Centroacinar cells",
+    "Exocrine B · Intact acinus — Intercalated ducts",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar cell nuclei",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar zymogen granules",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar cells: basal cytoplasm",
+    "Exocrine D · Open tubuloacinar unit — Tubuloacinar cells: apical cytoplasm",
+    "Exocrine D · Open tubuloacinar unit — Centroacinar and duct cell nuclei",
+    "Exocrine D · Open tubuloacinar unit — Centroacinar cells",
+    "Exocrine D · Open tubuloacinar unit — Intercalated ducts",
+    "Exocrine Collecting ducts — Duct epithelial nuclei",
+    "Exocrine units — collecting duct tree"
+  ],
+  "parts": [
+    {
+      "name": "Lobule: Acinar cell nuclei",
+      "group": "Lobule — Exocrine acini",
+      "color": "#47446c",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Round basal nuclei of the pyramidal acinar cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.06301,
+        0.05781,
+        0.14996
+      ]
+    },
+    {
+      "name": "Lobule: Zymogen granules",
+      "group": "Lobule — Exocrine acini",
+      "color": "#c7603e",
+      "category": "gland",
+      "rank": 3,
+      "description": "Eosinophilic zymogen granules (digestive proenzymes) crowded at the apex of each acinar cell, facing the tiny lumen.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.11685,
+        0.04812
+      ]
+    },
+    {
+      "name": "Lobule: Acinar cells: basal cytoplasm",
+      "group": "Lobule — Exocrine acini",
+      "color": "#a86f88",
+      "category": "gland",
+      "rank": 3,
+      "description": "Basophilic basal cytoplasm of the acinar cells, rich in rough ER: the purple base of each serous cell.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.39157,
+        0.15896,
+        0.2462
+      ]
+    },
+    {
+      "name": "Lobule: Acinar cells: apical cytoplasm",
+      "group": "Lobule — Exocrine acini",
+      "color": "#e8ab91",
+      "category": "gland",
+      "rank": 3,
+      "description": "Paler apical cytoplasm holding the zymogen granules.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.29005,
+        0.20265
+      ]
+    },
+    {
+      "name": "Lobule: Centroacinar and duct cell nuclei",
+      "group": "Lobule — Duct system",
+      "color": "#747594",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Pale flattened nuclei of the centroacinar and intercalated duct cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.17465,
+        0.17789,
+        0.29614
+      ]
+    },
+    {
+      "name": "Lobule: Centroacinar cells",
+      "group": "Lobule — Duct system",
+      "color": "#efe2c9",
+      "category": "gland",
+      "rank": 3,
+      "description": "Centroacinar cells: the start of the duct tucked inside the acinus, a hallmark of the pancreas. They secrete bicarbonate-rich fluid.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.50337,
+        0.38784
+      ]
+    },
+    {
+      "name": "Lobule: Intercalated ducts",
+      "group": "Lobule — Duct system",
+      "color": "#dec49d",
+      "category": "gland",
+      "rank": 3,
+      "description": "Short intercalated ducts lined by low cuboidal cells, leading out of each acinus. The pancreas has no striated ducts.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.43199,
+        0.26497
+      ]
+    },
+    {
+      "name": "Lobule: Tubuloacinar cell nuclei",
+      "group": "Lobule — Exocrine acini",
+      "color": "#47446c",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Nuclei of the branching tubuloacinar secretory unit.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.06301,
+        0.05781,
+        0.14996
+      ]
+    },
+    {
+      "name": "Lobule: Tubuloacinar zymogen granules",
+      "group": "Lobule — Exocrine acini",
+      "color": "#c7603e",
+      "category": "gland",
+      "rank": 3,
+      "description": "Zymogen granules of the tubuloacinar unit.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.11685,
+        0.04812
+      ]
+    },
+    {
+      "name": "Lobule: Tubuloacinar cells: basal cytoplasm",
+      "group": "Lobule — Exocrine acini",
+      "color": "#a86f88",
+      "category": "gland",
+      "rank": 3,
+      "description": "A branching tubuloacinar secretory unit: acini are often elongated and branched.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.39157,
+        0.15896,
+        0.2462
+      ]
+    },
+    {
+      "name": "Lobule: Tubuloacinar cells: apical cytoplasm",
+      "group": "Lobule — Exocrine acini",
+      "color": "#e8ab91",
+      "category": "gland",
+      "rank": 3,
+      "description": "Apical cytoplasm of the tubuloacinar cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.29005,
+        0.20265
+      ]
+    },
+    {
+      "name": "Lobule: Interlobular duct",
+      "group": "Lobule — Duct system",
+      "color": "#c8a478",
+      "category": "gland",
+      "rank": 2.5,
+      "description": "Interlobular duct in the connective tissue septum, lined by taller cuboidal to columnar cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.36674,
+        0.18561
+      ]
+    },
+    {
+      "name": "Lobule: Duct epithelial nuclei",
+      "group": "Lobule — Duct system",
+      "color": "#807a94",
+      "category": "nucleus",
+      "rank": 2.5,
+      "description": "Nuclei of the collecting duct epithelium.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.21586,
+        0.19462,
+        0.29614
+      ]
+    },
+    {
+      "name": "Lobule: Intralobular ducts",
+      "group": "Lobule — Duct system",
+      "color": "#d8bc91",
+      "category": "gland",
+      "rank": 2.5,
+      "description": "Intralobular ducts collecting from the intercalated ducts within the lobule.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.41851,
+        0.23655
+      ]
+    },
+    {
+      "name": "Lobule: Intercalated duct branches",
+      "group": "Lobule — Duct system",
+      "color": "#e0c8a4",
+      "category": "gland",
+      "rank": 2.5,
+      "description": "Branches joining the intercalated ducts to the intralobular ducts.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.44292,
+        0.28582
+      ]
+    },
+    {
+      "name": "Lobule: Beta cells (insulin)",
+      "group": "Lobule — Islet of Langerhans",
+      "color": "#cfb986",
+      "category": "gland",
+      "rank": 4,
+      "description": "Beta cells: the most numerous islet cells, secreting insulin. In human islets they are intermingled with the other cell types.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.44387,
+        0.21863
+      ]
+    },
+    {
+      "name": "Lobule: Alpha cells (glucagon)",
+      "group": "Lobule — Islet of Langerhans",
+      "color": "#bb8f79",
+      "category": "gland",
+      "rank": 4,
+      "description": "Alpha cells secreting glucagon, scattered among the beta cells and along the capillaries in human islets.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.49693,
+        0.27468,
+        0.1912
+      ]
+    },
+    {
+      "name": "Lobule: Delta cells (somatostatin)",
+      "group": "Lobule — Islet of Langerhans",
+      "color": "#99bcb2",
+      "category": "gland",
+      "rank": 4,
+      "description": "Delta cells secreting somatostatin.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.31855,
+        0.50289,
+        0.4452
+      ]
+    },
+    {
+      "name": "Lobule: PP cells (pancreatic polypeptide)",
+      "group": "Lobule — Islet of Langerhans",
+      "color": "#b99abf",
+      "category": "gland",
+      "rank": 4,
+      "description": "PP cells secreting pancreatic polypeptide (a few, representative).",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.48515,
+        0.32314,
+        0.521
+      ]
+    },
+    {
+      "name": "Lobule: Islet cell nuclei",
+      "group": "Lobule — Islet of Langerhans",
+      "color": "#655169",
+      "category": "nucleus",
+      "rank": 4,
+      "description": "Nuclei of the islet cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.13014,
+        0.08228,
+        0.14126
+      ]
+    },
+    {
+      "name": "Lobule: Islet capillaries",
+      "group": "Lobule — Islet of Langerhans",
+      "color": "#bc696f",
+      "category": "artery",
+      "rank": 4,
+      "description": "Dense fenestrated capillary network threading the islet; colour grades from arterial red to venous blue along the flow.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.50289,
+        0.14126,
+        0.15896
+      ]
+    },
+    {
+      "name": "Lobule: Arteriole",
+      "group": "Lobule — Blood vessels",
+      "color": "#b95957",
+      "category": "artery",
+      "rank": 2,
+      "description": "Arteriole supplying the islet and lobule.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.48515,
+        0.0999,
+        0.09531
+      ]
+    },
+    {
+      "name": "Lobule: Venule",
+      "group": "Lobule — Blood vessels",
+      "color": "#706b98",
+      "category": "vein",
+      "rank": 2,
+      "description": "Venule draining the lobule.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.16203,
+        0.14703,
+        0.31399
+      ]
+    },
+    {
+      "name": "Lobule: Insulo-acinar capillaries",
+      "group": "Lobule — Blood vessels",
+      "color": "#b66d79",
+      "category": "artery",
+      "rank": 2,
+      "description": "Capillaries leaving the islet to run among the acini (the insulo-acinar portal route), graded red to blue.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.46778,
+        0.15293,
+        0.1912
+      ]
+    },
+    {
+      "name": "Lobule: Connective tissue septa",
+      "group": "Lobule — Supporting tissue",
+      "color": "#d6bbab",
+      "category": "fascia",
+      "rank": 1,
+      "description": "Thin connective tissue septa dividing the gland into lobules and carrying ducts and vessels; the pancreas has only a thin capsule.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.12,
+        55,
+        0.18,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.42222,
+        0.34639
+      ]
+    },
+    {
+      "name": "Lobule: Fibroblast nuclei",
+      "group": "Lobule — Supporting tissue",
+      "color": "#826d8f",
+      "category": "nucleus",
+      "rank": 1,
+      "description": "Nuclei of fibroblasts in the septa.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.22323,
+        0.15293,
+        0.27468
+      ]
+    },
+    {
+      "name": "Islet A: outer surface — Beta cells (insulin)",
+      "group": "Teaching — Islet A: outer surface",
+      "color": "#cfb986",
+      "category": "gland",
+      "rank": 4,
+      "description": "Beta cells: the most numerous islet cells, secreting insulin. In human islets they are intermingled with the other cell types.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.44387,
+        0.21863
+      ]
+    },
+    {
+      "name": "Islet A: outer surface — Alpha cells (glucagon)",
+      "group": "Teaching — Islet A: outer surface",
+      "color": "#bb8f79",
+      "category": "gland",
+      "rank": 4,
+      "description": "Alpha cells secreting glucagon, scattered among the beta cells and along the capillaries in human islets.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.49693,
+        0.27468,
+        0.1912
+      ]
+    },
+    {
+      "name": "Islet A: outer surface — Delta cells (somatostatin)",
+      "group": "Teaching — Islet A: outer surface",
+      "color": "#99bcb2",
+      "category": "gland",
+      "rank": 4,
+      "description": "Delta cells secreting somatostatin.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.31855,
+        0.50289,
+        0.4452
+      ]
+    },
+    {
+      "name": "Islet A: outer surface — PP cells (pancreatic polypeptide)",
+      "group": "Teaching — Islet A: outer surface",
+      "color": "#b99abf",
+      "category": "gland",
+      "rank": 4,
+      "description": "PP cells secreting pancreatic polypeptide (a few, representative).",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.48515,
+        0.32314,
+        0.521
+      ]
+    },
+    {
+      "name": "Islet A: outer surface — Islet cell nuclei",
+      "group": "Teaching — Islet A: outer surface",
+      "color": "#655169",
+      "category": "nucleus",
+      "rank": 4,
+      "description": "Nuclei of the islet cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.13014,
+        0.08228,
+        0.14126
+      ]
+    },
+    {
+      "name": "Islet A: outer surface — Islet capillaries",
+      "group": "Teaching — Islet A: outer surface",
+      "color": "#bc696f",
+      "category": "artery",
+      "rank": 4,
+      "description": "Dense fenestrated capillary network threading the islet; colour grades from arterial red to venous blue along the flow.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.50289,
+        0.14126,
+        0.15896
+      ]
+    },
+    {
+      "name": "Islet B: cellular section — Beta cells (insulin)",
+      "group": "Teaching — Islet B: cellular section",
+      "color": "#cfb986",
+      "category": "gland",
+      "rank": 4,
+      "description": "Beta cells: the most numerous islet cells, secreting insulin. In human islets they are intermingled with the other cell types.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.44387,
+        0.21863
+      ]
+    },
+    {
+      "name": "Islet B: cellular section — Alpha cells (glucagon)",
+      "group": "Teaching — Islet B: cellular section",
+      "color": "#bb8f79",
+      "category": "gland",
+      "rank": 4,
+      "description": "Alpha cells secreting glucagon, scattered among the beta cells and along the capillaries in human islets.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.49693,
+        0.27468,
+        0.1912
+      ]
+    },
+    {
+      "name": "Islet B: cellular section — Delta cells (somatostatin)",
+      "group": "Teaching — Islet B: cellular section",
+      "color": "#99bcb2",
+      "category": "gland",
+      "rank": 4,
+      "description": "Delta cells secreting somatostatin.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.31855,
+        0.50289,
+        0.4452
+      ]
+    },
+    {
+      "name": "Islet B: cellular section — PP cells (pancreatic polypeptide)",
+      "group": "Teaching — Islet B: cellular section",
+      "color": "#b99abf",
+      "category": "gland",
+      "rank": 4,
+      "description": "PP cells secreting pancreatic polypeptide (a few, representative).",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.48515,
+        0.32314,
+        0.521
+      ]
+    },
+    {
+      "name": "Islet B: cellular section — Islet cell nuclei",
+      "group": "Teaching — Islet B: cellular section",
+      "color": "#655169",
+      "category": "nucleus",
+      "rank": 4,
+      "description": "Nuclei of the islet cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.13014,
+        0.08228,
+        0.14126
+      ]
+    },
+    {
+      "name": "Islet B: cellular section — Islet capillaries",
+      "group": "Teaching — Islet B: cellular section",
+      "color": "#bc696f",
+      "category": "artery",
+      "rank": 4,
+      "description": "Dense fenestrated capillary network threading the islet; colour grades from arterial red to venous blue along the flow.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.50289,
+        0.14126,
+        0.15896
+      ]
+    },
+    {
+      "name": "Islet C: vascular window — Beta cells (insulin)",
+      "group": "Teaching — Islet C: vascular window",
+      "color": "#cfb986",
+      "category": "gland",
+      "rank": 4,
+      "description": "Beta cells: the most numerous islet cells, secreting insulin. In human islets they are intermingled with the other cell types.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.44387,
+        0.21863
+      ]
+    },
+    {
+      "name": "Islet C: vascular window — Alpha cells (glucagon)",
+      "group": "Teaching — Islet C: vascular window",
+      "color": "#bb8f79",
+      "category": "gland",
+      "rank": 4,
+      "description": "Alpha cells secreting glucagon, scattered among the beta cells and along the capillaries in human islets.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.49693,
+        0.27468,
+        0.1912
+      ]
+    },
+    {
+      "name": "Islet C: vascular window — Delta cells (somatostatin)",
+      "group": "Teaching — Islet C: vascular window",
+      "color": "#99bcb2",
+      "category": "gland",
+      "rank": 4,
+      "description": "Delta cells secreting somatostatin.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.31855,
+        0.50289,
+        0.4452
+      ]
+    },
+    {
+      "name": "Islet C: vascular window — PP cells (pancreatic polypeptide)",
+      "group": "Teaching — Islet C: vascular window",
+      "color": "#b99abf",
+      "category": "gland",
+      "rank": 4,
+      "description": "PP cells secreting pancreatic polypeptide (a few, representative).",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.48515,
+        0.32314,
+        0.521
+      ]
+    },
+    {
+      "name": "Islet C: vascular window — Islet cell nuclei",
+      "group": "Teaching — Islet C: vascular window",
+      "color": "#655169",
+      "category": "nucleus",
+      "rank": 4,
+      "description": "Nuclei of the islet cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.13014,
+        0.08228,
+        0.14126
+      ]
+    },
+    {
+      "name": "Islet C: vascular window — Islet capillaries",
+      "group": "Teaching — Islet C: vascular window",
+      "color": "#bc696f",
+      "category": "artery",
+      "rank": 4,
+      "description": "Dense fenestrated capillary network threading the islet; colour grades from arterial red to venous blue along the flow.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.50289,
+        0.14126,
+        0.15896
+      ]
+    },
+    {
+      "name": "Exocrine A · Sectioned acinus — Acinar cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#47446c",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Round basal nuclei of the pyramidal acinar cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.06301,
+        0.05781,
+        0.14996
+      ]
+    },
+    {
+      "name": "Exocrine A · Sectioned acinus — Zymogen granules",
+      "group": "Teaching — Exocrine units",
+      "color": "#c7603e",
+      "category": "gland",
+      "rank": 3,
+      "description": "Eosinophilic zymogen granules (digestive proenzymes) crowded at the apex of each acinar cell, facing the tiny lumen.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.11685,
+        0.04812
+      ]
+    },
+    {
+      "name": "Exocrine A · Sectioned acinus — Acinar cells: basal cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#a86f88",
+      "category": "gland",
+      "rank": 3,
+      "description": "Basophilic basal cytoplasm of the acinar cells, rich in rough ER: the purple base of each serous cell.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.39157,
+        0.15896,
+        0.2462
+      ]
+    },
+    {
+      "name": "Exocrine A · Sectioned acinus — Acinar cells: apical cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#e8ab91",
+      "category": "gland",
+      "rank": 3,
+      "description": "Paler apical cytoplasm holding the zymogen granules.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.29005,
+        0.20265
+      ]
+    },
+    {
+      "name": "Exocrine A · Sectioned acinus — Centroacinar and duct cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#747594",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Pale flattened nuclei of the centroacinar and intercalated duct cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.17465,
+        0.17789,
+        0.29614
+      ]
+    },
+    {
+      "name": "Exocrine A · Sectioned acinus — Centroacinar cells",
+      "group": "Teaching — Exocrine units",
+      "color": "#efe2c9",
+      "category": "gland",
+      "rank": 3,
+      "description": "Centroacinar cells: the start of the duct tucked inside the acinus, a hallmark of the pancreas. They secrete bicarbonate-rich fluid.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.50337,
+        0.38784
+      ]
+    },
+    {
+      "name": "Exocrine A · Sectioned acinus — Intercalated ducts",
+      "group": "Teaching — Exocrine units",
+      "color": "#dec49d",
+      "category": "gland",
+      "rank": 3,
+      "description": "Short intercalated ducts lined by low cuboidal cells, leading out of each acinus. The pancreas has no striated ducts.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.43199,
+        0.26497
+      ]
+    },
+    {
+      "name": "Exocrine C · Angled acinar section — Acinar cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#47446c",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Round basal nuclei of the pyramidal acinar cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.06301,
+        0.05781,
+        0.14996
+      ]
+    },
+    {
+      "name": "Exocrine C · Angled acinar section — Zymogen granules",
+      "group": "Teaching — Exocrine units",
+      "color": "#c7603e",
+      "category": "gland",
+      "rank": 3,
+      "description": "Eosinophilic zymogen granules (digestive proenzymes) crowded at the apex of each acinar cell, facing the tiny lumen.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.11685,
+        0.04812
+      ]
+    },
+    {
+      "name": "Exocrine C · Angled acinar section — Acinar cells: basal cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#a86f88",
+      "category": "gland",
+      "rank": 3,
+      "description": "Basophilic basal cytoplasm of the acinar cells, rich in rough ER: the purple base of each serous cell.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.39157,
+        0.15896,
+        0.2462
+      ]
+    },
+    {
+      "name": "Exocrine C · Angled acinar section — Acinar cells: apical cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#e8ab91",
+      "category": "gland",
+      "rank": 3,
+      "description": "Paler apical cytoplasm holding the zymogen granules.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.29005,
+        0.20265
+      ]
+    },
+    {
+      "name": "Exocrine C · Angled acinar section — Centroacinar and duct cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#747594",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Pale flattened nuclei of the centroacinar and intercalated duct cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.17465,
+        0.17789,
+        0.29614
+      ]
+    },
+    {
+      "name": "Exocrine C · Angled acinar section — Centroacinar cells",
+      "group": "Teaching — Exocrine units",
+      "color": "#efe2c9",
+      "category": "gland",
+      "rank": 3,
+      "description": "Centroacinar cells: the start of the duct tucked inside the acinus, a hallmark of the pancreas. They secrete bicarbonate-rich fluid.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.50337,
+        0.38784
+      ]
+    },
+    {
+      "name": "Exocrine C · Angled acinar section — Intercalated ducts",
+      "group": "Teaching — Exocrine units",
+      "color": "#dec49d",
+      "category": "gland",
+      "rank": 3,
+      "description": "Short intercalated ducts lined by low cuboidal cells, leading out of each acinus. The pancreas has no striated ducts.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.43199,
+        0.26497
+      ]
+    },
+    {
+      "name": "Exocrine B · Intact acinus — Acinar cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#47446c",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Round basal nuclei of the pyramidal acinar cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.06301,
+        0.05781,
+        0.14996
+      ]
+    },
+    {
+      "name": "Exocrine B · Intact acinus — Zymogen granules",
+      "group": "Teaching — Exocrine units",
+      "color": "#c7603e",
+      "category": "gland",
+      "rank": 3,
+      "description": "Eosinophilic zymogen granules (digestive proenzymes) crowded at the apex of each acinar cell, facing the tiny lumen.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.11685,
+        0.04812
+      ]
+    },
+    {
+      "name": "Exocrine B · Intact acinus — Acinar cells: basal cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#a86f88",
+      "category": "gland",
+      "rank": 3,
+      "description": "Basophilic basal cytoplasm of the acinar cells, rich in rough ER: the purple base of each serous cell.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.39157,
+        0.15896,
+        0.2462
+      ]
+    },
+    {
+      "name": "Exocrine B · Intact acinus — Acinar cells: apical cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#e8ab91",
+      "category": "gland",
+      "rank": 3,
+      "description": "Paler apical cytoplasm holding the zymogen granules.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.29005,
+        0.20265
+      ]
+    },
+    {
+      "name": "Exocrine B · Intact acinus — Centroacinar and duct cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#747594",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Pale flattened nuclei of the centroacinar and intercalated duct cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.17465,
+        0.17789,
+        0.29614
+      ]
+    },
+    {
+      "name": "Exocrine B · Intact acinus — Centroacinar cells",
+      "group": "Teaching — Exocrine units",
+      "color": "#efe2c9",
+      "category": "gland",
+      "rank": 3,
+      "description": "Centroacinar cells: the start of the duct tucked inside the acinus, a hallmark of the pancreas. They secrete bicarbonate-rich fluid.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.50337,
+        0.38784
+      ]
+    },
+    {
+      "name": "Exocrine B · Intact acinus — Intercalated ducts",
+      "group": "Teaching — Exocrine units",
+      "color": "#dec49d",
+      "category": "gland",
+      "rank": 3,
+      "description": "Short intercalated ducts lined by low cuboidal cells, leading out of each acinus. The pancreas has no striated ducts.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.43199,
+        0.26497
+      ]
+    },
+    {
+      "name": "Exocrine D · Open tubuloacinar unit — Tubuloacinar cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#47446c",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Nuclei of the branching tubuloacinar secretory unit.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.06301,
+        0.05781,
+        0.14996
+      ]
+    },
+    {
+      "name": "Exocrine D · Open tubuloacinar unit — Tubuloacinar zymogen granules",
+      "group": "Teaching — Exocrine units",
+      "color": "#c7603e",
+      "category": "gland",
+      "rank": 3,
+      "description": "Zymogen granules of the tubuloacinar unit.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.11685,
+        0.04812
+      ]
+    },
+    {
+      "name": "Exocrine D · Open tubuloacinar unit — Tubuloacinar cells: basal cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#a86f88",
+      "category": "gland",
+      "rank": 3,
+      "description": "A branching tubuloacinar secretory unit: acini are often elongated and branched.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.39157,
+        0.15896,
+        0.2462
+      ]
+    },
+    {
+      "name": "Exocrine D · Open tubuloacinar unit — Tubuloacinar cells: apical cytoplasm",
+      "group": "Teaching — Exocrine units",
+      "color": "#e8ab91",
+      "category": "gland",
+      "rank": 3,
+      "description": "Apical cytoplasm of the tubuloacinar cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.29005,
+        0.20265
+      ]
+    },
+    {
+      "name": "Exocrine D · Open tubuloacinar unit — Centroacinar and duct cell nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#747594",
+      "category": "nucleus",
+      "rank": 3,
+      "description": "Pale flattened nuclei of the centroacinar and intercalated duct cells.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.17465,
+        0.17789,
+        0.29614
+      ]
+    },
+    {
+      "name": "Exocrine D · Open tubuloacinar unit — Centroacinar cells",
+      "group": "Teaching — Exocrine units",
+      "color": "#efe2c9",
+      "category": "gland",
+      "rank": 3,
+      "description": "Centroacinar cells: the start of the duct tucked inside the acinus, a hallmark of the pancreas. They secrete bicarbonate-rich fluid.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.50337,
+        0.38784
+      ]
+    },
+    {
+      "name": "Exocrine D · Open tubuloacinar unit — Intercalated ducts",
+      "group": "Teaching — Exocrine units",
+      "color": "#dec49d",
+      "category": "gland",
+      "rank": 3,
+      "description": "Short intercalated ducts lined by low cuboidal cells, leading out of each acinus. The pancreas has no striated ducts.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.43199,
+        0.26497
+      ]
+    },
+    {
+      "name": "Exocrine Collecting ducts — Duct epithelial nuclei",
+      "group": "Teaching — Exocrine units",
+      "color": "#807a94",
+      "category": "nucleus",
+      "rank": 2.5,
+      "description": "Nuclei of the collecting duct epithelium.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.21586,
+        0.19462,
+        0.29614
+      ]
+    },
+    {
+      "name": "Exocrine units — collecting duct tree",
+      "group": "Teaching — Exocrine units",
+      "color": "#d6b58b",
+      "category": "gland",
+      "rank": 2.5,
+      "description": "One continuous collecting duct tree draining the four exocrine units: intercalated twigs (palest) join intralobular branches, which join the larger collecting duct (darkest). The lumen is open throughout; the cut ends are specimen edges.",
+      "alpha": 1.0,
+      "label": true,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ],
+      "color_linear": [
+        0.57048,
+        0.39275,
+        0.22023
+      ]
+    }
+  ]
+}

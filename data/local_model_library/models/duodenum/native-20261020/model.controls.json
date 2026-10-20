@@ -1,0 +1,1216 @@
+{
+  "native": {
+    "summary": "A duodenal wall block: leaf-like villi covered by enterocytes and goblet cells, crypts with Paneth and stem cells, the lamina propria with lacteals and capillaries, the muscularis mucosae, a submucosa full of Brunner glands whose ducts open into the crypts, the Meissner and Auerbach plexuses, inner circular and outer longitudinal muscle, and the serosa. Brunner glands in the submucosa are what identify the duodenum.",
+    "scale_note": "Coordinates are millimetres: block 1.28 mm wide, 0.72 mm deep. Villi about 0.5 mm tall. Cell sizes, brush border and nuclei are enlarged for teaching; counts of villi, crypts and lobules are representative.",
+    "viewer_cameras": {
+      "Whole block": {
+        "position": [
+          -2.1752,
+          1.5418,
+          2.6869
+        ],
+        "target": [
+          0.0,
+          -0.13,
+          -0.36
+        ],
+        "type": "PERSP",
+        "fov_deg": 30,
+        "hidden": [],
+        "note": "The front face is a section through villi, crypts, three Brunner gland lobules and every wall layer."
+      },
+      "Brunner glands and ducts": {
+        "position": [
+          -0.8495,
+          1.0859,
+          4.6395
+        ],
+        "target": [
+          0.0,
+          -0.33,
+          -0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.05,
+        "hidden": [
+          "Submucosal connective tissue"
+        ],
+        "note": "Submucosal connective tissue hidden: three Brunner gland lobules, each duct piercing the muscularis mucosae to open into a crypt."
+      },
+      "Villus in section": {
+        "position": [
+          -0.964,
+          0.8128,
+          4.9401
+        ],
+        "target": [
+          -0.47,
+          0.22,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.62,
+        "hidden": [],
+        "note": "A leaf-like villus cut lengthwise: columnar enterocytes with basal nuclei, goblet cells, brush border, and the core with its lacteal, capillaries and smooth muscle."
+      },
+      "Villus vessels and lacteals": {
+        "position": [
+          -2.6527,
+          2.2388,
+          3.3557
+        ],
+        "target": [
+          0.0,
+          0.2,
+          -0.36
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.55,
+        "hidden": [
+          "Villus enterocytes",
+          "Surface enterocytes between villi",
+          "Crypt epithelial cells",
+          "Goblet cells",
+          "Goblet cell mucin",
+          "Paneth cells",
+          "Paneth cell granules",
+          "Crypt stem cells",
+          "Brush border (microvilli)",
+          "Epithelial nuclei",
+          "Villus core (lamina propria)"
+        ],
+        "note": "Epithelium and villus cores hidden: each villus has a central lacteal, an arteriole, a venule and a capillary network."
+      },
+      "Crypts and Paneth cells": {
+        "position": [
+          -0.2485,
+          0.4069,
+          4.969
+        ],
+        "target": [
+          0.0,
+          -0.09,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.42,
+        "hidden": [],
+        "note": "A crypt cut lengthwise with Paneth cells and stem cells at its base; the Brunner duct opens into its side."
+      },
+      "Enteric plexuses": {
+        "position": [
+          -2.2556,
+          -3.3069,
+          3.1488
+        ],
+        "target": [
+          0.0,
+          -0.55,
+          -0.36
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.75,
+        "hidden": [
+          "Inner circular muscle",
+          "Circular muscle nuclei",
+          "Myenteric connective septum",
+          "Outer longitudinal muscle",
+          "Longitudinal muscle nuclei",
+          "Serosal connective tissue",
+          "Mesothelium",
+          "Mesothelial nuclei",
+          "Submucosal connective tissue"
+        ],
+        "note": "Muscle coats and submucosal connective tissue hidden: Auerbach's plexus between the muscle layers and Meissner's plexus in the submucosa."
+      }
+    },
+    "start_view": "Whole block",
+    "metres_per_unit": 0.001,
+    "cut_on": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0.0,
+      -0.285
+    ],
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Coordinates are millimetres: block 1.28 mm wide, 0.72 mm deep. Villi about 0.5 mm tall. Cell sizes, brush border and nuclei are enlarged for teaching; counts of villi, crypts and lobules are representative."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {},
+  "source_part_names": [
+    "Villus enterocytes",
+    "Surface enterocytes between villi",
+    "Crypt epithelial cells",
+    "Goblet cells",
+    "Goblet cell mucin",
+    "Paneth cells",
+    "Paneth cell granules",
+    "Crypt stem cells",
+    "Brush border (microvilli)",
+    "Epithelial nuclei",
+    "Villus core (lamina propria)",
+    "Central lacteals",
+    "Villus arterioles",
+    "Villus venules",
+    "Villus capillary network",
+    "Villus smooth muscle strands",
+    "Villus smooth-muscle cells",
+    "Villus fibroblasts",
+    "Stromal cell nuclei",
+    "Lamina propria",
+    "Mucosal lymphatic vessels",
+    "Muscularis mucosae",
+    "Mucosal arterial branches",
+    "Mucosal venous branches",
+    "Submucosal connective tissue",
+    "Brunner gland mucous cells",
+    "Brunner gland duct cells",
+    "Brunner gland nuclei",
+    "Submucosal arteriole",
+    "Submucosal venule",
+    "Submucosal (Meissner) plexus",
+    "Inner circular muscle",
+    "Circular muscle nuclei",
+    "Myenteric connective septum",
+    "Myenteric (Auerbach) plexus",
+    "Myenteric ganglion neurons",
+    "Myenteric neuron nuclei",
+    "Outer longitudinal muscle",
+    "Longitudinal muscle nuclei",
+    "Serosal connective tissue",
+    "Mesothelium",
+    "Mesothelial nuclei"
+  ],
+  "part_names": [
+    "Villus enterocytes",
+    "Surface enterocytes between villi",
+    "Crypt epithelial cells",
+    "Goblet cells",
+    "Goblet cell mucin",
+    "Paneth cells",
+    "Paneth cell granules",
+    "Crypt stem cells",
+    "Brush border (microvilli)",
+    "Epithelial nuclei",
+    "Villus core (lamina propria)",
+    "Central lacteals",
+    "Villus arterioles",
+    "Villus venules",
+    "Villus capillary network",
+    "Villus smooth muscle strands",
+    "Villus smooth-muscle cells",
+    "Villus fibroblasts",
+    "Stromal cell nuclei",
+    "Lamina propria",
+    "Mucosal lymphatic vessels",
+    "Muscularis mucosae",
+    "Mucosal arterial branches",
+    "Mucosal venous branches",
+    "Submucosal connective tissue",
+    "Brunner gland mucous cells",
+    "Brunner gland duct cells",
+    "Brunner gland nuclei",
+    "Submucosal arteriole",
+    "Submucosal venule",
+    "Submucosal (Meissner) plexus",
+    "Inner circular muscle",
+    "Circular muscle nuclei",
+    "Myenteric connective septum",
+    "Myenteric (Auerbach) plexus",
+    "Myenteric ganglion neurons",
+    "Myenteric neuron nuclei",
+    "Outer longitudinal muscle",
+    "Longitudinal muscle nuclei",
+    "Serosal connective tissue",
+    "Mesothelium",
+    "Mesothelial nuclei"
+  ],
+  "parts": [
+    {
+      "name": "Villus enterocytes",
+      "group": "Epithelium",
+      "color": "#e8a082",
+      "color_linear": [
+        0.57048,
+        0.25084,
+        0.16035
+      ],
+      "description": "Tall absorptive enterocytes (simple columnar epithelium) covering the villi. Each cell sits on the basement membrane with its nucleus near the base and a brush border on top.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Surface enterocytes between villi",
+      "group": "Epithelium",
+      "color": "#e8a082",
+      "color_linear": [
+        0.57048,
+        0.25084,
+        0.16035
+      ],
+      "description": "The same simple columnar lining continues between the villi and down into the crypt openings.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt epithelial cells",
+      "group": "Epithelium",
+      "color": "#e8a082",
+      "color_linear": [
+        0.57048,
+        0.25084,
+        0.16035
+      ],
+      "description": "Epithelial cells lining the intestinal crypts (of Lieberkühn). New cells made at the crypt base migrate up and out onto the villi.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Goblet cells",
+      "group": "Epithelium",
+      "color": "#82c1af",
+      "color_linear": [
+        0.22323,
+        0.53328,
+        0.42869
+      ],
+      "description": "Goblet cells scattered among the enterocytes: a narrow base with the nucleus and a cup of mucin that opens at the surface. They are fewer in the duodenum than further down the gut.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Goblet cell mucin",
+      "group": "Epithelium",
+      "color": "#dbf2d1",
+      "color_linear": [
+        0.45639,
+        0.57048,
+        0.41136
+      ],
+      "description": "Mucin granules filling the goblet cell cup; secreted onto the surface to lubricate and protect it.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Paneth cells",
+      "group": "Epithelium",
+      "color": "#e8966b",
+      "color_linear": [
+        0.57048,
+        0.21805,
+        0.10638
+      ],
+      "description": "Paneth cells at the crypt base, with red apical granules (lysozyme and defensins) facing the crypt lumen.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Paneth cell granules",
+      "group": "Epithelium",
+      "color": "#c93a1e",
+      "color_linear": [
+        0.57048,
+        0.04146,
+        0.01276
+      ],
+      "description": "Large eosinophilic secretory granules in the apical part of Paneth cells.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt stem cells",
+      "group": "Epithelium",
+      "color": "#bc91a8",
+      "color_linear": [
+        0.50289,
+        0.28315,
+        0.39157
+      ],
+      "description": "Stem cells between the Paneth cells at the crypt base; they renew the whole epithelium every few days.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Brush border (microvilli)",
+      "group": "Epithelium",
+      "color": "#dbc699",
+      "color_linear": [
+        0.57048,
+        0.45544,
+        0.25801
+      ],
+      "description": "The striated (brush) border: dense microvilli on the apical surface of the enterocytes, greatly increasing the absorptive area. Thickness is exaggerated for visibility.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Epithelial nuclei",
+      "group": "Epithelium",
+      "color": "#472d68",
+      "color_linear": [
+        0.06301,
+        0.02624,
+        0.13843
+      ],
+      "description": "Nuclei of the epithelial cells. In enterocytes they are elongated and lie in the basal part of the cell.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 8.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus core (lamina propria)",
+      "group": "Villi",
+      "color": "#e6bdad",
+      "color_linear": [
+        0.57048,
+        0.36846,
+        0.30324
+      ],
+      "description": "Loose connective tissue core of each villus (lamina propria), carrying the lacteal, the capillary network and smooth muscle strands. Duodenal villi are broad and leaf-like.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        115,
+        0.55,
+        0
+      ]
+    },
+    {
+      "name": "Central lacteals",
+      "group": "Villi",
+      "color": "#cde5bf",
+      "color_linear": [
+        0.4455,
+        0.57048,
+        0.38079
+      ],
+      "description": "Blind-ended lymphatic capillary in the centre of each villus. It takes up absorbed fat as chylomicrons and drains to the mucosal lymphatics.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus arterioles",
+      "group": "Villi",
+      "color": "#ba434c",
+      "color_linear": [
+        0.49102,
+        0.05613,
+        0.07227
+      ],
+      "description": "Arteriole running up the villus core to feed its capillary network.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus venules",
+      "group": "Villi",
+      "color": "#547dae",
+      "color_linear": [
+        0.08866,
+        0.20508,
+        0.42327
+      ],
+      "description": "Venule draining the villus capillaries; absorbed sugars and amino acids leave by this route to the portal vein.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus capillary network",
+      "group": "Villi",
+      "color": "#c95d65",
+      "color_linear": [
+        0.57048,
+        0.10709,
+        0.12729
+      ],
+      "description": "Fenestrated capillary network just beneath the epithelium. Its colour grades from arterial red where it leaves the arteriole to venous blue where it drains into the venule.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus smooth muscle strands",
+      "group": "Villi",
+      "color": "#aa626e",
+      "color_linear": [
+        0.40198,
+        0.12214,
+        0.15593
+      ],
+      "description": "Smooth muscle strands rising from the muscularis mucosae into the villus; their contraction shortens the villus and helps empty the lacteal.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        70,
+        0.35,
+        2
+      ]
+    },
+    {
+      "name": "Villus smooth-muscle cells",
+      "group": "Villi",
+      "color": "#b57682",
+      "color_linear": [
+        0.46208,
+        0.18116,
+        0.22323
+      ],
+      "description": "Representative spindle-shaped smooth-muscle cells along the strands (shown in one villus).",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus fibroblasts",
+      "group": "Villi",
+      "color": "#b9b3ad",
+      "color_linear": [
+        0.48515,
+        0.45079,
+        0.41789
+      ],
+      "description": "Representative fibroblasts with slender processes in the villus connective tissue (shown in one villus).",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Stromal cell nuclei",
+      "group": "Villi",
+      "color": "#705d79",
+      "color_linear": [
+        0.16203,
+        0.10946,
+        0.1912
+      ],
+      "description": "Nuclei of the representative smooth-muscle cells and fibroblasts.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 7.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Lamina propria",
+      "group": "Mucosa",
+      "color": "#e2b9a8",
+      "color_linear": [
+        0.57048,
+        0.36534,
+        0.2955
+      ],
+      "description": "Loose connective tissue of the mucosa surrounding the crypts; continuous with the villus cores above.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        115,
+        0.55,
+        0
+      ]
+    },
+    {
+      "name": "Mucosal lymphatic vessels",
+      "group": "Mucosa",
+      "color": "#b8d4aa",
+      "color_linear": [
+        0.4159,
+        0.57048,
+        0.34909
+      ],
+      "description": "Lymphatic vessels at the base of the mucosa collecting lymph from the lacteals.",
+      "alpha": 1.0,
+      "category": "lymph",
+      "label": true,
+      "rank": 6.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Muscularis mucosae",
+      "group": "Mucosa",
+      "color": "#a85965",
+      "color_linear": [
+        0.39157,
+        0.0999,
+        0.13014
+      ],
+      "description": "Thin layer of smooth muscle at the base of the mucosa, separating it from the submucosa. Brunner gland ducts pass through it.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 5.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.08,
+        70,
+        0.35,
+        1
+      ]
+    },
+    {
+      "name": "Mucosal arterial branches",
+      "group": "Mucosa",
+      "color": "#b23e4b",
+      "color_linear": [
+        0.4452,
+        0.04817,
+        0.07036
+      ],
+      "description": "Arterial branches rising from the submucosal arteriole through the muscularis mucosae to each villus.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 5.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mucosal venous branches",
+      "group": "Mucosa",
+      "color": "#587aad",
+      "color_linear": [
+        0.09759,
+        0.19462,
+        0.41789
+      ],
+      "description": "Venous branches returning from each villus to the submucosal venule.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 5.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal connective tissue",
+      "group": "Submucosa",
+      "color": "#d3a99b",
+      "color_linear": [
+        0.57048,
+        0.34819,
+        0.28792
+      ],
+      "description": "Dense irregular connective tissue of the submucosa. In the duodenum it is filled with Brunner glands.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.12,
+        55,
+        0.18,
+        0
+      ]
+    },
+    {
+      "name": "Brunner gland mucous cells",
+      "group": "Submucosa",
+      "color": "#dccbac",
+      "color_linear": [
+        0.57048,
+        0.4766,
+        0.33013
+      ],
+      "description": "Brunner's (submucosal duodenal) glands: coiled, branched tubular glands of pale mucous cells with flattened basal nuclei. They secrete alkaline mucus that neutralises acid from the stomach. Their presence in the submucosa identifies the duodenum.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Brunner gland duct cells",
+      "group": "Submucosa",
+      "color": "#c69ca2",
+      "color_linear": [
+        0.56471,
+        0.33245,
+        0.36131
+      ],
+      "description": "Duct of a Brunner gland lobule: it rises through the muscularis mucosae and opens into the side of an intestinal crypt.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Brunner gland nuclei",
+      "group": "Submucosa",
+      "color": "#786378",
+      "color_linear": [
+        0.18782,
+        0.12477,
+        0.18782
+      ],
+      "description": "Flattened nuclei pressed against the base of the mucous cells, a hallmark of mucus-secreting glands.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal arteriole",
+      "group": "Submucosa",
+      "color": "#b23e4b",
+      "color_linear": [
+        0.4452,
+        0.04817,
+        0.07036
+      ],
+      "description": "Arteriole of the submucosal plexus: thick muscular wall around a small round lumen. It supplies the mucosal branches.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        80,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal venule",
+      "group": "Submucosa",
+      "color": "#587aad",
+      "color_linear": [
+        0.09759,
+        0.19462,
+        0.41789
+      ],
+      "description": "Venule of the submucosa: thin wall and wider lumen than the companion arteriole.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        80,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal (Meissner) plexus",
+      "group": "Submucosa",
+      "color": "#c4a64c",
+      "color_linear": [
+        0.55201,
+        0.38133,
+        0.07227
+      ],
+      "description": "Submucosal (Meissner's) plexus: small enteric ganglia and nerve strands controlling secretion and local blood flow.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": true,
+      "rank": 4.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        65,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Inner circular muscle",
+      "group": "Muscularis externa",
+      "color": "#b56367",
+      "color_linear": [
+        0.46208,
+        0.12477,
+        0.13563
+      ],
+      "description": "Inner circular layer of the muscularis externa. Fibres run around the gut, so this section shows them lengthwise. Its contraction narrows the lumen.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 3.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.07,
+        70,
+        0.35,
+        1
+      ]
+    },
+    {
+      "name": "Circular muscle nuclei",
+      "group": "Muscularis externa",
+      "color": "#5e3a52",
+      "color_linear": [
+        0.11193,
+        0.04231,
+        0.08438
+      ],
+      "description": "Cigar-shaped smooth muscle nuclei of the circular layer (seen lengthwise on the front face, end-on on the side faces).",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 3.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric connective septum",
+      "group": "Muscularis externa",
+      "color": "#c9a6a1",
+      "color_linear": [
+        0.57048,
+        0.37257,
+        0.34823
+      ],
+      "description": "Thin connective tissue between the two muscle layers, carrying the myenteric plexus.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.1,
+        55,
+        0.18,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric (Auerbach) plexus",
+      "group": "Muscularis externa",
+      "color": "#c4a64c",
+      "color_linear": [
+        0.55201,
+        0.38133,
+        0.07227
+      ],
+      "description": "Myenteric (Auerbach's) plexus between the circular and longitudinal layers: ganglia linked by nerve strands that coordinate peristalsis.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        65,
+        0.3,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric ganglion neurons",
+      "group": "Muscularis externa",
+      "color": "#e2c98a",
+      "color_linear": [
+        0.57048,
+        0.43909,
+        0.19274
+      ],
+      "description": "Large enteric neuron cell bodies inside the myenteric ganglia.",
+      "alpha": 1.0,
+      "category": "nerve",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric neuron nuclei",
+      "group": "Muscularis externa",
+      "color": "#4f3d63",
+      "color_linear": [
+        0.07819,
+        0.04667,
+        0.12477
+      ],
+      "description": "Round nuclei of the enteric neurons.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 2.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Outer longitudinal muscle",
+      "group": "Muscularis externa",
+      "color": "#a74f52",
+      "color_linear": [
+        0.38643,
+        0.07819,
+        0.08438
+      ],
+      "description": "Outer longitudinal layer of the muscularis externa. Fibres run along the gut, so this section cuts them across. Its contraction shortens the segment.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.07,
+        70,
+        0.35,
+        3
+      ]
+    },
+    {
+      "name": "Longitudinal muscle nuclei",
+      "group": "Muscularis externa",
+      "color": "#5e3a52",
+      "color_linear": [
+        0.11193,
+        0.04231,
+        0.08438
+      ],
+      "description": "Smooth muscle nuclei of the longitudinal layer (end-on in the front face, lengthwise on the side faces).",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 1.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Serosal connective tissue",
+      "group": "Serosa",
+      "color": "#d7bda6",
+      "color_linear": [
+        0.57048,
+        0.42786,
+        0.32116
+      ],
+      "description": "Thin connective tissue of the serosa. Most of the duodenum is retroperitoneal and has an adventitia instead; a serosa is shown here for this sampled surface.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": true,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.08,
+        80,
+        0.2,
+        0
+      ]
+    },
+    {
+      "name": "Mesothelium",
+      "group": "Serosa",
+      "color": "#ead9c6",
+      "color_linear": [
+        0.57048,
+        0.48194,
+        0.39312
+      ],
+      "description": "Simple squamous mesothelium forming the free surface of the serosa.",
+      "alpha": 1.0,
+      "category": "serosa",
+      "label": true,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.03,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mesothelial nuclei",
+      "group": "Serosa",
+      "color": "#5a4a6e",
+      "color_linear": [
+        0.10224,
+        0.06848,
+        0.15593
+      ],
+      "description": "Flattened nuclei of the mesothelial cells.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": true,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

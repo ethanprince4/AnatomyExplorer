@@ -13,6 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app.updater import MAC_MANIFEST, UpdateStore
+from release_storage import require_space
 
 
 class Packs:
@@ -30,9 +31,11 @@ def main():
         raise SystemExit("macOS required")
     original, feed = map(lambda s: Path(s).resolve(), sys.argv[1:3])
     manifest = json.loads((feed / MAC_MANIFEST).read_text())
-    with tempfile.TemporaryDirectory(prefix="AnatomyExplorer-mac-update-") as d:
+    require_space(feed, sum(entry['size'] for entry in manifest['files']) * 2 + 256 * 1024**2,
+                  'Native signed update check (unchanged production reserve)')
+    with tempfile.TemporaryDirectory(prefix="LayeredHuman-mac-update-") as d:
         root = Path(d).resolve()
-        base = root / "base/Anatomy Explorer.app"
+        base = root / "base/Layered Human.app"
 
         def copy_file(src, dst):
             rel = Path(src).relative_to(original).as_posix()

@@ -4,7 +4,7 @@ property versionName : "@VERSION@"
 
 on run
 	set scriptPath to POSIX path of (path to resource "install.sh")
-	set workDir to do shell script "mkdir -p \"$HOME/Library/Caches\" && mktemp -d \"$HOME/Library/Caches/Anatomy-Explorer-Installer.XXXXXX\""
+	set workDir to do shell script "mkdir -p \"$HOME/Library/Caches\" && mktemp -d \"$HOME/Library/Caches/Layered-Human-Installer.XXXXXX\""
 	set planLines to paragraphs of (do shell script "/bin/bash " & quoted form of scriptPath & " plan")
 	set destDir to item 1 of planLines
 	set replaceFlag to "no"

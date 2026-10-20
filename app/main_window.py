@@ -337,7 +337,7 @@ class MainWindow(QMainWindow):
         self.right_dock.setWidget(self.info)
         self.right_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                                     QDockWidget.DockWidgetClosable)
-        self.info.setMinimumWidth(theme.text_px(27))
+        self.info.set_wall_mode()
         self.addDockWidget(Qt.RightDockWidgetArea, self.right_dock)
         # Shown as cards by FloatingPanels (studio_shell.py), which sizes them from the window; this is only the
         # starting size if the docks are ever docked: the same share of the window as 360/420 of a 2252 px one.
@@ -795,6 +795,7 @@ class MainWindow(QMainWindow):
         self.atlas_depth.sliderReleased.connect(self._apply_atlas_depth)
         self.atlas_depth.onlyLayerToggled.connect(self.view_panel.depth_band.setChecked)
         self.left_dock.visibilityChanged.connect(lambda _on: self._layout_studio_chrome())
+        self.right_dock.visibilityChanged.connect(self._details_visibility_changed)
         self.lesson_splitter.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         # The full original menu/toolbar remains available, without duplicate
         # tool rows taking space from the study canvas on first launch.
@@ -828,6 +829,8 @@ class MainWindow(QMainWindow):
         self.left_dock.hide()
 
     def _studio_search(self, text):
+        if text.strip():
+            self.right_dock.hide()
         if self.center.currentWidget() is not self.anatomy_tab:
             self.close_radiology()
             self.lesson_reader.hide()
@@ -913,12 +916,13 @@ class MainWindow(QMainWindow):
         self.anatomy_tab.setContentsMargins(0,0,0,0)
         practice_on = getattr(self, 'quiz', None) is not None and self.quiz.active
         searching = bool(self.search.edit.text().strip()) and atlas_on and not practice_on
+        details_open = not self.right_dock.isHidden()
         if hasattr(self, "atlas_wall"):
             self.atlas_wall.setVisible(atlas_on and not practice_on and self.left_dock.isHidden())
             top = 232 if h >= 1000 else 220
             wall_bottom = self.studio_tools.y()-16 if available<1350 else h-44
             self.atlas_wall.setGeometry(origin+margin, top, min(440,max(300,int(available*.30))), max(220,wall_bottom-top))
-            self.atlas_depth.setVisible(atlas_on and not practice_on and not searching)
+            self.atlas_depth.setVisible(atlas_on and not practice_on and not searching and not details_open)
             gauge_height = max(300, round(h*.76))
             gauge_width = round((310 if available>=1350 else 280)*max(1.0,min(1.35,gauge_height/820)))
             self.atlas_depth.setGeometry(origin+available-gauge_width-margin+16, (h-gauge_height)//2,
@@ -933,6 +937,61 @@ class MainWindow(QMainWindow):
         self.studio_header.subject.raise_()
         self.studio_tools.raise_()
         self.studio_header.raise_()
+        self._layout_details_overlay()
+
+    def _layout_details_overlay(self):
+        """Use the right reading space without changing the scene or its tools."""
+        if not hasattr(self, 'right_dock'):
+            return
+        wide, height = self.workspace.width(), self.workspace.height()
+        margin = 40 if wide >= 1350 else 28
+        width = min(580, max(320, round(wide * .33)), max(240, wide - 480))
+        bottom = height - 16
+        active = self.active_model_view()
+        studio = getattr(active, 'studio', None)
+        if studio is not None:
+            bottom = studio.dock.mapTo(self.workspace, QPoint(0, 0)).y() - 20
+        elif self.center.currentWidget() is self.anatomy_tab:
+            bottom = self.studio_tools.y() - 16
+        x, reading_height = wide - width - margin, max(120, bottom - 104)
+        self.right_dock.setGeometry(x, 104, width, reading_height)
+        if not hasattr(self, 'details_backdrop'):
+            from .ui.studio_shell import DetailsBackdrop
+            self.details_backdrop = DetailsBackdrop(self.workspace)
+        edge = max(0, x - 144)
+        self.details_backdrop.setGeometry(edge, 104, wide - edge, reading_height)
+        self.details_backdrop.setVisible(not self.right_dock.isHidden())
+        if not self.right_dock.isHidden():
+            self.details_backdrop.raise_()
+            self.right_dock.raise_()
+
+    def _details_visibility_changed(self, visible):
+        if self._closing:
+            return
+        if visible:
+            if self.search.edit.text().strip():
+                self._clear_studio_search()
+            self.left_dock.hide()
+            self.info.browser.setFocus(Qt.OtherFocusReason)
+        self._sync_details_scene()
+        self._layout_studio_chrome()
+        self._update_place_buttons()
+
+    def _sync_details_scene(self):
+        """The full entry replaces the model's shorter selection and Views rail."""
+        active = self.active_model_view()
+        views = list(self.micro_tabs.values())
+        reference = getattr(self, '_radiology_model_view', None)
+        if reference is not None:
+            views.append(reference)
+        for view in views:
+            studio = getattr(view, 'studio', None)
+            if studio is not None and hasattr(studio, 'set_details_mode'):
+                studio.set_details_mode(not self.right_dock.isHidden() and view is active)
+
+    def close_details(self):
+        self.right_dock.hide()
+        self.center.currentWidget().setFocus(Qt.OtherFocusReason)
 
     def _studio_radiology(self):
         on_library = (self.center.currentWidget() is self.collection_workspace
@@ -1172,6 +1231,7 @@ class MainWindow(QMainWindow):
                 studio = getattr(view, "studio", None)
                 if studio is not None:
                     studio.set_lesson_mode(reading and current is view)
+            self._sync_details_scene()
             radiology_visible=self.radiology_panel is not None and not self.radiology_panel.isHidden()
             if current is getattr(self, "practice_home", None):
                 workspace = 'practice'
@@ -1524,13 +1584,14 @@ class MainWindow(QMainWindow):
         self.activateWindow()
 
     def toggle_panels(self):
-        # Hide both only when both are showing; otherwise bring back whichever was closed.
-        visible = self.left_dock.isVisible() and self.right_dock.isVisible()
-        self.left_dock.setVisible(not visible)
+        # Parts and Details use the same reading space; the shortcut dismisses
+        # the open panel, then returns to Details on its next invocation.
+        visible = not self.left_dock.isHidden() or not self.right_dock.isHidden()
+        self.left_dock.hide()
         self.right_dock.setVisible(not visible)
 
     def dock_side_panels(self):
-        """Keep Explore and Details in the canvas without consuming dock space."""
+        """Keep utility cards and the floating Details reader in the workspace."""
         from .ui.studio_shell import FloatingPanels
         if not hasattr(self, '_floating_panels'):
             self._floating_panels = FloatingPanels(self)
@@ -1711,6 +1772,9 @@ class MainWindow(QMainWindow):
         return (scene, lesson), label
 
     def go_place(self, step):
+        if step < 0 and not self.right_dock.isHidden():
+            self.close_details()
+            return
         self._restore_place(self.places.go(step))
 
     def _restore_place(self, key):
@@ -1783,6 +1847,8 @@ class MainWindow(QMainWindow):
 
     def _update_place_buttons(self):
         back, forward = self.places.label(-1), self.places.label(1)
+        if not self.right_dock.isHidden():
+            back = "the scene"
         self.cmds.actions["back"].setEnabled(bool(back))
         self.cmds.actions["forward"].setEnabled(bool(forward))
         if hasattr(self, "studio_header"):
@@ -3432,6 +3498,9 @@ class MainWindow(QMainWindow):
             self.view_panel.set_depth(self.state.depth_cut, bool(self.state.depth_band))
 
     def escape(self):
+        if not self.right_dock.isHidden():
+            self.close_details()
+            return
         if self.search.edit.hasFocus() and self.search.edit.text():
             self.search.edit.clear()
             return
@@ -3486,7 +3555,7 @@ class MainWindow(QMainWindow):
     @staticmethod
     def default_review_shot_folder():
         pics = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation) or str(Path.home())
-        return str(Path(pics) / "Anatomy Explorer review shots")
+        return str(Path(pics) / "Layered Human review shots")
 
     def save_review_shot(self, folder=None):
         """One press, one PNG of the 3D view with the camera stored in its PNG text chunk "AnatomyExplorer-camera"."""
@@ -3540,7 +3609,7 @@ class MainWindow(QMainWindow):
             bits.append(f"Dissected to {st.depth_cut * 100:.0f}% depth")
         visible = int(st.visible_mask().sum())
         bits.append(f"{visible:,} structures visible")
-        return title, bits, "Anatomy Explorer · BodyParts3D / Z-Anatomy, CC BY-SA"
+        return title, bits, "Layered Human · BodyParts3D / Z-Anatomy, CC BY-SA"
 
     def export_figure(self, path=None):
         """Save the current view as a captioned plate, retaining its physical pixels."""

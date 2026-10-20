@@ -3,11 +3,11 @@
     python packaging/build.py [--version 1.2.3] [--skip-prebuild] [--no-package] [--jobs N]
 
 1. packaging/prebuild.py builds the caches the app ships with.
-2. PyInstaller builds packaging/dist/AnatomyExplorer/ (and on macOS packaging/dist/Anatomy Explorer.app).
+2. PyInstaller builds packaging/dist/LayeredHuman/ (and on macOS packaging/dist/Layered Human.app).
 3. The download is packed into packaging/dist/release/ under a fixed name, so the README can link to
    releases/latest/download/<name>:
-     Windows  AnatomyExplorer-Setup-Windows.exe          (Inno Setup, packaging/installer.iss)
-     macOS    AnatomyExplorer-macOS-AppleSilicon.dmg     (ad-hoc signed .app + an Applications link)
+     Windows  LayeredHuman-Setup-Windows.exe          (Inno Setup, packaging/installer.iss)
+     macOS    LayeredHuman-macOS-AppleSilicon.dmg     (ad-hoc signed .app + an Applications link)
    Elsewhere only the folder is built (used to test the bundle on Linux).
 The release workflow (.github/workflows/release.yml) runs this on Windows and macOS runners."""
 import os
@@ -24,8 +24,8 @@ sys.path.insert(0, str(ROOT))
 PKG = ROOT / "packaging"
 DIST = PKG / "dist"
 RELEASE = DIST / "release"
-WIN_ASSET = "AnatomyExplorer-Setup-Windows.exe"
-MAC_ASSET = "AnatomyExplorer-macOS-AppleSilicon.dmg"
+WIN_ASSET = "LayeredHuman-Setup-Windows.exe"
+MAC_ASSET = "LayeredHuman-macOS-AppleSilicon.dmg"
 
 
 def run(*cmd, **kw):
@@ -40,6 +40,9 @@ def numeric_version(v):
 
 
 def pyinstaller(version, channel="stable", release_tag=None, model_library=None):
+    from release_storage import ci_links_enabled, require_space
+    ci_links_enabled()  # Reject accidental hardlink builds outside disposable CI.
+    require_space(PKG, 256 * 1024**2, 'Before frozen build')
     if sys.platform == "darwin":
         # Fail before packaging if the exact accepted wheel/plugin cannot be established.
         from install_cocoa import install
@@ -53,8 +56,14 @@ def pyinstaller(version, channel="stable", release_tag=None, model_library=None)
         # can shadow Windows/Qt dependencies during bindepend collection.
         system = Path(os.environ.get("SystemRoot", r"C:\Windows"))
         env["PATH"] = os.pathsep.join(map(str, [Path(sys.executable).parent, Path(sys.base_prefix), system / "System32", system]))
-    run(sys.executable, "-m", "PyInstaller", PKG / "AnatomyExplorer.spec", "--noconfirm", "--clean",
+    run(sys.executable, "-m", "PyInstaller", PKG / "LayeredHuman.spec", "--noconfirm", "--clean",
         "--distpath", DIST, "--workpath", PKG / "build" / "pyinstaller", cwd=ROOT, env=env)
+    # Old immutable launchers start this exact filename. Include a regular-file
+    # alias before signing/packing; a symlink would fail their required-file check.
+    bundle = DIST / (("Layered Human Experimental" if channel == "experimental" else "Layered Human") + ".app")
+    binaries = bundle / "Contents/MacOS" if sys.platform == "darwin" else DIST / "LayeredHuman"
+    suffix = ".exe" if sys.platform == "win32" else ""
+    shutil.copy2(binaries / ("LayeredHuman" + suffix), binaries / ("AnatomyExplorer" + suffix))
 
 
 def windows_installer(version, channel="stable"):
@@ -64,14 +73,14 @@ def windows_installer(version, channel="stable"):
     iscc = next((Path(c) for c in candidates if c and Path(c).exists()), None)
     if iscc is None:
         sys.exit("Inno Setup 6 (ISCC.exe) not found: install it from https://jrsoftware.org/isdl.php")
-    run(iscc, f"/DAppVersion={version}", f"/DSourceDir={DIST / 'AnatomyExplorer'}", f"/DOutputDir={RELEASE}",
+    run(iscc, f"/DAppVersion={version}", f"/DSourceDir={DIST / 'LayeredHuman'}", f"/DOutputDir={RELEASE}",
         f"/DOutputName={Path(WIN_ASSET).stem}", *(["/DExperimental"] if channel == "experimental" else []),
         f"/DIconFile={ROOT / 'app' / 'resources' / 'icon.ico'}",
         PKG / "installer.iss")
 
 
 def mac_dmg(channel="stable", release_tag=None):
-    app_name = "Anatomy Explorer Experimental" if channel == "experimental" else "Anatomy Explorer"
+    app_name = "Layered Human Experimental" if channel == "experimental" else "Layered Human"
     app = DIST / (app_name + ".app")
     # No Developer ID: an ad-hoc signature is what lets an Apple silicon Mac run the app at all. The first launch
     # still needs right-click > Open (see README).
@@ -79,11 +88,18 @@ def mac_dmg(channel="stable", release_tag=None):
     run("codesign", "--verify", "--deep", "--strict", app)
     from update_payload import create_payload
     version = (app / "Contents/Resources/VERSION").read_text(encoding="utf-8").strip()
-    create_payload(app, RELEASE, version, "macos-arm64", channel=channel, release_tag=release_tag)
+    manifest = create_payload(app, RELEASE, version, "macos-arm64", channel=channel, release_tag=release_tag)
     staging = PKG / "build" / "dmg"
     shutil.rmtree(staging, ignore_errors=True)
     staging.mkdir(parents=True)
-    run("ditto", app, staging / app.name)               # ditto keeps symlinks and the signature intact
+    from release_storage import ci_links_enabled, immutable_copy
+    if ci_links_enabled():
+        # The sealed app and DMG staging are read-only from here onward. Sharing
+        # their bytes avoids an additional full bundle; symlinks stay symlinks.
+        shutil.copytree(app, staging / app.name, symlinks=True, copy_function=immutable_copy)
+        run("codesign", "--verify", "--deep", "--strict", staging / app.name)
+    else:
+        run("ditto", app, staging / app.name)
     (staging / "Applications").symlink_to("/Applications")
     out = RELEASE / MAC_ASSET
     out.unlink(missing_ok=True)
@@ -98,6 +114,7 @@ def mac_dmg(channel="stable", release_tag=None):
                 raise
             time.sleep(15)
     shutil.rmtree(staging, ignore_errors=True)
+    return manifest
 
 
 def selected_model_library(args):
@@ -138,13 +155,20 @@ def main():
     RELEASE.mkdir(parents=True, exist_ok=True)
     if sys.platform == "win32":
         from update_payload import create_payload
-        create_payload(DIST / "AnatomyExplorer", RELEASE, version, channel=channel, release_tag=tag)
+        manifest = create_payload(DIST / "LayeredHuman", RELEASE, version, channel=channel, release_tag=tag)
         windows_installer(version, channel)
     elif sys.platform == "darwin":
-        mac_dmg(channel, tag)
+        manifest = mac_dmg(channel, tag)
     else:
-        print("no installer format for this platform; the app folder is in", DIST / "AnatomyExplorer")
+        print("no installer format for this platform; the app folder is in", DIST / "LayeredHuman")
         return
+    bundle_bytes = sum(entry['size'] for entry in manifest['files'])
+    feed_bytes = sum(manifest['packs'].values())
+    installer_bytes = (RELEASE / (MAC_ASSET if sys.platform == 'darwin' else WIN_ASSET)).stat().st_size
+    print(f"release storage: bundle={bundle_bytes:,}; feed={feed_bytes:,}; installer={installer_bytes:,}; "
+          f"free={shutil.disk_usage(RELEASE).free:,}; "
+          f"additional_native_check={(bundle_bytes * (2 if sys.platform == 'darwin' else 1) + 256 * 1024**2):,}; "
+          f"additional_split={installer_bytes + 256 * 1024**2:,}", flush=True)
     for f in RELEASE.iterdir():
         print(f"{f.name}: {f.stat().st_size / 1e6:.0f} MB")
 

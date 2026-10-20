@@ -18,9 +18,11 @@ pending camera/review changes were copied; the separate Desktop main checkout's
 opt-in GLB start-visibility fix was reconciled into ModelView. The GPU page store
 now has a runtime caller, with cache failure falling back to normal preparation.
 
-Visible branding is Layered Human; existing preferences and updater/install
-identifiers retain compatibility. Installer download asset filenames remain the
-existing Anatomy Explorer names and are used verbatim by the website.
+Public branding, installers, shortcuts and executables use Layered Human.
+Existing preferences and updater/install identifiers retain compatibility;
+the GitHub repository address remains unchanged to keep installed clients
+updating. See [branding and upgrade compatibility](../branding.md) for the
+intentional legacy identifiers and the future repository-rename sequence.
 
 The selected website lives in `docs/design/2026-10-14-layered-human/site/specimen`.
 From its design folder, `python site/build.py` builds `site/dist` for static hosting.

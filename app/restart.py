@@ -84,7 +84,7 @@ def main():
         # The old process may already be closed; provide an actionable message.
         from PySide6.QtWidgets import QApplication, QMessageBox
         app = QApplication.instance() or QApplication([])
-        QMessageBox.warning(None, "Anatomy Explorer restart",
-                            "Could not restart automatically. Open Anatomy Explorer normally. "
+        QMessageBox.warning(None, "Layered Human restart",
+                            "Could not restart automatically. Open Layered Human normally. "
                             "Your downloaded update and study data are retained.\n\n" + str(exc))
         return 1

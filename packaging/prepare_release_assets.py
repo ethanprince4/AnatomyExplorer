@@ -5,6 +5,7 @@ needs Windows), writing its part of the install notes to INSTALL-DOWNLOADS-<plat
 with --combine-notes."""
 import argparse
 import hashlib
+import json
 import os
 import re
 import shutil
@@ -18,9 +19,9 @@ PART = 1_000_000_000
 REPO = 'https://github.com/ethanprince4/AnatomyExplorer/releases/download'
 PAGE = 'https://github.com/ethanprince4/AnatomyExplorer/releases/latest'
 HERE = Path(__file__).resolve().parent
-MAC_APP = 'Install Anatomy Explorer.app'
-MAC_INSTALLER = 'Install-Anatomy-Explorer-Mac.dmg'
-WINDOWS_HELPER = 'Install-Anatomy-Explorer-Windows.exe'
+MAC_APP = 'Install Layered Human.app'
+MAC_INSTALLER = 'Install-Layered-Human-Mac.dmg'
+WINDOWS_HELPER = 'Install-Layered-Human-Windows.exe'
 # The .NET Framework C# compiler that comes with Windows (and the windows-latest runners): no SDK to install.
 CSC = Path(os.environ.get('WINDIR', r'C:\Windows')) / 'Microsoft.NET' / 'Framework64' / 'v4.0.30319' / 'csc.exe'
 
@@ -56,7 +57,7 @@ def split(path, folder):
 
 def mac_app_name(tag):
     """The app name build.py gives the bundle (the experimental channel is the '-preview.' tags)."""
-    return 'Anatomy Explorer Experimental' if '-preview.' in tag else 'Anatomy Explorer'
+    return 'Layered Human Experimental' if '-preview.' in tag else 'Layered Human'
 
 
 def fill(template_name, values, folder='mac_installer'):
@@ -69,18 +70,45 @@ def fill(template_name, values, folder='mac_installer'):
     return text
 
 
-def mac_installer_script(base, dmg_name, bundle, total, parts):
+def mac_bundle_bytes(folder):
+    """Actual installed bytes from the feed next to the DMG, including aliases."""
+    for name in ('LayeredHuman-macOS-update.json', 'AnatomyExplorer-macOS-update.json'):
+        path = Path(folder) / name
+        if not path.is_file():
+            continue
+        data = json.loads(path.read_text(encoding='utf-8'))
+        files = data.get('files')
+        if (data.get('schema') != 1 or data.get('platform') != 'macos-arm64' or
+                not isinstance(files, list) or not files or
+                any(not isinstance(entry, dict) or type(entry.get('size')) is not int or entry['size'] < 0
+                    for entry in files)):
+            raise ValueError('Mac download helper requires a valid bundle-size manifest')
+        total = sum(entry['size'] for entry in files)
+        if not 0 < total <= 20 * 1024**3:
+            raise ValueError('Invalid Mac bundle size')
+        return total
+    raise ValueError('Mac download helper requires the update manifest beside its DMG')
+
+
+def mac_required_bytes(total, bundle_bytes):
+    if type(total) is not int or total <= 0 or type(bundle_bytes) is not int or bundle_bytes <= 0:
+        raise ValueError('Mac installer sizes must be positive byte counts')
+    return total * 2 + bundle_bytes + 1024**3
+
+
+def mac_installer_script(base, dmg_name, bundle, total, parts, *, bundle_bytes):
     """install.sh for the applet. parts is [(file name, sha256)] in join order."""
     for name, _ in parts:
         if not re.fullmatch(r'[A-Za-z0-9._-]+', name):
             raise ValueError(f'Unsafe part name: {name}')
     lines = [f"  '{name} {digest}'" for name, digest in parts]
+    mac_required_bytes(total, bundle_bytes)
     return fill('install.sh.in', {'@BASE@': base, '@DMG@': dmg_name, '@BUNDLE@': bundle,
-                                  '@TOTAL@': str(total), '@PARTS@': '\n'.join(lines)})
+                                  '@TOTAL@': str(total), '@BUNDLEBYTES@': str(bundle_bytes), '@PARTS@': '\n'.join(lines)})
 
 
-def build_mac_installer(folder, tag, dmg_name, total, parts):
-    """Create folder/Install-Anatomy-Explorer-Mac.dmg: a disk image holding an ad-hoc signed AppleScript applet that
+def build_mac_installer(folder, tag, dmg_name, total, parts, *, bundle_bytes):
+    """Create folder/Install-Layered-Human-Mac.dmg: a disk image holding an ad-hoc signed AppleScript applet that
     runs install.sh. Opening the image shows the installer in its own Finder window (a zip unpacked silently into
     Downloads, where people had to go and find it)."""
     if sys.platform != 'darwin':
@@ -95,7 +123,8 @@ def build_mac_installer(folder, tag, dmg_name, total, parts):
         if not (applet / 'Contents/Resources').is_dir():
             raise SystemExit(f'osacompile did not produce an application bundle at {applet}')
         script = applet / 'Contents/Resources/install.sh'
-        script.write_text(mac_installer_script(f'{REPO}/{tag}', dmg_name, name + '.app', total, parts), encoding='utf-8')
+        script.write_text(mac_installer_script(f'{REPO}/{tag}', dmg_name, name + '.app', total, parts,
+                                               bundle_bytes=bundle_bytes), encoding='utf-8')
         script.chmod(0o755)
         # Written after osacompile, so the signature covers the embedded script.
         run('codesign', '--force', '--deep', '--sign', '-', applet)
@@ -162,6 +191,9 @@ def prepare(folder, tag, notes_name=NOTES):
         if path.suffix.lower() not in ('.exe', '.dmg') or path.stat().st_size < LIMIT:
             continue
         total = path.stat().st_size
+        if os.environ.get('GITHUB_ACTIONS') == 'true':
+            from release_storage import require_space
+            require_space(folder, total + 256 * 1024**2, 'Installer release-part split')
         parts = split(path, folder)
         if path.suffix.lower() == '.exe':
             build_windows_installer(folder, tag, path.name,
@@ -172,11 +204,13 @@ def prepare(folder, tag, notes_name=NOTES):
                          'protected your PC, because the project has no paid code-signing certificate: click More '
                          'info, then Run anyway.')
         else:
-            build_mac_installer(folder, tag, path.name, total, [(name, sha256(folder / name)) for name in parts])
+            bundle_bytes = mac_bundle_bytes(folder)
+            build_mac_installer(folder, tag, path.name, total, [(name, sha256(folder / name)) for name in parts],
+                                bundle_bytes=bundle_bytes)
             notes.append(f'- {MAC_INSTALLER} (Mac, Apple silicon): reconstructs {path.name} from {len(parts)} parts. '
                          f'Open it and double-click "{MAC_APP[:-4]}" in the window that appears. It downloads about {total / 1e9:.1f} GB, checks '
                          f'each part, copies the app into Applications and opens it. It needs about '
-                         f'{(2 * total + 2 ** 30) / 1e9:.0f} GB of free disk space while it runs; if it stops, run it '
+                         f'{(mac_required_bytes(total, bundle_bytes) + 999_999_999) // 1_000_000_000} GB of free disk space while it runs; if it stops, run it '
                          'again. The first time, macOS may say it cannot be opened, because the project has no paid '
                          'Apple developer certificate: open System Settings > Privacy & Security, scroll down and click '
                          'Open Anyway (on macOS 14 and earlier, right-click it and choose Open also works).')

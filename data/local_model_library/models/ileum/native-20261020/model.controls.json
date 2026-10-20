@@ -1,0 +1,1834 @@
+{
+  "native": {
+    "summary": "Static ileal villus/crypt and Peyer patch tissue crop with independently selectable preserved infrastructure.",
+    "metres_per_unit": 0.0015,
+    "scale_note": "Nominal 1500 micrometres per unit. Six villi, nine crypts and two follicles are representative examples, not tissue density; cells and nuclei enlarged. Flat ileal specimen crop, not a whole organ or a measured histological census.",
+    "start_view": "Ileal wall",
+    "viewer_cameras": {
+      "Ileal wall": {
+        "position": [
+          1.2,
+          1.7,
+          1.4
+        ],
+        "target": [
+          0,
+          0.42,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.48,
+        "hidden": []
+      },
+      "Villus and crypt cells": {
+        "position": [
+          0.9,
+          1.2,
+          -1.0
+        ],
+        "target": [
+          0,
+          0.65,
+          -0.18
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.7,
+        "hidden": [
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE pocket_lymphocytes dissection cover",
+          "FAE M dissection cover",
+          "Lamina propria"
+        ]
+      },
+      "Villus core routes": {
+        "position": [
+          0.8,
+          1.1,
+          1.1
+        ],
+        "target": [
+          0,
+          0.67,
+          -0.1
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.6,
+        "hidden": [
+          "Villus goblet",
+          "Villus nuclei",
+          "Villus mucin",
+          "Villus enterocyte",
+          "Villus apical",
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "Crypt Paneth",
+          "Crypt nuclei",
+          "Crypt granules",
+          "Crypt stem",
+          "Crypt enterocyte",
+          "Crypt goblet",
+          "Crypt mucin",
+          "Intervillus goblet",
+          "Intervillus nuclei",
+          "Intervillus mucin",
+          "Intervillus enterocyte",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE pocket_lymphocytes dissection cover",
+          "FAE M dissection cover",
+          "FAE enterocyte",
+          "FAE nuclei",
+          "Villus lamina propria core",
+          "Lamina propria",
+          "Subepithelial dome"
+        ]
+      },
+      "Villus cell closeup": {
+        "position": [
+          -0.6,
+          1.05,
+          -0.75
+        ],
+        "target": [
+          -0.135,
+          0.705,
+          -0.19
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.18,
+        "hidden": []
+      },
+      "Crypt closeup": {
+        "position": [
+          -0.6,
+          0.84,
+          -0.65
+        ],
+        "target": [
+          -0.085,
+          0.55,
+          -0.065
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.14,
+        "hidden": [
+          "Lamina propria",
+          "Submucosa",
+          "Muscularis mucosae",
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE pocket_lymphocytes dissection cover",
+          "FAE M dissection cover"
+        ]
+      },
+      "Lymphoid epithelial interface": {
+        "position": [
+          0.8,
+          1.2,
+          1.1
+        ],
+        "target": [
+          0.18,
+          0.6,
+          0.1
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.43,
+        "hidden": [
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE pocket_lymphocytes dissection cover",
+          "FAE M dissection cover",
+          "Lamina propria"
+        ]
+      },
+      "Lymphoid compartments": {
+        "position": [
+          1.2,
+          1.0,
+          1.2
+        ],
+        "target": [
+          0,
+          0.55,
+          0.1
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.8,
+        "hidden": [
+          "Villus goblet",
+          "Villus nuclei",
+          "Villus mucin",
+          "Villus enterocyte",
+          "Villus apical",
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "Crypt Paneth",
+          "Crypt nuclei",
+          "Crypt granules",
+          "Crypt stem",
+          "Crypt enterocyte",
+          "Crypt goblet",
+          "Crypt mucin",
+          "Intervillus goblet",
+          "Intervillus nuclei",
+          "Intervillus mucin",
+          "Intervillus enterocyte",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE pocket_lymphocytes dissection cover",
+          "FAE M dissection cover",
+          "FAE enterocyte",
+          "FAE nuclei",
+          "Subepithelial dome",
+          "Lamina propria",
+          "Submucosa"
+        ]
+      },
+      "Lymphoid cellular regions": {
+        "position": [
+          0.65,
+          0.85,
+          0.8
+        ],
+        "target": [
+          0.18,
+          0.6,
+          0.1
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.39,
+        "hidden": [
+          "Lamina propria",
+          "Submucosa",
+          "Villus goblet",
+          "Villus nuclei",
+          "Villus mucin",
+          "Villus enterocyte",
+          "Villus apical",
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "Crypt Paneth",
+          "Crypt nuclei",
+          "Crypt granules",
+          "Crypt stem",
+          "Crypt enterocyte",
+          "Crypt goblet",
+          "Crypt mucin",
+          "Intervillus goblet",
+          "Intervillus nuclei",
+          "Intervillus mucin",
+          "Intervillus enterocyte",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE pocket_lymphocytes dissection cover",
+          "FAE M dissection cover",
+          "FAE enterocyte",
+          "FAE nuclei"
+        ]
+      },
+      "M-cell basal pocket": {
+        "position": [
+          -0.2265,
+          0.64,
+          0.103
+        ],
+        "target": [
+          -0.2265,
+          0.6897,
+          0.09977
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.03,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Inner circular muscle",
+          "Submucosa",
+          "Muscularis mucosae",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Submucosal lymphatic collectors",
+          "Lamina propria",
+          "Villus lamina propria core",
+          "Central lacteals",
+          "Villus capillary network",
+          "Villus smooth muscle",
+          "Peyer patch follicles",
+          "Germinal centres",
+          "Subepithelial dome",
+          "Villus goblet",
+          "Villus nuclei",
+          "Villus mucin",
+          "Villus enterocyte",
+          "Villus apical",
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "Crypt Paneth",
+          "Crypt nuclei",
+          "Crypt granules",
+          "Crypt stem",
+          "Crypt enterocyte",
+          "Crypt goblet",
+          "Crypt mucin",
+          "Intervillus goblet",
+          "Intervillus nuclei",
+          "Intervillus mucin",
+          "Intervillus enterocyte",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE enterocyte",
+          "FAE nuclei",
+          "Peyer patch follicles nuclei",
+          "Germinal centres nuclei",
+          "Subepithelial dome nuclei"
+        ]
+      },
+      "M-cell intact luminal roof": {
+        "position": [
+          -0.255,
+          0.733,
+          0.063
+        ],
+        "target": [
+          -0.2265,
+          0.701,
+          0.1
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.045,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Inner circular muscle",
+          "Submucosa",
+          "Muscularis mucosae",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Submucosal lymphatic collectors",
+          "Lamina propria",
+          "Villus lamina propria core",
+          "Central lacteals",
+          "Villus capillary network",
+          "Villus smooth muscle",
+          "Peyer patch follicles",
+          "Germinal centres",
+          "Subepithelial dome",
+          "Villus goblet",
+          "Villus nuclei",
+          "Villus mucin",
+          "Villus enterocyte",
+          "Villus apical",
+          "Villus enterocyte dissection cover",
+          "Villus nuclei dissection cover",
+          "Villus apical dissection cover",
+          "Villus goblet dissection cover",
+          "Villus mucin dissection cover",
+          "Crypt Paneth",
+          "Crypt nuclei",
+          "Crypt granules",
+          "Crypt stem",
+          "Crypt enterocyte",
+          "Crypt goblet",
+          "Crypt mucin",
+          "Intervillus goblet",
+          "Intervillus nuclei",
+          "Intervillus mucin",
+          "Intervillus enterocyte",
+          "FAE enterocyte dissection cover",
+          "FAE nuclei dissection cover",
+          "FAE enterocyte",
+          "FAE nuclei",
+          "Peyer patch follicles nuclei",
+          "Germinal centres nuclei",
+          "Subepithelial dome nuclei"
+        ]
+      }
+    },
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "cut_on": false,
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": "Nominal 1500 micrometres per unit. Six villi, nine crypts and two follicles are representative examples, not tissue density; cells and nuclei enlarged. Flat ileal specimen crop, not a whole organ or a measured histological census."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "ileum_static_overhaul",
+      "display_name": "Ileum cellular wall and lymphoid interface",
+      "summary": "Static ileal villus/crypt and Peyer patch tissue crop with independently selectable preserved infrastructure.",
+      "metres_per_unit": 0.0015,
+      "scale_note": "Nominal 1500 micrometres per unit. Six villi, nine crypts and two follicles are representative examples, not tissue density; cells and nuclei enlarged. Flat ileal specimen crop, not a whole organ or a measured histological census.",
+      "start_view": "Ileal wall",
+      "viewer_cameras": {
+        "Ileal wall": {
+          "position": [
+            1.2,
+            1.7,
+            1.4
+          ],
+          "target": [
+            0,
+            0.42,
+            0
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 1.48,
+          "hidden": []
+        },
+        "Villus and crypt cells": {
+          "position": [
+            0.9,
+            1.2,
+            -1.0
+          ],
+          "target": [
+            0,
+            0.65,
+            -0.18
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.7,
+          "hidden": [
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE pocket_lymphocytes dissection cover",
+            "FAE M dissection cover",
+            "Lamina propria"
+          ]
+        },
+        "Villus core routes": {
+          "position": [
+            0.8,
+            1.1,
+            1.1
+          ],
+          "target": [
+            0,
+            0.67,
+            -0.1
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.6,
+          "hidden": [
+            "Villus goblet",
+            "Villus nuclei",
+            "Villus mucin",
+            "Villus enterocyte",
+            "Villus apical",
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "Crypt Paneth",
+            "Crypt nuclei",
+            "Crypt granules",
+            "Crypt stem",
+            "Crypt enterocyte",
+            "Crypt goblet",
+            "Crypt mucin",
+            "Intervillus goblet",
+            "Intervillus nuclei",
+            "Intervillus mucin",
+            "Intervillus enterocyte",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE pocket_lymphocytes dissection cover",
+            "FAE M dissection cover",
+            "FAE enterocyte",
+            "FAE nuclei",
+            "Villus lamina propria core",
+            "Lamina propria",
+            "Subepithelial dome"
+          ]
+        },
+        "Villus cell closeup": {
+          "position": [
+            -0.6,
+            1.05,
+            -0.75
+          ],
+          "target": [
+            -0.135,
+            0.705,
+            -0.19
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.18,
+          "hidden": []
+        },
+        "Crypt closeup": {
+          "position": [
+            -0.6,
+            0.84,
+            -0.65
+          ],
+          "target": [
+            -0.085,
+            0.55,
+            -0.065
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.14,
+          "hidden": [
+            "Lamina propria",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE pocket_lymphocytes dissection cover",
+            "FAE M dissection cover"
+          ]
+        },
+        "Lymphoid epithelial interface": {
+          "position": [
+            0.8,
+            1.2,
+            1.1
+          ],
+          "target": [
+            0.18,
+            0.6,
+            0.1
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.43,
+          "hidden": [
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE pocket_lymphocytes dissection cover",
+            "FAE M dissection cover",
+            "Lamina propria"
+          ]
+        },
+        "Lymphoid compartments": {
+          "position": [
+            1.2,
+            1.0,
+            1.2
+          ],
+          "target": [
+            0,
+            0.55,
+            0.1
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.8,
+          "hidden": [
+            "Villus goblet",
+            "Villus nuclei",
+            "Villus mucin",
+            "Villus enterocyte",
+            "Villus apical",
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "Crypt Paneth",
+            "Crypt nuclei",
+            "Crypt granules",
+            "Crypt stem",
+            "Crypt enterocyte",
+            "Crypt goblet",
+            "Crypt mucin",
+            "Intervillus goblet",
+            "Intervillus nuclei",
+            "Intervillus mucin",
+            "Intervillus enterocyte",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE pocket_lymphocytes dissection cover",
+            "FAE M dissection cover",
+            "FAE enterocyte",
+            "FAE nuclei",
+            "Subepithelial dome",
+            "Lamina propria",
+            "Submucosa"
+          ]
+        },
+        "Lymphoid cellular regions": {
+          "position": [
+            0.65,
+            0.85,
+            0.8
+          ],
+          "target": [
+            0.18,
+            0.6,
+            0.1
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.39,
+          "hidden": [
+            "Lamina propria",
+            "Submucosa",
+            "Villus goblet",
+            "Villus nuclei",
+            "Villus mucin",
+            "Villus enterocyte",
+            "Villus apical",
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "Crypt Paneth",
+            "Crypt nuclei",
+            "Crypt granules",
+            "Crypt stem",
+            "Crypt enterocyte",
+            "Crypt goblet",
+            "Crypt mucin",
+            "Intervillus goblet",
+            "Intervillus nuclei",
+            "Intervillus mucin",
+            "Intervillus enterocyte",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE pocket_lymphocytes dissection cover",
+            "FAE M dissection cover",
+            "FAE enterocyte",
+            "FAE nuclei"
+          ]
+        },
+        "M-cell basal pocket": {
+          "position": [
+            -0.2265,
+            0.64,
+            0.103
+          ],
+          "target": [
+            -0.2265,
+            0.6897,
+            0.09977
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.03,
+          "hidden": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Submucosal lymphatic collectors",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle",
+            "Peyer patch follicles",
+            "Germinal centres",
+            "Subepithelial dome",
+            "Villus goblet",
+            "Villus nuclei",
+            "Villus mucin",
+            "Villus enterocyte",
+            "Villus apical",
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "Crypt Paneth",
+            "Crypt nuclei",
+            "Crypt granules",
+            "Crypt stem",
+            "Crypt enterocyte",
+            "Crypt goblet",
+            "Crypt mucin",
+            "Intervillus goblet",
+            "Intervillus nuclei",
+            "Intervillus mucin",
+            "Intervillus enterocyte",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE enterocyte",
+            "FAE nuclei",
+            "Peyer patch follicles nuclei",
+            "Germinal centres nuclei",
+            "Subepithelial dome nuclei"
+          ]
+        },
+        "M-cell intact luminal roof": {
+          "position": [
+            -0.255,
+            0.733,
+            0.063
+          ],
+          "target": [
+            -0.2265,
+            0.701,
+            0.1
+          ],
+          "up": [
+            0,
+            1,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.045,
+          "hidden": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Submucosal lymphatic collectors",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle",
+            "Peyer patch follicles",
+            "Germinal centres",
+            "Subepithelial dome",
+            "Villus goblet",
+            "Villus nuclei",
+            "Villus mucin",
+            "Villus enterocyte",
+            "Villus apical",
+            "Villus enterocyte dissection cover",
+            "Villus nuclei dissection cover",
+            "Villus apical dissection cover",
+            "Villus goblet dissection cover",
+            "Villus mucin dissection cover",
+            "Crypt Paneth",
+            "Crypt nuclei",
+            "Crypt granules",
+            "Crypt stem",
+            "Crypt enterocyte",
+            "Crypt goblet",
+            "Crypt mucin",
+            "Intervillus goblet",
+            "Intervillus nuclei",
+            "Intervillus mucin",
+            "Intervillus enterocyte",
+            "FAE enterocyte dissection cover",
+            "FAE nuclei dissection cover",
+            "FAE enterocyte",
+            "FAE nuclei",
+            "Peyer patch follicles nuclei",
+            "Germinal centres nuclei",
+            "Subepithelial dome nuclei"
+          ]
+        }
+      }
+    }
+  },
+  "source_part_names": [
+    "Serosa",
+    "Outer longitudinal muscle",
+    "Inner circular muscle",
+    "Submucosa",
+    "Muscularis mucosae",
+    "Myenteric (Auerbach) plexus",
+    "Submucosal (Meissner) plexus",
+    "Submucosal arterioles",
+    "Submucosal venules",
+    "Mucosal branches",
+    "Submucosal lymphatic collectors",
+    "Lamina propria",
+    "Villus lamina propria core",
+    "Central lacteals",
+    "Villus capillary network",
+    "Villus smooth muscle",
+    "Peyer patch follicles",
+    "Germinal centres",
+    "Subepithelial dome",
+    "Villus goblet",
+    "Villus nuclei",
+    "Villus mucin",
+    "Villus enterocyte",
+    "Villus apical",
+    "Villus enterocyte dissection cover",
+    "Villus nuclei dissection cover",
+    "Villus apical dissection cover",
+    "Villus goblet dissection cover",
+    "Villus mucin dissection cover",
+    "Crypt Paneth",
+    "Crypt nuclei",
+    "Crypt granules",
+    "Crypt stem",
+    "Crypt enterocyte",
+    "Crypt goblet",
+    "Crypt mucin",
+    "Intervillus goblet",
+    "Intervillus nuclei",
+    "Intervillus mucin",
+    "Intervillus enterocyte",
+    "FAE enterocyte dissection cover",
+    "FAE nuclei dissection cover",
+    "FAE pocket_lymphocytes dissection cover",
+    "FAE M dissection cover",
+    "FAE enterocyte",
+    "FAE nuclei",
+    "Peyer patch follicles nuclei",
+    "Germinal centres nuclei",
+    "Subepithelial dome nuclei"
+  ],
+  "part_names": [
+    "Serosa",
+    "Outer longitudinal muscle",
+    "Inner circular muscle",
+    "Submucosa",
+    "Muscularis mucosae",
+    "Myenteric (Auerbach) plexus",
+    "Submucosal (Meissner) plexus",
+    "Submucosal arterioles",
+    "Submucosal venules",
+    "Mucosal branches",
+    "Submucosal lymphatic collectors",
+    "Lamina propria",
+    "Villus lamina propria core",
+    "Central lacteals",
+    "Villus capillary network",
+    "Villus smooth muscle",
+    "Peyer patch follicles",
+    "Germinal centres",
+    "Subepithelial dome",
+    "Villus goblet",
+    "Villus nuclei",
+    "Villus mucin",
+    "Villus enterocyte",
+    "Villus apical",
+    "Villus enterocyte dissection cover",
+    "Villus nuclei dissection cover",
+    "Villus apical dissection cover",
+    "Villus goblet dissection cover",
+    "Villus mucin dissection cover",
+    "Crypt Paneth",
+    "Crypt nuclei",
+    "Crypt granules",
+    "Crypt stem",
+    "Crypt enterocyte",
+    "Crypt goblet",
+    "Crypt mucin",
+    "Intervillus goblet",
+    "Intervillus nuclei",
+    "Intervillus mucin",
+    "Intervillus enterocyte",
+    "FAE enterocyte dissection cover",
+    "FAE nuclei dissection cover",
+    "FAE pocket_lymphocytes dissection cover",
+    "FAE M dissection cover",
+    "FAE enterocyte",
+    "FAE nuclei",
+    "Peyer patch follicles nuclei",
+    "Germinal centres nuclei",
+    "Subepithelial dome nuclei"
+  ],
+  "parts": [
+    {
+      "name": "Serosa",
+      "group": "Serosa & muscularis externa",
+      "color": "#eadcb8",
+      "description": "Serosa (visceral peritoneum): a simple squamous mesothelium on a thin layer of loose connective tissue carrying vessels, lymphatics and fat. Its secretions let the loops slide freely. The retroperitoneal parts of the gut (most of the duodenum, ascending and descending colon) have an adventitia instead on their posterior surface.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Outer longitudinal muscle",
+      "group": "Serosa & muscularis externa",
+      "color": "#b85d51",
+      "description": "Outer longitudinal layer of the muscularis externa: smooth muscle bundles running along the gut. Contraction shortens the segment; coordinated with the circular layer by the myenteric plexus it produces peristalsis and segmentation. Continuous representative muscle stratum with fitted myenteric nerve recesses; the surface ridges indicate fibre direction schematically.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Inner circular muscle",
+      "group": "Serosa & muscularis externa",
+      "color": "#a34c45",
+      "description": "Inner circular layer of the muscularis externa: bundles wrapped around the gut. Contraction narrows the lumen; the layer thickens to form the pyloric, ileocaecal and internal anal sphincters. The interstitial cells of Cajal (pacemakers of the slow waves) lie at its borders. Continuous representative circular stratum with fitted myenteric nerve recesses; the surface ridges indicate fibre direction schematically.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosa",
+      "group": "Submucosa",
+      "color": "#f0d2c3",
+      "description": "Submucosa: dense irregular connective tissue carrying the larger arterioles, venules, lymphatics and the submucosal plexus. It gives the wall its strength - it is the layer that holds sutures.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Muscularis mucosae",
+      "group": "Mucosa",
+      "color": "#b95a50",
+      "description": "Muscularis mucosae: a thin layer of smooth muscle (inner circular, outer longitudinal) at the base of the mucosa. It moves the mucosa locally, independently of peristalsis. In colorectal cancer, invasion through it into the submucosa is what defines an invasive carcinoma (pT1).",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Myenteric (Auerbach) plexus",
+      "group": "Nerves & vessels",
+      "color": "#f0cf45",
+      "description": "Myenteric (Auerbach) plexus: ganglia and interconnecting nerve strands between the circular and longitudinal muscle layers. Part of the enteric nervous system, it controls motility (peristalsis) and is modulated by vagal and sympathetic input. Ganglion cells are absent in Hirschsprung disease and lost in achalasia and Chagas disease.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal (Meissner) plexus",
+      "group": "Nerves & vessels",
+      "color": "#f0cf45",
+      "description": "Submucosal (Meissner) plexus: small ganglia and nerve strands in the submucosa next to the muscularis mucosae. It controls epithelial secretion, absorption and local blood flow and the muscularis mucosae. In Hirschsprung disease its ganglion cells are absent too - a suction rectal biopsy, which samples the submucosa, is diagnostic.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal arterioles",
+      "group": "Nerves & vessels",
+      "color": "#cf3a31",
+      "description": "Submucosal arterioles: branches of the vasa recta forming a submucosal plexus, from which arterioles pierce the muscularis mucosae to supply the crypts and the villus capillary loops.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal venules",
+      "group": "Nerves & vessels",
+      "color": "#3d5bc2",
+      "description": "Submucosal venules: collect blood from the mucosa. Intestinal venous blood, rich in absorbed sugars and amino acids, drains through the superior and inferior mesenteric veins into the hepatic portal vein.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mucosal branches",
+      "group": "Nerves & vessels",
+      "color": "#d64b43",
+      "description": "Mucosal branches: small arterioles and venules crossing the muscularis mucosae between the submucosal plexus and the capillaries of the lamina propria and villi.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosal lymphatic collectors",
+      "group": "Nerves & vessels",
+      "color": "#e5ead4",
+      "description": "Representative submucosal collectors receive the displayed lacteal necks through actual wall ports. Their open lateral ends are specimen crop handoffs; the remaining lymphatic plexus is outside this tissue window.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Lamina propria",
+      "group": "Mucosa",
+      "color": "#f0c3b5",
+      "description": "Lamina propria: loose (areolar) connective tissue between the crypts, rich in IgA-secreting plasma cells, lymphocytes, macrophages, eosinophils, fenestrated capillaries and lymphatics - the diffuse part of the gut-associated lymphoid tissue (GALT).",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": true,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus lamina propria core",
+      "group": "Villi",
+      "color": "#f3c9b8",
+      "description": "Continuous villus lamina propria fitted immediately beneath actual basal epithelial envelopes, with original blood, lymph and smooth-muscle recesses retained. No natural empty annular compartment is implied.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Central lacteals",
+      "group": "Villi",
+      "color": "#f7f2df",
+      "description": "Central lacteal: a blind-ended lymphatic capillary in the axis of each villus. It takes up chylomicrons (absorbed dietary fat), which are too large to enter blood capillaries, and carries them via mesenteric lymphatics and the cisterna chyli to the thoracic duct - lymph (chyle) is milky after a fatty meal.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus capillary network",
+      "group": "Villi",
+      "color": "#d9463d",
+      "description": "Villus capillary network: an arteriole ascends the villus and breaks up at the tip into a fenestrated capillary net lying just beneath the epithelium, drained by a venule. It absorbs water-soluble nutrients (monosaccharides, amino acids) into the portal circulation. The countercurrent arrangement makes the villus tip relatively hypoxic, so it is the first part injured in ischaemia.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus smooth muscle",
+      "group": "Villi",
+      "color": "#b95a50",
+      "description": "Villus smooth muscle: strands from the muscularis mucosae running up the villus core beside the lacteal. Their rhythmic contraction shortens the villus and pumps chyle out of the lacteal.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Peyer patch follicles",
+      "group": "Lymphoid cellular regions",
+      "color": "#9295af",
+      "description": "Complete fitted mantle immune-cell representatives occupy the original tissue domain. Cellular region with intervening tissue implicit; no capsule or artificial enclosing shell. Enlarged sampling, not a cell census.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Germinal centres",
+      "group": "Lymphoid cellular regions",
+      "color": "#c2bed4",
+      "description": "Complete fitted germinal immune-cell representatives occupy the original tissue domain. Cellular region with intervening tissue implicit; no capsule or artificial enclosing shell. Enlarged sampling, not a cell census.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Subepithelial dome",
+      "group": "Lymphoid cellular regions",
+      "color": "#a6b3bf",
+      "description": "Complete fitted dome immune-cell representatives occupy the original tissue domain. Cellular region with intervening tissue implicit; no capsule or artificial enclosing shell. Enlarged sampling, not a cell census.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus goblet",
+      "group": "Cellular epithelium",
+      "color": "#a6ceba",
+      "description": "Smooth rounded fitted goblet geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus nuclei",
+      "group": "Cellular epithelium",
+      "color": "#604273",
+      "description": "Smooth rounded fitted nuclei geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus mucin",
+      "group": "Cellular epithelium",
+      "color": "#d6e9d5",
+      "description": "Smooth rounded fitted mucin geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus enterocyte",
+      "group": "Cellular epithelium",
+      "color": "#e9ad8e",
+      "description": "Smooth rounded fitted enterocyte geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus apical",
+      "group": "Cellular epithelium",
+      "color": "#e4c798",
+      "description": "Thin closed fitted apical brush-border stratum attached to absorptive cell caps. Thickness enlarged for teaching; no molecular microvillus model.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus enterocyte dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#e9ad8e",
+      "description": "Smooth rounded fitted enterocyte geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus nuclei dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#604273",
+      "description": "Smooth rounded fitted nuclei geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus apical dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#e4c798",
+      "description": "Thin closed fitted apical brush-border stratum attached to absorptive cell caps. Thickness enlarged for teaching; no molecular microvillus model.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus goblet dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#a6ceba",
+      "description": "Smooth rounded fitted goblet geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Villus mucin dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#d6e9d5",
+      "description": "Smooth rounded fitted mucin geometry in the villus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt Paneth",
+      "group": "Cellular epithelium",
+      "color": "#d87b63",
+      "description": "Smooth rounded fitted Paneth geometry in the crypt lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt nuclei",
+      "group": "Cellular epithelium",
+      "color": "#604273",
+      "description": "Smooth rounded fitted nuclei geometry in the crypt lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt granules",
+      "group": "Cellular epithelium",
+      "color": "#c94c37",
+      "description": "Smooth rounded fitted granules geometry in the crypt lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt stem",
+      "group": "Cellular epithelium",
+      "color": "#b29bc2",
+      "description": "Smooth rounded fitted stem geometry in the crypt lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt enterocyte",
+      "group": "Cellular epithelium",
+      "color": "#e9ad8e",
+      "description": "Smooth rounded fitted enterocyte geometry in the crypt lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt goblet",
+      "group": "Cellular epithelium",
+      "color": "#a6ceba",
+      "description": "Smooth rounded fitted goblet geometry in the crypt lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Crypt mucin",
+      "group": "Cellular epithelium",
+      "color": "#d6e9d5",
+      "description": "Smooth rounded fitted mucin geometry in the crypt lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Intervillus goblet",
+      "group": "Cellular epithelium",
+      "color": "#a6ceba",
+      "description": "Smooth rounded fitted goblet geometry in the intervillus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Intervillus nuclei",
+      "group": "Cellular epithelium",
+      "color": "#604273",
+      "description": "Smooth rounded fitted nuclei geometry in the intervillus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Intervillus mucin",
+      "group": "Cellular epithelium",
+      "color": "#d6e9d5",
+      "description": "Smooth rounded fitted mucin geometry in the intervillus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Intervillus enterocyte",
+      "group": "Cellular epithelium",
+      "color": "#e9ad8e",
+      "description": "Smooth rounded fitted enterocyte geometry in the intervillus lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FAE enterocyte dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#e9ad8e",
+      "description": "Smooth rounded fitted enterocyte geometry in the fae lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FAE nuclei dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#604273",
+      "description": "Smooth rounded fitted nuclei geometry in the fae lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FAE pocket_lymphocytes dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#7d659b",
+      "description": "Smooth rounded fitted pocket_lymphocytes geometry in the fae lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FAE M dissection cover",
+      "group": "Cellular epithelium",
+      "color": "#94bca8",
+      "description": "Smooth rounded fitted M geometry in the fae lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FAE enterocyte",
+      "group": "Cellular epithelium",
+      "color": "#e9ad8e",
+      "description": "Smooth rounded fitted enterocyte geometry in the fae lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FAE nuclei",
+      "group": "Cellular epithelium",
+      "color": "#604273",
+      "description": "Smooth rounded fitted nuclei geometry in the fae lining. Representative enlarged cellular sampling; nuclei and secretory contents are nested in their own parent cell envelope. Dissection covers represent intentionally removable complete tissue sectors.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Peyer patch follicles nuclei",
+      "group": "Lymphoid cellular regions",
+      "color": "#595678",
+      "description": "Nuclei contained within individual mantle immune-cell representatives.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Germinal centres nuclei",
+      "group": "Lymphoid cellular regions",
+      "color": "#7d678b",
+      "description": "Nuclei contained within individual germinal immune-cell representatives.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Subepithelial dome nuclei",
+      "group": "Lymphoid cellular regions",
+      "color": "#616584",
+      "description": "Nuclei contained within individual dome immune-cell representatives.",
+      "label": false,
+      "alpha": 1.0,
+      "bulk": false,
+      "clip": true,
+      "rank": 0,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

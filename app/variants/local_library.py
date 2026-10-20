@@ -67,7 +67,8 @@ class LocalLibrary:
             if not variants:continue
             seen.add(mid)
             fields=dict(name=row.get('name',mid.replace('_',' ').title()),summary='',targets={},histology=[],
-                        related=[],clinical=[],scale_note='',aliases={},credit_html='',order=100)
+                        related=[],clinical=[],scale_note='',aliases={},credit_html='',order=100,
+                        collection=None,oriented=None)
             fields.update({key:row[key] for key in fields if key in row})
             description = model_descriptions().get(mid, {})
             for key in ('summary', 'scale_note', 'histology'):

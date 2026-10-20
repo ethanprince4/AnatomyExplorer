@@ -182,10 +182,13 @@ def _controls(entry, descriptor, metadata, decoded, warnings):
         viewer = deepcopy(controls.get("viewer", {}))
         viewer.setdefault("mixed_schematic_scale", entry.id in helpers.MIXED_MODELS)
         viewer.setdefault("scale_note", native["scale_note"])
-        return _prune_selectors(dict(native=native, viewer=viewer, documents=[],
+        result = dict(native=native, viewer=viewer, documents=[],
             teaching_views=[], functional_sequences=[], verified_documents=supplied,
             source_part_names=names, part_names=names,
-            parts=[deepcopy(row) for row, *_ in decoded]), set(names), warnings)
+            parts=[deepcopy(row) for row, *_ in decoded])
+        # GLB geometry is read after its sidecar. Its selectors can only be
+        # checked once those actual mesh names are available below.
+        return _prune_selectors(result, set(names), warnings) if names else result
     controls["source_part_names"] = [p["name"] for p in controls.get("parts", [])] or list(names)
     inherited = json.loads((here / "inherited_defaults.json").read_text(encoding="utf-8"))
     native = deepcopy(inherited.get(entry.id, {}))
@@ -509,20 +512,34 @@ def _prepare_local_model(entry, token, use_cache, lookup=True):
         controls = (_component_controls(entry, descriptor, {}, [], warnings) if component else
                     _controls(entry, descriptor, {}, [], warnings))
         side = controls.get("verified_documents", {}).get("viewer")
-        if isinstance(side, dict) and side:
-            class LocalGLB(Model):
-                def _load_sidecar(self):
+        guide = load_part_guide(entry.id)
+        class LocalGLB(Model):
+            def _load_sidecar(self):
+                if isinstance(side, dict) and side:
                     return deepcopy(side)
-            model = LocalGLB(path)
-        else:
-            model = Model(path)
+                return super()._load_sidecar()
+            def keep_node(self, node_index):
+                return self.doc.nodes[node_index].extras.get("group", "Model") not in guide.excluded_groups
+        model = LocalGLB(path)
+        transported = getattr(model, "native_transport", {}).get("controls")
+        if isinstance(transported, dict):
+            # Exact native-to-GLB copies carry their resolved teaching state.
+            # Bare GLB loading must not replace it with unrelated organ defaults.
+            controls = deepcopy(transported)
         catalog = controls.get("verified_documents", {}).get("catalog")
         if catalog:
             from app.viewer.catalog import apply_meta
             apply_meta(model, catalog)
+        for item in model.items:
+            if guide.names.get(item.key):
+                item.former_names = [item.name]
+                item.name = guide.names[item.key]
         names = {item.key for item in model.items}
         controls = _prune_selectors(controls, names, warnings)
-        model.cameras = _prune_selectors(model.cameras, names, warnings, "GLB cameras")
+        if transported is not None:
+            model.cameras = deepcopy(controls["native"].get("viewer_cameras", model.cameras))
+        else:
+            model.cameras = _prune_selectors(model.cameras, names, warnings, "GLB cameras")
         if 'lod' in assets:
             from ..viewer import precomputed_lod
             from ..load_control import LoadCancelled
@@ -539,7 +556,7 @@ def _prepare_local_model(entry, token, use_cache, lookup=True):
             except Exception as exc:
                 warnings.append(f"Optional precomputed LOD ignored; ordinary geometry preparation retained: {exc}")
                 model.precomputed_lod_used = False
-        hooks_available = True
+        hooks_available = not standalone if transported is not None else True
     else:
         raise ValueError("Local model must be NPZ or GLB")
     try:

@@ -1,0 +1,42 @@
+{
+  "native": {
+    "start_view": "Front cutaway",
+    "viewer_cameras": {
+      "Front cutaway": {
+        "type": "ORTHO",
+        "position": [
+          0.01,
+          0.008,
+          0.014
+        ],
+        "target": [
+          0,
+          0.003,
+          0
+        ],
+        "ortho_width": 0.0125,
+        "hidden": []
+      },
+      "Rear block": {
+        "type": "ORTHO",
+        "position": [
+          0.01,
+          0.008,
+          -0.014
+        ],
+        "target": [
+          0,
+          0.003,
+          0
+        ],
+        "ortho_width": 0.0125,
+        "hidden": []
+      }
+    },
+    "metres_per_unit": 1.0,
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false
+  }
+}

@@ -1,0 +1,1513 @@
+{
+  "native": {
+    "summary": "Source-preserved tracheal layers with registered respiratory epithelial field",
+    "metres_per_unit": 0.01,
+    "home_view": [
+      0,
+      0
+    ],
+    "cut_on": false,
+    "start_view": "01 Overview",
+    "viewer_cameras": {
+      "01 Overview": {
+        "position": [
+          2,
+          1.5,
+          2
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [],
+        "cut_on": false
+      },
+      "02 Wall layers": {
+        "position": [
+          3,
+          0.2,
+          0
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.7,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane"
+        ],
+        "cut_on": false
+      },
+      "03 Epithelium": {
+        "position": [
+          0.3,
+          0.32,
+          -0.35
+        ],
+        "target": [
+          0.3,
+          0.416,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.37,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane",
+          "Lamina propria",
+          "Basement membrane",
+          "Pseudostratified ciliated epithelium",
+          "Perichondrium",
+          "Hyaline cartilage ring (C-shaped)",
+          "Trachealis muscle",
+          "Territorial matrix (isogenous groups)",
+          "Lacunae",
+          "Chondrocytes",
+          "Submucosa",
+          "Mucous gland tubules",
+          "Serous demilunes & acini",
+          "Gland ducts",
+          "Arterioles",
+          "Venules",
+          "Elastic fibres (elastic membrane)",
+          "Goblet cells",
+          "Cilia",
+          "Ciliated cell nuclei",
+          "Basal (stem) cells",
+          "Ciliated cells | local covers",
+          "Goblet cells | local covers",
+          "Cilia | local covers",
+          "Gland duct wall | local field",
+          "Gland duct wall | local covers",
+          "Mucous gland wall | local field",
+          "Mucous gland wall | local covers"
+        ],
+        "cut_on": false
+      },
+      "04 Gland relationships": {
+        "position": [
+          2,
+          1.5,
+          2
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.7,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane",
+          "Submucosa",
+          "Lamina propria",
+          "Basement membrane",
+          "Pseudostratified ciliated epithelium",
+          "Perichondrium",
+          "Hyaline cartilage ring (C-shaped)"
+        ],
+        "cut_on": false
+      },
+      "05 Epithelial location": {
+        "position": [
+          0.55,
+          0,
+          0.12
+        ],
+        "target": [
+          0.3,
+          0.416,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.6,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane",
+          "Lamina propria",
+          "Perichondrium",
+          "Hyaline cartilage ring (C-shaped)",
+          "Trachealis muscle",
+          "Territorial matrix (isogenous groups)",
+          "Lacunae",
+          "Chondrocytes",
+          "Submucosa",
+          "Mucous gland tubules",
+          "Serous demilunes & acini",
+          "Gland ducts",
+          "Arterioles",
+          "Venules",
+          "Elastic fibres (elastic membrane)",
+          "Goblet cells",
+          "Cilia",
+          "Ciliated cell nuclei",
+          "Basal (stem) cells",
+          "Gland duct wall | local field",
+          "Gland duct wall | local covers",
+          "Mucous gland wall | local field",
+          "Mucous gland wall | local covers"
+        ],
+        "cut_on": false
+      },
+      "06 Intact epithelial field": {
+        "position": [
+          0.3,
+          0.32,
+          -0.35
+        ],
+        "target": [
+          0.3,
+          0.416,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.37,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane",
+          "Lamina propria",
+          "Basement membrane",
+          "Pseudostratified ciliated epithelium",
+          "Perichondrium",
+          "Hyaline cartilage ring (C-shaped)",
+          "Trachealis muscle",
+          "Territorial matrix (isogenous groups)",
+          "Lacunae",
+          "Chondrocytes",
+          "Submucosa",
+          "Mucous gland tubules",
+          "Serous demilunes & acini",
+          "Gland ducts",
+          "Arterioles",
+          "Venules",
+          "Elastic fibres (elastic membrane)",
+          "Goblet cells",
+          "Cilia",
+          "Ciliated cell nuclei",
+          "Basal (stem) cells",
+          "Gland duct wall | local field",
+          "Gland duct wall | local covers",
+          "Mucous gland wall | local field",
+          "Mucous gland wall | local covers"
+        ],
+        "cut_on": false
+      },
+      "07 Posterior gland route": {
+        "position": [
+          0,
+          -0.32,
+          -0.35
+        ],
+        "target": [
+          0,
+          -0.365,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.18,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane",
+          "Lamina propria",
+          "Basement membrane",
+          "Pseudostratified ciliated epithelium",
+          "Perichondrium",
+          "Hyaline cartilage ring (C-shaped)",
+          "Trachealis muscle",
+          "Territorial matrix (isogenous groups)",
+          "Lacunae",
+          "Chondrocytes",
+          "Submucosa",
+          "Mucous gland tubules",
+          "Gland ducts",
+          "Arterioles",
+          "Venules",
+          "Elastic fibres (elastic membrane)",
+          "Goblet cells",
+          "Cilia",
+          "Ciliated cell nuclei",
+          "Basal (stem) cells",
+          "Basement support | local field",
+          "Ciliated cells | local field",
+          "Ciliated cells | local covers",
+          "Ciliated nuclei | local field",
+          "Goblet cells | local field",
+          "Goblet cells | local covers",
+          "Goblet nuclei | local field",
+          "Basal cells | local field",
+          "Basal nuclei | local field",
+          "Goblet mucus | local field",
+          "Cilia | local field",
+          "Cilia | local covers",
+          "Gland duct wall | local covers",
+          "Mucous gland wall | local covers"
+        ],
+        "cut_on": false
+      },
+      "08 Restored posterior gland": {
+        "position": [
+          0,
+          -0.32,
+          -0.35
+        ],
+        "target": [
+          0,
+          -0.365,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.18,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane",
+          "Lamina propria",
+          "Basement membrane",
+          "Pseudostratified ciliated epithelium",
+          "Perichondrium",
+          "Hyaline cartilage ring (C-shaped)",
+          "Trachealis muscle",
+          "Territorial matrix (isogenous groups)",
+          "Lacunae",
+          "Chondrocytes",
+          "Submucosa",
+          "Mucous gland tubules",
+          "Gland ducts",
+          "Arterioles",
+          "Venules",
+          "Elastic fibres (elastic membrane)",
+          "Goblet cells",
+          "Cilia",
+          "Ciliated cell nuclei",
+          "Basal (stem) cells",
+          "Basement support | local field",
+          "Ciliated cells | local field",
+          "Ciliated cells | local covers",
+          "Ciliated nuclei | local field",
+          "Goblet cells | local field",
+          "Goblet cells | local covers",
+          "Goblet nuclei | local field",
+          "Basal cells | local field",
+          "Basal nuclei | local field",
+          "Goblet mucus | local field",
+          "Cilia | local field",
+          "Cilia | local covers"
+        ],
+        "cut_on": false
+      },
+      "09 Oblique basal apposition": {
+        "position": [
+          0.1,
+          0.38,
+          -0.2
+        ],
+        "target": [
+          0.3,
+          0.428,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.37,
+        "hidden": [
+          "Adventitia",
+          "Anular ligaments & fibroelastic membrane",
+          "Lamina propria",
+          "Basement membrane",
+          "Pseudostratified ciliated epithelium",
+          "Perichondrium",
+          "Hyaline cartilage ring (C-shaped)",
+          "Trachealis muscle",
+          "Territorial matrix (isogenous groups)",
+          "Lacunae",
+          "Chondrocytes",
+          "Submucosa",
+          "Mucous gland tubules",
+          "Serous demilunes & acini",
+          "Gland ducts",
+          "Arterioles",
+          "Venules",
+          "Elastic fibres (elastic membrane)",
+          "Goblet cells",
+          "Cilia",
+          "Ciliated cell nuclei",
+          "Basal (stem) cells",
+          "Ciliated cells | local covers",
+          "Goblet cells | local covers",
+          "Cilia | local covers",
+          "Gland duct wall | local field",
+          "Gland duct wall | local covers",
+          "Mucous gland wall | local field",
+          "Mucous gland wall | local covers"
+        ],
+        "cut_on": false
+      }
+    },
+    "scale_note": "",
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": false,
+    "scale_note": ""
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "trachea_wall_static_refinement",
+      "display_name": "Trachea wall",
+      "summary": "Source-preserved tracheal layers with registered respiratory epithelial field",
+      "metres_per_unit": 0.01,
+      "home_view": [
+        0,
+        0
+      ],
+      "cut_on": false,
+      "start_view": "01 Overview",
+      "viewer_cameras": {
+        "01 Overview": {
+          "position": [
+            2,
+            1.5,
+            2
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 2.8,
+          "hidden": [],
+          "cut_on": false
+        },
+        "02 Wall layers": {
+          "position": [
+            3,
+            0.2,
+            0
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 1.7,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane"
+          ],
+          "cut_on": false
+        },
+        "03 Epithelium": {
+          "position": [
+            0.3,
+            0.32,
+            -0.35
+          ],
+          "target": [
+            0.3,
+            0.416,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.37,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane",
+            "Lamina propria",
+            "Basement membrane",
+            "Pseudostratified ciliated epithelium",
+            "Perichondrium",
+            "Hyaline cartilage ring (C-shaped)",
+            "Trachealis muscle",
+            "Territorial matrix (isogenous groups)",
+            "Lacunae",
+            "Chondrocytes",
+            "Submucosa",
+            "Mucous gland tubules",
+            "Serous demilunes & acini",
+            "Gland ducts",
+            "Arterioles",
+            "Venules",
+            "Elastic fibres (elastic membrane)",
+            "Goblet cells",
+            "Cilia",
+            "Ciliated cell nuclei",
+            "Basal (stem) cells",
+            "Ciliated cells | local covers",
+            "Goblet cells | local covers",
+            "Cilia | local covers",
+            "Gland duct wall | local field",
+            "Gland duct wall | local covers",
+            "Mucous gland wall | local field",
+            "Mucous gland wall | local covers"
+          ],
+          "cut_on": false
+        },
+        "04 Gland relationships": {
+          "position": [
+            2,
+            1.5,
+            2
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 2.7,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane",
+            "Submucosa",
+            "Lamina propria",
+            "Basement membrane",
+            "Pseudostratified ciliated epithelium",
+            "Perichondrium",
+            "Hyaline cartilage ring (C-shaped)"
+          ],
+          "cut_on": false
+        },
+        "05 Epithelial location": {
+          "position": [
+            0.55,
+            0,
+            0.12
+          ],
+          "target": [
+            0.3,
+            0.416,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.6,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane",
+            "Lamina propria",
+            "Perichondrium",
+            "Hyaline cartilage ring (C-shaped)",
+            "Trachealis muscle",
+            "Territorial matrix (isogenous groups)",
+            "Lacunae",
+            "Chondrocytes",
+            "Submucosa",
+            "Mucous gland tubules",
+            "Serous demilunes & acini",
+            "Gland ducts",
+            "Arterioles",
+            "Venules",
+            "Elastic fibres (elastic membrane)",
+            "Goblet cells",
+            "Cilia",
+            "Ciliated cell nuclei",
+            "Basal (stem) cells",
+            "Gland duct wall | local field",
+            "Gland duct wall | local covers",
+            "Mucous gland wall | local field",
+            "Mucous gland wall | local covers"
+          ],
+          "cut_on": false
+        },
+        "06 Intact epithelial field": {
+          "position": [
+            0.3,
+            0.32,
+            -0.35
+          ],
+          "target": [
+            0.3,
+            0.416,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.37,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane",
+            "Lamina propria",
+            "Basement membrane",
+            "Pseudostratified ciliated epithelium",
+            "Perichondrium",
+            "Hyaline cartilage ring (C-shaped)",
+            "Trachealis muscle",
+            "Territorial matrix (isogenous groups)",
+            "Lacunae",
+            "Chondrocytes",
+            "Submucosa",
+            "Mucous gland tubules",
+            "Serous demilunes & acini",
+            "Gland ducts",
+            "Arterioles",
+            "Venules",
+            "Elastic fibres (elastic membrane)",
+            "Goblet cells",
+            "Cilia",
+            "Ciliated cell nuclei",
+            "Basal (stem) cells",
+            "Gland duct wall | local field",
+            "Gland duct wall | local covers",
+            "Mucous gland wall | local field",
+            "Mucous gland wall | local covers"
+          ],
+          "cut_on": false
+        },
+        "07 Posterior gland route": {
+          "position": [
+            0,
+            -0.32,
+            -0.35
+          ],
+          "target": [
+            0,
+            -0.365,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.18,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane",
+            "Lamina propria",
+            "Basement membrane",
+            "Pseudostratified ciliated epithelium",
+            "Perichondrium",
+            "Hyaline cartilage ring (C-shaped)",
+            "Trachealis muscle",
+            "Territorial matrix (isogenous groups)",
+            "Lacunae",
+            "Chondrocytes",
+            "Submucosa",
+            "Mucous gland tubules",
+            "Gland ducts",
+            "Arterioles",
+            "Venules",
+            "Elastic fibres (elastic membrane)",
+            "Goblet cells",
+            "Cilia",
+            "Ciliated cell nuclei",
+            "Basal (stem) cells",
+            "Basement support | local field",
+            "Ciliated cells | local field",
+            "Ciliated cells | local covers",
+            "Ciliated nuclei | local field",
+            "Goblet cells | local field",
+            "Goblet cells | local covers",
+            "Goblet nuclei | local field",
+            "Basal cells | local field",
+            "Basal nuclei | local field",
+            "Goblet mucus | local field",
+            "Cilia | local field",
+            "Cilia | local covers",
+            "Gland duct wall | local covers",
+            "Mucous gland wall | local covers"
+          ],
+          "cut_on": false
+        },
+        "08 Restored posterior gland": {
+          "position": [
+            0,
+            -0.32,
+            -0.35
+          ],
+          "target": [
+            0,
+            -0.365,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.18,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane",
+            "Lamina propria",
+            "Basement membrane",
+            "Pseudostratified ciliated epithelium",
+            "Perichondrium",
+            "Hyaline cartilage ring (C-shaped)",
+            "Trachealis muscle",
+            "Territorial matrix (isogenous groups)",
+            "Lacunae",
+            "Chondrocytes",
+            "Submucosa",
+            "Mucous gland tubules",
+            "Gland ducts",
+            "Arterioles",
+            "Venules",
+            "Elastic fibres (elastic membrane)",
+            "Goblet cells",
+            "Cilia",
+            "Ciliated cell nuclei",
+            "Basal (stem) cells",
+            "Basement support | local field",
+            "Ciliated cells | local field",
+            "Ciliated cells | local covers",
+            "Ciliated nuclei | local field",
+            "Goblet cells | local field",
+            "Goblet cells | local covers",
+            "Goblet nuclei | local field",
+            "Basal cells | local field",
+            "Basal nuclei | local field",
+            "Goblet mucus | local field",
+            "Cilia | local field",
+            "Cilia | local covers"
+          ],
+          "cut_on": false
+        },
+        "09 Oblique basal apposition": {
+          "position": [
+            0.1,
+            0.38,
+            -0.2
+          ],
+          "target": [
+            0.3,
+            0.428,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.37,
+          "hidden": [
+            "Adventitia",
+            "Anular ligaments & fibroelastic membrane",
+            "Lamina propria",
+            "Basement membrane",
+            "Pseudostratified ciliated epithelium",
+            "Perichondrium",
+            "Hyaline cartilage ring (C-shaped)",
+            "Trachealis muscle",
+            "Territorial matrix (isogenous groups)",
+            "Lacunae",
+            "Chondrocytes",
+            "Submucosa",
+            "Mucous gland tubules",
+            "Serous demilunes & acini",
+            "Gland ducts",
+            "Arterioles",
+            "Venules",
+            "Elastic fibres (elastic membrane)",
+            "Goblet cells",
+            "Cilia",
+            "Ciliated cell nuclei",
+            "Basal (stem) cells",
+            "Ciliated cells | local covers",
+            "Goblet cells | local covers",
+            "Cilia | local covers",
+            "Gland duct wall | local field",
+            "Gland duct wall | local covers",
+            "Mucous gland wall | local field",
+            "Mucous gland wall | local covers"
+          ],
+          "cut_on": false
+        }
+      }
+    }
+  },
+  "source_part_names": [
+    "Adventitia",
+    "Anular ligaments & fibroelastic membrane",
+    "Lamina propria",
+    "Basement membrane",
+    "Pseudostratified ciliated epithelium",
+    "Perichondrium",
+    "Hyaline cartilage ring (C-shaped)",
+    "Trachealis muscle",
+    "Territorial matrix (isogenous groups)",
+    "Lacunae",
+    "Chondrocytes",
+    "Submucosa",
+    "Mucous gland tubules",
+    "Serous demilunes & acini",
+    "Gland ducts",
+    "Arterioles",
+    "Venules",
+    "Elastic fibres (elastic membrane)",
+    "Goblet cells",
+    "Cilia",
+    "Ciliated cell nuclei",
+    "Basal (stem) cells",
+    "Basement support | local field",
+    "Ciliated cells | local field",
+    "Ciliated cells | local covers",
+    "Ciliated nuclei | local field",
+    "Goblet cells | local field",
+    "Goblet cells | local covers",
+    "Goblet nuclei | local field",
+    "Basal cells | local field",
+    "Basal nuclei | local field",
+    "Goblet mucus | local field",
+    "Cilia | local field",
+    "Cilia | local covers",
+    "Gland duct wall | local field",
+    "Gland duct wall | local covers",
+    "Mucous gland wall | local field",
+    "Mucous gland wall | local covers"
+  ],
+  "part_names": [
+    "Adventitia",
+    "Anular ligaments & fibroelastic membrane",
+    "Lamina propria",
+    "Basement membrane",
+    "Pseudostratified ciliated epithelium",
+    "Perichondrium",
+    "Hyaline cartilage ring (C-shaped)",
+    "Trachealis muscle",
+    "Territorial matrix (isogenous groups)",
+    "Lacunae",
+    "Chondrocytes",
+    "Submucosa",
+    "Mucous gland tubules",
+    "Serous demilunes & acini",
+    "Gland ducts",
+    "Arterioles",
+    "Venules",
+    "Elastic fibres (elastic membrane)",
+    "Goblet cells",
+    "Cilia",
+    "Ciliated cell nuclei",
+    "Basal (stem) cells",
+    "Basement support | local field",
+    "Ciliated cells | local field",
+    "Ciliated cells | local covers",
+    "Ciliated nuclei | local field",
+    "Goblet cells | local field",
+    "Goblet cells | local covers",
+    "Goblet nuclei | local field",
+    "Basal cells | local field",
+    "Basal nuclei | local field",
+    "Goblet mucus | local field",
+    "Cilia | local field",
+    "Cilia | local covers",
+    "Gland duct wall | local field",
+    "Gland duct wall | local covers",
+    "Mucous gland wall | local field",
+    "Mucous gland wall | local covers"
+  ],
+  "parts": [
+    {
+      "name": "Adventitia",
+      "group": "Wall layers",
+      "color": "#e5d3b0",
+      "description": "Adventitia: loose connective tissue binding the trachea to the oesophagus behind and the thyroid and neck structures in front; carries the vessels, nerves and lymphatics.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": -4,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.07,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Anular ligaments & fibroelastic membrane",
+      "group": "Cartilage",
+      "color": "#d8c8a4",
+      "description": "Anular ligaments: fibroelastic membranes joining successive rings and continuous with their perichondrium; posteriorly they form the fibroelastic membrane behind the trachealis. They let the trachea lengthen with breathing and neck extension.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": -3,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.07,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Lamina propria",
+      "group": "Mucosa & submucosa",
+      "color": "#efc3b8",
+      "description": "Lamina propria: loose connective tissue rich in lymphocytes, IgA plasma cells, mast cells, capillaries and bronchus-associated lymphoid tissue.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Basement membrane",
+      "group": "Epithelium",
+      "color": "#f6e3d3",
+      "description": "Basement membrane: unusually thick in the trachea because of a dense subepithelial layer of type III/V collagen (the lamina reticularis). It thickens further in asthma (subepithelial fibrosis).",
+      "alpha": 1.0,
+      "category": "cartilage",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Pseudostratified ciliated epithelium",
+      "group": "Epithelium",
+      "color": "#d9aac0",
+      "description": "Respiratory epithelium – pseudostratified ciliated columnar epithelium with goblet cells. Every cell rests on the basement membrane but only ciliated and goblet cells reach the lumen, so nuclei lie at different levels and the single layer looks stratified. Also contains brush cells and neuroendocrine (Kulchitsky) cells. Chronic irritation (smoking) converts it to stratified squamous epithelium (squamous metaplasia). Existing sparse macro samples remain outside the registered cellular window; use the local field for cellular relationships.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        150.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Perichondrium",
+      "group": "Cartilage",
+      "color": "#e8dcc4",
+      "description": "Perichondrium: an outer fibrous layer of dense connective tissue carrying the vessels, and an inner chondrogenic layer whose cells lay down new cartilage on the surface (appositional growth). Chondrocytes next to it are flattened parallel to the surface.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": -2.2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.07,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Hyaline cartilage ring (C-shaped)",
+      "group": "Cartilage",
+      "color": "#a3bddc",
+      "description": "Hyaline cartilage ring: one of 16–20 C-shaped rings that hold the airway open. The open ends face posteriorly towards the oesophagus and are bridged by the trachealis. Matrix of type II collagen and aggrecan; avascular, so nutrients diffuse in from the perichondrium. Rings calcify with age; weak rings cause tracheomalacia.",
+      "alpha": 1.0,
+      "category": "cartilage",
+      "label": false,
+      "rank": -2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.04,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Trachealis muscle",
+      "group": "Cartilage",
+      "color": "#b85c4f",
+      "description": "Trachealis muscle: smooth muscle bundles running transversely across the posterior gap, inserted into the perichondrium on the inner aspect of the free ends of the rings. Contraction narrows the lumen and speeds the airflow in a cough; the gap lets a food bolus bulge forward from the oesophagus.",
+      "alpha": 1.0,
+      "category": "muscle",
+      "label": false,
+      "rank": -2.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        30.0,
+        0.08,
+        4
+      ]
+    },
+    {
+      "name": "Territorial matrix (isogenous groups)",
+      "group": "Cartilage",
+      "color": "#7d8fc6",
+      "description": "Territorial matrix: the darker, strongly basophilic capsule of sulphated proteoglycans around each isogenous group – the paler interterritorial matrix lies between groups.",
+      "alpha": 1.0,
+      "category": "cartilage",
+      "label": false,
+      "rank": -1.9,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Lacunae",
+      "group": "Cartilage",
+      "color": "#eef1f4",
+      "description": "Lacunae: the spaces in the matrix that hold the chondrocytes. In fixed sections the cells shrink away from the wall, leaving a clear halo.",
+      "alpha": 1.0,
+      "category": "cartilage",
+      "label": false,
+      "rank": -1.8,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Chondrocytes",
+      "group": "Cartilage",
+      "color": "#8a5c9c",
+      "description": "Chondrocytes: rounded cells in lacunae, often in isogenous groups of two to four – the daughters of one cell trapped together by the matrix they secrete (interstitial growth). Near the perichondrium they are single and flattened.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": -1.7,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Submucosa",
+      "group": "Mucosa & submucosa",
+      "color": "#f0d6c6",
+      "description": "Submucosa: looser connective tissue holding the seromucous glands, larger blood vessels and lymphatics. It blends with the perichondrium of the rings below.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.06,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Mucous gland tubules",
+      "group": "Glands",
+      "color": "#b9c4de",
+      "description": "Mucous gland tubules: pale, foamy cells with flattened basal nuclei secreting mucin into the gland lumen. Tracheobronchial glands are most numerous in the posterior wall and between the rings. Their hypertrophy raises the Reid index (gland thickness ÷ wall thickness between epithelium and cartilage; normal < 0.4) in chronic bronchitis. Remaining five sparse macro examples are schematic context with incompletely verified secretory connectivity; only the local posterior example claims a joined draining lumen.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": -0.8,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.035,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Serous demilunes & acini",
+      "group": "Glands",
+      "color": "#7c58a8",
+      "description": "Serous demilunes and acini: dark, granular cells capping the mucous tubules. They add the watery periciliary fluid with lysozyme, lactoferrin and secretory IgA; CFTR in these cells drives the fluid secretion that fails in cystic fibrosis.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": -0.8,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.035,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Gland ducts",
+      "group": "Glands",
+      "color": "#a58fc9",
+      "description": "Gland ducts: collect the secretion and cross the lamina propria to open through the epithelium at small pits on the luminal surface. Only the local posterior route has its full secretory connection verified; remaining source ducts are schematic context.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ]
+    },
+    {
+      "name": "Arterioles",
+      "group": "Mucosa & submucosa",
+      "color": "#cf3a31",
+      "description": "Arterioles: tracheal branches of the inferior thyroid arteries run in the adventitia and send twigs through the anular ligaments to the submucosa, the glands and a dense subepithelial capillary plexus.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Venules",
+      "group": "Mucosa & submucosa",
+      "color": "#3d5bc2",
+      "description": "Venules: drain to the inferior thyroid veins. The subepithelial venous plexus warms and humidifies the inspired air.",
+      "alpha": 1.0,
+      "category": "vein",
+      "label": false,
+      "rank": -1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ]
+    },
+    {
+      "name": "Elastic fibres (elastic membrane)",
+      "group": "Mucosa & submucosa",
+      "color": "#e2c35c",
+      "description": "Elastic fibres: a dense sheet of longitudinal elastic fibres in the deep lamina propria (the elastic membrane) marks the border with the submucosa. It lets the airway recoil after stretching and throws the posterior wall into longitudinal ridges.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": 0.2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0.0,
+        0.0,
+        1
+      ]
+    },
+    {
+      "name": "Goblet cells",
+      "group": "Epithelium",
+      "color": "#e4ebf6",
+      "description": "Goblet cells: unciliated cells whose apical theca is packed with mucin (MUC5AC) granules, PAS-positive and pale in H&E. Roughly one for every five ciliated cells; their mucus gel traps inhaled particles and floats on a watery periciliary layer. They multiply in smokers, asthma and chronic bronchitis. Existing sparse macro samples remain outside the registered cellular window; use the local field for cellular relationships.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 1.2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Cilia",
+      "group": "Epithelium",
+      "color": "#dfc7d3",
+      "description": "Cilia: each ciliated cell carries about 200–300 motile cilia, 6–7 µm long, with a 9+2 axoneme whose dynein arms bend it about 12–15 times a second. Neighbouring cells beat in metachronal waves, sweeping the mucus blanket up towards the larynx (the mucociliary escalator). Tobacco smoke paralyses them; in primary ciliary dyskinesia (Kartagener syndrome, with situs inversus) missing dynein arms cause bronchiectasis, sinusitis and infertility. Existing sparse macro samples remain outside the registered cellular window; use the local field for cellular relationships.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 1.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.03,
+        0.0,
+        0.0,
+        2
+      ]
+    },
+    {
+      "name": "Ciliated cell nuclei",
+      "group": "Epithelium",
+      "color": "#5d4a91",
+      "description": "Nuclei of the ciliated columnar cells: oval and lying in the upper-middle part of the epithelium, above the row of basal-cell nuclei – two tiers of nuclei in one layer of cells are what make the epithelium 'pseudo'-stratified. Existing sparse macro samples remain outside the registered cellular window; use the local field for cellular relationships.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 1.1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Basal (stem) cells",
+      "group": "Epithelium",
+      "color": "#7c4f86",
+      "description": "Basal cells: small triangular stem cells sitting on the basement membrane without reaching the lumen. They renew the ciliated and goblet cells and anchor the epithelium by hemidesmosomes. Existing sparse macro samples remain outside the registered cellular window; use the local field for cellular relationships.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.9,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        0.0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "name": "Basement support | local field",
+      "group": "Epithelium",
+      "color": "#f6e3d3",
+      "description": "Exact partition of source basement membrane beneath the registered epithelial window.",
+      "alpha": 1.0,
+      "category": "cartilage",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Basement membrane"
+    },
+    {
+      "name": "Ciliated cells | local field",
+      "group": "Epithelium",
+      "color": "#c597ac",
+      "description": "Registered neighboring cells seated on one curved basal support; paired closed cytoplasmic covers expose intact excluded nuclei.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Pseudostratified ciliated epithelium"
+    },
+    {
+      "name": "Ciliated cells | local covers",
+      "group": "Epithelium",
+      "color": "#c597ac",
+      "description": "Closed complementary per-cell cytoplasmic covers. Restore with local field to recover intact bodies.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Pseudostratified ciliated epithelium"
+    },
+    {
+      "name": "Ciliated nuclei | local field",
+      "group": "Epithelium",
+      "color": "#624276",
+      "description": "Whole fitted nuclei after basal-cell domain reservation; depth staggered in one epithelium.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 1.1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Ciliated cell nuclei"
+    },
+    {
+      "name": "Goblet cells | local field",
+      "group": "Epithelium",
+      "color": "#8dbbc0",
+      "description": "Registered neighboring cells seated on one curved basal support; paired closed cytoplasmic covers expose intact excluded nuclei.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 1.2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Goblet cells"
+    },
+    {
+      "name": "Goblet cells | local covers",
+      "group": "Epithelium",
+      "color": "#8dbbc0",
+      "description": "Closed complementary per-cell cytoplasmic covers. Restore with local field to recover intact bodies.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 1.2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Goblet cells"
+    },
+    {
+      "name": "Goblet nuclei | local field",
+      "group": "Epithelium",
+      "color": "#624276",
+      "description": "Whole fitted nuclei after basal-cell domain reservation; depth staggered in one epithelium.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 1.1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Ciliated cell nuclei"
+    },
+    {
+      "name": "Basal cells | local field",
+      "group": "Epithelium",
+      "color": "#ad8dba",
+      "description": "Small basal bodies seated on the common support; do not reach airway lumen.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.9,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Basal (stem) cells"
+    },
+    {
+      "name": "Basal nuclei | local field",
+      "group": "Epithelium",
+      "color": "#614875",
+      "description": "Whole nuclei fit inside reserved basal bodies.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 1.1,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Ciliated cell nuclei"
+    },
+    {
+      "name": "Goblet mucus | local field",
+      "group": "Epithelium",
+      "color": "#d5e9da",
+      "description": "Apical intracellular mucus compartment; schematic sampling.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 1.2,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Goblet cells"
+    },
+    {
+      "name": "Cilia | local field",
+      "group": "Epithelium",
+      "color": "#dcc5d4",
+      "description": "Five static representative cilia per ciliated apex, no cilia on goblet apices. Count and calibre schematic.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 1.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Cilia"
+    },
+    {
+      "name": "Cilia | local covers",
+      "group": "Epithelium",
+      "color": "#dcc5d4",
+      "description": "Whole representative cilia assigned to hidden per-cell cytoplasmic covers; restore with the covers to recover five cilia per ciliated apex.",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "label": false,
+      "rank": 1.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Cilia"
+    },
+    {
+      "name": "Gland duct wall | local field",
+      "group": "Glands",
+      "color": "#a58fc9",
+      "description": "One source hollow duct with a finite-overlap neck repair and actual epithelial outlet; closed complement opens the luminal route.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Gland ducts"
+    },
+    {
+      "name": "Gland duct wall | local covers",
+      "group": "Glands",
+      "color": "#a58fc9",
+      "description": "Closed complementary duct-wall cover; no solid cap across its lumen.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.5,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Gland ducts"
+    },
+    {
+      "name": "Mucous gland wall | local field",
+      "group": "Glands",
+      "color": "#b9c4de",
+      "description": "Source lobulated secretory wall in its original in-wall location, with one repaired joined lumen. This is a schematic gland wall, not a complete secretory-cell census.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": -0.8,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Mucous gland tubules"
+    },
+    {
+      "name": "Mucous gland wall | local covers",
+      "group": "Glands",
+      "color": "#b9c4de",
+      "description": "Closed complementary gland wall cover; restore to recover the intact source-shaped local gland.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": -0.8,
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ],
+      "source_name": "Mucous gland tubules"
+    }
+  ]
+}

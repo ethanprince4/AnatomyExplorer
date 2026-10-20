@@ -20,15 +20,17 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
+      - name: Prepare storage for both completed platform artifacts
+        run: python packaging/prepare_release_runner.py
       - uses: actions/download-artifact@v8
         with:
-          name: AnatomyExplorer-Setup-Windows.exe
+          name: LayeredHuman-Setup-Windows.exe
           path: assets
           run-id: ${{ inputs.run_id }}
           github-token: ${{ github.token }}
       - uses: actions/download-artifact@v8
         with:
-          name: AnatomyExplorer-macOS-AppleSilicon.dmg
+          name: LayeredHuman-macOS-AppleSilicon.dmg
           path: assets
           run-id: ${{ inputs.run_id }}
           github-token: ${{ github.token }}
@@ -41,15 +43,15 @@ jobs:
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ inputs.tag }}
-          name: Anatomy Explorer ${{ inputs.tag }}
+          name: Layered Human ${{ inputs.tag }}
           draft: true
           files: assets/*
           fail_on_unmatched_files: true
           body: >-
             Refreshed UI and post-refined model library. Existing users can use the in-app updater normally.
             New installations: installers exceed GitHub's file limit. Windows: download
-            Install-Anatomy-Explorer-Windows.exe and double-click it. Mac: download Install-Anatomy-Explorer-Mac.dmg, open it and double-click
-            Install Anatomy Explorer. See INSTALL-DOWNLOADS.md.
+            Install-Layered-Human-Windows.exe and double-click it. Mac: download Install-Layered-Human-Mac.dmg, open it and double-click
+            Install Layered Human. See INSTALL-DOWNLOADS.md.
       - name: Publish completed uploads
         env:
           GH_TOKEN: ${{ github.token }}

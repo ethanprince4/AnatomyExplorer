@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (QComboBox, QHBoxLayout, QLabel, QLineEdit, QListW
 
 from . import theme
 from .stable_rows import fill_list, reserve_rows
+from ..terminology import canonical_name
 
 RESULT_LIMIT = 150      # rows shown for one query; the list reserves this many rows up front
 
@@ -33,7 +34,7 @@ def shown_alt(entry):
 
 
 def normalized(text):
-    return " ".join("".join(c for c in unicodedata.normalize("NFKD", str(text or ""))
+    return " ".join("".join(c for c in unicodedata.normalize("NFKD", canonical_name(text))
                             if not unicodedata.combining(c)).casefold().split())
 
 
@@ -333,7 +334,7 @@ class SearchPanel(QWidget):
             self._activate_item(item)
 
 
-from .model_vitrines import ModelSpecimenGrid, ModelSpecimenPreview, MODEL_ORDER
+from .model_vitrines import ModelSpecimenGrid, ModelSpecimenPreview
 
 
 class ModelOverview(QTextBrowser):
@@ -492,8 +493,7 @@ class ModelCatalogPanel(QWidget):
 
     def _entries(self):
         return sorted(self.content.micro_models.values(),
-                      key=lambda e: (MODEL_ORDER.get(e.id, 100), {"glb": 0, "procedural": 1, "downloaded": 2}.get(e.kind, 3),
-                                     getattr(e, "order", 100), e.name.casefold()))
+                      key=lambda e: (normalized(e.name), e.id))
 
     def _run(self, *_):
         current = self.list.currentItem()
@@ -505,14 +505,15 @@ class ModelCatalogPanel(QWidget):
         for entry in entries:
             targets = " ".join(str(value) for value in (getattr(entry, "targets", {}) or {}).values())
             haystack = normalized(f"{entry.name} {entry.summary} {targets} {entry.kind_name}")
-            if (kind == "inhouse" and entry.kind not in ("glb", "procedural")) or (kind and kind != "inhouse" and entry.kind != kind) or not all(word in haystack for word in terms):
+            collection_match = (getattr(entry, "collection", None) == "microanatomy" or entry.kind == "procedural") if kind == "procedural" else entry.kind == kind
+            if (kind == "inhouse" and entry.kind not in ("glb", "procedural")) or (kind and kind != "inhouse" and not collection_match) or not all(word in haystack for word in terms):
                 continue
             shown.append(entry)
 
         def fill(item, entry):
             item.setData(ROLE_ENTRY, entry)
             item.setData(Qt.AccessibleTextRole, f"{entry.name}. {entry.kind_name}")
-            item.setToolTip(f"{entry.name}\n{entry.kind_name}\n{entry.summary}")
+            item.setToolTip("")
 
         # Runs after a model opens and while models are verified, with this list focused: never remove its rows.
         self.list.blockSignals(True)
@@ -532,8 +533,8 @@ class ModelCatalogPanel(QWidget):
             if error:
                 text += "\n" + error
         self.info.setText(text)
-        self.collection_count.setText(f"{len(entries)} models in one viewer" if count == len(entries)
-                                      else f"{count} of {len(entries)} models")
+        self.collection_count.setText((f"{len(entries)} models" if count == len(entries)
+                                       else f"{count} of {len(entries)} models") + " · Name A–Z")
         self.info.setVisible(count == 0 or bool(getattr(self.content, "model_catalog_error", "")) or bool(terms))
         if count == 0:
             self.filters.show()

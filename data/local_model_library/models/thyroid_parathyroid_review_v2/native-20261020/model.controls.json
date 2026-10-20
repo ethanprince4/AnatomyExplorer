@@ -1,0 +1,1004 @@
+{
+  "native": {
+    "summary": "Separate magnified thyroid and parathyroid tissue specimens. Static anatomy only.",
+    "scale_note": "500 micrometres per unit; representative cells and basal lamina enlarged. Separate specimens, not a whole-organ reconstruction. Saved specimen cuts are intentional.",
+    "metres_per_unit": 0.0005,
+    "viewer_cameras": {
+      "01 Tissue architecture": {
+        "position": [
+          -0.02,
+          1.05,
+          2.9
+        ],
+        "target": [
+          0.329,
+          0.375,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.2,
+        "hidden": [],
+        "cut_on": false,
+        "note": "Anatomy-only comparison of colloid-filled follicles with a solid parathyroid cell population; hide the entire schematic signaling layer together."
+      },
+      "02 Thyroid tissue": {
+        "position": [
+          -0.18,
+          1.0,
+          2.9
+        ],
+        "target": [
+          -0.18,
+          0.43,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.85,
+        "hidden": [
+          "Parathyroid capsule",
+          "Parathyroid stroma",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid chief-cell nuclei",
+          "Oxyphil-cell nuclei",
+          "Parathyroid adipocyte nuclei",
+          "Parathyroid lipid droplets",
+          "Oxyphil mitochondria",
+          "Parathyroid circulation"
+        ],
+        "cut_on": false,
+        "note": "Sectioned prominent left follicle: colloid lumen → apical epithelium → basal lamina → local blood. Basal lamina is a follicular layer, not the organ capsule. No layer is hidden within this specimen."
+      },
+      "03 Colloid and follicular basal lamina": {
+        "position": [
+          -0.72,
+          0.789137,
+          3.098426
+        ],
+        "target": [
+          -0.72,
+          0.43,
+          0.12
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.82,
+        "hidden": [
+          "Parathyroid capsule",
+          "Parathyroid stroma",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid chief-cell nuclei",
+          "Oxyphil-cell nuclei",
+          "Parathyroid adipocyte nuclei",
+          "Parathyroid lipid droplets",
+          "Oxyphil mitochondria",
+          "Parathyroid circulation",
+          "Follicular epithelium",
+          "Follicular cell nuclei",
+          "Intracellular colloid uptake vesicles",
+          "Parafollicular C cells",
+          "C-cell nuclei",
+          "Thyroid circulation",
+          "Interfollicular connective tissue",
+          "Capsule"
+        ],
+        "cut_on": false,
+        "note": "Layer dissection; epithelium, nuclei, vessels and stroma deliberately hidden to expose acellular colloid and basal lamina."
+      },
+      "04 Whole follicular nuclei": {
+        "position": [
+          -0.72,
+          0.789137,
+          3.098426
+        ],
+        "target": [
+          -0.72,
+          0.43,
+          0.12
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.82,
+        "hidden": [
+          "Parathyroid capsule",
+          "Parathyroid stroma",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid chief-cell nuclei",
+          "Oxyphil-cell nuclei",
+          "Parathyroid adipocyte nuclei",
+          "Parathyroid lipid droplets",
+          "Oxyphil mitochondria",
+          "Parathyroid circulation",
+          "Follicular epithelium",
+          "Colloid",
+          "Follicular basal lamina",
+          "Intracellular colloid uptake vesicles",
+          "Parafollicular C cells",
+          "C-cell nuclei",
+          "Thyroid circulation",
+          "Interfollicular connective tissue",
+          "Capsule"
+        ],
+        "cut_on": false,
+        "note": "Nuclear dissection: whole saved nuclei exposed by hiding epithelial bodies; no nucleus is cut."
+      },
+      "05 Parathyroid architecture": {
+        "position": [
+          1.46,
+          0.789137,
+          3.098426
+        ],
+        "target": [
+          1.46,
+          0.43,
+          0.12
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.74,
+        "hidden": [
+          "Follicular epithelium",
+          "Colloid",
+          "Follicular basal lamina",
+          "Follicular cell nuclei",
+          "Intracellular colloid uptake vesicles",
+          "Parafollicular C cells",
+          "C-cell nuclei",
+          "Thyroid circulation",
+          "Interfollicular connective tissue",
+          "Capsule"
+        ],
+        "cut_on": false,
+        "note": "Separate solid parathyroid specimen with chief cells, oxyphil cells, adipocytes and its own circulation. Low extracellular Ca²⁺ is the input; chief-cell PTH is the output. There is no colloid inside this specimen."
+      },
+      "06 Parathyroid intracellular dissection": {
+        "position": [
+          1.46,
+          0.789137,
+          3.098426
+        ],
+        "target": [
+          1.46,
+          0.43,
+          0.12
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.66,
+        "hidden": [
+          "Follicular epithelium",
+          "Colloid",
+          "Follicular basal lamina",
+          "Follicular cell nuclei",
+          "Intracellular colloid uptake vesicles",
+          "Parafollicular C cells",
+          "C-cell nuclei",
+          "Thyroid circulation",
+          "Interfollicular connective tissue",
+          "Capsule",
+          "Parathyroid capsule",
+          "Parathyroid stroma",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid circulation"
+        ],
+        "cut_on": false,
+        "note": "Cell bodies, covering and vessels hidden to expose whole nuclei, lipid droplets and oxyphil mitochondria."
+      },
+      "07 Separate circulation beds": {
+        "position": [
+          -0.180824,
+          1.3187,
+          2.801698
+        ],
+        "target": [
+          0.329,
+          0.375,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.2,
+        "hidden": [
+          "Follicular epithelium",
+          "Colloid",
+          "Follicular cell nuclei",
+          "Intracellular colloid uptake vesicles",
+          "Parafollicular C cells",
+          "C-cell nuclei",
+          "Interfollicular connective tissue",
+          "Parathyroid stroma",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid chief-cell nuclei",
+          "Oxyphil-cell nuclei",
+          "Parathyroid adipocyte nuclei",
+          "Parathyroid lipid droplets",
+          "Oxyphil mitochondria"
+        ],
+        "cut_on": false,
+        "note": "Optional vascular dissection: trace each specimen’s own supply, capillary anastomoses and drainage. Cells and stroma are deliberately hidden only in this view. Open ends at specimen cuts do not imply connection between the two samples."
+      }
+    },
+    "start_view": "01 Tissue architecture",
+    "home_view": [
+      0,
+      0.2
+    ],
+    "cut_on": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "labels_on_open": false
+  },
+  "viewer": {
+    "mixed_schematic_scale": true,
+    "scale_note": "500 micrometres per unit; representative cells and basal lamina enlarged. Separate specimens, not a whole-organ reconstruction. Saved specimen cuts are intentional."
+  },
+  "documents": [],
+  "teaching_views": [],
+  "functional_sequences": [],
+  "verified_documents": {
+    "teaching_recipe": {
+      "model_id": "thyroid_parathyroid_static_refinement",
+      "display_name": "Thyroid and parathyroid",
+      "summary": "Separate magnified thyroid and parathyroid tissue specimens. Static anatomy only.",
+      "scale_note": "500 micrometres per unit; representative cells and basal lamina enlarged. Separate specimens, not a whole-organ reconstruction. Saved specimen cuts are intentional.",
+      "metres_per_unit": 0.0005,
+      "viewer_cameras": {
+        "01 Tissue architecture": {
+          "position": [
+            -0.02,
+            1.05,
+            2.9
+          ],
+          "target": [
+            0.329,
+            0.375,
+            0.0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 3.2,
+          "hidden": [],
+          "cut_on": false,
+          "note": "Anatomy-only comparison of colloid-filled follicles with a solid parathyroid cell population; hide the entire schematic signaling layer together."
+        },
+        "02 Thyroid tissue": {
+          "position": [
+            -0.18,
+            1.0,
+            2.9
+          ],
+          "target": [
+            -0.18,
+            0.43,
+            0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 1.85,
+          "hidden": [
+            "Parathyroid capsule",
+            "Parathyroid stroma",
+            "Parathyroid chief cells",
+            "Oxyphil cells",
+            "Parathyroid adipocytes",
+            "Parathyroid chief-cell nuclei",
+            "Oxyphil-cell nuclei",
+            "Parathyroid adipocyte nuclei",
+            "Parathyroid lipid droplets",
+            "Oxyphil mitochondria",
+            "Parathyroid circulation"
+          ],
+          "cut_on": false,
+          "note": "Sectioned prominent left follicle: colloid lumen → apical epithelium → basal lamina → local blood. Basal lamina is a follicular layer, not the organ capsule. No layer is hidden within this specimen."
+        },
+        "03 Colloid and follicular basal lamina": {
+          "position": [
+            -0.72,
+            0.789137,
+            3.098426
+          ],
+          "target": [
+            -0.72,
+            0.43,
+            0.12
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.82,
+          "hidden": [
+            "Parathyroid capsule",
+            "Parathyroid stroma",
+            "Parathyroid chief cells",
+            "Oxyphil cells",
+            "Parathyroid adipocytes",
+            "Parathyroid chief-cell nuclei",
+            "Oxyphil-cell nuclei",
+            "Parathyroid adipocyte nuclei",
+            "Parathyroid lipid droplets",
+            "Oxyphil mitochondria",
+            "Parathyroid circulation",
+            "Follicular epithelium",
+            "Follicular cell nuclei",
+            "Intracellular colloid uptake vesicles",
+            "Parafollicular C cells",
+            "C-cell nuclei",
+            "Thyroid circulation",
+            "Interfollicular connective tissue",
+            "Capsule"
+          ],
+          "cut_on": false,
+          "note": "Layer dissection; epithelium, nuclei, vessels and stroma deliberately hidden to expose acellular colloid and basal lamina."
+        },
+        "04 Whole follicular nuclei": {
+          "position": [
+            -0.72,
+            0.789137,
+            3.098426
+          ],
+          "target": [
+            -0.72,
+            0.43,
+            0.12
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.82,
+          "hidden": [
+            "Parathyroid capsule",
+            "Parathyroid stroma",
+            "Parathyroid chief cells",
+            "Oxyphil cells",
+            "Parathyroid adipocytes",
+            "Parathyroid chief-cell nuclei",
+            "Oxyphil-cell nuclei",
+            "Parathyroid adipocyte nuclei",
+            "Parathyroid lipid droplets",
+            "Oxyphil mitochondria",
+            "Parathyroid circulation",
+            "Follicular epithelium",
+            "Colloid",
+            "Follicular basal lamina",
+            "Intracellular colloid uptake vesicles",
+            "Parafollicular C cells",
+            "C-cell nuclei",
+            "Thyroid circulation",
+            "Interfollicular connective tissue",
+            "Capsule"
+          ],
+          "cut_on": false,
+          "note": "Nuclear dissection: whole saved nuclei exposed by hiding epithelial bodies; no nucleus is cut."
+        },
+        "05 Parathyroid architecture": {
+          "position": [
+            1.46,
+            0.789137,
+            3.098426
+          ],
+          "target": [
+            1.46,
+            0.43,
+            0.12
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.74,
+          "hidden": [
+            "Follicular epithelium",
+            "Colloid",
+            "Follicular basal lamina",
+            "Follicular cell nuclei",
+            "Intracellular colloid uptake vesicles",
+            "Parafollicular C cells",
+            "C-cell nuclei",
+            "Thyroid circulation",
+            "Interfollicular connective tissue",
+            "Capsule"
+          ],
+          "cut_on": false,
+          "note": "Separate solid parathyroid specimen with chief cells, oxyphil cells, adipocytes and its own circulation. Low extracellular Ca²⁺ is the input; chief-cell PTH is the output. There is no colloid inside this specimen."
+        },
+        "06 Parathyroid intracellular dissection": {
+          "position": [
+            1.46,
+            0.789137,
+            3.098426
+          ],
+          "target": [
+            1.46,
+            0.43,
+            0.12
+          ],
+          "type": "ORTHO",
+          "ortho_width": 0.66,
+          "hidden": [
+            "Follicular epithelium",
+            "Colloid",
+            "Follicular basal lamina",
+            "Follicular cell nuclei",
+            "Intracellular colloid uptake vesicles",
+            "Parafollicular C cells",
+            "C-cell nuclei",
+            "Thyroid circulation",
+            "Interfollicular connective tissue",
+            "Capsule",
+            "Parathyroid capsule",
+            "Parathyroid stroma",
+            "Parathyroid chief cells",
+            "Oxyphil cells",
+            "Parathyroid adipocytes",
+            "Parathyroid circulation"
+          ],
+          "cut_on": false,
+          "note": "Cell bodies, covering and vessels hidden to expose whole nuclei, lipid droplets and oxyphil mitochondria."
+        },
+        "07 Separate circulation beds": {
+          "position": [
+            -0.180824,
+            1.3187,
+            2.801698
+          ],
+          "target": [
+            0.329,
+            0.375,
+            0.0
+          ],
+          "type": "ORTHO",
+          "ortho_width": 3.2,
+          "hidden": [
+            "Follicular epithelium",
+            "Colloid",
+            "Follicular cell nuclei",
+            "Intracellular colloid uptake vesicles",
+            "Parafollicular C cells",
+            "C-cell nuclei",
+            "Interfollicular connective tissue",
+            "Parathyroid stroma",
+            "Parathyroid chief cells",
+            "Oxyphil cells",
+            "Parathyroid adipocytes",
+            "Parathyroid chief-cell nuclei",
+            "Oxyphil-cell nuclei",
+            "Parathyroid adipocyte nuclei",
+            "Parathyroid lipid droplets",
+            "Oxyphil mitochondria"
+          ],
+          "cut_on": false,
+          "note": "Optional vascular dissection: trace each specimen’s own supply, capillary anastomoses and drainage. Cells and stroma are deliberately hidden only in this view. Open ends at specimen cuts do not imply connection between the two samples."
+        }
+      },
+      "start_view": "01 Tissue architecture",
+      "home_view": [
+        0,
+        0.2
+      ],
+      "cut_on": false
+    },
+    "color_contract": {
+      "parts": [
+        {
+          "name": "Follicular epithelium",
+          "array_key": "Follicular epithelium"
+        },
+        {
+          "name": "Colloid",
+          "array_key": "Colloid"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "array_key": "Follicular basal lamina"
+        },
+        {
+          "name": "Follicular cell nuclei",
+          "array_key": "Follicular cell nuclei"
+        },
+        {
+          "name": "Intracellular colloid uptake vesicles",
+          "array_key": "Intracellular colloid uptake vesicles"
+        },
+        {
+          "name": "Parafollicular C cells",
+          "array_key": "Parafollicular C cells"
+        },
+        {
+          "name": "C-cell nuclei",
+          "array_key": "C-cell nuclei"
+        },
+        {
+          "name": "Thyroid circulation",
+          "array_key": "Thyroid circulation"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "array_key": "Interfollicular connective tissue"
+        },
+        {
+          "name": "Capsule",
+          "array_key": "Capsule"
+        },
+        {
+          "name": "Parathyroid capsule",
+          "array_key": "Parathyroid capsule"
+        },
+        {
+          "name": "Parathyroid stroma",
+          "array_key": "Parathyroid stroma"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "array_key": "Parathyroid chief cells"
+        },
+        {
+          "name": "Oxyphil cells",
+          "array_key": "Oxyphil cells"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "array_key": "Parathyroid adipocytes"
+        },
+        {
+          "name": "Parathyroid chief-cell nuclei",
+          "array_key": "Parathyroid chief-cell nuclei"
+        },
+        {
+          "name": "Oxyphil-cell nuclei",
+          "array_key": "Oxyphil-cell nuclei"
+        },
+        {
+          "name": "Parathyroid adipocyte nuclei",
+          "array_key": "Parathyroid adipocyte nuclei"
+        },
+        {
+          "name": "Parathyroid lipid droplets",
+          "array_key": "Parathyroid lipid droplets"
+        },
+        {
+          "name": "Oxyphil mitochondria",
+          "array_key": "Oxyphil mitochondria"
+        },
+        {
+          "name": "Parathyroid circulation",
+          "array_key": "Parathyroid circulation"
+        }
+      ]
+    }
+  },
+  "source_part_names": [
+    "Follicular epithelium",
+    "Colloid",
+    "Follicular basal lamina",
+    "Follicular cell nuclei",
+    "Intracellular colloid uptake vesicles",
+    "Parafollicular C cells",
+    "C-cell nuclei",
+    "Thyroid circulation",
+    "Interfollicular connective tissue",
+    "Capsule",
+    "Parathyroid capsule",
+    "Parathyroid stroma",
+    "Parathyroid chief cells",
+    "Oxyphil cells",
+    "Parathyroid adipocytes",
+    "Parathyroid chief-cell nuclei",
+    "Oxyphil-cell nuclei",
+    "Parathyroid adipocyte nuclei",
+    "Parathyroid lipid droplets",
+    "Oxyphil mitochondria",
+    "Parathyroid circulation"
+  ],
+  "part_names": [
+    "Follicular epithelium",
+    "Colloid",
+    "Follicular basal lamina",
+    "Follicular cell nuclei",
+    "Intracellular colloid uptake vesicles",
+    "Parafollicular C cells",
+    "C-cell nuclei",
+    "Thyroid circulation",
+    "Interfollicular connective tissue",
+    "Capsule",
+    "Parathyroid capsule",
+    "Parathyroid stroma",
+    "Parathyroid chief cells",
+    "Oxyphil cells",
+    "Parathyroid adipocytes",
+    "Parathyroid chief-cell nuclei",
+    "Oxyphil-cell nuclei",
+    "Parathyroid adipocyte nuclei",
+    "Parathyroid lipid droplets",
+    "Oxyphil mitochondria",
+    "Parathyroid circulation"
+  ],
+  "parts": [
+    {
+      "name": "Follicular epithelium",
+      "group": "Thyroid follicles",
+      "color": "#b8739a",
+      "description": "A single layer of follicular cells separates the colloid lumen from the basal lamina and nearby blood supply. The cells make thyroglobulin, deliver it apically to colloid, then recover and process stored material before releasing T3/T4 toward blood. Polygonal bodies are enlarged, simplified representatives; they do not diagnose thyroid activity.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Colloid",
+      "group": "Thyroid follicles",
+      "color": "#dba071",
+      "description": "Acellular, extracellular thyroglobulin-rich content of the follicular lumen. Thyroid hormones are formed and stored while associated with thyroglobulin; cellular uptake and processing precede release to blood. Translucency is a teaching choice.",
+      "alpha": 0.38,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Follicular basal lamina",
+      "group": "Thyroid follicles",
+      "color": "#d8c199",
+      "description": "Specialized extracellular support beneath the follicular epithelium, between its basal surface and connective tissue. Distinct from the gland capsule. Authored as complete on all six follicles before the reversible specimen cut; its 2.5 µm modeled thickness is enlarged for teaching.",
+      "alpha": 0.3,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Follicular cell nuclei",
+      "group": "Thyroid follicles",
+      "color": "#624564",
+      "description": "Nuclei inside the enlarged representative follicular cell bodies. These identify the cellular epithelium surrounding the acellular colloid; they are not cells within the lumen.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Intracellular colloid uptake vesicles",
+      "group": "Thyroid follicles",
+      "color": "#efd58c",
+      "description": "Enlarged examples of endocytic colloid droplets near the apical region of follicular cells in three representative follicles. They depict uptake for cellular processing, not marginal empty colloid scallops or a route directly from colloid to blood.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parafollicular C cells",
+      "group": "Thyroid follicles",
+      "color": "#72abc6",
+      "description": "Distinct calcitonin-secreting cells seated in basal/interfollicular positions, without a colloid-facing surface. Blue is an identification color. The six representative cells illustrate location and release toward local blood, rather than a physiological C-cell abundance.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "C-cell nuclei",
+      "group": "Thyroid follicles",
+      "color": "#345c83",
+      "description": "Nuclei contained within the separately identified basal/interfollicular C-cell bodies. Their enclosing cells secrete calcitonin; neither the nuclei nor the cells belong within colloid.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Thyroid circulation",
+      "group": "Thyroid vessels",
+      "color": "#ffffff",
+      "description": "Local supply, six anastomosing perifollicular vascular beds and drainage, authored as one connected circuit. Red-to-blue color indicates a schematic arterial-to-venous transition, not calculated perfusion or oxygen concentration. External specimen-cut ends are deliberate; internal disconnected ends remain unacceptable.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Interfollicular connective tissue",
+      "group": "Capsule & stroma",
+      "color": "#cbb59d",
+      "description": "Supporting tissue between and beneath follicles carries the local circulation. The curved envelope and upper planar face represent a sampled, dissected tissue region; the planar face is an artificial specimen boundary, not a capsule around each follicle.",
+      "alpha": 1.0,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Capsule",
+      "group": "Capsule & stroma",
+      "color": "#bda58c",
+      "description": "Sampled fibrous gland covering along the lower thyroid specimen boundary. It is separate from follicular basal lamina; the upper exposed boundary is a deliberate specimen cut. This tissue sample does not reconstruct the whole thyroid organ.",
+      "alpha": 1.0,
+      "category": "ligament",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid capsule",
+      "group": "Parathyroid specimen",
+      "color": "#d1bba0",
+      "description": "Connective-tissue covering of the separate parathyroid sample. It surrounds a solid cellular glandular region, not a colloid-filled follicle. Thickness and transparency are teaching choices; the review remains unaccepted.",
+      "alpha": 0.26,
+      "category": "ligament",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid stroma",
+      "group": "Parathyroid specimen",
+      "color": "#d0baa8",
+      "description": "Connective tissue supporting parathyroid cells and their local vascular passages. Normal parathyroid cells form cords and clusters separated by vascular stroma; this review uses spaced, enlarged representatives rather than a quantitative packing reconstruction.",
+      "alpha": 0.24,
+      "category": "fascia",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid chief cells",
+      "group": "Parathyroid specimen",
+      "color": "#cda9b8",
+      "description": "Predominant parathyroid endocrine cells and the principal PTH source. Falling extracellular ionized Ca²⁺ promotes PTH release into nearby blood. Twenty-two enlarged representative cells retain the prior relative arrangement; their shapes and spacing are simplified teaching choices.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Oxyphil cells",
+      "group": "Parathyroid specimen",
+      "color": "#bd6f72",
+      "description": "Larger, mitochondria-rich parathyroid cells, shown here as three enlarged representatives. Mitochondrial abundance helps distinguish them from chief cells. Their endocrine role is not separately simulated; they should not be described as universally inert or incapable of PTH expression.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid adipocytes",
+      "group": "Parathyroid specimen",
+      "color": "#e7d68b",
+      "description": "Three representative unilocular fat cells within the parathyroid sample. Adipose content varies with age and individual context; this small illustrative set does not establish a normal glandular fat fraction.",
+      "alpha": 0.45,
+      "category": "fat",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid chief-cell nuclei",
+      "group": "Parathyroid specimen",
+      "color": "#685373",
+      "description": "Nuclei inside the representative chief cells. Cell bodies and nuclei are distinct, separately selectable parts; modeled size and density are not quantitative histology.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Oxyphil-cell nuclei",
+      "group": "Parathyroid specimen",
+      "color": "#753b50",
+      "description": "Nuclei inside the larger representative oxyphil bodies. Nuclear appearance is simplified; identification also depends on the surrounding mitochondria-rich cytoplasm.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid adipocyte nuclei",
+      "group": "Parathyroid specimen",
+      "color": "#75606b",
+      "description": "Peripheral nuclei in the representative fat cells, displaced toward the cell edge by each large lipid droplet. They remain intracellular; the exposed section is a teaching view.",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid lipid droplets",
+      "group": "Parathyroid specimen",
+      "color": "#eddc9d",
+      "description": "One large storage droplet within each representative unilocular adipocyte. These are intracellular lipid stores, distinct from colloid and hormone signaling symbols.",
+      "alpha": 1.0,
+      "category": "fat",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Oxyphil mitochondria",
+      "group": "Parathyroid specimen",
+      "color": "#914957",
+      "description": "A small illustrative set of enlarged mitochondria within oxyphil-cell cytoplasm. It indicates the characteristic mitochondrial enrichment; organelle number, size and arrangement are schematic rather than a quantitative mitochondrial inventory.",
+      "alpha": 1.0,
+      "category": "gland",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Parathyroid circulation",
+      "group": "Parathyroid specimen",
+      "color": "#ffffff",
+      "description": "Connected local supply, central vascular course, three side loops and drainage serving the separate parathyroid sample. Two external specimen ends are deliberate. Red-to-blue colors are schematic; no vessel bridge or duct connects this sample to the thyroid specimen.",
+      "alpha": 1.0,
+      "category": "artery",
+      "label": false,
+      "rank": 0.0,
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

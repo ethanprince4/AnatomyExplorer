@@ -23,6 +23,7 @@ from pathlib import Path
 from .config import ROOT, USER_DIR
 from .storage import load_json, write_json
 from .srs import _count
+from .terminology import canonical_name, display_content
 
 LESSON_DIR = ROOT / "data" / "content"
 PROGRESS_PATH = USER_DIR / "lesson_progress.json"
@@ -79,6 +80,8 @@ LEGACY_CATEGORY = {
 
 class Lesson:
     def __init__(self, raw):
+        authored = raw
+        raw = display_content(raw)
         self.id = raw["id"]
         self.title = raw["title"]
         self.summary = raw.get("summary", "")
@@ -99,6 +102,11 @@ class Lesson:
         lecture = raw.get("lecture")
         self.lecture = dict(lecture) if isinstance(lecture, dict) else None
         self.practice = [dict(x) for x in raw.get("practice", []) if isinstance(x, dict)]
+        for item, source in zip(self.practice, (x for x in authored.get("practice", []) if isinstance(x, dict))):
+            if item.get("q") != source.get("q"):
+                item["_schedule_q"] = source.get("q", "")
+        self._authored_checks = {i: step["check"]["q"] for i, step in enumerate(authored.get("steps", []))
+                                 if isinstance(step.get("check"), dict) and step["check"].get("q")}
         self.practice_from = [str(x) for x in raw.get("practice_from", [])]
 
     def __len__(self):
@@ -373,22 +381,22 @@ class Resolver:
         self.search = search
         self.by_lower = {}
         for name, sids in ds.by_name.items():
-            self.by_lower.setdefault(name.lower(), []).extend(sids)
+            self.by_lower.setdefault(canonical_name(name), []).extend(sids)
         self.groups = {}
         for nid, node in ds.nodes.items():
             if node["kind"] == "group" and node["count"] > 1:
-                self.groups.setdefault(node["name"].lower(), []).append(nid)
+                self.groups.setdefault(canonical_name(node["name"]), []).append(nid)
         self.collections = {}
         for s in ds.structures:
             for c in s.get("collections", ()):
-                self.collections.setdefault(c.lower(), []).append(s["id"])
+                self.collections.setdefault(canonical_name(c), []).append(s["id"])
         self.landmarks = {}          # bony points live as landmarks, not as structures of their own
         for i, lm in enumerate(ds.landmarks):
-            self.landmarks.setdefault(lm["name"].lower(), []).append(i)
+            self.landmarks.setdefault(canonical_name(lm["name"]), []).append(i)
 
     def resolve(self, name):
         """[structure ids] for a structure name, a group name or a collection name. Empty if nothing matches."""
-        key = (name or "").strip().lower()
+        key = canonical_name(name)
         if not key:
             return []
         if key in self.by_lower:
@@ -414,7 +422,7 @@ class Resolver:
 
     def landmark(self, name):
         """Index of a named landmark, so a lesson can point straight at a bony feature."""
-        hits = self.landmarks.get((name or "").strip().lower())
+        hits = self.landmarks.get(canonical_name(name))
         return hits[0] if hits else None
 
     def resolve_all(self, names):
@@ -507,7 +515,7 @@ def item_key(item):
         return item.get("_base") or item.get("structure", "")
     if kind == "find_micro":
         return f"micro:{item.get('model')}:{item.get('part')}"
-    text = item.get("q", "")
+    text = item.get("_schedule_q", item.get("q", ""))
     digest = hashlib.sha1(text.encode("utf-8")).hexdigest()[:6]
     return f"card:{item.get('_lesson', '')}:{_short(text, 48)}#{digest}"
 
@@ -528,7 +536,8 @@ def practice_items(lesson):
         if _short(q, 200).lower() in seen_q:
             continue
         seen_q.add(_short(q, 200).lower())
-        out.append({"type": "recall", "q": q, "a": a, "_lesson": lesson.id, "_step": i})
+        out.append({"type": "recall", "q": q, "a": a, "_lesson": lesson.id, "_step": i,
+                    "_schedule_q": getattr(lesson, "_authored_checks", {}).get(i, q)})
     return out
 
 

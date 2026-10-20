@@ -29,14 +29,8 @@ def _clean(value):
     return value
 
 
-def stage_post_library(directory, staging_parent=None):
-    """Return a new isolated folder containing a complete post-only library.
-
-    All selected manifest rows must have a post variant. Callers wanting a subset
-    must explicitly prepare a subset manifest; absence never silently drops rows.
-    Only primary paths and declared supporting assets are copied. Companion JSON
-    contents are not treated as instructions to recursively collect other files.
-    """
+def post_library_data(directory):
+    """Return cleaned metadata and exact selected source paths without copying."""
     root = Path(directory).resolve()
     data = json.loads((root / 'library.json').read_text(encoding='utf-8-sig'))
     raw = data.get('models', [])
@@ -91,6 +85,18 @@ def stage_post_library(directory, staging_parent=None):
         selected.append((mid,new_row))
     release = _clean({k:v for k,v in data.items() if k != 'models'})
     release['models'] = dict(selected) if keyed else [r for _,r in selected]
+    return release, assets
+
+
+def stage_post_library(directory, staging_parent=None, *, link_assets=False):
+    """Stage a complete post-only library; ordinary exports are isolated copies.
+
+    Disposable release builds can link immutable data to avoid another full
+    library allocation. Neither the source nor this staging tree may be edited
+    in that mode. All selected rows and declared companions remain mandatory.
+    """
+    root = Path(directory).resolve()
+    release, assets = post_library_data(root)
     if staging_parent is not None:
         parent = Path(staging_parent).resolve()
         # Reject inside-source output even if it would be ignored by collection.
@@ -105,15 +111,31 @@ def stage_post_library(directory, staging_parent=None):
     for relative,source in sorted(assets.items()):
         destination=stage / relative
         destination.parent.mkdir(parents=True,exist_ok=True)
-        shutil.copy2(source,destination)
+        if link_assets:
+            from release_storage import immutable_copy
+            immutable_copy(source, destination)
+        else:
+            shutil.copy2(source,destination)
     (stage / 'library.json').write_text(json.dumps(release,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
     return stage
 
 
-def seed_files(directory, staging_parent=None):
-    stage = stage_post_library(directory, staging_parent)
+def seed_files(directory, staging_parent=None, *, link_assets=False):
+    stage = stage_post_library(directory, staging_parent, link_assets=link_assets)
     return [(str(source), str(Path('data/local_model_library') / source.relative_to(stage).parent))
             for source in sorted(stage.rglob('*')) if source.is_file()]
+
+
+def install_seed_files(files, frozen_root):
+    """Place deferred read-only seed data after PyInstaller's normal collection."""
+    from release_storage import immutable_copy
+    root = Path(frozen_root).resolve()
+    for source, directory in files:
+        target = root / directory / Path(source).name
+        if not target.resolve().is_relative_to(root):
+            raise ValueError('Release seed destination must stay inside the frozen app')
+        target.parent.mkdir(parents=True, exist_ok=True)
+        immutable_copy(source, target)
 
 
 def export_post_library(directory, output):

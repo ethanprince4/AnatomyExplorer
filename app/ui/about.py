@@ -24,7 +24,7 @@ blockquote {{ color: {theme.WARNING}; }}
 
 
 def app_version():
-    """The release version (written into the bundle by packaging/AnatomyExplorer.spec), or the git description
+    """The release version (written into the bundle by packaging/LayeredHuman.spec), or the git description
     of a source checkout."""
     try:
         v = (ROOT / "VERSION").read_text(encoding="utf-8").strip()

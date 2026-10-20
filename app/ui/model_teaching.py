@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QComboBox, QGridLayout, QLabel, QVBoxLayout, QWidg
 from . import theme
 from .flow import FlowLayout, WrapButton
 from .stable_rows import fill_combo
+from ..terminology import american_text
 
 
 class ModelTeachingControls(QWidget):
@@ -74,7 +75,7 @@ class ModelTeachingControls(QWidget):
         self.session = session
         self.sequences = [record for record in session.controls.get("functional_sequences", ())
                           if record.get("id") and isinstance(record.get("steps", record.get("stages")), list)]
-        fill_combo(self.sequence, [(record.get("title") or record.get("name") or record.get("mechanism") or record["id"],
+        fill_combo(self.sequence, [(american_text(record.get("title") or record.get("name") or record.get("mechanism") or record["id"]),
                                     record["id"]) for record in self.sequences])
         self.sequence.setCurrentIndex(0 if self.sequences else -1)
         self._fill_steps()
@@ -89,7 +90,7 @@ class ModelTeachingControls(QWidget):
             record = self.sequences[index]
             for i, value in enumerate(record.get("steps", record.get("stages", ()))):
                 title = (value.get("title") or value.get("label") or value.get("name") or value.get("id")) if isinstance(value, dict) else str(value)
-                steps.append((f"{i + 1}. {title or 'Step ' + str(i + 1)}", i))
+                steps.append((american_text(f"{i + 1}. {title or 'Step ' + str(i + 1)}"), i))
         self.steps = fill_combo(self.step, steps)
         self.step.setCurrentIndex(0 if self.steps else -1)
         self._sync()
@@ -112,9 +113,9 @@ class ModelTeachingControls(QWidget):
 
     def _explain(self, result):
         if isinstance(result, dict):
-            self.caption.setText(" · ".join(str(result[key]) for key in ("title", "caption", "scale_note") if result.get(key)))
+            self.caption.setText(american_text(" · ".join(str(result[key]) for key in ("title", "caption", "scale_note") if result.get(key))))
         else:
-            self.caption.setText(str(result or ""))
+            self.caption.setText(american_text(str(result or "")))
         self._sync()
 
     def show_step(self):

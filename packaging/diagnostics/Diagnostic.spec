@@ -31,11 +31,11 @@ a = Analysis([str(ROOT / "packaging/diagnostics/single_action/launcher.py")],
                        "PySide6.QtWebEngineCore", "PySide6.QtQuick", "PySide6.QtQml"],
              module_collection_mode={"app": "py"})
 pyz = PYZ(a.pure)
-exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name="AnatomyExplorerDiagnostic",
+exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name="LayeredHumanDiagnostic",
           console=False, upx=False, target_arch="arm64" if sys.platform == "darwin" else None,
           codesign_identity=None)
-coll = COLLECT(exe, a.binaries, a.datas, name="AnatomyExplorerDiagnostic", upx=False)
+coll = COLLECT(exe, a.binaries, a.datas, name="LayeredHumanDiagnostic", upx=False)
 if sys.platform == "darwin":
-    bundle = BUNDLE(coll, name="Anatomy Explorer Diagnostic.app", version="1.0.0",
-                    bundle_identifier="io.github.ethanprince4.anatomyexplorer.diagnostic",
+    bundle = BUNDLE(coll, name="Layered Human Diagnostic.app", version="1.0.0",
+                    bundle_identifier="io.github.ethanprince4.layeredhuman.diagnostic",
                     info_plist={"NSHighResolutionCapable": True, "LSMinimumSystemVersion": "13.0"})

@@ -1115,4 +1115,4 @@ class HistologyViewer(QWidget):
         title = image.get("title") or tissue.get("name") or "Histology figure"
         bits = [name for name in (tissue.get("name"), "Diagram" if image.get("diagram") else "Micrograph") if name]
         credit = " · ".join(str(image[field]) for field in ("author", "license", "source") if image.get(field))
-        return title, bits, credit or "Anatomy Explorer · Histology"
+        return title, bits, credit or "Layered Human · Histology"

@@ -6,6 +6,7 @@ Missing images are omitted from the browser but remain visible to validation.
 import json
 
 from .config import ROOT
+from .terminology import display_content
 
 CONTENT_DIR = ROOT / "data" / "content"
 IMAGE_DIR = ROOT / "data" / "radiology" / "images"
@@ -19,6 +20,7 @@ class Label:
     __slots__ = ("x", "y", "text", "note", "structures", "side", "at")
 
     def __init__(self, raw):
+        raw = display_content(raw)
         self.x = float(raw["x"])
         self.y = float(raw["y"])
         self.text = raw["text"]
@@ -32,6 +34,7 @@ class Label:
 
 class Case:
     def __init__(self, raw, source):
+        raw = display_content(raw)
         self.id = raw["id"]
         self.title = raw["title"]
         self.modality = raw.get("modality", "X-ray")

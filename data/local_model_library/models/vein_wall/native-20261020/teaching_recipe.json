@@ -1,0 +1,231 @@
+{
+  "model_id": "vein_wall_static_refinement",
+  "display_name": "Vein wall",
+  "summary": "Preserved venous wall and paired cusps with bounded section and closeup inspection views.",
+  "metres_per_unit": 0.01,
+  "home_view": [
+    0,
+    0
+  ],
+  "cut_on": false,
+  "cut_at": [
+    0,
+    0
+  ],
+  "cutaway": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "start_view": "01 Overview",
+  "viewer_cameras": {
+    "01 Overview": {
+      "position": [
+        2,
+        1.6,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.9,
+      "hidden": [],
+      "cut_on": false
+    },
+    "02 Open end section": {
+      "position": [
+        3,
+        0.2,
+        0.2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.95,
+      "hidden": [],
+      "cut_on": false
+    },
+    "03 Wall and valve section": {
+      "position": [
+        -2,
+        1.5,
+        2
+      ],
+      "target": [
+        -0.15,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.85,
+      "hidden": [],
+      "cut_on": true
+    },
+    "04 Paired valve cusps": {
+      "position": [
+        -2,
+        0.1,
+        0.1
+      ],
+      "target": [
+        -0.45,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.75,
+      "hidden": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "05 Valve connective cores": {
+      "position": [
+        -2,
+        0.1,
+        0.1
+      ],
+      "target": [
+        -0.45,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.75,
+      "hidden": [
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "06 Valve root section": {
+      "position": [
+        -2,
+        0.8,
+        1.5
+      ],
+      "target": [
+        -0.35,
+        0.1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.45,
+      "hidden": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": true
+    },
+    "07 Adventitial routes": {
+      "position": [
+        1.5,
+        2,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.9,
+      "hidden": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "08 Layer section closeup": {
+      "position": [
+        2,
+        1.2,
+        1.8
+      ],
+      "target": [
+        0.7,
+        0.25,
+        0.3
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.4,
+      "hidden": [
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": true
+    },
+    "09 Leukocyte wall contact": {
+      "position": [
+        0.65,
+        -0.1,
+        -0.12
+      ],
+      "target": [
+        0.547,
+        -0.33,
+        -0.467
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.23,
+      "hidden": [
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells"
+      ],
+      "cut_on": false
+    }
+  },
+  "scale_note": "Existing schematic teaching scale retained. Paired nearly closed valve pose and narrow slit are preserved. Representative enlarged blood cells and wall routes; no separate cellular nuclei or cytoplasms are modeled. Axial lumen remains open; section planes are native display clipping."
+}

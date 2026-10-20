@@ -16,12 +16,14 @@ from __future__ import annotations
 
 import json
 import re
+from copy import deepcopy
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
 
 from ..load_control import checkpoint
+from ..terminology import american_text
 from . import gltf_loader as gl
 from . import prepared_cache
 
@@ -78,6 +80,9 @@ class Part:
     role: str = ""                     # "annotation" | "covering" | ""
     item: int = 0                      # index of the item this part belongs to
 
+    def __post_init__(self):
+        self.label = american_text(self.label)
+
 
 @dataclass
 class Item:
@@ -97,6 +102,11 @@ class Item:
     rank: float = 0.0                  # procedural models separate their layers upward by rank
     role: str = ""
 
+    def __setattr__(self, name, value):
+        # Native transport and part guides can replace these after construction.
+        # Their stable key and group selectors must keep the authored spelling.
+        super().__setattr__(name, american_text(value) if name in ("name", "description") else value)
+
 
 @dataclass
 class Group:
@@ -105,12 +115,18 @@ class Group:
     items: list                        # item indices
     colour: tuple = (0.7, 0.7, 0.7)    # sRGB
 
+    def __setattr__(self, name, value):
+        super().__setattr__(name, american_text(value) if name == "title" else value)
+
 
 @dataclass
 class Structure:                       # the sidecar's grouping, kept for the export's own checks
     key: str
     title: str
     parts: list
+
+    def __post_init__(self):
+        self.title = american_text(self.title)
 
 
 def pretty(slug: str) -> str:
@@ -470,6 +486,75 @@ class Model(ViewerModel):
         um = self.um_per_bu()
         if um:
             self.metres_per_unit = um * 1e-6
+        self._restore_native_transport()
+
+    def _restore_native_transport(self):
+        """Restore authored NPZ teaching semantics from an exact native GLB copy.
+
+        Ordinary GLBs retain their existing loader behavior. The opt-in record
+        carries shader parameters and controls that glTF cannot express, while
+        all geometry still comes from the normal glTF accessors above.
+        """
+        transport = self.sidecar.get("native_transport") or self.doc.json.get("extras", {}).get("native_transport")
+        if not transport:
+            return
+        if not isinstance(transport, dict) or transport.get("schema") != "ae.native-glb.v1":
+            raise ValueError("Unsupported native GLB transport metadata")
+        self.native_transport = deepcopy(transport)
+        records = transport.get("parts", {})
+        if not isinstance(records, dict) or not {item.key for item in self.items}.issubset(records):
+            raise ValueError("Native GLB part metadata does not match its meshes")
+        tuple_fields = {"base", "emissive", "facing", "detail"}
+        for item in self.items:
+            record = records[item.key]
+            metadata = record["metadata"]
+            item.name = metadata["name"]
+            item.group = metadata.get("group", "Model")
+            item.description = metadata.get("description", "")
+            item.category = metadata.get("category", "other")
+            item.colour = tuple(record["colour"])
+            item.label = bool(metadata.get("label", True))
+            item.clip = bool(metadata.get("clip", False))
+            item.bulk = bool(metadata.get("bulk", False))
+            item.rank = float(metadata.get("rank", 0))
+            item.role = ""
+            values = deepcopy(record["look"])
+            if set(values) - set(Look.__dataclass_fields__):
+                raise ValueError("Unsupported native GLB Look metadata")
+            for field in tuple_fields:
+                if values.get(field) is not None:
+                    values[field] = tuple(values[field])
+            for part in item.parts:
+                part.look = Look(**values)
+                part.role = ""
+                part.structure = item.group
+                part.structure_id = ""
+        self._build_groups()
+        settings = transport.get("model", {})
+        self.home = tuple(settings.get("home", [-.62, .42]))
+        self.cutaway = deepcopy(settings.get("cutaway", {"axes": [[1, 0, 0], [0, 0, 1]], "at": [0, 0], "on": False}))
+        self.metres_per_unit = float(settings.get("metres_per_unit", 0))
+        self.look_defaults = deepcopy(settings.get("look_defaults", {}))
+        self._native_layer_explode = settings.get("explode") == "native_layers"
+        controls = transport.get("controls", {})
+        native = controls.get("native", {})
+        self.cameras = deepcopy(native.get("viewer_cameras", {}))
+        self.camera_order = list(self.cameras)
+        self.sidecar.update(deepcopy(controls.get("viewer", {})))
+        # The native viewer keeps the authored opening camera's hide mask.
+        # Opt in to the equivalent existing GLB reset/open behavior.
+        self.sidecar["preserve_start_visibility"] = True
+        if native.get("start_view") in self.cameras:
+            self.sidecar["start_view"] = native["start_view"]
+
+    def set_explode(self, amount):
+        if not getattr(self, "_native_layer_explode", False):
+            return super().set_explode(amount)
+        if amount <= 0:
+            self.item_offsets = None
+        else:
+            self.item_offsets = np.zeros((len(self.items), 3))
+            self.item_offsets[:, 1] = np.array([item.rank for item in self.items]) * amount * .35
 
     # ------------------------------------------------------------------ sidecar
     def _load_sidecar(self):

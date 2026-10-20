@@ -630,11 +630,12 @@ class LessonsPanel(QWidget):
         self._fill()
 
     def _matches(self, lesson, needle):
+        from ..terminology import canonical_name
         if not needle:
             return True
         hay = " ".join([lesson.title, lesson.summary, lesson.system_name, lesson.region_name, lesson.level_name,
                         lesson.unit_name, " ".join(lesson.tags), " ".join(lesson.objectives)]).lower()
-        return all(word in hay for word in needle.split())
+        return all(word in canonical_name(hay) for word in canonical_name(needle).split())
 
     def _fill(self, *_):
         needle = self.filter.text().strip().lower()

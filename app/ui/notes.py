@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (QDialog, QDialogButtonBox, QHBoxLayout, QLabel, Q
                                QPushButton, QSplitter, QVBoxLayout, QWidget)
 
 from . import theme
+from ..terminology import american_text, canonical_name
 
 
 class NoteDialog(QDialog):
@@ -13,12 +14,12 @@ class NoteDialog(QDialog):
         super().__init__(parent)
         self.save_note = save
         self._original = text.strip()
-        self.setWindowTitle(f"Note · {key}")
+        self.setWindowTitle(f"Note · {american_text(key)}")
         self.resize(600, 440)
         lay = QVBoxLayout(self)
         lay.setContentsMargins(20, 20, 20, 16)
         lay.setSpacing(12)
-        title = QLabel(key)
+        title = QLabel(american_text(key))
         title.setTextFormat(Qt.PlainText)
         title.setWordWrap(True)
         title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 700))
@@ -28,7 +29,7 @@ class NoteDialog(QDialog):
         lab.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(lab)
         self.edit = QPlainTextEdit(text)
-        self.edit.setAccessibleName(f"Notes for {key}")
+        self.edit.setAccessibleName(f"Notes for {american_text(key)}")
         self.edit.setPlaceholderText("Write your observations, questions or study reminders…")
         lay.addWidget(self.edit, 1)
         self.save_error = QLabel()
@@ -147,13 +148,13 @@ class AllNotesDialog(QDialog):
     def _fill(self, *_):
         selected = self.list.currentItem()
         current = selected.data(Qt.UserRole) if selected else None
-        needle = self.search.text().casefold().split()
+        needle = canonical_name(self.search.text()).split()
         notes = self.content.notes
         keys = [key for key in sorted(notes, key=str.casefold)
-                if all(word in (key + " " + str(notes[key])).casefold() for word in needle)]
+                if all(word in canonical_name(key + " " + str(notes[key])) for word in needle)]
         self.list.clear()
         for key in keys:
-            item = QListWidgetItem(key)
+            item = QListWidgetItem(american_text(key))
             item.setData(Qt.UserRole, key)
             self.list.addItem(item)
         self.count_label.setText(f"{len(keys)} of {len(notes)} notes")
@@ -170,7 +171,7 @@ class AllNotesDialog(QDialog):
 
     def _select_note(self, current, _previous=None):
         key = current.data(Qt.UserRole) if current is not None else ""
-        self.note_title.setText(key)
+        self.note_title.setText(american_text(key))
         self.view.setPlainText(str(self.content.notes.get(key, "")))
         if hasattr(self, "open_button"):
             self.open_button.setEnabled(bool(key))

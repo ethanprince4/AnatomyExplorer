@@ -28,7 +28,9 @@ class AtlasWall(QScrollArea):
             f'QWidget#atlasWall QPushButton:hover {{color:{theme.TEXT};border-bottom:1px solid {theme.ACCENT};}}'
             f'QWidget#atlasWall QPushButton:focus {{border-bottom:1px solid {theme.ACCENT};}}'
             f'QWidget#atlasWall QPushButton[wallAction="true"] {{border:1px solid {theme.BORDER_STRONG};'
-            f'padding:8px 12px;text-align:center;}}')
+            f'padding:8px 12px;text-align:center;}}'
+            f'QWidget#atlasWall QPushButton[wallAction="true"]:checked {{color:{theme.ACCENT_TEXT};'
+            f'border-color:{theme.ACCENT};border-bottom:2px solid {theme.ACCENT};}}')
         layout = QVBoxLayout(self.body)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
@@ -123,9 +125,12 @@ class AtlasWall(QScrollArea):
                 button.setProperty('wallAction',True)
                 button.clicked.connect(lambda _=False,a=action:a.trigger())
                 actions.addWidget(button)
-        more=QPushButton('Full entry  ›')
+        more=self.full_entry=QPushButton('Full entry  ›')
         more.setProperty('wallAction',True)
-        more.clicked.connect(window.right_dock.show)
+        more.setCheckable(True)
+        more.setChecked(not window.right_dock.isHidden())
+        more.clicked.connect(lambda checked: window.right_dock.setVisible(checked))
+        window.right_dock.visibilityChanged.connect(more.setChecked)
         actions.addWidget(more)
         actions.addStretch(1)
         selected.addLayout(actions)

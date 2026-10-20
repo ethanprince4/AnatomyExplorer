@@ -2,7 +2,7 @@
 from pathlib import Path
 
 from PySide6.QtCore import QRectF, QSize, Qt
-from PySide6.QtGui import QFontMetricsF, QImage, QPainter, QPen, QRadialGradient
+from PySide6.QtGui import QImage, QPainter, QPen, QRadialGradient
 from PySide6.QtWidgets import QLabel, QListView, QListWidget, QStyle, QStyledItemDelegate
 
 from . import theme
@@ -11,9 +11,6 @@ ENTRY_ROLE = Qt.UserRole + 1
 ASSETS = Path(__file__).parent / "resources" / "studio"
 PLATES = {"whole_heart": "heart_home_clean", "heart": "heart_home_clean", "kidney_nephron": "kidney_v_kidney",
           "cardiac_muscle": "cardiac_muscle"}
-MODEL_ORDER = {key: n for n, key in enumerate(("whole_heart", "kidney_nephron", "cardiac_muscle", "eyeball", "ear",
-    "tooth", "compact_bone", "hepatobiliary", "liver_lobule", "lymph_node", "thin_skin", "blood_cells", "spleen",
-    "retina", "skeletal_muscle", "trachea_wall"))}
 
 
 def specimen_image(entry):
@@ -63,6 +60,7 @@ class ModelSpecimenDelegate(QStyledItemDelegate):
         super().__init__(view)
         self.view = view
         self.images = {}
+        self.fitted_images = {}
 
     def image(self, entry):
         if entry.id not in self.images:
@@ -71,6 +69,18 @@ class ModelSpecimenDelegate(QStyledItemDelegate):
 
     def sizeHint(self, option, index):
         return self.view.gridSize()
+
+    def fitted_image(self, entry, width, height):
+        # Wheel scrolling repaints the same specimens repeatedly. Resample only
+        # when their display size changes, rather than during every paint.
+        cached = self.fitted_images.get(entry.id)
+        size = (width, height)
+        if cached is None or cached[0] != size:
+            fitted = self.image(entry).scaled(width, height, Qt.KeepAspectRatio,
+                                              Qt.SmoothTransformation)
+            cached = (size, fitted)
+            self.fitted_images[entry.id] = cached
+        return cached[1]
 
     def paint(self, painter, option, index):
         entry = index.data(ENTRY_ROLE)
@@ -88,8 +98,7 @@ class ModelSpecimenDelegate(QStyledItemDelegate):
         painter.fillRect(bay, pool)
         image = self.image(entry)
         if not image.isNull():
-            fitted = image.scaled(round(bay.width() * .84), round(150 * scale), Qt.KeepAspectRatio,
-                                  Qt.SmoothTransformation)
+            fitted = self.fitted_image(entry, round(bay.width() * .84), round(150 * scale))
             painter.drawImage(QRectF(bay.center().x() - fitted.width() / 2,
                                      bay.center().y() - fitted.height() / 2,
                                      fitted.width(), fitted.height()), fitted)
@@ -101,13 +110,8 @@ class ModelSpecimenDelegate(QStyledItemDelegate):
         painter.setPen(theme.qc(theme.TEXT_STRONG))
         painter.drawText(QRectF(rect.left() + 4, bay.bottom() + 8, rect.width() - 8, 64),
                          Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, entry.name)
-        painter.setFont(theme.font_for("meta", scale=max(.9, scale)))
-        painter.setPen(theme.qc(theme.TEXT_2))
-        # The complete authored summary remains in the wall label and tooltip.
-        summary = entry.summary or entry.kind_name or ""
-        painter.drawText(QRectF(rect.left() + 4, bay.bottom() + 82, rect.width() - 8, 18),
-                         Qt.AlignHCenter | Qt.AlignVCenter,
-                         QFontMetricsF(painter.font()).elidedText(summary, Qt.ElideRight, rect.width() - 8))
+        # Keep the specimen caption to its name. The full authored description
+        # belongs in the selected model's detail panel.
         painter.restore()
 
 

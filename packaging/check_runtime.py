@@ -9,7 +9,7 @@ from pathlib import Path
 
 def main():
     executable = Path(sys.argv[1]).resolve()
-    with tempfile.TemporaryDirectory(prefix="AnatomyExplorer-runtime-") as d:
+    with tempfile.TemporaryDirectory(prefix="LayeredHuman-runtime-") as d:
         root = Path(d).resolve()
         report = root / "runtime.json"
         env = dict(os.environ, QT_QPA_PLATFORM="offscreen", LOCALAPPDATA=str(root / "profile"), AE_TEST_SETTINGS_DIR=str(root / "settings"))
