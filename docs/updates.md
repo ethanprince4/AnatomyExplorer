@@ -7,8 +7,11 @@ the new app into Applications once. That original installation stays available
 as a fallback. Mac Intel builds are not distributed by this project.
 
 The public product and new installers are named **Layered Human**. The current
-GitHub feed address and protocol-1 compatibility assets remain available for
-existing installations; see [branding and upgrade compatibility](branding.md).
+GitHub feed delivers the one-time 4.0.12 bridge to older installations. From
+4.0.12 onward, the active app obtains updates only from
+`https://downloads.layeredhuman.com` on Cloudflare, without a GitHub fallback.
+Protocol-1 compatibility assets remain available for original launchers; see
+[branding and upgrade compatibility](branding.md).
 
 The app checks and downloads quietly on every launch while you study, unless
 you disable automatic updates. Recent checks from an earlier launch do not skip
@@ -38,7 +41,7 @@ and a phone hotspot. That affected copy cannot fetch its own repair; it may
 need one manual installation of the fixed release. No certificate verification
 should be disabled to work around the problem.
 
-Turning the option on checks published experimental model prereleases. Previews
+Turning the option on checks the Cloudflare experimental channel. Previews
 are marked **Experimental model preview** in the window title and Updates
 dialog. Their models may be incomplete or change substantially. Stable releases
 and stable update checks never select preview feeds. If no compatible preview
@@ -56,9 +59,9 @@ release before returning on next launch. Its original preview bundle remains
 the fallback until a stable copy is available.
 
 Protocol 1's `VERSION` remains numeric for old launchers. The reserved preview
-series uses cores `3.90.N` with exact GitHub tags `v3.90.N-preview.N`; each preview
-needs a new increasing `N`. These tags are GitHub prereleases and never become
-the latest stable download. Feeds bind `channel`, numeric `version` and the exact
+series uses cores `3.90.N` with exact release tags `v3.90.N-preview.N`; each preview
+needs a new increasing `N`. The experimental channel never replaces the stable
+download. Feeds bind `channel`, numeric `version` and the exact
 `release_tag`. `UPDATE_CHANNEL.json` is embedded before signing, inventoried
 and hash-verified with the package, so changing feed labels cannot disguise a
 preview as stable. Returning from previews to a lower numeric stable core uses
@@ -86,21 +89,22 @@ The HTTPS opener explicitly uses the maintained certifi CA bundle shipped with
 the app, with certificate and hostname verification required. It does not depend
 on a developer Python installation, build-machine OpenSSL CA paths or a local
 certificate-install command. Frozen package checks exercise the real release
-API, manifest and ranged CDN downloads with nonexistent default CA paths;
+channel, catalog, manifest and ranged Cloudflare downloads with nonexistent default CA paths;
 separate local TLS tests reject untrusted certificates and incorrect hostnames.
 No OS trust store or certificate policy is changed.
 
-The trust root is HTTPS to the hard-coded repository's GitHub release API. The
-API's SHA-256 asset digest authenticates the manifest to that trusted source; the
+The active client's trust root is HTTPS to the fixed Cloudflare download origin.
+A noncached channel identifies an immutable catalog by SHA-256 and size; that
+catalog identifies the complete manifest and content-addressed packs. The
 manifest binds version, platform, protocol, exact file paths, hashes and pack
-ranges. Exact release URLs under the existing `ethanprince4/AnatomyExplorer`
-identity and its reserved successor `ethanprince4/LayeredHuman` are accepted;
-packs must use the same repository and release as their manifest. GitHub's HTTPS
-release CDN hosts remain allowed for redirects. No token is stored or sent. Downloads have bounded sizes
+ranges. Arbitrary origins, paths and redirects are rejected. No token is stored
+or sent by the app. Downloads have bounded sizes
 and bounded decompression. Paths reject traversal, Windows aliases, duplicate
 case-folded names, mutable/personal folders and conflicting directory entries.
-This is trusted GitHub-account delivery, not a separate publisher signature:
-compromise of the repository/GitHub or local user account remains a trust limit.
+This is trusted distribution-account delivery, not a separate publisher
+signature: compromise of the Cloudflare account/origin or local user account
+remains a trust limit. Only the legacy bridge downloader uses GitHub's release
+API, authenticated asset digests and allowed release CDN redirects.
 
 The project currently has no Windows certificate or Apple Developer ID and is
 not notarized. Existing initial-install confirmation requirements remain. Mac
@@ -145,10 +149,20 @@ cover backing/logical pixel mapping and failed driver reads on Windows/macOS;
 the bundled `--pick-diagnostics --report <file>` runs actual GPU/input checks.
 Windows tests and Mac CI must not be described as physical Mac trackpad testing.
 
-The Release workflow builds both real distribution formats for PR review and
-only publishes on a release tag or explicit tagged dispatch. A release must
-include both platform manifests and all their packs, as well as the full
-installer and DMG. Existing release history remains untouched.
+Routine releases publish complete snapshots to Cloudflare while reusing
+unchanged files and packs. Model-only changes also need a new numeric patch
+version. They require neither a GitHub release nor a rebuilt installer. The
+full-installer workflow is manual-only; pushing a version tag starts no build.
+The one-time GitHub bridge includes both platform manifests and every referenced
+pack for old clients. [Cloudflare publication](CLOUDFLARE-UPDATES.md) documents
+the current workflow and rollback procedure.
+
+The 4.0.12 bridge passed frozen runtime, historical-launcher activation, healthy
+UI, repeat-update, rollback, saved-data preservation and Cloudflare HTTPS checks
+on the owner's Windows computer and Apple silicon MacBook. Mac checks also
+verified the final signatures, Cocoa native getters and GPU controls. No GitHub
+Actions were used for that validation; these automated checks are not a claim
+of physical trackpad or complete visual acceptance.
 
 The Windows frozen-package development check (test baseline 3.0.99 to 3.1.0)
 downloaded 11,029,300 bytes from a 1,590,697,952-byte compressed feed, reusing

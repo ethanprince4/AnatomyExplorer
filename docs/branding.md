@@ -14,9 +14,9 @@ The PyInstaller specification is `packaging/LayeredHuman.spec`.
 - The repository stays at `ethanprince4/AnatomyExplorer` for now, by the owner's
   choice. Installed v4.0.10 and older clients require that exact repository
   prefix in GitHub asset metadata. A GitHub redirect alone cannot satisfy their
-  check after a rename. The new client explicitly trusts this identity and
-  `ethanprince4/LayeredHuman`, while binding all packs to their manifest's exact
-  repository and release.
+  check after a rename. The retained legacy transport binds all packs to their
+  manifest's exact repository and release. The active 4.0.12 client instead uses
+  the fixed Cloudflare origin and needs no GitHub access for subsequent updates.
 - Both stable and experimental Inno Setup AppIds are unchanged. Upgrades find
   their existing installation directory; fresh installations use the new name.
   The installer replaces the old named shortcuts with Layered Human shortcuts.
@@ -48,9 +48,9 @@ The PyInstaller specification is `packaging/LayeredHuman.spec`.
 
 ## Future repository rename
 
-Publish and distribute the bridge updater from the current address before
-renaming the repository. Clients that receive this version can accept assets
-under the successor identity. Clients that miss the bridge still need a manual
+Keep the GitHub bridge available at the current address for older clients.
+Clients that receive 4.0.12 use Cloudflare independently of the repository name.
+Clients that miss the bridge still need a manual
 installation after a rename unless an old-address compatibility feed is kept.
 Do not promise uninterrupted updates for those clients based on redirects.
 Keep the old protocol manifests, executable aliases, pack names and install/data

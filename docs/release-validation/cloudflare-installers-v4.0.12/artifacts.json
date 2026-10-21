@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "version": "4.0.12",
+  "scope": "Small helpers and exact frozen-file overlays; no full-installer rebuild",
+  "publication_status": "Not asserted by this validation receipt",
+  "platforms": {
+    "windows-x64": {
+      "schema": 1,
+      "version": "4.0.12",
+      "platform": "windows-x64",
+      "prefix": "releases/v4.0.12/installers/cf-only-1",
+      "overlay": {
+        "name": "LayeredHuman-Windows-4.0.12-overlay.zip",
+        "size": 756874,
+        "sha256": "6df6b3561bd272a7790f33e69501cccfc6bdd9ab2f840af06877b45aa5aa5c3d"
+      },
+      "changed_files": 5,
+      "changed_file_bytes": 94962,
+      "bundle_bytes": 5001703466,
+      "full_installer_rebuilt": false,
+      "native_helper_built": true,
+      "inventory_sha256": "e60165755a00ec29ce7c45a7d7a308c02fd44d8185c5297526ab84c697b1f075",
+      "base_manifest_sha256": "9e7bda1d81f80d1e2f9d87211d773095819fc5c6ac5165ecdd101ae0c1ba4c57",
+      "final_manifest_sha256": "a2f78d3f8109ba5ed3d52455489bb3a2efa90d16e5aaddd35adbd58a164b00dd",
+      "seed_bytes": 3866439514,
+      "helper": {
+        "name": "Install-Layered-Human-Windows.exe",
+        "size": 744448,
+        "sha256": "25795183f77ca681dc968a8d130eccd8f3945bb6320a821ad7df596971a7fbc8"
+      }
+    },
+    "macos-arm64": {
+      "schema": 1,
+      "version": "4.0.12",
+      "platform": "macos-arm64",
+      "prefix": "releases/v4.0.12/installers/cf-only-1",
+      "overlay": {
+        "name": "LayeredHuman-Mac-4.0.12-overlay.zip",
+        "size": 82497325,
+        "sha256": "cd111032b741d78bc861ed169aec000a9abe8724668ff12a9ea95d7c41719c96"
+      },
+      "changed_files": 288,
+      "changed_file_bytes": 193825032,
+      "bundle_bytes": 4933324675,
+      "full_installer_rebuilt": false,
+      "native_helper_built": true,
+      "inventory_sha256": "7a21f139f2f305950939ce5c4ac056c748701348a62f798419dd7a51b530fe7e",
+      "base_manifest_sha256": "6425e44678d31850805ab820a904620a7b49d61c8975f7c88dc5c249602ccd51",
+      "final_manifest_sha256": "d1a3dd906099c3363b7af61ebe57cb0e667cd64fadc17b84d437a11b2301c0de",
+      "seed_bytes": 4054495102,
+      "helper": {
+        "name": "Install-Layered-Human-Mac.dmg",
+        "size": 985808,
+        "sha256": "8ff118110fadafe3846159992bf9f3373f957f3ed2fadcffb4594307c192f49a"
+      }
+    }
+  }
+}

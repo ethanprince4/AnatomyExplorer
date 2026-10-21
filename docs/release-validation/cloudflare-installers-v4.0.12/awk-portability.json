@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "native_mac_reproduction": [
+    {
+      "variant": "original",
+      "expression": "{name=$0; while (sub(/\\/[^/]*$/, \"\", name)) print name}",
+      "exit_code": 2,
+      "stdout": "",
+      "stderr": "/usr/bin/awk: extra ] at source line 1\n context is\n\t{name=$0; while >>>  (sub(/\\/[^/] <<< \n/usr/bin/awk: nonterminated character class \\/[^\n source line number 1\n"
+    },
+    {
+      "variant": "escaped",
+      "expression": "{name=$0; while (sub(/\\/[^\\/]*$/, \"\", name)) print name}",
+      "exit_code": 0,
+      "stdout": "Contents/Resources/app\nContents/Resources\nContents\nContents/MacOS\nContents\n",
+      "stderr": ""
+    }
+  ],
+  "authoritative_template_sha256": "af12c5449242d4dc369e7bf2e71ec89862124ff539d681ac39bdd29d69cef1a8",
+  "local_regression": {
+    "host": "Windows",
+    "executable": "Git for Windows usr/bin/awk.exe",
+    "source": "Expression extracted from the actual install.sh.in template",
+    "passed": true,
+    "cases": [
+      "nested application file",
+      "native executable path",
+      "names with spaces",
+      "root file without a parent"
+    ],
+    "native_mac_validation": false
+  }
+}
