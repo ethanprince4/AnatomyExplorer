@@ -53,7 +53,7 @@ cleanup() {
 # any failed fragment or final checksum discards the part and retries that original part on GitHub.
 download_mirror() {
   local name="$1" expected="$2" sum="$3" entry rest key size actual got found=0
-  : > "$WORK/$name"
+  : > "$WORK/$name" || return 1
   for entry in "${FRAGMENTS[@]}"; do
     if [ "${entry%% *}" != "$name" ]; then continue; fi
     found=1
@@ -64,15 +64,15 @@ download_mirror() {
       --speed-time 60 --speed-limit 1024 --retry 1 --output "$WORK/$name.fragment.tmp" "$MIRROR/$key"; then
       return 1
     fi
-    actual=$(wc -c < "$WORK/$name.fragment.tmp")
+    actual=$(wc -c < "$WORK/$name.fragment.tmp") || return 1
     if [ "$actual" -ne "$size" ]; then return 1; fi
     cat "$WORK/$name.fragment.tmp" >> "$WORK/$name" || return 1
-    rm -f "$WORK/$name.fragment.tmp"
+    rm -f "$WORK/$name.fragment.tmp" || return 1
   done
   if [ "$found" != 1 ]; then return 1; fi
-  actual=$(wc -c < "$WORK/$name")
+  actual=$(wc -c < "$WORK/$name") || return 1
   if [ "$actual" -ne "$expected" ]; then return 1; fi
-  got=$(shasum -a 256 "$WORK/$name" | cut -d ' ' -f 1)
+  got=$(shasum -a 256 "$WORK/$name" | cut -d ' ' -f 1) || return 1
   [ "$got" = "$sum" ]
 }
 
@@ -86,12 +86,15 @@ download_parts() {
     sum=${rest%% *}
     size=${rest#* }
     status progress $(( (n - 1) * 80 / count )) "Downloading part $n of $count"
-    if ! download_mirror "$name" "$size" "$sum"; then
+    # Bash 3.2 can apply errexit inside a nested function despite its caller's conditional.
+    # The mirror attempt reports all failures explicitly; keep them inside a non-errexit subshell.
+    if ! (set +e; download_mirror "$name" "$size" "$sum"); then
       rm -f "$WORK/$name" "$WORK/$name.fragment.tmp"
       status progress $(( (n - 1) * 80 / count )) "Downloading part $n of $count from GitHub"
-      curl --silent --show-error --fail --location --connect-timeout 30 \
-        --speed-time 60 --speed-limit 1024 --retry 3 --output "$WORK/$name" "$BASE/$name" \
-        || fail "Part $n of $count could not be downloaded. Check the internet connection and run the installer again."
+      if ! (set +e; curl --silent --show-error --fail --location --connect-timeout 30 \
+        --speed-time 60 --speed-limit 1024 --retry 3 --output "$WORK/$name" "$BASE/$name"); then
+        fail "Part $n of $count could not be downloaded. Check the internet connection and run the installer again."
+      fi
       actual=$(wc -c < "$WORK/$name")
       got=$(shasum -a 256 "$WORK/$name" | cut -d ' ' -f 1)
       if [ "$actual" -ne "$size" ] || [ "$got" != "$sum" ]; then

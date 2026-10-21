@@ -223,7 +223,7 @@ curl() {
             path = out / ("mac_" + mode + ".sh")
             path.write_text(script, encoding="utf-8", newline="\n")
             proc = subprocess.run([str(bash), str(path)], capture_output=True, text=True, timeout=15)
-        assert proc.returncode == 0, (mode, proc.stdout, proc.stderr, requests)
+        assert proc.returncode == 0, (mode, proc.returncode, proc.stdout, proc.stderr, requests)
         assert (work / "part.bin").read_bytes() == PAYLOAD, mode
         assert not list(work.glob("*.fragment.tmp")), mode
         if mode == "ok":
