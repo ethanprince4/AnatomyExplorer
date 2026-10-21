@@ -90,10 +90,22 @@ static class Program
             string folder = Path.Combine(root, Release.Version);
             Directory.CreateDirectory(folder);
             string target = Path.Combine(folder, Release.Setup);
+            string transportLog = status == null ? Path.Combine(root, "transport.log") : status + ".transport.log";
+            File.AppendAllText(transportLog, "run-start|" + Release.Version + "|" + DateTime.UtcNow.ToString("o")
+                                           + Environment.NewLine);
             long total = 0;
             foreach (Part part in Release.Parts) total += part.Size;
+            string lastTransportNote = null;
             FragmentDownloader downloader = new FragmentDownloader(Release.Base, Release.Version,
-                () => false, delegate(long done, string note) { }, Thread.Sleep);
+                () => false, delegate(long done, string note)
+                {
+                    // Rehash can report the same note once per block. Log a note only when it changes.
+                    if (note != null && note != lastTransportNote)
+                    {
+                        File.AppendAllText(transportLog, "note|" + done + "|" + note + Environment.NewLine);
+                        lastTransportNote = note;
+                    }
+                }, Thread.Sleep);
             using (FileStream file = new FileStream(target, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
             {
                 if (file.Length > total) file.SetLength(total);
@@ -101,6 +113,9 @@ static class Program
                 for (int index = 0; index < Release.Parts.Length; index++)
                 {
                     downloader.FetchPart(file, Release.Parts[index], index, Release.Parts.Length, start);
+                    Part completed = Release.Parts[index];
+                    File.AppendAllText(transportLog, "part-complete|" + completed.Name + "|" + completed.Size
+                                                   + "|" + completed.Sha256 + Environment.NewLine);
                     start += Release.Parts[index].Size;
                 }
             }

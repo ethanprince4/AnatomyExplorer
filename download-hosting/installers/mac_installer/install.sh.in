@@ -77,7 +77,7 @@ download_mirror() {
 }
 
 download_parts() {
-  local count=${#PARTS[@]} n=0 entry name rest sum size got actual
+  local count=${#PARTS[@]} n=0 entry name rest sum size got actual source
   files=()
   for entry in "${PARTS[@]}"; do
     n=$((n + 1))
@@ -85,10 +85,12 @@ download_parts() {
     rest=${entry#* }
     sum=${rest%% *}
     size=${rest#* }
+    source=cloudflare
     status progress $(( (n - 1) * 80 / count )) "Downloading part $n of $count"
     # Bash 3.2 can apply errexit inside a nested function despite its caller's conditional.
     # The mirror attempt reports all failures explicitly; keep them inside a non-errexit subshell.
     if ! (set +e; download_mirror "$name" "$size" "$sum"); then
+      source=github
       rm -f "$WORK/$name" "$WORK/$name.fragment.tmp"
       status progress $(( (n - 1) * 80 / count )) "Downloading part $n of $count from GitHub"
       if ! (set +e; curl --silent --show-error --fail --location --connect-timeout 30 \
@@ -101,6 +103,7 @@ download_parts() {
         fail "Part $n of $count did not pass its checksum. Run the installer again."
       fi
     fi
+    printf '%s|%s|%s|%s\n' "$name" "$source" "$size" "$sum" >> "$WORK/download-sources.log"
     files+=("$WORK/$name")
   done
 }

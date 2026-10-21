@@ -62,6 +62,9 @@ The reconstructed original installer is `<work>/4.0.11/LayeredHuman-Setup-Window
 the existing `--download-only` mode remain available; the latter still opens the download window. Headless
 mode uses the same embedded metadata and transport. Exit code 0 plus status `downloaded` means every
 original part passed its embedded SHA-256.
+Headless mode appends deduplicated transport notes and verified `part-complete` records to
+`<status>.transport.log` (or `<work>/transport.log` without `--status`). GitHub fallback is recorded in those
+notes. Use a fresh work folder and log path to verify a complete Cloudflare-only download.
 
 Mac download-only verification runs the generated shell script without the applet, mounting, copying, or
 launching anything:
@@ -74,6 +77,8 @@ hdiutil imageinfo website-qa/download-hosting/mac-helper-check/LayeredHuman-macO
 
 Successful download-only checks retain the payload for inspection and consume about 3.87 GB on Windows,
 or 8.11 GB on Mac (the original parts plus joined DMG). They do not prove a native installation or UI flow.
+Mac appends one `part-name|cloudflare-or-github|size|sha256` record after each successfully verified part to
+`<work>/download-sources.log`, so verification can identify fallback without changing the applet UI.
 
 ## Verification and provenance
 
@@ -84,7 +89,8 @@ unexpected Content-Range, ignored Range, corrupt mirror and cached bytes, GitHub
 when both sources are corrupt. The Mac download functions run under Git Bash against the same local
 server, with a test-only `sha256sum` shim for macOS `shasum` and reduced timeout/retry limits. The
 production limits and scripts are unchanged by testing. The report is `out/transport-verification.json`.
-The local Windows/Git Bash run passed all 30 cases, including both public download-only entry points.
+The local Windows/Git Bash run passed all 31 cases, including both public download-only entry points and
+the download-source diagnostics.
 
 These checks do not execute the installer UI, copy an application, or establish native Mac acceptance.
 Native Mac compilation/signature/image inspection and complete downloads from the published domain

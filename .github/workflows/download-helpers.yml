@@ -41,9 +41,14 @@ jobs:
           /bin/bash -n website-qa/download-hosting/helpers/mac-inputs/install.sh
           python3 download-hosting/installers/tests/verify_helpers.py --platform mac --report website-qa/download-hosting/helpers/mac-transport-verification.json
       - name: Reconstruct and verify the actual Mac installation payload without installing it
-        if: ${{ inputs.verify_live == true }}
+        if: ${{ github.event_name == 'push' || inputs.verify_live == true }}
         run: |
           /bin/bash website-qa/download-hosting/helpers/mac-inputs/install.sh download-only "$RUNNER_TEMP/layeredhuman-r2-check"
+          cp "$RUNNER_TEMP/layeredhuman-r2-check/download-sources.log" website-qa/download-hosting/helpers/mac-live-download-sources.log
+          if grep -q github website-qa/download-hosting/helpers/mac-live-download-sources.log; then
+            echo 'The live mirror check used GitHub fallback.' >&2
+            exit 1
+          fi
           hdiutil verify "$RUNNER_TEMP/layeredhuman-r2-check/LayeredHuman-macOS-AppleSilicon.dmg"
           hdiutil imageinfo "$RUNNER_TEMP/layeredhuman-r2-check/LayeredHuman-macOS-AppleSilicon.dmg"
       - uses: actions/upload-artifact@v7

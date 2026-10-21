@@ -153,28 +153,37 @@ def windows_tests(out, inputs):
     assert requests[-1] == ("/gh/part.bin", None), requests
 
     # Also enter the public helper's real Main with a tiny fixture release: no Form may be created here.
-    with server() as (base, requests):
-        fragments = ",\n".join(f'new Fragment("{base}/r2/{i}", {sum(SIZES[:i])}L, {size}L)'
-                               for i, size in enumerate(SIZES))
-        release = builder.fill(HERE / "windows_installer/Release.cs.in", {
-            "APP": "Helper transport fixture", "VERSION": "test", "TAG": "test", "NUMBER": "0.0.0.0",
-            "BASE": base + "/gh", "PAGE": base, "SETUP": "fixture.bin",
-            "PARTS": f'new Part("part.bin", {len(PAYLOAD)}L, "{HASH}", {fragments}),',
-        })
-        fixture_release = out / "FixtureRelease.cs"
-        fixture_release.write_text(release, encoding="utf-8")
-        fixture_exe = out / "PublicEntryFixture.exe"
-        builder.run(builder.CSC, "/nologo", "/target:exe", "/optimize+", "/main:Program", f"/out:{fixture_exe}",
-                    "/r:System.dll", "/r:System.Drawing.dll", "/r:System.Windows.Forms.dll",
-                    HERE / "windows_installer/Installer.cs", HERE / "windows_installer/FragmentDownloader.cs", fixture_release)
-        work = out / "public-entry"
-        status = out / "public-entry-status.txt"
-        result = subprocess.run([str(fixture_exe), "--headless-download", "--work", str(work), "--status", str(status)],
-                                capture_output=True, text=True, timeout=15)
-    assert result.returncode == 0 and status.read_text() == "downloaded", (result.stdout, result.stderr)
-    assert (work / "test/fixture.bin").read_bytes() == PAYLOAD
-    assert all(p.startswith("/r2/") for p, _ in requests), requests
-    results.append({"name": "public_windows_headless_entry", "requests": requests})
+    for mode in ("ok", "missing"):
+        with server(mode, 1) as (base, requests):
+            fragments = ",\n".join(f'new Fragment("{base}/r2/{i}", {sum(SIZES[:i])}L, {size}L)'
+                                   for i, size in enumerate(SIZES))
+            release = builder.fill(HERE / "windows_installer/Release.cs.in", {
+                "APP": "Helper transport fixture", "VERSION": "test", "TAG": "test", "NUMBER": "0.0.0.0",
+                "BASE": base + "/gh", "PAGE": base, "SETUP": "fixture.bin",
+                "PARTS": f'new Part("part.bin", {len(PAYLOAD)}L, "{HASH}", {fragments}),',
+            })
+            fixture_release = out / ("FixtureRelease_" + mode + ".cs")
+            fixture_release.write_text(release, encoding="utf-8")
+            fixture_exe = out / ("PublicEntryFixture_" + mode + ".exe")
+            builder.run(builder.CSC, "/nologo", "/target:exe", "/optimize+", "/main:Program", f"/out:{fixture_exe}",
+                        "/r:System.dll", "/r:System.Drawing.dll", "/r:System.Windows.Forms.dll",
+                        HERE / "windows_installer/Installer.cs", HERE / "windows_installer/FragmentDownloader.cs", fixture_release)
+            work = out / ("public-entry-" + mode)
+            status = out / ("public-entry-status-" + mode + ".txt")
+            result = subprocess.run([str(fixture_exe), "--headless-download", "--work", str(work), "--status", str(status)],
+                                    capture_output=True, text=True, timeout=15)
+        assert result.returncode == 0 and status.read_text() == "downloaded", (result.stdout, result.stderr)
+        assert (work / "test/fixture.bin").read_bytes() == PAYLOAD
+        transport = Path(str(status) + ".transport.log").read_text()
+        assert transport.count("part-complete|part.bin|") == 1, transport
+        assert f"part-complete|part.bin|{len(PAYLOAD)}|{HASH}" in transport, transport
+        assert ("GitHub" in transport) == (mode == "missing"), transport
+        if mode == "ok":
+            assert all(p.startswith("/r2/") for p, _ in requests), requests
+            assert len(transport.splitlines()) == 2, transport  # run start and completed part; no per-chunk notes
+        else:
+            assert requests[-1][0] == "/gh/part.bin", requests
+        results.append({"name": "public_windows_headless_entry_" + mode, "requests": requests})
     return results
 
 
@@ -230,6 +239,8 @@ curl() {
             assert all(p.startswith("/r2/") for p, _ in requests), requests
         else:
             assert requests[-1] == ("/gh/part.bin", None), requests
+        source = "cloudflare" if mode == "ok" else "github"
+        assert (work / "download-sources.log").read_text() == f"part.bin|{source}|{len(PAYLOAD)}|{HASH}\n"
         results.append({"name": "mac_" + mode, "requests": requests})
     with server("corrupt", 1, "corrupt") as (base, requests):
         work = out / "mac_both_corrupt"
@@ -240,6 +251,7 @@ curl() {
         path.write_text(script, encoding="utf-8", newline="\n")
         proc = subprocess.run([str(bash), str(path)], capture_output=True, text=True, timeout=15)
     assert proc.returncode != 0 and "checksum" in (work / "status").read_text(), (proc.stdout, proc.stderr)
+    assert not (work / "download-sources.log").exists(), "Failed verification must not log a successful source"
     results.append({"name": "mac_both_sources_corrupt_rejected", "requests": requests, "expected_failure": True})
     with server() as (base, requests):
         work = out / "mac_public_download_only"
@@ -252,6 +264,7 @@ curl() {
     assert proc.returncode == 0, (proc.stdout, proc.stderr)
     assert (work / "test.dmg").read_bytes() == PAYLOAD
     assert (work / "status").read_text().startswith("done|100|Downloaded and verified")
+    assert (work / "download-sources.log").read_text() == f"part.bin|cloudflare|{len(PAYLOAD)}|{HASH}\n"
     assert all(p.startswith("/r2/") for p, _ in requests), requests
     results.append({"name": "public_mac_download_only_entry", "requests": requests})
     return results
