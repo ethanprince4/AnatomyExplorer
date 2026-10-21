@@ -31,7 +31,9 @@
    "pharynx-and-swallowing",
    "cranial-nerves"
   ],
-  "micro": [],
+  "micro": [
+   "tongue_papillae"
+  ],
   "histology": [
    "tongue"
   ]
@@ -134,7 +136,7 @@
   },
   {
    "title": "The surface",
-   "text": "<p>The front is covered in <b>papillae</b>: numerous small conical <b>filiform</b> papillae (which carry no taste buds and give the tongue its grip), scattered red <b>fungiform</b> papillae, a row of large <b>vallate</b> papillae in front of the sulcus terminalis, and <b>foliate</b> papillae on the sides.</p><p>The posterior third has no papillae but a cobblestone surface of <b>lingual tonsil</b> — lymphoid tissue that forms part of Waldeyer's ring.</p>",
+   "text": "<p>The front is covered in <b>papillae</b>: numerous small conical <b>filiform</b> papillae (which carry no taste buds and give the tongue its grip), scattered red <b>fungiform</b> papillae, a row of large <b>vallate</b> papillae in front of the sulcus terminalis, and <b>foliate</b> papillae on the sides.</p><p>The posterior third has no papillae but a cobblestone surface of <b>lingual tonsil</b> — lymphoid tissue that forms part of Waldeyer's ring.</p><p>The model compares these papilla types in a regional teaching arrangement. Its sampled taste buds and nearby epithelium are enlarged locally; use the whole-tongue anatomy for the sulcus terminalis and lingual tonsil.</p>",
    "systems": [
     "visceral"
    ],
@@ -150,7 +152,15 @@
     "q": "Which papillae carry no taste buds?",
     "a": "The filiform papillae."
    },
-   "histology": "tongue"
+   "histology": "tongue",
+   "micro": "tongue_papillae",
+   "micro_view": "Papillae and connective cores",
+   "micro_focus": [
+    "Filiform papillae",
+    "Fungiform papillae",
+    "Circumvallate papilla",
+    "Foliate papillae"
+   ]
   },
   {
    "systems": [
@@ -170,7 +180,13 @@
     "q": "Which nerve carries taste from the vallate papillae?",
     "a": "The glossopharyngeal nerve, IX, even though the papillae lie just anterior to the sulcus terminalis."
    },
-   "histology": "tongue"
+   "histology": "tongue",
+   "micro": "tongue_papillae",
+   "micro_view": "Neurovascular context",
+   "micro_focus": [
+    "Glossopharyngeal nerve (IX) branch",
+    "Lingual nerve (chorda tympani) branch"
+   ]
   }
  ]
 },

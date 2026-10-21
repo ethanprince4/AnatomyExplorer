@@ -225,6 +225,9 @@
    ],
    "histology": [
     "tongue"
+   ],
+   "micro": [
+    "tongue_papillae"
    ]
   },
   "steps": [
@@ -449,10 +452,12 @@
    "Filiform: most numerous, keratinised, no taste buds, friction.",
    "Fungiform (mushroom), foliate (leaf-like, lateral) and vallate (large, V-shaped row) carry taste buds.",
    "Taste bud: gustatory cells with taste hairs at a taste pore, supporting cells and basal cells.",
-   "Taste cells synapse onto sensory nerve fibres."
+   "Taste cells signal to sensory nerve fibres: type II cells release ATP; type III cells form synapses."
   ],
   "see_also": {
-   "micro": [],
+   "micro": [
+    "tongue_papillae"
+   ],
    "histology": [
     "tongue"
    ]
@@ -460,7 +465,7 @@
   "steps": [
    {
     "title": "Four kinds of papillae",
-    "text": "<p>The <b>dorsal surface of the tongue</b> is roughened by <b>papillae</b> that add friction. <b>Filiform</b> papillae are thread-like, the most numerous, keratinised and carry <b>no taste buds</b>. <b>Fungiform</b> papillae are mushroom-shaped and scattered among them.</p><p><b>Foliate</b> papillae are leaf-like folds on the sides at the back. The large <b>vallate (circumvallate)</b> papillae, each ringed by a trench, stand in a V-shaped row in front of the sulcus terminalis.</p>",
+    "text": "<p>The <b>dorsal surface of the tongue</b> is roughened by <b>papillae</b> that add friction. <b>Filiform</b> papillae are thread-like, the most numerous, keratinised and carry <b>no taste buds</b>. <b>Fungiform</b> papillae are mushroom-shaped and scattered among them.</p><p><b>Foliate</b> papillae are leaf-like folds on the sides at the back. The large <b>vallate (circumvallate)</b> papillae, each ringed by a trench, stand in a V-shaped row in front of the sulcus terminalis.</p><p>In the model, compare the four papilla types and select the keratinized filiform tips. This is a comparative teaching arrangement, not a map of the whole tongue. Taste buds and nearby epithelial detail are enlarged locally; counts and spacing are schematic.</p>",
     "systems": [
      "visceral"
     ],
@@ -479,11 +484,19 @@
      "q": "Which papillae have no taste buds?",
      "a": "The filiform papillae."
     },
-    "histology": "tongue"
+    "histology": "tongue",
+    "micro": "tongue_papillae",
+    "micro_view": "Papillae and connective cores",
+    "micro_focus": [
+     "Filiform papillae",
+     "Fungiform papillae",
+     "Circumvallate papilla",
+     "Foliate papillae"
+    ]
    },
    {
     "title": "Inside a taste bud",
-    "text": "<p><b>Taste buds</b> sit mainly on the sides of vallate and foliate papillae and the tops of fungiform ones. Each is a barrel of cells: <b>gustatory (taste) cells</b>, <b>supporting cells</b>, and <b>basal cells</b> that replace them.</p><p>Each taste cell sends a <b>taste hair</b> (microvilli) up to the <b>taste pore</b> on the surface. At its base it synapses onto the terminal of a <b>sensory neuron</b>, releasing neurotransmitter from <b>synaptic vesicles</b>.</p>",
+    "text": "<p><b>Taste buds</b> sit mainly on the sides of vallate and foliate papillae and the tops of fungiform ones. Each is a barrel of cells: <b>gustatory (taste) cells</b>, <b>supporting cells</b>, and <b>basal cells</b> that replace them.</p><p>Each taste cell sends a <b>taste hair</b> (microvilli) up to the <b>taste pore</b> on the surface. At the base of the taste bud, signals pass to <b>sensory nerve fibres</b>. Type II receptor cells release ATP; type III cells form synapses with the nerve terminals.</p><p>Select the receptor cells, basal cells, nuclei and taste pores in the model. Surrounding papillary tissue is hidden in this view to expose the sampled taste-organ structures. The enlarged sampled cells do not represent the full cell count of a normal taste bud.</p>",
     "systems": [
      "visceral",
      "nervous"
@@ -500,7 +513,30 @@
      "q": "What projects through the taste pore?",
      "a": "The taste hairs (microvilli) of the gustatory cells."
     },
-    "histology": "tongue"
+    "histology": "tongue",
+    "micro": "tongue_papillae",
+    "micro_view": "Taste cells and basal afferent",
+    "micro_focus": [
+     "Gustatory receptor cells",
+     "Basal taste cells",
+     "Taste cell nuclei",
+     "Taste pores & microvilli"
+    ]
+   },
+   {
+    "title": "Glands rinse the papillary clefts",
+    "text": "<p><b>Von Ebner glands</b> are serous glands beneath the circumvallate and foliate papillae. Their ducts carry secretion toward the papillary trenches and clefts, helping fresh dissolved substances reach the taste pores.</p><p>Use the gland view to follow the represented gland and duct paths. The surrounding mucosa and muscle are hidden for inspection.</p>",
+    "micro": "tongue_papillae",
+    "micro_view": "Von Ebner glands and ducts",
+    "micro_focus": [
+     "Von Ebner glands",
+     "Von Ebner ducts"
+    ],
+    "histology": "tongue",
+    "check": {
+     "q": "What do the Von Ebner ducts connect?",
+     "a": "The serous glands beneath the papillae with the circumvallate trenches and foliate clefts."
+    }
    },
    {
     "title": "The back of the tongue",
@@ -579,12 +615,27 @@
    {
     "type": "recall",
     "q": "How does a taste cell signal to the brain?",
-    "a": "It synapses onto a sensory neuron terminal, releasing transmitter from synaptic vesicles."
+    "a": "It activates a sensory nerve fibre: type II receptor cells release ATP, while type III cells form synapses with nerve terminals."
    },
    {
     "type": "recall",
     "q": "Where are foliate papillae?",
     "a": "Leaf-like folds on the lateral sides of the posterior tongue."
+   },
+   {
+    "type": "find_micro",
+    "model": "tongue_papillae",
+    "part": "Keratinised tips (filiform)"
+   },
+   {
+    "type": "find_micro",
+    "model": "tongue_papillae",
+    "part": "Von Ebner ducts"
+   },
+   {
+    "type": "find_micro",
+    "model": "tongue_papillae",
+    "part": "Basal taste cells"
    }
   ]
  },

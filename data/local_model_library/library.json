@@ -93,16 +93,16 @@
     },
     "tongue_papillae": {
       "name": "Tongue Papillae",
-      "summary": "Comparative papillary mucosa, taste-organ cell relationships, sampled serous gland drainage and interweaving skeletal-muscle fascicles.",
+      "summary": "Tongue mucosa comparing four papilla types, taste-bud cells and pores, serous glands and ducts, and intrinsic muscle with nerve and vessel branches.",
       "scale_note": "Comparative regional teaching arrangement, not one histologic field. Taste buds, real pores and adjacent epithelial thickness retain 4× local cellular enlargement; 19 sampled cells per bud, reduced counts and spacing. Nominal historical macro scale 5000 micrometres per BU is not a measured specimen calibration. Camera zoom is not biological magnification. New cellular and fascicular detail is schematic.",
       "variants": {
         "post": {
-          "path": "models/tongue_papillae/v4/model.npz",
+          "path": "models/tongue_papillae/native-20261021/model.npz",
           "format": "npz",
           "static_recipe": true,
-          "runtime_controls": "models/tongue_papillae/native-20261020/model.controls.json",
+          "runtime_controls": "models/tongue_papillae/native-20261021/model.controls.json",
           "companions": {
-            "teaching_recipe": "models/tongue_papillae/native-20261020/teaching_recipe.json"
+            "teaching_recipe": "models/tongue_papillae/native-20261021/teaching_recipe.json"
           }
         }
       },

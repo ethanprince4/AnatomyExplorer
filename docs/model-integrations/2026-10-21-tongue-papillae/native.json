@@ -1,0 +1,114 @@
+{
+  "platform": "Windows Qt windows plugin",
+  "widget": "ModelView",
+  "hidden_window": true,
+  "shown_on_desktop": false,
+  "focus_taken": false,
+  "renderer": "Application QOpenGLWidget / OpenGL",
+  "valid_context": true,
+  "frame_ok": true,
+  "parts_tree_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28
+  ],
+  "native_view_names": [
+    "Full teaching model",
+    "Overview",
+    "Papillae and connective cores",
+    "Taste cells and basal afferent",
+    "Muscle fascicles",
+    "Squamous stratification",
+    "Neurovascular context",
+    "Circumvallate papilla",
+    "Von Ebner glands and ducts"
+  ],
+  "opening_note": "The standard catalog installs its additional Full teaching model overview and cutaway.",
+  "lesson_checks": [
+    {
+      "lesson": "lab08-03-tongue-papillae-taste",
+      "step": 0,
+      "view": "Papillae and connective cores",
+      "selected": [
+        "Filiform papillae",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae"
+      ],
+      "frame_ok": true
+    },
+    {
+      "lesson": "lab08-03-tongue-papillae-taste",
+      "step": 1,
+      "view": "Taste cells and basal afferent",
+      "selected": [
+        "Gustatory receptor cells",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Taste pores & microvilli"
+      ],
+      "frame_ok": true
+    },
+    {
+      "lesson": "lab08-03-tongue-papillae-taste",
+      "step": 2,
+      "view": "Von Ebner glands and ducts",
+      "selected": [
+        "Von Ebner glands",
+        "Von Ebner ducts"
+      ],
+      "frame_ok": true
+    },
+    {
+      "lesson": "oral-cavity-tongue",
+      "step": 4,
+      "view": "Papillae and connective cores",
+      "selected": [
+        "Filiform papillae",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae"
+      ],
+      "frame_ok": true
+    },
+    {
+      "lesson": "oral-cavity-tongue",
+      "step": 5,
+      "view": "Neurovascular context",
+      "selected": [
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch"
+      ],
+      "frame_ok": true
+    }
+  ],
+  "limitations": [
+    "Standalone native viewer widget; no packaged build or macOS validation."
+  ]
+}
