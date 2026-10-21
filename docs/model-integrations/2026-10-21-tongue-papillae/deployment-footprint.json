@@ -1,0 +1,95 @@
+{
+  "base_commit": "5d727268ac62269d603b61132041fe4e354f1050",
+  "active_variant": "tongue_papillae/post",
+  "active_changed_files": [
+    {
+      "path": "data/local_model_library/library.json",
+      "bytes": 83080,
+      "sha256": "f68d14a23dbff3abf95421ce49dff483d3db11615979f48778a1da0ecc8e3ee1"
+    },
+    {
+      "path": "data/local_model_library/models/tongue_papillae/native-20261021/model.npz",
+      "bytes": 39670935,
+      "sha256": "965291ab046d0869e5d7e424407e4ece676df56bd851c34eb8319fbf9c8f2783"
+    },
+    {
+      "path": "data/local_model_library/models/tongue_papillae/native-20261021/model.controls.json",
+      "bytes": 10517,
+      "sha256": "929c662c1411565b7b308c461c91e4be0fb4414d9a716299749792268b0661b2"
+    },
+    {
+      "path": "data/local_model_library/models/tongue_papillae/native-20261021/teaching_recipe.json",
+      "bytes": 9163,
+      "sha256": "a0adb9959f00c1a6455a7f0c9310d46e13274ab2ffa62e67e5aaff66f25cdef8"
+    },
+    {
+      "path": "app/ui/resources/studio/model-vitrines/thumb_tongue_papillae.webp",
+      "bytes": 126936,
+      "sha256": "24567aea6549b70a0de47d9a4f8e68174b7894c35c694799eeb748cde9873c1a"
+    },
+    {
+      "path": "data/content/model_parts/tongue_papillae.json",
+      "bytes": 18285,
+      "sha256": "40142c3a2ca83d52ed5b346c4e5649b2b986716f2e078ed9e2b4165530b025ce"
+    },
+    {
+      "path": "data/content/lessons_course_lab08.json",
+      "bytes": 127275,
+      "sha256": "de807dcda62c1607967b574ebf7799818623e45f47a8b5c6049a5448e8eb2f3f"
+    },
+    {
+      "path": "data/content/lessons_digestive_upper.json",
+      "bytes": 39770,
+      "sha256": "afe5a402b58fd1aabcde46498e801ca496e1c2fdc7e23b392b2505039167b8a1"
+    }
+  ],
+  "previous_active_files": [
+    {
+      "path": "data/local_model_library/models/tongue_papillae/v4/model.npz",
+      "bytes": 30217501,
+      "sha256": "7f3356ac5429c38db4c4d2ac6d046600aebfe757ef6292b32f3125f156c4ff84",
+      "retained_catalog_references": [],
+      "retained_lesson_file_references": [],
+      "selected_release_seed": false,
+      "preserved_in_source": true
+    },
+    {
+      "path": "data/local_model_library/models/tongue_papillae/native-20261020/model.controls.json",
+      "bytes": 86345,
+      "sha256": "69cace6c6d38b999095d75037d4f8ecc96df6e5126f64f4b794c6c6153da52f5",
+      "retained_catalog_references": [],
+      "retained_lesson_file_references": [],
+      "selected_release_seed": false,
+      "preserved_in_source": true
+    },
+    {
+      "path": "data/local_model_library/models/tongue_papillae/native-20261020/teaching_recipe.json",
+      "bytes": 19429,
+      "sha256": "51e02a0416a648f9976ee51c50636063ca518b992ae59df1da9f3ba933d0de64",
+      "retained_catalog_references": [],
+      "retained_lesson_file_references": [],
+      "selected_release_seed": false,
+      "preserved_in_source": true
+    }
+  ],
+  "other_preserved_historical_files": [
+    {
+      "path": "data/local_model_library/models/tongue_papillae/v4/recipe.json",
+      "bytes": 19429,
+      "sha256": "51e02a0416a648f9976ee51c50636063ca518b992ae59df1da9f3ba933d0de64"
+    }
+  ],
+  "selected_tongue_release_seed_files": [
+    "models/tongue_papillae/native-20261021/model.npz",
+    "models/tongue_papillae/native-20261021/model.controls.json",
+    "models/tongue_papillae/native-20261021/teaching_recipe.json"
+  ],
+  "lesson_model_id_links": [
+    "lab08-02-oral-cavity-mastication",
+    "lab08-03-tongue-papillae-taste",
+    "oral-cavity-tongue"
+  ],
+  "direct_model_file_paths_in_any_retained_lesson": [],
+  "removed_source_files": [],
+  "deployment_note": "Prior three active assets and v4/recipe.json are not referenced by the retained catalog or lessons and are not selected by post_library_data. Parent may omit them from a new managed deployment snapshot; keep repository/source/review history. No upload or deployment was performed."
+}

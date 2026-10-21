@@ -1,0 +1,1508 @@
+{
+  "model": "tongue_papillae",
+  "source_sha256_before": "965291ab046d0869e5d7e424407e4ece676df56bd851c34eb8319fbf9c8f2783",
+  "source_sha256_after": "965291ab046d0869e5d7e424407e4ece676df56bd851c34eb8319fbf9c8f2783",
+  "installed_sha256": "965291ab046d0869e5d7e424407e4ece676df56bd851c34eb8319fbf9c8f2783",
+  "exact_source_copy": true,
+  "schema": {
+    "format": "anatomy-npz-f32-delta-v1",
+    "position_encoding": "float32",
+    "normal_encoding": "float32"
+  },
+  "counts": {
+    "parts": 29,
+    "vertices": 2097364,
+    "triangles": 4083312,
+    "groups": {
+      "Mucosa": 5,
+      "Papillae": 5,
+      "Glands": 3,
+      "Taste buds": 5,
+      "Intrinsic muscle": 6,
+      "Nerves & vessels": 5
+    }
+  },
+  "bounds": [
+    [
+      -0.9994999766349792,
+      0.0,
+      -0.5995000004768372
+    ],
+    [
+      0.9994999766349792,
+      0.9299270510673523,
+      0.5995000004768372
+    ]
+  ],
+  "nominal_metres_per_unit": 0.005,
+  "scale_note": "Comparative regional teaching arrangement, not one histologic field. Taste buds, real pores and adjacent epithelial thickness retain 4× local cellular enlargement; 19 sampled cells per bud, reduced counts and spacing. Nominal historical macro scale 5000 micrometres per BU is not a measured specimen calibration. Camera zoom is not biological magnification. New cellular and fascicular detail is schematic.",
+  "decoder_warnings": [
+    "Von Ebner glands: zero normals repaired",
+    "Taste buds: zero normals repaired",
+    "Gustatory receptor cells: zero normals repaired",
+    "Basement membrane: zero normals repaired",
+    "Basal taste cells: zero normals repaired",
+    "Taste cell nuclei: zero normals repaired",
+    "Serous acinar nuclei: zero normals repaired",
+    "Interstitial adipocytes: zero normals repaired",
+    "Squamous epithelial cells (sampled field): zero normals repaired",
+    "Squamous epithelial nuclei: zero normals repaired"
+  ],
+  "native_warnings": [
+    "Von Ebner glands: zero normals repaired",
+    "Taste buds: zero normals repaired",
+    "Gustatory receptor cells: zero normals repaired",
+    "Basement membrane: zero normals repaired",
+    "Basal taste cells: zero normals repaired",
+    "Taste cell nuclei: zero normals repaired",
+    "Serous acinar nuclei: zero normals repaired",
+    "Interstitial adipocytes: zero normals repaired",
+    "Squamous epithelial cells (sampled field): zero normals repaired",
+    "Squamous epithelial nuclei: zero normals repaired"
+  ],
+  "guide_groups": {
+    "Mucosa": {
+      "path": [
+        "Tongue surface"
+      ],
+      "title": "Surface lining (mucosa)"
+    },
+    "Papillae": {
+      "path": [
+        "Tongue surface"
+      ],
+      "title": "Papillae (surface bumps)"
+    },
+    "Taste buds": {
+      "path": [
+        "Tongue surface"
+      ],
+      "title": "Taste buds"
+    },
+    "Intrinsic muscle": {
+      "path": [
+        "Inside the tongue"
+      ],
+      "title": "Intrinsic tongue muscles"
+    },
+    "Glands": {
+      "path": [
+        "Inside the tongue"
+      ],
+      "title": "Von Ebner glands and ducts"
+    },
+    "Nerves & vessels": {
+      "path": [
+        "Inside the tongue"
+      ],
+      "title": "Nerves and blood vessels"
+    }
+  },
+  "inventory": [
+    {
+      "index": 0,
+      "key": "Stratified squamous epithelium",
+      "group": "Mucosa",
+      "color": "#e8b9bb",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.045,
+        140,
+        0.4,
+        0
+      ],
+      "vertices": 151789,
+      "triangles": 303598,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.4506131708621979,
+          -0.5995000004768372
+        ],
+        [
+          0.9994999766349792,
+          0.8039724826812744,
+          0.5995000004768372
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "9aa55a86eada73c50387a78e98dab21e46926c7dc506fa0840e318b389e4b572",
+        "n": "d71517e08586aa0516aea50c56105d3bbeff5de66e00787296fd75c724e80631",
+        "i": "fa506006157ab49acf53ab99ca5192973b384facf0041c663e2b0dd9b4f53edd"
+      }
+    },
+    {
+      "index": 1,
+      "key": "Lamina propria",
+      "group": "Mucosa",
+      "color": "#e8a595",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.12,
+        100.0,
+        0.3,
+        0
+      ],
+      "vertices": 151914,
+      "triangles": 303892,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.37975630164146423,
+          -0.5995000004768372
+        ],
+        [
+          0.9994999766349792,
+          0.893915593624115,
+          0.5995000004768372
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "46fba24cb2be5c496c7e6f759c725b94749c12ba31f0000352b39cf7093202b0",
+        "n": "7723b02321ba07a91bb0833434c863e9e905bbc93da6b8b07e78f2122946425b",
+        "i": "95459d758ce7773bcf46a4c0338c305317c0f33f2469cf55c66f16ade1726aa9"
+      }
+    },
+    {
+      "index": 2,
+      "key": "Fungiform papillae",
+      "group": "Papillae",
+      "color": "#e8b9bb",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.045,
+        140,
+        0.4,
+        0
+      ],
+      "vertices": 17998,
+      "triangles": 36044,
+      "bounds": [
+        [
+          -0.13719181716442108,
+          0.7547774910926819,
+          -0.4973529577255249
+        ],
+        [
+          0.8923828601837158,
+          0.9181563854217529,
+          0.42385873198509216
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "2e879df8e782f88c1e9b789730210676aa15451dd9fb999d39f801cfbd9c38db",
+        "n": "22611edfca198edd3af657ad39b13e092dbc835a744ee3d4389a72f06a1f479a",
+        "i": "b632ff3975314b53d6c41ef4c079faab6da2c3eebfab918ff3c9b4223f9ca3ca"
+      }
+    },
+    {
+      "index": 3,
+      "key": "Circumvallate papilla",
+      "group": "Papillae",
+      "color": "#e8b9bb",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.045,
+        140,
+        0.4,
+        0
+      ],
+      "vertices": 27601,
+      "triangles": 55254,
+      "bounds": [
+        [
+          -0.6906777024269104,
+          0.6429874897003174,
+          -0.2398166060447693
+        ],
+        [
+          -0.20969578623771667,
+          0.7944194674491882,
+          0.2401290237903595
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "b96a7d224939c17913321ce1e1d880e941885149b799adbcc8ea571099454582",
+        "n": "4822997f5d96f9cadd602800a3a480a15ba953b232b82789e26d63447aa48ea2",
+        "i": "42cab7c1a853f3f30a3dfc31d907d4b614d1fccab45867bc51e075e1b64edf7d"
+      }
+    },
+    {
+      "index": 4,
+      "key": "Foliate papillae",
+      "group": "Papillae",
+      "color": "#e8b9bb",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.045,
+        140,
+        0.4,
+        0
+      ],
+      "vertices": 49720,
+      "triangles": 99408,
+      "bounds": [
+        [
+          0.16904854774475098,
+          0.3835240304470062,
+          0.26893410086631775
+        ],
+        [
+          0.9994999766349792,
+          0.7856371402740479,
+          0.5995000004768372
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "6516a910e1b103a355a9deea8c6659643af0730d8f71ec7049487abbfb4d1c83",
+        "n": "8b2ea2595b2b28e26d8e997d792dd35ab6c66e14a1652b460d4c61e56234e451",
+        "i": "1a2e110225746589a4750a7940a5d3d80f2a2686a95651a5d89c6caddc8a0cb1"
+      }
+    },
+    {
+      "index": 5,
+      "key": "Von Ebner glands",
+      "group": "Glands",
+      "color": "#aac8e6",
+      "alpha": 1.0,
+      "category": "gland",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.08,
+        140.0,
+        0.9,
+        0
+      ],
+      "vertices": 58040,
+      "triangles": 115944,
+      "bounds": [
+        [
+          -0.8447615504264832,
+          0.23854155838489532,
+          -0.3716026842594147
+        ],
+        [
+          0.9994999766349792,
+          0.6236762404441833,
+          0.5142254829406738
+        ]
+      ],
+      "zero_source_normals": 12,
+      "array_sha256": {
+        "p": "b2cb9c903b1d5b362e8f8f770cfad0428b160b782bbd75cee600cee4d24367f0",
+        "n": "6169cf888d606fc4e1a7732f4bfca70ab123ea86eab1ec23ff393bf70d5205cd",
+        "i": "3e821e825e9e3a83d3b11b37f6406fcad4eb7afd0fa60796734697b89b0739c0"
+      }
+    },
+    {
+      "index": 6,
+      "key": "Von Ebner ducts",
+      "group": "Glands",
+      "color": "#7fa8d4",
+      "alpha": 1.0,
+      "category": "gland",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ],
+      "vertices": 4440,
+      "triangles": 8840,
+      "bounds": [
+        [
+          -0.7328314185142517,
+          0.3142715096473694,
+          -0.28037649393081665
+        ],
+        [
+          0.8755032420158386,
+          0.6428471803665161,
+          0.4583315849304199
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "4cf3d57c0b915ff062028f724b1de41e9415b9dd67a55532602dec30d34ff884",
+        "n": "d5b9230fa2574f4381f271910c3d442713631567db3e8c32b7a4bfeb0dac89c8",
+        "i": "a7de21026048881e90d9c5c45acc9aed63103b78f122c1d286146a163b4ce1f5"
+      }
+    },
+    {
+      "index": 7,
+      "key": "Filiform papillae",
+      "group": "Papillae",
+      "color": "#ecc8c6",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.08,
+        140.0,
+        0.6,
+        2
+      ],
+      "vertices": 70094,
+      "triangles": 137412,
+      "bounds": [
+        [
+          -0.9830514788627625,
+          0.6609956622123718,
+          -0.5858953595161438
+        ],
+        [
+          0.9851203560829163,
+          0.8888323307037354,
+          0.5497232675552368
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "8a1a1d5e9e9c685ab16386e6000494b13cab0c293d3459770fcf58cdba051662",
+        "n": "7c024cb2b47ae34f892dfb94181487e4efc9c308f533cc1434b43fa0d0772a1c",
+        "i": "4e2df04b74775c4479b6cdbadcb401198a9a29d36ddcfd86fee1ffa31635b709"
+      }
+    },
+    {
+      "index": 8,
+      "key": "Keratinised tips (filiform)",
+      "group": "Papillae",
+      "color": "#f2ece0",
+      "alpha": 1.0,
+      "category": "skin",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        60.0,
+        0.05,
+        2
+      ],
+      "vertices": 119408,
+      "triangles": 231792,
+      "bounds": [
+        [
+          -0.973249614238739,
+          0.7179807424545288,
+          -0.5778705477714539
+        ],
+        [
+          0.9489873647689819,
+          0.9299270510673523,
+          0.5760600566864014
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "ec06f2b0cba0bb5b8785498ce6d02ab99b3e350f165b52205467f8ce2bfa43d7",
+        "n": "45070b3db36e74383a8f775e84cca93252858016b49ce9861a36341f40386ddd",
+        "i": "9015bba7a62dad323096b42df47b5323124b46111845b778ed118757117082a3"
+      }
+    },
+    {
+      "index": 9,
+      "key": "Taste buds",
+      "group": "Taste buds",
+      "color": "#f1dd8a",
+      "alpha": 1.0,
+      "category": "gland",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        180.0,
+        0.9,
+        2
+      ],
+      "vertices": 44688,
+      "triangles": 80028,
+      "bounds": [
+        [
+          -0.8127021193504333,
+          0.6063030958175659,
+          -0.4415360987186432
+        ],
+        [
+          0.9916999936103821,
+          0.9012753963470459,
+          0.5038506388664246
+        ]
+      ],
+      "zero_source_normals": 228,
+      "array_sha256": {
+        "p": "a26646bf44c21fea1b61cec53941d2a6fc5f417e04fb58965aad8ac174401d08",
+        "n": "b7f40ca402370d74c89f4f85f41fa8ec95098b80a70cdb286303ed79bf0769e9",
+        "i": "0a53c90f06da6feaeaabcf0574f6315b5fe9de2f54790b79b19fae7a06514715"
+      }
+    },
+    {
+      "index": 10,
+      "key": "Gustatory receptor cells",
+      "group": "Taste buds",
+      "color": "#c9a13a",
+      "alpha": 1.0,
+      "category": "gland",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.05,
+        200.0,
+        0.95,
+        2
+      ],
+      "vertices": 110808,
+      "triangles": 186048,
+      "bounds": [
+        [
+          -0.8078840374946594,
+          0.6099492311477661,
+          -0.44006749987602234
+        ],
+        [
+          0.9892380833625793,
+          0.9025110602378845,
+          0.4998306930065155
+        ]
+      ],
+      "zero_source_normals": 1368,
+      "array_sha256": {
+        "p": "872499af43494f7d16dbcad50099bc7631a26d1253ebd24bbce8c2f666e69424",
+        "n": "153218e9a1da9ce9ad0f39f1f98eccd42366e2388160b6c08be30152e2205173",
+        "i": "b3655236bf8fff159645861fde572e084479ec0974ad38cde9662afee9492079"
+      }
+    },
+    {
+      "index": 11,
+      "key": "Taste pores & microvilli",
+      "group": "Taste buds",
+      "color": "#8a5a2a",
+      "alpha": 1.0,
+      "category": "gland",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.1,
+        120.0,
+        0.85,
+        0
+      ],
+      "vertices": 20064,
+      "triangles": 38304,
+      "bounds": [
+        [
+          -0.772940456867218,
+          0.6117857694625854,
+          -0.4357025623321533
+        ],
+        [
+          0.9518540501594543,
+          0.9067502617835999,
+          0.49553370475769043
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "3f64e06cb759ea5aed31e6fdc4a9ec63c07f5be7ea882aafdd48b366c99efc21",
+        "n": "109c5b780a2fd48ea05408172e2fe79560ae5a53c53d003b12b64f243eefb257",
+        "i": "545dc119d1aea7d82d18c8782a325c769fadce6f8fefe47637bc93f3313286c7"
+      }
+    },
+    {
+      "index": 12,
+      "key": "Perimysium & interstitial fat",
+      "group": "Intrinsic muscle",
+      "color": "#d8ab94",
+      "alpha": 1.0,
+      "category": "fascia",
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.12,
+        60.0,
+        0.2,
+        0
+      ],
+      "vertices": 846494,
+      "triangles": 1693376,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.0,
+          -0.5995000004768372
+        ],
+        [
+          0.9994999766349792,
+          0.6000000238418579,
+          0.5995000004768372
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "4f746a309d692bf792c5365e2422f42b4112952dc5b9cf62a54812816c4bd368",
+        "n": "2f2ebad4deaeac0d15ebd35835318db51400d93b78225fd77aaf5c1b6d0078a6",
+        "i": "b676d0cd8d1ee06fc524082814fda8f3316dcff1f418d4dc14729506592b4d89"
+      }
+    },
+    {
+      "index": 13,
+      "key": "Superior longitudinal muscle",
+      "group": "Intrinsic muscle",
+      "color": "#c25a50",
+      "alpha": 1.0,
+      "category": "muscle",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        90.0,
+        0.4,
+        1
+      ],
+      "vertices": 11360,
+      "triangles": 22680,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.4124460220336914,
+          -0.5259674191474915
+        ],
+        [
+          0.9994999766349792,
+          0.5909637808799744,
+          0.5114796161651611
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "fab21a94270cf04d541c31307e03d22f736ca3fcb2abf0acb3816a953a73fe67",
+        "n": "0b0335e39875676f715de614b55e756df9576b3b4cdb33ed79ca9ad409cfcc6e",
+        "i": "b972861c3cc9c723a4ec2325ea3676edef2b479367c18f6d9b849010ff29b229"
+      }
+    },
+    {
+      "index": 14,
+      "key": "Transverse muscle",
+      "group": "Intrinsic muscle",
+      "color": "#a8453d",
+      "alpha": 1.0,
+      "category": "muscle",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        90.0,
+        0.4,
+        3
+      ],
+      "vertices": 48807,
+      "triangles": 97410,
+      "bounds": [
+        [
+          -0.9244314432144165,
+          0.10074570775032043,
+          -0.5995000004768372
+        ],
+        [
+          0.9299125075340271,
+          0.49944964051246643,
+          0.5995000004768372
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "3be49af758b1cc86660bc9e6018fc38d445773a65aac1a7b29d0c866a0a86faf",
+        "n": "c755b82f285af90d473e4234cef57ac02f696c62b02662a677de6d4f1ee3f633",
+        "i": "990af2d52ec158fdae05e85a3dbe4e2f612f5206f5075cb07f259853646e29fa"
+      }
+    },
+    {
+      "index": 15,
+      "key": "Vertical muscle",
+      "group": "Intrinsic muscle",
+      "color": "#b54f46",
+      "alpha": 1.0,
+      "category": "muscle",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        90.0,
+        0.4,
+        2
+      ],
+      "vertices": 36456,
+      "triangles": 72576,
+      "bounds": [
+        [
+          -0.8513858914375305,
+          0.0825866237282753,
+          -0.4711531400680542
+        ],
+        [
+          0.8611428141593933,
+          0.5353094935417175,
+          0.4613453447818756
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "62f5d40af8d3091545118801eaee7becc6690667d80d9b2c4d39f0f58757eee0",
+        "n": "22a212af48f1410d6f59b109e2b3ae1e3272a0efbeab0269d64f1766f1ea4882",
+        "i": "56f32f3d2c251b757c6ad4d380d498044fe54b4f0e0aa9922b5d9ec69b118053"
+      }
+    },
+    {
+      "index": 16,
+      "key": "Inferior longitudinal muscle",
+      "group": "Intrinsic muscle",
+      "color": "#bb554b",
+      "alpha": 1.0,
+      "category": "muscle",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        90.0,
+        0.4,
+        1
+      ],
+      "vertices": 11360,
+      "triangles": 22680,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.028252217918634415,
+          -0.5256927609443665
+        ],
+        [
+          0.9994999766349792,
+          0.07948750257492065,
+          0.5109984874725342
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "96e66e92bd18981c41b8ca65fafd6e2edbc852d94c94c6024fdb446b5f7ad2e1",
+        "n": "560f2b2f780345c12400dd84f1472b46c00edca9c800cd79e0103411aaf67857",
+        "i": "024126927cd4f064b5ca45e4089243b27164d600da974e48cc41c6614b6e89a5"
+      }
+    },
+    {
+      "index": 17,
+      "key": "Glossopharyngeal nerve (IX) branch",
+      "group": "Nerves & vessels",
+      "color": "#f0cf45",
+      "alpha": 1.0,
+      "category": "nerve",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.07,
+        65.0,
+        0.3,
+        1
+      ],
+      "vertices": 9992,
+      "triangles": 19980,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.3978136479854584,
+          -0.32481709122657776
+        ],
+        [
+          -0.2911737263202667,
+          0.7125855088233948,
+          0.18221847712993622
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "6e0141325e789203c15b6842c7caf16731da6bff18bbb0e17fceb975e2f73ad0",
+        "n": "883d43776fc5c91220bf83bf88797f525799717e0fbe63553572f3f55b0e2418",
+        "i": "6ddaf2c40bf0c85ed1b5a782e9593738729576ff2c47b50e52faa69378f2579a"
+      }
+    },
+    {
+      "index": 18,
+      "key": "Lingual nerve (chorda tympani) branch",
+      "group": "Nerves & vessels",
+      "color": "#e8d77a",
+      "alpha": 1.0,
+      "category": "nerve",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.07,
+        65.0,
+        0.3,
+        1
+      ],
+      "vertices": 17132,
+      "triangles": 34260,
+      "bounds": [
+        [
+          -0.8954287171363831,
+          0.40428417921066284,
+          -0.43570783734321594
+        ],
+        [
+          0.9994999766349792,
+          0.8341290950775146,
+          0.3843787610530853
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "e37d418f3980a11ee9dae571de7aebbf04c869efaedb6bacf1ba7e31c60abb9e",
+        "n": "884df53d9d60228273a40edf5f944167e587941820035f693a69a7c7c2f81dea",
+        "i": "b6b0fb6add03b165d574b9806b57da68e239ceb3acae157704e15b1fa2f27991"
+      }
+    },
+    {
+      "index": 19,
+      "key": "Hypoglossal nerve (XII) branch",
+      "group": "Nerves & vessels",
+      "color": "#d9b83a",
+      "alpha": 1.0,
+      "category": "nerve",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.07,
+        65.0,
+        0.3,
+        1
+      ],
+      "vertices": 992,
+      "triangles": 1980,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.16549991071224213,
+          -0.2865186035633087
+        ],
+        [
+          0.9994999766349792,
+          0.2049885094165802,
+          -0.24204891920089722
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "3887749833bbebbd6d748074dc826b8a670e9d1766ca26716ea62ec5e1efd088",
+        "n": "f7dc508f387246f6b06f45616e40f6745bc028747cf1b99e974ce329e2c4e480",
+        "i": "4d96a839e1a579633b829eb779198504dca0574dbc4c0e3e7c14a6ca9e6fef0d"
+      }
+    },
+    {
+      "index": 20,
+      "key": "Lingual artery branch",
+      "group": "Nerves & vessels",
+      "color": "#cf3a31",
+      "alpha": 1.0,
+      "category": "artery",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ],
+      "vertices": 5248,
+      "triangles": 10496,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.27399998903274536,
+          0.053698547184467316
+        ],
+        [
+          0.9994999766349792,
+          0.336000919342041,
+          0.11999999731779099
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "e4b7b01b6f86f627e826f7125b3be21f206f642d4820c08e150b1b5944351b98",
+        "n": "5a30000f401245ae68dc94484282c0f5fc4eecae466a26ee59e1249577886e20",
+        "i": "3dc0bc83331289a5b8b76de8ee84fda66b18002a3c62893fd6dee0438ddbc599"
+      }
+    },
+    {
+      "index": 21,
+      "key": "Deep lingual vein",
+      "group": "Nerves & vessels",
+      "color": "#5f5aa8",
+      "alpha": 1.0,
+      "category": "vein",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.06,
+        80.0,
+        0.25,
+        0
+      ],
+      "vertices": 5248,
+      "triangles": 10496,
+      "bounds": [
+        [
+          -0.9994999766349792,
+          0.15000000596046448,
+          0.22779309749603271
+        ],
+        [
+          0.9994999766349792,
+          0.2199999988079071,
+          0.30203816294670105
+        ]
+      ],
+      "zero_source_normals": 0,
+      "array_sha256": {
+        "p": "66e24a2575dff07484459b7bc8cb9d4b2e8a360bdad555d9bdfc6298d887c480",
+        "n": "54d9de58c874f845f31be64a01124e6ce2fdce2c4562954b9313e569dfc6ccf8",
+        "i": "3dc0bc83331289a5b8b76de8ee84fda66b18002a3c62893fd6dee0438ddbc599"
+      }
+    },
+    {
+      "index": 22,
+      "key": "Basement membrane",
+      "group": "Mucosa",
+      "color": "#c8a888",
+      "alpha": 1.0,
+      "category": "fascia",
+      "clip": true,
+      "bulk": true,
+      "detail": [
+        0.02,
+        0.0,
+        0.0,
+        0
+      ],
+      "vertices": 155247,
+      "triangles": 310622,
+      "bounds": [
+        [
+          -0.9986554384231567,
+          0.38058027625083923,
+          -0.5985565185546875
+        ],
+        [
+          0.9989151954650879,
+          0.8934114575386047,
+          0.5989114046096802
+        ]
+      ],
+      "zero_source_normals": 20,
+      "array_sha256": {
+        "p": "b9651a76ec47ba955eea3e94f6cb16524e78e22b8a64cc69052f7b6dd771f099",
+        "n": "678ef831630fca3a1eaf051787daab1f82dfaed26b6214757697cb85a5f1d4c2",
+        "i": "4d7920542d027071926e7ece2fb3fc5e1892f0eed04b903ec79a8902183e99a3"
+      }
+    },
+    {
+      "index": 23,
+      "key": "Basal taste cells",
+      "group": "Taste buds",
+      "color": "#d59c71",
+      "alpha": 1.0,
+      "category": "gland",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ],
+      "vertices": 33516,
+      "triangles": 53352,
+      "bounds": [
+        [
+          -0.7988004684448242,
+          0.6123149394989014,
+          -0.4320167899131775
+        ],
+        [
+          0.9772999882698059,
+          0.8729223608970642,
+          0.49836668372154236
+        ]
+      ],
+      "zero_source_normals": 684,
+      "array_sha256": {
+        "p": "812f1af5d73d37ddc92446502c77d5cbfe9d12a9b1c6decc17666c280ddc4106",
+        "n": "1ac2a94a62b834d6b909800d1bddab349d50de45bc5b366f6fa782c373b77993",
+        "i": "8987c309bcfca32bdd3e486445a6527f0156e95447544516ef854fbf6fb26589"
+      }
+    },
+    {
+      "index": 24,
+      "key": "Taste cell nuclei",
+      "group": "Taste buds",
+      "color": "#785078",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ],
+      "vertices": 66348,
+      "triangles": 99864,
+      "bounds": [
+        [
+          -0.796996533870697,
+          0.6120233535766602,
+          -0.43630436062812805
+        ],
+        [
+          0.9754999876022339,
+          0.8866139054298401,
+          0.4977610409259796
+        ]
+      ],
+      "zero_source_normals": 2052,
+      "array_sha256": {
+        "p": "3fe1078061c7014ea77583d458a603bffe3a35cbb2e3593d8fe5f0b028ab9ace",
+        "n": "d0d5782f8e4152aaab8cd868438cf92143442dca689da06bdc2836a960906e96",
+        "i": "8a6d90e9136b569e6ae5302bd034dfaa2babdfcf8f05b2d82edc8ef6deee50e5"
+      }
+    },
+    {
+      "index": 25,
+      "key": "Serous acinar nuclei",
+      "group": "Glands",
+      "color": "#6b6b98",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ],
+      "vertices": 7000,
+      "triangles": 10080,
+      "bounds": [
+        [
+          -0.7609469294548035,
+          0.29306334257125854,
+          -0.3106657862663269
+        ],
+        [
+          0.8993286490440369,
+          0.5266202092170715,
+          0.4515904486179352
+        ]
+      ],
+      "zero_source_normals": 280,
+      "array_sha256": {
+        "p": "a111b66418ce9dcc64643415a22fef8d40ae451981657d336e4623c7590fb7ca",
+        "n": "4f927a7a64571538e67a57f3ac5b15f28dd830a9a53e177bc5e4964a6fb7f3a3",
+        "i": "088502a28538e402637ffbde1b32b575b257225465b67a09e3e9d7dec6f1a4ad"
+      }
+    },
+    {
+      "index": 26,
+      "key": "Interstitial adipocytes",
+      "group": "Intrinsic muscle",
+      "color": "#f0dcb1",
+      "alpha": 1.0,
+      "category": "fat",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ],
+      "vertices": 2304,
+      "triangles": 3520,
+      "bounds": [
+        [
+          -0.890396237373352,
+          0.0919027179479599,
+          -0.5015922784805298
+        ],
+        [
+          0.8311294317245483,
+          0.49079233407974243,
+          0.5329384207725525
+        ]
+      ],
+      "zero_source_normals": 64,
+      "array_sha256": {
+        "p": "f63a85908e91a8c106ea79393b115ec412572b9ef9406c538a091c708dd04f61",
+        "n": "655b352c169e3a0734ffd02e092c9f4b31aa490d69ecba847acae3600c886a8b",
+        "i": "527882bd20e566a16162bbaa188621f2b40c9605573f97dd8d67dc0ee06e79e9"
+      }
+    },
+    {
+      "index": 27,
+      "key": "Squamous epithelial cells (sampled field)",
+      "group": "Mucosa",
+      "color": "#e6b1ad",
+      "alpha": 1.0,
+      "category": "mucosa",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ],
+      "vertices": 9408,
+      "triangles": 16848,
+      "bounds": [
+        [
+          0.6679344773292542,
+          0.6942443251609802,
+          -0.47020411491394043
+        ],
+        [
+          0.8269504904747009,
+          0.7609640955924988,
+          -0.38333553075790405
+        ]
+      ],
+      "zero_source_normals": 48,
+      "array_sha256": {
+        "p": "733cbb9193c84e48a27210b7c42b8d04d675092af0b38f6a673ea3a4e43210d1",
+        "n": "e86649fa434cb5f2c65c62818fee75a041fbef225bd3da4fb85b7fa5d55b4302",
+        "i": "afc885e4d2bf867589a1614924db73aa379200b6099bd27f73e368fe57157248"
+      }
+    },
+    {
+      "index": 28,
+      "key": "Squamous epithelial nuclei",
+      "group": "Mucosa",
+      "color": "#8d6082",
+      "alpha": 1.0,
+      "category": "nucleus",
+      "clip": true,
+      "bulk": false,
+      "detail": [
+        0.025,
+        0,
+        0,
+        0
+      ],
+      "vertices": 3888,
+      "triangles": 6528,
+      "bounds": [
+        [
+          0.6808602809906006,
+          0.7010443210601807,
+          -0.4584520161151886
+        ],
+        [
+          0.809610903263092,
+          0.7585641145706177,
+          -0.3972158133983612
+        ]
+      ],
+      "zero_source_normals": 48,
+      "array_sha256": {
+        "p": "98c2e0a47dbe443f42b4267782be0708e2bd6cb9e4069c010428cbaf45ccc56d",
+        "n": "0688e36c0ae55ba4774311aab9e3a6bb8fc33ed3393258077c66608f7530ca0b",
+        "i": "965904a755695c7cab3b0fd0636d0b06135d8f80a5abfd10060b1314f372ad31"
+      }
+    }
+  ],
+  "lesson_checks": [
+    {
+      "lesson": "lab08-03-tongue-papillae-taste",
+      "step": 0,
+      "view": "Papillae and connective cores",
+      "keys": [
+        "Filiform papillae",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae"
+      ]
+    },
+    {
+      "lesson": "lab08-03-tongue-papillae-taste",
+      "step": 1,
+      "view": "Taste cells and basal afferent",
+      "keys": [
+        "Gustatory receptor cells",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Taste pores & microvilli"
+      ]
+    },
+    {
+      "lesson": "lab08-03-tongue-papillae-taste",
+      "step": 2,
+      "view": "Von Ebner glands and ducts",
+      "keys": [
+        "Von Ebner glands",
+        "Von Ebner ducts"
+      ]
+    },
+    {
+      "lesson": "oral-cavity-tongue",
+      "step": 4,
+      "view": "Papillae and connective cores",
+      "keys": [
+        "Filiform papillae",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae"
+      ]
+    },
+    {
+      "lesson": "oral-cavity-tongue",
+      "step": 5,
+      "view": "Neurovascular context",
+      "keys": [
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch"
+      ]
+    }
+  ],
+  "views": [
+    {
+      "name": "Overview",
+      "image": "view-00.webp",
+      "visible_parts": 29,
+      "rasterized_pick_keys": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Inferior longitudinal muscle",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane"
+      ]
+    },
+    {
+      "name": "Papillae and connective cores",
+      "image": "view-01.webp",
+      "visible_parts": 21,
+      "rasterized_pick_keys": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Basement membrane"
+      ]
+    },
+    {
+      "name": "Taste cells and basal afferent",
+      "image": "view-02.webp",
+      "visible_parts": 5,
+      "rasterized_pick_keys": [
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Glossopharyngeal nerve (IX) branch",
+        "Basal taste cells"
+      ]
+    },
+    {
+      "name": "Muscle fascicles",
+      "image": "view-03.webp",
+      "visible_parts": 6,
+      "rasterized_pick_keys": [
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Hypoglossal nerve (XII) branch",
+        "Interstitial adipocytes"
+      ]
+    },
+    {
+      "name": "Squamous stratification",
+      "image": "view-04.webp",
+      "visible_parts": 2,
+      "rasterized_pick_keys": [
+        "Squamous epithelial cells (sampled field)"
+      ]
+    },
+    {
+      "name": "Neurovascular context",
+      "image": "view-05.webp",
+      "visible_parts": 9,
+      "rasterized_pick_keys": [
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Superior longitudinal muscle",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein"
+      ]
+    },
+    {
+      "name": "Circumvallate papilla",
+      "image": "view-06.webp",
+      "visible_parts": 2,
+      "rasterized_pick_keys": [
+        "Circumvallate papilla",
+        "Glossopharyngeal nerve (IX) branch"
+      ]
+    },
+    {
+      "name": "Von Ebner glands and ducts",
+      "image": "view-07.webp",
+      "visible_parts": 3,
+      "rasterized_pick_keys": [
+        "Von Ebner glands",
+        "Von Ebner ducts"
+      ]
+    }
+  ],
+  "gpu_pick_checks": [
+    {
+      "key": "Stratified squamous epithelium",
+      "id": 0,
+      "pixels": 177301,
+      "pick_returned": 0
+    },
+    {
+      "key": "Lamina propria",
+      "id": 1,
+      "pixels": 185611,
+      "pick_returned": 1
+    },
+    {
+      "key": "Fungiform papillae",
+      "id": 2,
+      "pixels": 64580,
+      "pick_returned": 2
+    },
+    {
+      "key": "Circumvallate papilla",
+      "id": 3,
+      "pixels": 418827,
+      "pick_returned": 3
+    },
+    {
+      "key": "Foliate papillae",
+      "id": 4,
+      "pixels": 350732,
+      "pick_returned": 4
+    },
+    {
+      "key": "Von Ebner glands",
+      "id": 5,
+      "pixels": 89126,
+      "pick_returned": 5
+    },
+    {
+      "key": "Von Ebner ducts",
+      "id": 6,
+      "pixels": 16081,
+      "pick_returned": 6
+    },
+    {
+      "key": "Filiform papillae",
+      "id": 7,
+      "pixels": 133771,
+      "pick_returned": 7
+    },
+    {
+      "key": "Keratinised tips (filiform)",
+      "id": 8,
+      "pixels": 55175,
+      "pick_returned": 8
+    },
+    {
+      "key": "Taste buds",
+      "id": 9,
+      "pixels": 35060,
+      "pick_returned": 9
+    },
+    {
+      "key": "Gustatory receptor cells",
+      "id": 10,
+      "pixels": 21339,
+      "pick_returned": 10
+    },
+    {
+      "key": "Taste pores & microvilli",
+      "id": 11,
+      "pixels": 2715,
+      "pick_returned": 11
+    },
+    {
+      "key": "Perimysium & interstitial fat",
+      "id": 12,
+      "pixels": 296049,
+      "pick_returned": 12
+    },
+    {
+      "key": "Superior longitudinal muscle",
+      "id": 13,
+      "pixels": 104222,
+      "pick_returned": 13
+    },
+    {
+      "key": "Transverse muscle",
+      "id": 14,
+      "pixels": 124443,
+      "pick_returned": 14
+    },
+    {
+      "key": "Vertical muscle",
+      "id": 15,
+      "pixels": 172305,
+      "pick_returned": 15
+    },
+    {
+      "key": "Inferior longitudinal muscle",
+      "id": 16,
+      "pixels": 104067,
+      "pick_returned": 16
+    },
+    {
+      "key": "Glossopharyngeal nerve (IX) branch",
+      "id": 17,
+      "pixels": 96731,
+      "pick_returned": 17
+    },
+    {
+      "key": "Lingual nerve (chorda tympani) branch",
+      "id": 18,
+      "pixels": 20890,
+      "pick_returned": 18
+    },
+    {
+      "key": "Hypoglossal nerve (XII) branch",
+      "id": 19,
+      "pixels": 16342,
+      "pick_returned": 19
+    },
+    {
+      "key": "Lingual artery branch",
+      "id": 20,
+      "pixels": 25713,
+      "pick_returned": 20
+    },
+    {
+      "key": "Deep lingual vein",
+      "id": 21,
+      "pixels": 29258,
+      "pick_returned": 21
+    },
+    {
+      "key": "Basement membrane",
+      "id": 22,
+      "pixels": 168290,
+      "pick_returned": 22
+    },
+    {
+      "key": "Basal taste cells",
+      "id": 23,
+      "pixels": 4610,
+      "pick_returned": 23
+    },
+    {
+      "key": "Taste cell nuclei",
+      "id": 24,
+      "pixels": 5695,
+      "pick_returned": 24
+    },
+    {
+      "key": "Serous acinar nuclei",
+      "id": 25,
+      "pixels": 2506,
+      "pick_returned": 25
+    },
+    {
+      "key": "Interstitial adipocytes",
+      "id": 26,
+      "pixels": 4490,
+      "pick_returned": 26
+    },
+    {
+      "key": "Squamous epithelial cells (sampled field)",
+      "id": 27,
+      "pixels": 251253,
+      "pick_returned": 27
+    },
+    {
+      "key": "Squamous epithelial nuclei",
+      "id": 28,
+      "pixels": 38857,
+      "pick_returned": 28
+    }
+  ],
+  "gpu": {
+    "GL_VENDOR": "NVIDIA Corporation",
+    "GL_RENDERER": "NVIDIA GeForce RTX 3080/PCIe/SSE2",
+    "GL_VERSION": "4.1.0 NVIDIA 616.92"
+  },
+  "selector": {
+    "file": "selector.png",
+    "widget": "ModelCatalogPanel",
+    "platform": "offscreen",
+    "thumbnail_sha256": "24567aea6549b70a0de47d9a4f8e68174b7894c35c694799eeb748cde9873c1a"
+  },
+  "limits": [
+    "Full buffer/schema checks and 29 isolated GPU picks; no exhaustive collision or anatomical validation.",
+    "Zero source normals are repaired only in memory by the unchanged native loader.",
+    "Selector is the actual native Qt widget rendered offscreen; views use the application standalone OpenGL renderer.",
+    "No macOS, packaged-install, wgpu or production-release validation in this worktree."
+  ]
+}

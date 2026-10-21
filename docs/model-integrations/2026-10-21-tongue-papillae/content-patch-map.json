@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "source": "data/local_model_library/library.json",
+      "target": "data/local_model_library/library.json",
+      "sha256": "f68d14a23dbff3abf95421ce49dff483d3db11615979f48778a1da0ecc8e3ee1",
+      "size": 83080
+    },
+    {
+      "source": "data/local_model_library/models/tongue_papillae/native-20261021/model.npz",
+      "target": "data/local_model_library/models/tongue_papillae/native-20261021/model.npz",
+      "sha256": "965291ab046d0869e5d7e424407e4ece676df56bd851c34eb8319fbf9c8f2783",
+      "size": 39670935
+    },
+    {
+      "source": "data/local_model_library/models/tongue_papillae/native-20261021/model.controls.json",
+      "target": "data/local_model_library/models/tongue_papillae/native-20261021/model.controls.json",
+      "sha256": "929c662c1411565b7b308c461c91e4be0fb4414d9a716299749792268b0661b2",
+      "size": 10517
+    },
+    {
+      "source": "data/local_model_library/models/tongue_papillae/native-20261021/teaching_recipe.json",
+      "target": "data/local_model_library/models/tongue_papillae/native-20261021/teaching_recipe.json",
+      "sha256": "a0adb9959f00c1a6455a7f0c9310d46e13274ab2ffa62e67e5aaff66f25cdef8",
+      "size": 9163
+    },
+    {
+      "source": "app/ui/resources/studio/model-vitrines/thumb_tongue_papillae.webp",
+      "target": "app/ui/resources/studio/model-vitrines/thumb_tongue_papillae.webp",
+      "sha256": "24567aea6549b70a0de47d9a4f8e68174b7894c35c694799eeb748cde9873c1a",
+      "size": 126936
+    },
+    {
+      "source": "data/content/model_parts/tongue_papillae.json",
+      "target": "data/content/model_parts/tongue_papillae.json",
+      "sha256": "40142c3a2ca83d52ed5b346c4e5649b2b986716f2e078ed9e2b4165530b025ce",
+      "size": 18285
+    },
+    {
+      "source": "data/content/lessons_course_lab08.json",
+      "target": "data/content/lessons_course_lab08.json",
+      "sha256": "de807dcda62c1607967b574ebf7799818623e45f47a8b5c6049a5448e8eb2f3f",
+      "size": 127275
+    },
+    {
+      "source": "data/content/lessons_digestive_upper.json",
+      "target": "data/content/lessons_digestive_upper.json",
+      "sha256": "afe5a402b58fd1aabcde46498e801ca496e1c2fdc7e23b392b2505039167b8a1",
+      "size": 39770
+    }
+  ],
+  "remove": [
+    "data/local_model_library/models/tongue_papillae/v4/model.npz",
+    "data/local_model_library/models/tongue_papillae/native-20261020/model.controls.json",
+    "data/local_model_library/models/tongue_papillae/native-20261020/teaching_recipe.json"
+  ]
+}

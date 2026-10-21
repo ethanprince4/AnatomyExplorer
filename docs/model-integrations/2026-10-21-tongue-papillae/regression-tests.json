@@ -1,0 +1,83 @@
+{
+  "run": 19,
+  "errors": [
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_cardiac_lesson_reset_reapplies_translucent_defaults",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_cardiac_reset_restores_translucent_sleeves_and_solid_cells",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_missing_opt_in_keeps_historical_show_everything_behavior",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_opt_in_preserves_authored_start_mask_and_clears_other_state",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_opt_in_without_authored_start_hidden_list_falls_back_safely",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_procedural_recipe_start_mask_is_reapplied_only_for_home_reset",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_procedural_reset_preserves_authored_material_transparency",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_model_view_start_visibility.ModelViewStartVisibilityTests.test_runtime_opening_keeps_the_procedural_start_composition",
+      "reason": "AttributeError: 'FakeView' object has no attribute '_set_catalogue_clipping'"
+    },
+    {
+      "test": "tests.test_lesson_framing.LessonFramingTests.test_authored_skull_step_frames_focus_before_section_index_ready",
+      "reason": "AttributeError: 'types.SimpleNamespace' object has no attribute 'settings'"
+    },
+    {
+      "test": "tests.test_lesson_framing.LessonFramingTests.test_available_section_anchors_remain_preferred",
+      "reason": "AttributeError: 'types.SimpleNamespace' object has no attribute 'settings'"
+    },
+    {
+      "test": "tests.test_lesson_framing.LessonFramingTests.test_explicit_frame_off_is_preserved",
+      "reason": "AttributeError: 'types.SimpleNamespace' object has no attribute 'settings'"
+    }
+  ],
+  "failures": [],
+  "passes": 8,
+  "unchanged_files": [
+    {
+      "path": "app/ui/model_view.py",
+      "unchanged_from_parent": true,
+      "sha256": "9e75d5dd0a7a3a4922d860b1b4bd2ad8cb7ba93690721de38fe7e0e85991e107"
+    },
+    {
+      "path": "app/main_window.py",
+      "unchanged_from_parent": true,
+      "sha256": "4fbb33969dda36ccd2b37035a46dca0664a4a7f4b3afd541a9d7617ca51ef84e"
+    },
+    {
+      "path": "tests/test_model_view_start_visibility.py",
+      "unchanged_from_parent": true,
+      "sha256": "dfb39e55decad2c258bf9d6ab780c2fe3f239892b9d7c1991f9d133333f3031c"
+    },
+    {
+      "path": "tests/test_model_view_home_framing.py",
+      "unchanged_from_parent": true,
+      "sha256": "6bfdbb5c31e6406b7500a23b8f82f0bab9386995f014d02536ea4c244789bade"
+    },
+    {
+      "path": "tests/test_model_catalog_accessibility.py",
+      "unchanged_from_parent": true,
+      "sha256": "ea1577a941584b5ece962cf0b5f3953261e03801391141f0d93fe084b750a06d"
+    },
+    {
+      "path": "tests/test_lesson_framing.py",
+      "unchanged_from_parent": true,
+      "sha256": "2d2306537b75ab85b9f13490857d9512edba2aea0f3da601c095f38a7b101cb6"
+    }
+  ]
+}

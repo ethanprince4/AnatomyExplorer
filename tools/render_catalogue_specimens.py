@@ -37,6 +37,7 @@ CATALOGUE_ANGLES = {'spleen': (math.radians(145.22), math.radians(27.48))}
 # the model's saved cameras, opening view or visibility. Start with an authored
 # teaching view so its hidden parts, reveal state and native clipping are retained.
 PREVIEW_PROFILES = {
+    'tongue_papillae': {'view': 'Overview'},
     'vein_wall': {'view': '01 Overview', 'yaw': 75, 'pitch': 18, 'cut_on': False},
     'muscular_artery': {'view': '01 Overview', 'yaw': 75, 'pitch': 18, 'cut_on': False},
     'elastic_artery': {'view': '01 Overview', 'yaw': 75, 'pitch': 18, 'cut_on': False},
