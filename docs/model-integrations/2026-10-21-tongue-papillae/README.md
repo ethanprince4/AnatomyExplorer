@@ -120,8 +120,27 @@ file was deleted here. The thumbnail, guide and lesson files replace the same
 active logical paths, so those paths must remain in the snapshot. This evidence
 folder and the render-tool profile are development material.
 
-No VERSION change, PR, merge, tag, Actions run, R2 upload or publication occurred.
-The production website remains held. Parent owns subsequent content publication.
+The model integration itself made no VERSION, release, updater or website changes.
+
+## Content snapshot validation
+
+The follow-on content builder produced the Windows 4.0.13 snapshot from the
+authenticated, complete 4.0.12 inventory. `content-patch-map.json` includes the
+eight exact content files and the three obsolete files that were actually
+shipped. The historical `v4/recipe.json` was already absent from the deployed
+inventory. The new snapshot omits those old files while keeping the original
+installation and source history intact.
+
+`windows-content-native.json` records a successful frozen runtime check and
+actual prior-supervisor activation, healthy UI, repeat update, rollback and
+preservation of study files and Qt settings. Downloaded bytes: 39,204,010;
+reused bytes: 4,968,723,184. Nine focused content-builder tests pass. No full
+installer rebuild or GitHub Actions was used.
+
+Mac content signing and activation remain pending native verification. This
+record does not claim that the 4.0.13 content feed has been published. The user
+has authorized the production website launch after the updater, installers and
+content update are ready.
 
 ## Reproduce bounded checks
 
