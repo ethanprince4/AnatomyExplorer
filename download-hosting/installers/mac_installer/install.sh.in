@@ -1,0 +1,167 @@
+#!/bin/bash
+# Derived R2-first helper for unchanged Layered Human v4.0.11 parts. GitHub remains the fallback.
+# Original MIT-licensed sources and provenance are retained in ../upstream. The helper-only builder
+# fills in the @...@ values and copies the result into Contents/Resources of "Install Layered Human.app".
+#   install.sh plan                        prints the folder to install into, then yes or no (a copy is already there)
+#   install.sh install WORK DEST yes|no    downloads, checks, joins, mounts and copies; WORK/status tells the applet how far it is
+# Written for bash 3.2, the /bin/bash that ships with macOS.
+set -euo pipefail
+
+BASE='@BASE@'
+MIRROR='@MIRROR@'
+DMG='@DMG@'
+BUNDLE='@BUNDLE@'
+TOTAL=@TOTAL@
+BUNDLE_BYTES=@BUNDLEBYTES@
+PARTS=(
+@PARTS@
+)
+# Original part name, immutable fragment key and exact byte length, in join order.
+FRAGMENTS=(
+@FRAGMENTS@
+)
+
+WORK=''
+STAGING=''
+MOUNTED=0
+
+plan() {
+  local folder=/Applications
+  if [ ! -w /Applications ]; then folder="$HOME/Applications"; fi
+  echo "$folder"
+  if [ -e "$folder/$BUNDLE" ]; then echo yes; else echo no; fi
+}
+
+# One line per update, read by the applet: state|percent|message
+status() {
+  printf '%s|%s|%s\n' "$1" "$2" "$3" > "$WORK/status.tmp"
+  mv -f "$WORK/status.tmp" "$WORK/status"
+}
+
+fail() {
+  status failed 0 "$1"
+  exit 1
+}
+
+cleanup() {
+  if [ "$MOUNTED" = 1 ]; then hdiutil detach "$WORK/mount" -force -quiet >/dev/null 2>&1 || true; fi
+  if [ -n "$STAGING" ]; then rm -rf "$STAGING"; fi
+  if [ -n "$WORK" ]; then rm -f "$WORK/$DMG" "$WORK"/*.part[0-9][0-9][0-9] "$WORK"/*.fragment.tmp; fi
+}
+
+# The full original-part checksum is the trust boundary. Fragment lengths reject short or oversized bodies;
+# any failed fragment or final checksum discards the part and retries that original part on GitHub.
+download_mirror() {
+  local name="$1" expected="$2" sum="$3" entry rest key size actual got found=0
+  : > "$WORK/$name"
+  for entry in "${FRAGMENTS[@]}"; do
+    if [ "${entry%% *}" != "$name" ]; then continue; fi
+    found=1
+    rest=${entry#* }
+    key=${rest%% *}
+    size=${rest#* }
+    if ! curl --silent --show-error --fail --location --connect-timeout 15 \
+      --speed-time 60 --speed-limit 1024 --retry 1 --output "$WORK/$name.fragment.tmp" "$MIRROR/$key"; then
+      return 1
+    fi
+    actual=$(wc -c < "$WORK/$name.fragment.tmp")
+    if [ "$actual" -ne "$size" ]; then return 1; fi
+    cat "$WORK/$name.fragment.tmp" >> "$WORK/$name" || return 1
+    rm -f "$WORK/$name.fragment.tmp"
+  done
+  if [ "$found" != 1 ]; then return 1; fi
+  actual=$(wc -c < "$WORK/$name")
+  if [ "$actual" -ne "$expected" ]; then return 1; fi
+  got=$(shasum -a 256 "$WORK/$name" | cut -d ' ' -f 1)
+  [ "$got" = "$sum" ]
+}
+
+download_parts() {
+  local count=${#PARTS[@]} n=0 entry name rest sum size got actual
+  files=()
+  for entry in "${PARTS[@]}"; do
+    n=$((n + 1))
+    name=${entry%% *}
+    rest=${entry#* }
+    sum=${rest%% *}
+    size=${rest#* }
+    status progress $(( (n - 1) * 80 / count )) "Downloading part $n of $count"
+    if ! download_mirror "$name" "$size" "$sum"; then
+      rm -f "$WORK/$name" "$WORK/$name.fragment.tmp"
+      status progress $(( (n - 1) * 80 / count )) "Downloading part $n of $count from GitHub"
+      curl --silent --show-error --fail --location --connect-timeout 30 \
+        --speed-time 60 --speed-limit 1024 --retry 3 --output "$WORK/$name" "$BASE/$name" \
+        || fail "Part $n of $count could not be downloaded. Check the internet connection and run the installer again."
+      actual=$(wc -c < "$WORK/$name")
+      got=$(shasum -a 256 "$WORK/$name" | cut -d ' ' -f 1)
+      if [ "$actual" -ne "$size" ] || [ "$got" != "$sum" ]; then
+        fail "Part $n of $count did not pass its checksum. Run the installer again."
+      fi
+    fi
+    files+=("$WORK/$name")
+  done
+}
+
+run_install() {
+  WORK="$1"
+  local dest="$2" replace="$3"
+  exec >> "$WORK/log.txt" 2>&1
+  echo "$$" > "$WORK/pid"
+  set -E
+  trap 'fail "The installer stopped unexpectedly. The details are in $WORK/log.txt"' ERR
+  trap cleanup EXIT
+
+  local free_kb required_bytes dest_free_kb
+  # Keep all downloaded parts, the joined DMG and the new uncompressed app
+  # simultaneously until copying succeeds. The previous app is still retained.
+  required_bytes=$(( TOTAL * 2 + BUNDLE_BYTES + 1073741824 ))
+  free_kb=$(df -Pk "$WORK" | awk 'NR == 2 {print $4}')
+  if [ "$free_kb" -lt $(( (required_bytes + 1023) / 1024 )) ]; then
+    fail "Not enough free disk space. Free about $(( (required_bytes + 999999999) / 1000000000 )) GB and run the installer again."
+  fi
+  mkdir -p "$dest" || fail "The folder $dest could not be created."
+  dest_free_kb=$(df -Pk "$dest" | awk 'NR == 2 {print $4}')
+  if [ "$dest_free_kb" -lt $(( (BUNDLE_BYTES + 1073741824 + 1023) / 1024 )) ]; then
+    fail "Not enough free disk space in $dest. Free about $(( (BUNDLE_BYTES + 1073741824 + 999999999) / 1000000000 )) GB there and run the installer again."
+  fi
+
+  download_parts
+
+  status progress 80 "Joining the parts"
+  cat "${files[@]}" > "$WORK/$DMG" \
+    || fail "The parts could not be joined. Check that the disk is not full and run the installer again."
+
+  status progress 85 "Opening the disk image"
+  mkdir -p "$WORK/mount"
+  hdiutil attach -nobrowse -readonly -noautoopen -mountpoint "$WORK/mount" "$WORK/$DMG" \
+    || fail "The disk image could not be opened. Run the installer again."
+  MOUNTED=1
+  if [ ! -d "$WORK/mount/$BUNDLE" ]; then fail "The disk image does not contain $BUNDLE. Download the release again."; fi
+
+  status progress 90 "Copying $BUNDLE to $dest"
+  mkdir -p "$dest" || fail "The folder $dest could not be created."
+  if [ -e "$dest/$BUNDLE" ] && [ "$replace" != yes ]; then fail "$BUNDLE is already in $dest."; fi
+  STAGING="$dest/.$BUNDLE.installing"
+  rm -rf "$STAGING"
+  ditto "$WORK/mount/$BUNDLE" "$STAGING" || fail "$BUNDLE could not be copied to $dest."
+  rm -rf "$dest/$BUNDLE"
+  mv "$STAGING" "$dest/$BUNDLE"
+  STAGING=''
+
+  if hdiutil detach "$WORK/mount" -quiet || hdiutil detach "$WORK/mount" -force -quiet; then MOUNTED=0; fi
+  rm -f "$WORK/$DMG" "${files[@]}"
+  status done 100 "$BUNDLE is installed in $dest"
+}
+
+case "${1:-}" in
+  plan) plan ;;
+  install) run_install "${2:?}" "${3:?}" "${4:?}" ;;
+  download-only)
+    WORK="${2:?}"
+    mkdir -p "$WORK"
+    download_parts
+    cat "${files[@]}" > "$WORK/$DMG"
+    status done 100 "Downloaded and verified $DMG"
+    ;;
+  *) echo "usage: install.sh plan | install WORK DEST yes|no | download-only WORK" >&2; exit 2 ;;
+esac

@@ -1,0 +1,54 @@
+name: Build Cloudflare download helpers
+
+on:
+  push:
+    branches: [website/r2-downloads-v4.0.11]
+    paths:
+      - download-hosting/installers/**
+      - download-hosting/release-plan.json
+      - .github/workflows/download-helpers.yml
+  workflow_dispatch:
+    inputs:
+      verify_live:
+        description: Reconstruct and verify the existing Mac payload from the live R2 mirror
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: download-helpers-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  mac-helper:
+    runs-on: macos-14
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+          sparse-checkout: download-hosting
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Build only the Mac download helper
+        run: python3 download-hosting/installers/build_helpers.py mac --out website-qa/download-hosting/helpers
+      - name: Verify the helper disk image and shell syntax
+        run: |
+          hdiutil verify website-qa/download-hosting/helpers/Install-Layered-Human-Mac.dmg
+          /bin/bash -n website-qa/download-hosting/helpers/mac-inputs/install.sh
+          python3 download-hosting/installers/tests/verify_helpers.py --platform mac --report website-qa/download-hosting/helpers/mac-transport-verification.json
+      - name: Reconstruct and verify the actual Mac installation payload without installing it
+        if: ${{ inputs.verify_live == true }}
+        run: |
+          /bin/bash website-qa/download-hosting/helpers/mac-inputs/install.sh download-only "$RUNNER_TEMP/layeredhuman-r2-check"
+          hdiutil verify "$RUNNER_TEMP/layeredhuman-r2-check/LayeredHuman-macOS-AppleSilicon.dmg"
+          hdiutil imageinfo "$RUNNER_TEMP/layeredhuman-r2-check/LayeredHuman-macOS-AppleSilicon.dmg"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: LayeredHuman-R2-Mac-helper
+          path: website-qa/download-hosting/helpers
+          retention-days: 7
+          if-no-files-found: error
