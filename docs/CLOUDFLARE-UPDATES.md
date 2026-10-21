@@ -7,6 +7,11 @@ patch snapshot; it does not need another installer. The original installation,
 managed activation/rollback, and external notes, progress, settings, caches, and
 user model library retain their existing behavior.
 
+Version tags do not trigger the full-installer GitHub Actions workflow. That
+workflow retains its checks and can be dispatched manually when a new installer
+is needed. Ordinary app/model snapshot releases use the native packaging and
+publication steps below.
+
 `packaging/cloudflare_updates.py` stages and publishes existing protocol-1 feeds.
 It does not build or sign an application, change source models, create a release
 tag, install dependencies, configure Cloudflare, or obtain credentials.

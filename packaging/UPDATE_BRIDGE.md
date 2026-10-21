@@ -9,8 +9,10 @@ publication. The initial bridge is `v4.0.11` to
 
 Mac checks run on the user's Apple silicon MacBook. Windows checks run on the
 user's Windows computer. Keep the release tag unused until both native runs pass.
-The existing `Release` workflow builds full installers when a `v*` tag is pushed;
-do not push a version tag to run this feed-only build.
+The `Release` workflow is manual-only (`workflow_dispatch`). Version tags do not
+start installer builds or Mac checks on GitHub Actions. Use the native bridge
+tools for snapshot releases; run the full-installer workflow explicitly only
+when a rebuilt installer is needed and its hosted checks are authorized.
 
 ## Inputs and preserved content
 
