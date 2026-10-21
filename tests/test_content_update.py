@@ -152,11 +152,13 @@ class ContentUpdateTests(unittest.TestCase):
         for name in ("app/updater.py", "data/runtime.dll", "data/unsafe.framework/image.png", "../data/model.npz"):
             with self.subTest(name=name), self.assertRaises((ValueError, u.UpdateError)):
                 content.resource_path(name, "windows-x64")
-        self.mapping = {"schema": 1, "files": [], "remove": []}
-        self.add_patch("data/native.json", b"MZnative masquerading as content")
-        self.save_map()
-        with self.assertRaisesRegex(ValueError, "native executable header"):
-            self.build()
+        for header in (b"MZ", b"\xcf\xfa\xed\xfe", b"\xca\xfe\xba\xbf", b"\xbf\xba\xfe\xca"):
+            with self.subTest(header=header.hex()):
+                self.mapping = {"schema": 1, "files": [], "remove": []}
+                self.add_patch("data/native.json", header + b"native masquerading as content")
+                self.save_map()
+                with self.assertRaisesRegex(ValueError, "native executable header"):
+                    self.build()
         self.mapping = {"schema": 1, "files": [], "remove": ["data/local_model_library/absent.npz"]}
         self.save_map()
         with self.assertRaisesRegex(ValueError, "existing managed content"):
