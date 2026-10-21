@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "recorded_at_utc": "2026-10-21T02:14:24.542062+00:00",
+  "source_receipts": {
+    "windows_build": {
+      "path": "packaging/build/cloudflare-install-helpers/windows/windows-x64-helper-build.json",
+      "sha256": "c3a7da4b10e5f43011409afbc6483ce4a16b4c0b1220a63f66c669ab760dc48f"
+    },
+    "windows_native": {
+      "path": "packaging/build/cloudflare-install-helpers/windows/reports/windows-helper-check.json",
+      "sha256": "b128f10fe57fb8dd538045cd42b35055751f4c300e4febec7f189b28d6365fe2"
+    },
+    "windows_final_binary": {
+      "path": "packaging/build/cloudflare-install-helpers/windows/reports/final-helper-byte-check.json",
+      "sha256": "f243707439b81e28c786b8121c2a147bedac2a6ccc130e1bc177d7745518f6ea"
+    },
+    "mac_native": {
+      "path": "packaging/build/cloudflare-install-helpers/mac-final-v4.0.12/reports/mac-helper-receipt.json",
+      "sha256": "832be67c1dd58ff32b4b700abcc1dbb59ce43f6828b37ce82da9e42fc487d279"
+    },
+    "mac_patch_archive": {
+      "path": "packaging/build/cloudflare-install-helpers/mac-final-v4.0.12/mac-helper-patches.zip",
+      "sha256": "88ae0c2e27607b4a7b3ee2729a5720db58304b9fa5390e9461ec3a2e9ddd5e2d"
+    }
+  },
+  "large_build_artifacts_or_logs_in_evidence_folder": false
+}

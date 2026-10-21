@@ -4,18 +4,19 @@ A desktop 3D anatomy viewer for Windows and Mac. It has its own OpenGL renderer 
 
 ## Download
 
-[![Download for Windows](https://img.shields.io/badge/Download-Windows%20installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Layered-Human-Windows.exe)
+[![Download for Windows](https://img.shields.io/badge/Download-Windows%20installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://downloads.layeredhuman.com/releases/v4.0.12/installers/cf-only-1/Install-Layered-Human-Windows.exe)
 &nbsp;
-[![Download for Mac](https://img.shields.io/badge/Download-Mac%20%28Apple%20silicon%29-333333?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Layered-Human-Mac.dmg)
+[![Download for Mac](https://img.shields.io/badge/Download-Mac%20%28Apple%20silicon%29-333333?style=for-the-badge&logo=apple&logoColor=white)](https://downloads.layeredhuman.com/releases/v4.0.12/installers/cf-only-1/Install-Layered-Human-Mac.dmg)
 
-**[Windows](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Layered-Human-Windows.exe)** · **[Mac, M1 or newer, macOS 13 or later](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Layered-Human-Mac.dmg)**. These small downloads fetch the full installer in checked parts and install the app for you.
+**[Windows](https://downloads.layeredhuman.com/releases/v4.0.12/installers/cf-only-1/Install-Layered-Human-Windows.exe)** · **[Mac, M1 or newer, macOS 13 or later](https://downloads.layeredhuman.com/releases/v4.0.12/installers/cf-only-1/Install-Layered-Human-Mac.dmg)**. These small downloads install verified Cloudflare-hosted files, including the Cloudflare updater before first launch. Existing users should choose **Updates > Check for updates** instead.
 
-- **Windows:** double-click the downloaded `Install-Layered-Human-Windows.exe`. It downloads the installer with one progress bar showing the speed and the time left, checks every part and opens the installer; click through it. Once Layered Human is installed, the downloaded installer is deleted again. If the download stops, open the program again and it carries on where it left off. Layered Human goes into the Start menu (and on the desktop if you tick the box). Because the program isn't signed with a paid certificate, your browser may say it isn't commonly downloaded: choose **Keep**. If a blue "Windows protected your PC" box appears, click **More info**, then **Run anyway**.
+- **Windows:** double-click the downloaded `Install-Layered-Human-Windows.exe`. It downloads and checks the installer parts, installs for your Windows account, and verifies the Cloudflare updater before opening the app. The downloaded installer is then deleted. Interrupted downloads resume when you open the helper again. Layered Human goes into the Start menu. The helper protects existing installations; use the app's Updates menu if it is already installed. Because the program isn't signed with a paid certificate, your browser may say it isn't commonly downloaded: choose **Keep**. If a blue "Windows protected your PC" box appears, click **More info**, then **Run anyway**.
 - **Mac:** open the downloaded `Install-Layered-Human-Mac.dmg`; a window opens with **Install Layered Human** in it: double-click it. It downloads the app, checks every part, copies **Layered Human** into **Applications** and opens it; it checks that there is enough free space for the download and the full app before it starts. If it stops, you can simply run it again. The first time, macOS may say the installer "cannot be opened": go to **System Settings → Privacy & Security**, scroll down and click **Open Anyway** (on macOS 14 and earlier, right-clicking it and choosing **Open** also works). Only the installer needs this step; the app is downloaded by the installer itself.
 - These warnings appear because the app isn't signed with a paid developer certificate; after the first launch it opens normally. Your progress, quiz history and notes are kept in your user folder (`%LOCALAPPDATA%\AnatomyExplorer` on Windows, `~/Library/Application Support/AnatomyExplorer` on Mac), so updating or reinstalling never loses them. If the app ever misbehaves, its error log is in the `logs` folder there.
 
-Layered Human keeps the existing GitHub address and saved-data locations so
-installed copies continue updating. [Branding and upgrade compatibility](docs/branding.md)
+Existing installations receive the one-time 4.0.12 transition through GitHub.
+After that, app and model updates use Cloudflare only. Fresh installations use
+Cloudflare from the start. Saved-data locations remain unchanged. [Branding and upgrade compatibility](docs/branding.md)
 records the small set of legacy technical names retained for that purpose.
 
 ## What's in it

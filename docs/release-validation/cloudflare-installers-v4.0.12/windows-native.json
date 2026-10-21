@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "platform": "windows-x64",
+  "fresh_seed_overlay_and_runtime": {
+    "schema": 1,
+    "passed": true,
+    "platform": "windows-x64",
+    "helper_sha256": "0fe0449a2f1cd2ac3bb987f002552576f7c5624567393865095994e203019821",
+    "overlay_sha256": "6df6b3561bd272a7790f33e69501cccfc6bdd9ab2f840af06877b45aa5aa5c3d",
+    "runtime": {
+      "frozen": true,
+      "qt": "6.11.2",
+      "numpy": "2.4.6",
+      "moderngl": "5.12.0",
+      "wgpu": "0.32.0",
+      "wgsl_files": 37,
+      "version": "4.0.12",
+      "platform": "win32",
+      "qt_plugins": "offscreen",
+      "runtime_imports": true
+    },
+    "inno_executed": false,
+    "registration_changed": false,
+    "user_data_preserved": true,
+    "original_seed_preserved": true,
+    "seconds": 15.406
+  },
+  "final_helper_binary_check": {
+    "passed": true,
+    "helper_sha256": "25795183f77ca681dc968a8d130eccd8f3945bb6320a821ad7df596971a7fbc8",
+    "overlay_sha256": "6df6b3561bd272a7790f33e69501cccfc6bdd9ab2f840af06877b45aa5aa5c3d",
+    "applied_to_already_verified_final_stage": true,
+    "complete_inventory_verified_by_production_helper": true,
+    "inno_executed": false,
+    "registration_changed": false,
+    "seconds": 14.25
+  },
+  "qualification": "The helper changed only recovery messages after the fresh-seed runtime check. The final helper bytes separately passed the same complete-inventory apply engine against that verified final stage.",
+  "inno_executed": false,
+  "installer_registration_or_uninstall_tested": false,
+  "user_profile_modified": false,
+  "pending_acceptance": "Actual Inno installation/registration/uninstall and GUI acceptance require a disposable Windows installation."
+}

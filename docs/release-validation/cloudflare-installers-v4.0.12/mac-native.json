@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "platform": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "macos": "26.6.2",
+    "python": "3.11.17 (main, Oct  1 2026, 00:48:48) [Clang 21.0.0 (clang-2100.3.34.2)]",
+    "interpreter": "/opt/homebrew/opt/python@3.11/bin/python3.11"
+  },
+  "completed_at": "2026-10-20T21:08:38.849756-05:00",
+  "native_checks": [
+    {
+      "name": "check-staged",
+      "exit_code": 0,
+      "seconds": 72.586
+    },
+    {
+      "name": "staged-codesign",
+      "exit_code": 0,
+      "seconds": 0.787
+    },
+    {
+      "name": "helper-dmg-verify",
+      "exit_code": 0,
+      "seconds": 3.964
+    },
+    {
+      "name": "helper-dmg-attach",
+      "exit_code": 0,
+      "seconds": 0.209
+    },
+    {
+      "name": "mounted-helper-codesign",
+      "exit_code": 0,
+      "seconds": 0.024
+    },
+    {
+      "name": "helper-dmg-detach",
+      "exit_code": 0,
+      "seconds": 0.083
+    },
+    {
+      "name": "original-base-codesign",
+      "exit_code": 0,
+      "seconds": 1.275
+    },
+    {
+      "name": "original-candidate-codesign",
+      "exit_code": 0,
+      "seconds": 0.703
+    }
+  ],
+  "baseline_stage": {
+    "files": 2428,
+    "symlinks": 190,
+    "directories": 412,
+    "file_hashes_verified": true,
+    "exact_inventory": true
+  },
+  "final_stage": {
+    "files": 2428,
+    "symlinks": 190,
+    "directories": 412,
+    "file_hashes_verified": true,
+    "exact_inventory": true
+  },
+  "negative_cases": [
+    {
+      "name": "corrupt-overlay",
+      "exit_code": 1,
+      "seconds": 0.555,
+      "status": "failed|0|The Cloudflare update failed its checksum.",
+      "no_overlay_extraction": true,
+      "launch_attempts": 0,
+      "promotion_attempts": 0,
+      "status_write_only": true,
+      "outside_sentinel_unchanged": true
+    },
+    {
+      "name": "extra-file",
+      "exit_code": 1,
+      "seconds": 36.645,
+      "status": "failed|0|The application has an unexpected file inventory.",
+      "no_overlay_extraction": true,
+      "launch_attempts": 0,
+      "promotion_attempts": 0,
+      "status_write_only": true,
+      "outside_sentinel_unchanged": true
+    },
+    {
+      "name": "extra-link",
+      "exit_code": 1,
+      "seconds": 35.425,
+      "status": "failed|0|The application has an unexpected link inventory.",
+      "no_overlay_extraction": true,
+      "launch_attempts": 0,
+      "promotion_attempts": 0,
+      "status_write_only": true,
+      "outside_sentinel_unchanged": true
+    },
+    {
+      "name": "extra-empty-directory",
+      "exit_code": 1,
+      "seconds": 35.622,
+      "status": "failed|0|The application has an unexpected directory inventory.",
+      "no_overlay_extraction": true,
+      "launch_attempts": 0,
+      "promotion_attempts": 0,
+      "status_write_only": true,
+      "outside_sentinel_unchanged": true
+    },
+    {
+      "name": "linked-directory",
+      "exit_code": 1,
+      "seconds": 4.954,
+      "status": "failed|0|An application directory is a link.",
+      "no_overlay_extraction": true,
+      "launch_attempts": 0,
+      "promotion_attempts": 0,
+      "status_write_only": true,
+      "outside_sentinel_unchanged": true
+    }
+  ],
+  "negative_fixture_preserved": {
+    "files": 2428,
+    "symlinks": 190,
+    "directories": 412,
+    "file_hashes_verified": true,
+    "exact_inventory": true
+  },
+  "original_base_preserved": {
+    "files": 2428,
+    "symlinks": 190,
+    "directories": 412,
+    "file_hashes_verified": true,
+    "exact_inventory": true
+  },
+  "original_candidate_preserved": {
+    "files": 2428,
+    "symlinks": 190,
+    "directories": 412,
+    "file_hashes_verified": true,
+    "exact_inventory": true
+  },
+  "signed_helper_resources": {
+    "install.sh": "5dadc2ebce9991566a224bc5e7d3790d6111579690f1de2cf7cac16875fe2966",
+    "inventory.tsv": "7a21f139f2f305950939ce5c4ac056c748701348a62f798419dd7a51b530fe7e",
+    "base-inventory.tsv": "9e1d39112a3ff3f85c9473e0288d6dfcdf14c80ad1e020a1f5427dc526524991",
+    "delta.txt": "40df3cf7329c41bec4c3887ed0b2ca1779e490491a140f6f54c9d28f0bc4622b",
+    "symlinks.tsv": "1259684050f58cce8e8d985b059dd33e8d5ae370a53cf15dba5116f40a30bbd6"
+  },
+  "overlay_reproducibility": {
+    "passed": true,
+    "sha256": "cd111032b741d78bc861ed169aec000a9abe8724668ff12a9ea95d7c41719c96",
+    "bytes": 82497325,
+    "independent_prepare_builds": 2,
+    "zip_entries": 290,
+    "all_entry_timestamps": [
+      2026,
+      10,
+      20,
+      0,
+      0,
+      0
+    ],
+    "metadata_entries": [
+      "metadata/LayeredHuman-macOS-update.json",
+      "metadata/AnatomyExplorer-macOS-update.json"
+    ],
+    "regular_files_only": true,
+    "final_receipt_corrected_builder_overlay_identical": true
+  },
+  "consumed_source_sha256": {
+    "app/updater.py": "48ad3c00d976fb114eec9191c3d282a7dcb8349d8bc41a76718b18f3555b2948",
+    "packaging/cloudflare_installers.py": "39ed25b42a2820cb9fe57d1a511cb9c4e110f2e1efe2e8cf164c833ef8504e39",
+    "packaging/cloudflare_installer/install.sh.in": "af12c5449242d4dc369e7bf2e71ec89862124ff539d681ac39bdd29d69cef1a8",
+    "packaging/cloudflare_installer/Installer.applescript.in": "840e0f2de5cc055c5ca42307f493641e5dbf9829cfa6353be35a02d3783cd130",
+    "packaging/cloudflare_installer/seed-v4.0.11.json": "da33b2dca0226f41724d652c97e63dafaf226196cad33f090d3c8e174e1e67bd"
+  },
+  "local_logic_fix": "Escape the slash inside the parent-directory awk regex character class, matching the native Mac patch.",
+  "original_seed_dmg_and_network_install": {
+    "status": "pending",
+    "reason": "A separate authorized native run is in progress; its final report has not been received. The existing evidence covers a reconstructed verified seed and the check-staged path."
+  },
+  "installed_app_or_real_user_profile_modified": false,
+  "full_helper_applet_launch_tested": false
+}

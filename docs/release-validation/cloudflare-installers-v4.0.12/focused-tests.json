@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "command": "python -m unittest tests.test_cloudflare_installers -v",
+  "host": "Windows",
+  "tests_run": 8,
+  "passed": 8,
+  "failed": 0,
+  "skipped": 0,
+  "seconds": 0.805,
+  "coverage": [
+    "all changed files and distinct Windows manifest aliases",
+    "modified baseline and candidate rejection",
+    "source-only seed path inventory agreement",
+    "unsafe inventory path rejection",
+    "overlay byte reproducibility",
+    "all Mac signing changes included",
+    "actual compiled Windows overlay engine success and failures",
+    "interrupted replacement keeps both executable aliases held",
+    "mixed partial inventory is rejected",
+    "external user-data sentinel preserved",
+    "portable parent-directory awk expression execution"
+  ],
+  "qualification": "Mac template fixture checks and local awk execution do not substitute for native Mac checks; those are recorded separately."
+}

@@ -1,0 +1,188 @@
+#!/bin/bash
+# Cloudflare-only fresh installer: immutable seed + exact validated bridge overlay.
+# bash 3.2 and the system macOS tools; no Python installation is required.
+set -euo pipefail
+ORIGIN='@ORIGIN@'
+PREFIX='@PREFIX@'
+OVERLAY='@OVERLAY@'
+OVERLAY_SIZE=@OVERLAYSIZE@
+OVERLAY_SHA='@OVERLAYSHA@'
+TOTAL=@TOTAL@
+BUNDLE_BYTES=@BUNDLEBYTES@
+BUNDLE='Layered Human.app'
+DMG='LayeredHuman-macOS-AppleSilicon.dmg'
+RESOURCES=$(cd "$(dirname "$0")" && pwd -P)
+PARTS=(
+@PARTS@
+)
+FRAGMENTS=(
+@FRAGMENTS@
+)
+WORK=''
+STAGING=''
+STAGING_ROOT=''
+MOUNTED=0
+
+status() {
+  printf '%s|%s|%s\n' "$1" "$2" "$3" > "$WORK/status.tmp"
+  mv -f "$WORK/status.tmp" "$WORK/status"
+}
+fail() { status failed 0 "$1"; exit 1; }
+plan() {
+  local folder=/Applications
+  if [ ! -w "$folder" ]; then folder="$HOME/Applications"; fi
+  echo "$folder"
+  if [ -e "$folder/$BUNDLE" ] || [ -L "$folder/$BUNDLE" ]; then echo yes; else echo no; fi
+}
+cleanup() {
+  if [ "$MOUNTED" = 1 ]; then hdiutil detach "$WORK/mount" -force -quiet >/dev/null 2>&1 || true; fi
+  # This is solely the private directory returned by mktemp below. An existing
+  # application or user data folder is never assigned here or removed.
+  if [ -n "$STAGING_ROOT" ]; then rm -rf "$STAGING_ROOT"; fi
+}
+curl_file() {
+  local url="$1" output="$2" limit="$3"
+  case "$url" in "$ORIGIN/"*) ;; *) return 1 ;; esac
+  curl --silent --show-error --fail --proto '=https' --max-redirs 0 \
+    --connect-timeout 15 --speed-time 60 --speed-limit 1024 --retry 2 \
+    --max-filesize "$limit" --output "$output" "$url"
+}
+download_parts() {
+  local n=0 count=${#PARTS[@]} entry rest name sum size fragment key fragment_size actual got
+  files=()
+  for entry in "${PARTS[@]}"; do
+    n=$((n + 1)); name=${entry%% *}; rest=${entry#* }; sum=${rest%% *}; size=${rest#* }
+    status progress $(( (n - 1) * 70 / count )) "Downloading part $n of $count from Cloudflare"
+    : > "$WORK/$name"
+    for fragment in "${FRAGMENTS[@]}"; do
+      if [ "${fragment%% *}" != "$name" ]; then continue; fi
+      rest=${fragment#* }; key=${rest%% *}; fragment_size=${rest#* }
+      curl_file "$ORIGIN/$key" "$WORK/fragment.tmp" "$fragment_size" \
+        || fail "The Cloudflare download stopped. Check the connection and run the installer again."
+      actual=$(wc -c < "$WORK/fragment.tmp")
+      [ "$actual" -eq "$fragment_size" ] || fail "A Cloudflare fragment has an unexpected size."
+      cat "$WORK/fragment.tmp" >> "$WORK/$name"
+      rm -f "$WORK/fragment.tmp"
+    done
+    actual=$(wc -c < "$WORK/$name")
+    got=$(shasum -a 256 "$WORK/$name" | cut -d ' ' -f 1)
+    [ "$actual" -eq "$size" ] && [ "$got" = "$sum" ] || fail "An installer part failed its checksum."
+    printf '%s|cloudflare|%s|%s\n' "$name" "$size" "$sum" >> "$WORK/download-sources.log"
+    files+=("$WORK/$name")
+  done
+  cat "${files[@]}" > "$WORK/$DMG"
+}
+download_overlay() {
+  curl_file "$ORIGIN/$PREFIX/$OVERLAY" "$WORK/$OVERLAY" "$OVERLAY_SIZE" || fail "The Cloudflare update could not be downloaded."
+  check_overlay "$WORK/$OVERLAY"
+}
+check_overlay() {
+  local file="$1" actual got
+  actual=$(wc -c < "$file")
+  got=$(shasum -a 256 "$file" | cut -d ' ' -f 1)
+  [ "$actual" -eq "$OVERLAY_SIZE" ] && [ "$got" = "$OVERLAY_SHA" ] || fail "The Cloudflare update failed its checksum."
+}
+
+verify_bundle() {
+  local root="$1" inventory="$2" name size sum mode got actual target component rest
+  [ -d "$root" ] && [ ! -L "$root" ] || fail "The staging folder is invalid."
+  # Fixed trusted inventories also check that no unlisted files, directories,
+  # or symlinks have entered the new private bundle.
+  while IFS=$'\t' read -r name size sum mode; do
+    [ -n "$name" ] || continue
+    [ -f "$root/$name" ] && [ ! -L "$root/$name" ] || fail "An expected application file is missing: $name"
+    rest="$name"
+    while [[ "$rest" == */* ]]; do
+      rest=${rest%/*}
+      [ ! -L "$root/$rest" ] || fail "An application directory is a link."
+    done
+    actual=$(stat -f '%z' "$root/$name")
+    [ "$actual" -eq "$size" ] || fail "An application file has an unexpected size: $name"
+    got=$(shasum -a 256 "$root/$name" | cut -d ' ' -f 1)
+    [ "$got" = "$sum" ] || fail "An application file failed its checksum: $name"
+    [ "$(stat -f '%Lp' "$root/$name")" = "$mode" ] || fail "An application file has unexpected permissions: $name"
+  done < "$RESOURCES/$inventory"
+  while IFS=$'\t' read -r name target; do
+    [ -n "$name" ] || continue
+    [ -L "$root/$name" ] && [ "$(readlink "$root/$name")" = "$target" ] && [ -e "$root/$name" ] \
+      || fail "An application link differs from its verified inventory: $name"
+  done < "$RESOURCES/symlinks.tsv"
+  (cd "$root" && find . -type f -print | sed 's|^./||' | LC_ALL=C sort) > "$WORK/files.actual"
+  cut -f 1 "$RESOURCES/$inventory" | LC_ALL=C sort > "$WORK/files.expected"
+  cmp -s "$WORK/files.actual" "$WORK/files.expected" || fail "The application has an unexpected file inventory."
+  (cd "$root" && find . -type l -print | sed 's|^./||' | LC_ALL=C sort) > "$WORK/links.actual"
+  cut -f 1 "$RESOURCES/symlinks.tsv" | LC_ALL=C sort > "$WORK/links.expected"
+  cmp -s "$WORK/links.actual" "$WORK/links.expected" || fail "The application has an unexpected link inventory."
+  (cd "$root" && find . -type d -print | sed -e '/^\.$/d' -e 's|^./||' | LC_ALL=C sort) > "$WORK/dirs.actual"
+  { cut -f 1 "$RESOURCES/$inventory"; cut -f 1 "$RESOURCES/symlinks.tsv"; } \
+    | awk '{name=$0; while (sub(/\/[^\/]*$/, "", name)) print name}' | LC_ALL=C sort -u > "$WORK/dirs.expected"
+  cmp -s "$WORK/dirs.actual" "$WORK/dirs.expected" || fail "The application has an unexpected directory inventory."
+}
+
+apply_overlay() {
+  local root="$1" archive="$2" name
+  check_overlay "$archive"
+  verify_bundle "$root" base-inventory.tsv
+  mkdir "$WORK/overlay"
+  # The archive SHA is embedded in the signed helper. The builder emits only
+  # validated regular manifest paths; it emits no archive symlinks or traversal.
+  ditto -x -k "$archive" "$WORK/overlay"
+  while IFS= read -r name; do
+    [ -n "$name" ] || continue
+    [ -f "$WORK/overlay/payload/$name" ] && [ ! -L "$WORK/overlay/payload/$name" ] || fail "The overlay file is missing."
+    [ ! -e "$root/$name.cf-overlay" ] && [ ! -L "$root/$name.cf-overlay" ] || fail "An overlay temporary file already exists."
+    cp -p "$WORK/overlay/payload/$name" "$root/$name.cf-overlay"
+    mv -f "$root/$name.cf-overlay" "$root/$name"
+  done < "$RESOURCES/delta.txt"
+  verify_bundle "$root" inventory.tsv
+  codesign --verify --deep --strict "$root" || fail "The application signature could not be verified."
+}
+
+run_install() {
+  WORK="$1"
+  local dest="$2" replace="$3" free_kb required dest_free
+  exec >> "$WORK/log.txt" 2>&1
+  echo "$$" > "$WORK/pid"
+  set -E
+  trap 'fail "The installer stopped. The details are in $WORK/log.txt"' ERR
+  trap cleanup EXIT
+  mkdir -p "$dest"
+  dest=$(cd "$dest" && pwd -P)
+  [ ! -e "$dest/$BUNDLE" ] && [ ! -L "$dest/$BUNDLE" ] || fail "Layered Human is already installed. Open that copy and use its in-app updater."
+  required=$(( TOTAL * 2 + BUNDLE_BYTES + OVERLAY_SIZE * 4 + 1073741824 ))
+  free_kb=$(df -Pk "$WORK" | awk 'NR == 2 {print $4}')
+  dest_free=$(df -Pk "$dest" | awk 'NR == 2 {print $4}')
+  [ "$free_kb" -ge $(( (required + 1023) / 1024 )) ] || fail "Not enough free space. Free about $(( (required + 999999999) / 1000000000 )) GB and try again."
+  [ "$dest_free" -ge $(( (BUNDLE_BYTES + 1073741824) / 1024 )) ] || fail "Not enough free space in the Applications folder."
+  download_parts
+  status progress 72 "Downloading the Cloudflare update"
+  download_overlay
+  status progress 75 "Opening the verified disk image"
+  mkdir "$WORK/mount"
+  hdiutil attach -nobrowse -readonly -noautoopen -mountpoint "$WORK/mount" "$WORK/$DMG"
+  MOUNTED=1
+  [ -d "$WORK/mount/$BUNDLE" ] && [ ! -L "$WORK/mount/$BUNDLE" ] || fail "The disk image does not contain the application."
+  STAGING_ROOT=$(mktemp -d "$dest/.Layered-Human-installing.XXXXXX")
+  STAGING="$STAGING_ROOT/$BUNDLE"
+  ditto "$WORK/mount/$BUNDLE" "$STAGING"
+  status progress 85 "Applying and verifying the Cloudflare update"
+  apply_overlay "$STAGING" "$WORK/$OVERLAY"
+  [ ! -e "$dest/$BUNDLE" ] && [ ! -L "$dest/$BUNDLE" ] || fail "An application appeared in the destination while installing."
+  mv -n "$STAGING" "$dest/"
+  [ ! -e "$STAGING" ] || fail "The new application could not be moved into place."
+  hdiutil detach "$WORK/mount" -quiet
+  MOUNTED=0
+  status done 100 "Layered Human @VERSION@ is installed in $dest"
+}
+
+case "${1:-}" in
+  plan) plan ;;
+  install) run_install "${2:?}" "${3:?}" "${4:?}" ;;
+  download-only)
+    WORK="${2:?}"; mkdir -p "$WORK"; download_parts; download_overlay
+    status done 100 "Downloaded and verified Cloudflare installer content" ;;
+  check-staged)
+    WORK="${2:?}"; mkdir -p "$WORK"; apply_overlay "${3:?}" "${4:?}"
+    status done 100 "Verified the complete Cloudflare application without installation or launch" ;;
+  *) echo 'usage: install.sh plan | install WORK DEST no | download-only WORK | check-staged WORK BUNDLE OVERLAY' >&2; exit 2 ;;
+esac
