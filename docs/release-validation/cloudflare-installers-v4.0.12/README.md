@@ -5,9 +5,12 @@ user's physical Apple Silicon Mac. Eight focused tests also passed. No full
 installer or PyInstaller build was run, and no GitHub compute was used.
 
 Windows validation did **not** execute Inno or change installer registration.
-The original Mac seed disk-image and production network-install run are
-**pending** a separate native receipt. These reports do not claim either of
-those remaining checks has passed, or that the helpers have been published.
+The original Mac seed disk-image and production network-install run also passed
+through direct SSH: all 4,054,495,102 seed bytes came from Cloudflare, the published
+overlay hash matched, the complete original and final inventories passed, and
+the promoted scratch bundle passed strict signature verification. Real
+Applications and the helper UI were untouched. See `mac-network-install.json`.
+These validation records are separate from public helper publication.
 
 | Native check | Result and scope |
 | --- | --- |
@@ -28,8 +31,9 @@ Mac execution.
 
 The JSON files preserve the small artifact receipts, native results and source
 hashes. `windows-native.json` distinguishes the initial runtime-tested helper
-from the final binary check. `mac-native.json` explicitly records the original
-seed/network-install run as pending. `provenance.json` hashes the original local
+from the final binary check. `mac-native.json` preserves the earlier staged
+check; `mac-network-install.json` completes its then-pending original seed and
+production network check. `provenance.json` hashes the original local
 receipts; large logs, applications, models, disk images and overlays remain
 outside this source evidence folder.
 
