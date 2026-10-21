@@ -28,7 +28,7 @@ class FragmentDownloader
     public FragmentDownloader(string origin, string version, Func<bool> stopping,
                               Action<long, string> report, Action<int> pause)
     {
-        
+
         this.version = version;
         this.stopping = stopping;
         this.report = report;
