@@ -8,6 +8,7 @@ import json
 import os
 import runpy
 import ssl
+import subprocess
 import sys
 import tempfile
 import threading
@@ -75,6 +76,9 @@ xpyZ2r/9kuQd8OStOK9O2rOU
 
 
 class TLSVerificationTests(unittest.TestCase):
+    source_class_name = "GitHubSource"
+    validator_name = "trusted_url"
+
     @classmethod
     def setUpClass(cls):
         cls.temp = tempfile.TemporaryDirectory(prefix="AnatomyExplorer-tls-test-")
@@ -92,6 +96,7 @@ class TLSVerificationTests(unittest.TestCase):
                         "/redirect-outside": "https://untrusted.invalid/",
                         "/redirect-downgrade": f"http://localhost:{self.server.server_port}/ok",
                         "/redirect-wrong-host": f"https://127.0.0.1:{self.server.server_port}/ok",
+                        "/redirect-same-path-wrong-host": f"https://127.0.0.1:{self.server.server_port}/redirect-same-path-wrong-host",
                     }
                     self.send_response(302)
                     self.send_header("Location", locations[self.path])
@@ -120,7 +125,7 @@ class TLSVerificationTests(unittest.TestCase):
         cls.temp.cleanup()
 
     def setUp(self):
-        original_trusted_url = u.trusted_url
+        original_trusted_url = getattr(u, self.validator_name)
 
         def fixture_url(url):
             parsed = urlsplit(url)
@@ -132,14 +137,14 @@ class TLSVerificationTests(unittest.TestCase):
         # Scope just this test server into URL validation; production host policy
         # remains in force for every redirect outside the isolated fixture.
         self.addCleanup(patch.stopall)
-        patch.object(u, "trusted_url", side_effect=fixture_url).start()
+        patch.object(u, self.validator_name, side_effect=fixture_url).start()
         patch.object(u.urllib.request, "getproxies", return_value={}).start()
 
     def source(self, trust_fixture=False):
         if trust_fixture:
             with patch.object(certifi, "where", return_value=str(self.ca)):
-                return u.GitHubSource()
-        return u.GitHubSource()
+                return getattr(u, self.source_class_name)()
+        return getattr(u, self.source_class_name)()
 
     def url(self, path="/ok", host="localhost"):
         return f"https://{host}:{self.server.server_port}{path}"
@@ -192,6 +197,21 @@ class TLSVerificationTests(unittest.TestCase):
                 source.read(self.url(path), 8)
 
 
+class CloudflareTLSVerificationTests(TLSVerificationTests):
+    source_class_name = "CloudflareSource"
+    validator_name = "cloudflare_url"
+
+    def test_trusted_redirect_keeps_verification(self):
+        source = self.source(trust_fixture=True)
+        with self.assertRaises(urllib.error.URLError) as raised:
+            source.read(self.url("/redirect-same-path-wrong-host"), 8)
+        self.assertIsInstance(raised.exception.reason, ssl.SSLCertVerificationError)
+
+    def test_same_origin_redirect_cannot_change_requested_path(self):
+        with self.assertRaisesRegex(u.UpdateError, "changed the requested path"):
+            self.source(trust_fixture=True).read(self.url("/redirect-ok"), 8)
+
+
 class HTTPSDiagnosticTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="AnatomyExplorer-https-report-test-")
@@ -208,54 +228,91 @@ class HTTPSDiagnosticTests(unittest.TestCase):
             packed += raw
             files.append({"path": name, "size": len(data), "sha256": digest, "chunks": [digest]})
         manifest = {"schema": 1, "launcher": 1, "platform": "windows-x64", "version": "3.1.1",
+                    "release_tag": "v3.1.1", "channel": "stable",
                     "files": files, "blobs": blobs, "packs": {pack: len(packed)}}
         raw_manifest = json.dumps(manifest).encode()
-        prefix = f"https://github.com/{u.REPO}/releases/download/v3.1.1/"
-        assets = [
-            {"name": u.MANIFEST, "size": len(raw_manifest), "digest": "sha256:" + u.sha(raw_manifest),
-             "browser_download_url": prefix + u.MANIFEST},
-            {"name": pack, "size": len(packed), "browser_download_url": prefix + pack},
-            {"name": https_check.INSTALLERS["windows-x64"], "size": 1000,
-             "browser_download_url": prefix + https_check.INSTALLERS["windows-x64"]},
-        ]
-        release = {"tag_name": "v3.1.1", "assets": assets, "draft": False, "prerelease": False}
-        return manifest, raw_manifest, packed, release
+        catalog = {"schema": 1, "channel": "stable", "platform": "windows-x64",
+                   "release_tag": "v3.1.1", "version": "3.1.1",
+                   "manifest": {"sha256": u.sha(raw_manifest), "size": len(raw_manifest)},
+                   "packs": {pack: {"sha256": u.sha(packed), "size": len(packed)}}}
+        channel = {"schema": 1, "channel": "stable", "release_tag": "v3.1.1", "version": "3.1.1",
+                   "platforms": {"windows-x64": {"sha256": u.sha(json.dumps(catalog).encode()),
+                                                "size": len(json.dumps(catalog).encode())}}}
+        return manifest, raw_manifest, packed, channel, catalog
 
-    def test_diagnostic_uses_manifest_digest_real_chunk_and_bounded_installer_range(self):
-        manifest, raw_manifest, packed, release = self.payload()
+    def test_diagnostic_uses_catalog_manifest_hashes_and_a_real_bounded_chunk(self):
+        manifest, raw_manifest, packed, channel, catalog = self.payload()
         reads = []
 
         def read(source, url, limit, headers=None, expected_range=None):
             reads.append((url, limit, headers, expected_range))
-            if url == u.API:
-                return json.dumps(release).encode()
-            if url.endswith(u.MANIFEST):
+            self.assertTrue(url.startswith(u.CLOUDFLARE_ORIGIN + "/updates/"))
+            if url == source.channel_url:
+                self.assertEqual(limit, u.MAX_CHANNEL)
+                self.assertIsNone(headers)
+                return json.dumps(channel).encode()
+            if url == source.catalog_url:
+                self.assertEqual(limit, channel["platforms"]["windows-x64"]["size"])
+                return json.dumps(catalog).encode()
+            if url == source.manifest_url:
+                self.assertEqual(limit, len(raw_manifest))
                 return raw_manifest
-            if url.endswith(".bin"):
-                value = min(manifest["blobs"].values(), key=lambda b: b["size"])
-                self.assertEqual(headers, {"Range": f"bytes={value['offset']}-{value['offset'] + value['size'] - 1}"})
-                self.assertEqual(limit, value["size"])
-                self.assertEqual(expected_range, f"bytes {value['offset']}-{value['offset'] + value['size'] - 1}/{len(packed)}")
-                return packed[value["offset"]:value["offset"] + value["size"]]
-            self.assertEqual(headers, {"Range": "bytes=0-63"})
-            self.assertEqual(limit, 64)
-            self.assertEqual(expected_range, "bytes 0-63/1000")
-            return b"i" * 64
+            self.assertEqual(url, f"{u.CLOUDFLARE_ORIGIN}/updates/packs/{u.sha(packed)}.bin")
+            value = min(manifest["blobs"].values(), key=lambda b: b["size"])
+            self.assertEqual(headers, {"Range": f"bytes={value['offset']}-{value['offset'] + value['size'] - 1}"})
+            self.assertEqual(limit, value["size"])
+            self.assertEqual(expected_range, f"bytes {value['offset']}-{value['offset'] + value['size'] - 1}/{len(packed)}")
+            return packed[value["offset"]:value["offset"] + value["size"]]
 
-        with patch.object(u.GitHubSource, "read", new=read):
+        with patch.object(u.CloudflareSource, "read", new=read), \
+                patch.object(u.GitHubSource, "read", side_effect=AssertionError("legacy transport")), \
+                patch.dict(os.environ, {"AE_HTTPS_CHECK_TOKEN": "unused-private-token"}):
             result = https_check.check("windows-x64")
         self.assertEqual(len(reads), 4)
-        self.assertTrue(result["success"] and result["manifest"]["api_digest_verified"])
-        self.assertTrue(result["chunk"]["integrity_verified"] and result["installer"]["range_verified"])
-        self.assertEqual(result["installer"]["downloaded_bytes"], 64)
+        self.assertEqual(result["schema"], 2)
+        self.assertEqual(result["channel"], {"name": "stable", "url": u.CLOUDFLARE_ORIGIN + "/updates/channels/stable.json"})
+        self.assertTrue(result["success"] and result["catalog"]["integrity_verified"])
+        self.assertTrue(result["manifest"]["catalog_digest_verified"])
+        self.assertTrue(result["chunk"]["integrity_verified"] and result["chunk"]["range_verified"])
+        self.assertNotIn("installer", result)
+        self.assertNotIn("unused-private-token", json.dumps(result))
 
-    def test_diagnostic_rejects_tampered_manifest_before_chunk_or_installer(self):
-        manifest, raw, packed, release = self.payload()
-        release["assets"][0]["digest"] = "sha256:" + "0" * 64
-        with patch.object(u.GitHubSource, "read", side_effect=[json.dumps(release).encode(), raw]) as read:
-            with self.assertRaisesRegex(u.UpdateError, "integrity"):
+    def test_diagnostic_rejects_tampered_catalog_before_manifest_or_chunk(self):
+        manifest, raw, packed, channel, catalog = self.payload()
+        channel["platforms"]["windows-x64"]["sha256"] = "0" * 64
+        with patch.object(u.CloudflareSource, "read", side_effect=[json.dumps(channel).encode(), json.dumps(catalog).encode()]) as read:
+            with self.assertRaisesRegex(u.UpdateError, "catalog integrity") as raised:
                 https_check.check("windows-x64")
         self.assertEqual(read.call_count, 2)
+        self.assertEqual(https_check.failure_details(raised.exception)["stage"], "discovery")
+
+    def test_diagnostic_rejects_tampered_manifest_before_chunk(self):
+        manifest, raw, packed, channel, catalog = self.payload()
+        catalog["manifest"]["sha256"] = "0" * 64
+        raw_catalog = json.dumps(catalog).encode()
+        channel["platforms"]["windows-x64"] = {"sha256": u.sha(raw_catalog), "size": len(raw_catalog)}
+        with patch.object(u.CloudflareSource, "read", side_effect=[json.dumps(channel).encode(), raw_catalog, raw]) as read:
+            with self.assertRaisesRegex(u.UpdateError, "manifest integrity") as raised:
+                https_check.check("windows-x64")
+        self.assertEqual(read.call_count, 3)
+        self.assertEqual(https_check.failure_details(raised.exception)["stage"], "discovery")
+
+    def test_diagnostic_labels_corrupt_chunk_without_private_details(self):
+        manifest, raw, packed, channel, catalog = self.payload()
+        value = min(manifest["blobs"].values(), key=lambda b: b["size"])
+        responses = [json.dumps(channel).encode(), json.dumps(catalog).encode(), raw,
+                     b"x" * value["size"]]
+        with patch.object(u.CloudflareSource, "read", side_effect=responses):
+            with self.assertRaises(u.UpdateError) as raised:
+                https_check.check("windows-x64")
+        self.assertEqual(https_check.failure_details(raised.exception),
+                         {"failure": "update_protocol_verification_failed", "stage": "chunk"})
+
+    def test_empty_channel_is_a_labeled_diagnostic_failure(self):
+        with patch.object(u.CloudflareSource, "latest", return_value=None):
+            with self.assertRaises(u.UpdateError) as raised:
+                https_check.check("windows-x64")
+        self.assertEqual(https_check.failure_details(raised.exception)["stage"], "discovery")
 
     def test_failed_report_does_not_publish_urls_queries_credentials_or_local_paths(self):
         private = "https://name:password@release-assets.githubusercontent.com/a?secret=token C:/Users/private"
@@ -283,17 +340,47 @@ class HTTPSDiagnosticTests(unittest.TestCase):
                     https_check.at_stage(stage, fail)
                 self.assertIs(raised.exception, error)
                 details = https_check.failure_details(error)
-                self.assertEqual(details, {"failure": "http_403", "stage": stage,
-                                           "rate_limit_exhausted": True})
+                self.assertEqual(details, {"failure": "http_403", "stage": stage})
                 self.assertNotIn(private, json.dumps(details))
         error.https_check_stage = private
         self.assertEqual(https_check.failure_details(error)["stage"], "unknown")
 
-    def test_http_403_without_rate_limit_header_is_not_called_rate_limit(self):
+    def test_http_failure_omits_arbitrary_headers(self):
         error = urllib.error.HTTPError("https://example.invalid/", 403, "Forbidden", {}, None)
-        error.https_check_stage = "manifest"
+        error.https_check_stage = "discovery"
         self.assertEqual(https_check.failure_details(error),
-                         {"failure": "http_403", "stage": "manifest", "rate_limit_exhausted": False})
+                         {"failure": "http_403", "stage": "discovery"})
+
+    def test_packaging_harness_uses_bad_os_ca_paths_and_selected_channel(self):
+        harness = Path(__file__).resolve().parents[1] / "packaging" / "check_https.py"
+        main = runpy.run_path(str(harness))["main"]
+
+        def frozen_check(command, *, env, capture_output, timeout):
+            self.assertEqual(command[1:4], ["--https-check", "--channel", "experimental"])
+            self.assertTrue(capture_output)
+            self.assertEqual(timeout, 180)
+            for key in ("SSL_CERT_FILE", "SSL_CERT_DIR", "REQUESTS_CA_BUNDLE", "CURL_CA_BUNDLE"):
+                self.assertFalse(Path(env[key]).exists())
+            self.assertEqual(env["QT_QPA_PLATFORM"], "offscreen")
+            result = {"schema": 2, "success": True, "frozen": True,
+                      "channel": {"name": "experimental"},
+                      "tls": {"bundled_ca": True, "certificate_required": True, "hostname_verified": True},
+                      "catalog": {"integrity_verified": True},
+                      "manifest": {"catalog_digest_verified": True},
+                      "chunk": {"integrity_verified": True, "range_verified": True}}
+            Path(command[command.index("--report") + 1]).write_text(json.dumps(result), encoding="utf-8")
+            return subprocess.CompletedProcess(command, 0)
+
+        with patch.object(subprocess, "run", side_effect=frozen_check) as run, patch("builtins.print"):
+            main([str(self.root / "frozen.exe"), "--channel", "experimental"])
+        self.assertEqual(run.call_count, 1)
+
+    def test_cli_passes_only_a_named_channel_to_discovery(self):
+        report = self.root / "channel.json"
+        with patch.object(https_check, "check", return_value={"success": True}) as check:
+            self.assertEqual(https_check.main(["--platform", "windows-x64", "--channel", "experimental",
+                                               "--report", str(report)]), 0)
+        check.assert_called_once_with("windows-x64", "experimental")
 
     def test_launcher_diagnostic_exits_before_qt_settings_managed_store_and_ui(self):
         report = self.root / "https.json"

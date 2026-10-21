@@ -1,7 +1,7 @@
 """Run the real frozen updater transport with nonexistent default OpenSSL CA paths.
 
 Usage: python packaging/check_https.py PATH_TO_FROZEN_EXECUTABLE [--report OUTPUT]
-No UI or update activation is started. Only bounded public stable release reads.
+No UI or update activation is started. Only bounded public Cloudflare feed reads.
 """
 import argparse
 import json
@@ -15,6 +15,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("executable", type=Path)
     parser.add_argument("--report", type=Path)
+    parser.add_argument("--channel", choices=("stable", "experimental"), default="stable")
     args = parser.parse_args(argv)
     executable = args.executable.resolve()
     with tempfile.TemporaryDirectory(prefix="LayeredHuman-https-") as d:
@@ -29,7 +30,8 @@ def main(argv=None):
         # Never publish subprocess output: OS/network exceptions may carry paths
         # or signed CDN query strings. The client writes a sanitized JSON report.
         try:
-            completed = subprocess.run([str(executable), "--https-check", "--report", str(report)],
+            completed = subprocess.run([str(executable), "--https-check", "--channel", args.channel,
+                                        "--report", str(report)],
                                        env=env, capture_output=True, timeout=180)
         except subprocess.TimeoutExpired:
             raise SystemExit("Frozen HTTPS check timed out") from None
@@ -45,9 +47,9 @@ def main(argv=None):
             raise SystemExit("Frozen HTTPS verification failed; see sanitized report")
         assert result["frozen"] and result["tls"]["bundled_ca"]
         assert result["tls"]["certificate_required"] and result["tls"]["hostname_verified"]
-        assert result["manifest"]["api_digest_verified"] and result["chunk"]["integrity_verified"]
-        assert result["chunk"]["range_verified"] and result["installer"]["range_verified"]
-        assert result["installer"]["downloaded_bytes"] == 64
+        assert result["schema"] == 2 and result["channel"]["name"] == args.channel
+        assert result["catalog"]["integrity_verified"] and result["manifest"]["catalog_digest_verified"]
+        assert result["chunk"]["integrity_verified"] and result["chunk"]["range_verified"]
         assert not (root / "profile").exists() and not (root / "settings").exists()
 
 

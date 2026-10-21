@@ -99,8 +99,9 @@ class UpdaterTests(unittest.TestCase):
         content = bytearray(self.large)
         content[u.CHUNK_SIZE + 100] ^= 1
         p.write_bytes(content)
-        manifest = create_payload(self.next, self.packs, "3.1.1")
-        source = LocalSource(self.packs)
+        changed_packs = self.root / "changed-packs"
+        manifest = create_payload(self.next, changed_packs, "3.1.1")
+        source = LocalSource(changed_packs)
         result = self.store.prepare(manifest, source)
         self.assertLess(result["downloaded"], u.CHUNK_SIZE + 10000)
         self.assertGreater(result["reused"], u.CHUNK_SIZE)

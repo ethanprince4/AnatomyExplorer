@@ -7,7 +7,7 @@ from shiboken6 import isValid
 from PySide6.QtWidgets import QCheckBox, QDialog, QDialogButtonBox, QLabel, QMessageBox, QPushButton, QVBoxLayout
 
 from ..config import FROZEN
-from ..updater import GitHubSource, UpdateError, installed_metadata, manifest_channel, store_for
+from ..updater import CloudflareSource, UpdateError, installed_metadata, manifest_channel, store_for
 
 
 class UpdateController(QObject):
@@ -119,7 +119,7 @@ class UpdateController(QObject):
             try:
                 store = store_for()
                 token = store.policy()
-                source = GitHubSource(channel=token[0])
+                source = CloudflareSource(channel=token[0])
                 state = store.state()
                 if state.get("rollback_requested"):
                     result = {"status": "returning",

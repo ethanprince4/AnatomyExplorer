@@ -1,8 +1,9 @@
 """Protocol 1 updater; also used by the stable launcher.
 
-Trust root: HTTPS GitHub API for this *fixed* repository, its asset digest, then the
-manifest's SHA-256 file/chunk hashes. No credentials, shell commands or remote code
-are accepted by the protocol. Installation files and study data are never changed.
+Active updates trust the fixed Cloudflare HTTPS origin, then content-addressed
+catalog/manifest metadata and SHA-256 file/chunk hashes. This is same-origin TLS
+trust, not detached release signing. GitHubSource remains for bridge compatibility.
+Installation files and study data are never changed.
 """
 import contextlib
 import hashlib
@@ -45,6 +46,11 @@ VERSION_RE = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+")
 ID_RE = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+-[0-9a-f]{16}")
 HASH_RE = re.compile(r"[0-9a-f]{64}")
 PACK_RE = re.compile(r"AnatomyExplorer-(Windows|macOS)-pack-[0-9]{4}\.bin")
+CLOUDFLARE_ORIGIN = "https://downloads.layeredhuman.com"
+MAX_CHANNEL = 32 * 1024
+MAX_CATALOG = 512 * 1024
+MAX_STAGE_ENTRIES = 200000
+MAX_STAGE_PRUNE = 4096
 
 
 class UpdateError(Exception):
@@ -109,7 +115,9 @@ def safe_path(value, platform="windows-x64"):
 
 
 def validate_manifest(data):
-    if not isinstance(data, dict) or data.get("schema") != 1 or data.get("platform") not in {"windows-x64", "macos-arm64"} or data.get("launcher") != 1:
+    if (not isinstance(data, dict) or type(data.get("schema")) is not int or data["schema"] != 1 or
+            data.get("platform") not in {"windows-x64", "macos-arm64"} or
+            type(data.get("launcher")) is not int or data["launcher"] != 1):
         raise UpdateError("This update needs a newer installer")
     version_tuple(data.get("version"))
     channel = manifest_channel(data)
@@ -449,6 +457,184 @@ class GitHubSource:
         return raw
 
 
+def cloudflare_url(url):
+    """Only canonical updater routes on the compiled-in HTTPS origin are read."""
+    try:
+        parsed = urlsplit(url)
+        if (parsed.scheme != "https" or parsed.hostname != "downloads.layeredhuman.com" or
+                parsed.netloc.lower() not in {"downloads.layeredhuman.com", "downloads.layeredhuman.com:443"} or
+                parsed.port not in (None, 443) or parsed.username is not None or
+                parsed.password is not None or parsed.query or parsed.fragment or
+                "?" in url or "#" in url or any(ord(char) <= 32 or ord(char) == 127 for char in url)):
+            raise ValueError("origin")
+        path = parsed.path
+        if re.fullmatch(r"/updates/channels/(stable|experimental)\.json", path):
+            return url
+        if re.fullmatch(r"/updates/packs/[0-9a-f]{64}\.bin", path):
+            return url
+        match = re.fullmatch(r"/updates/releases/([^/]+)/(windows-x64|macos-arm64)/[0-9a-f]{64}\.json", path)
+        if match:
+            tag = match[1]
+            release_version(tag, "experimental" if "-preview." in tag else "stable")
+            return url
+    except (TypeError, ValueError) as exc:
+        raise UpdateError("Untrusted Cloudflare update download location") from exc
+    raise UpdateError("Untrusted Cloudflare update download location")
+
+
+class CloudflareRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        cloudflare_url(newurl)
+        # A content-addressed request must keep its identity at every hop. There
+        # is no CDN-host exception or metadata-supplied redirect destination.
+        if urlsplit(newurl).path != urlsplit(req.full_url).path:
+            raise UpdateError("Cloudflare update redirect changed the requested path")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def _update_json(raw):
+    def unique_fields(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise UpdateError("Duplicate update metadata field")
+            value[key] = item
+        return value
+
+    try:
+        return json.loads(raw, object_pairs_hook=unique_fields)
+    except (ValueError, UnicodeError, RecursionError) as exc:
+        raise UpdateError("Invalid update metadata JSON") from exc
+
+
+def _object_descriptor(value, maximum):
+    if (not isinstance(value, dict) or set(value) != {"sha256", "size"} or
+            not isinstance(value["sha256"], str) or not HASH_RE.fullmatch(value["sha256"]) or
+            type(value["size"]) is not int or not 0 < value["size"] <= maximum):
+        raise UpdateError("Invalid content-addressed update object")
+    return value
+
+
+class CloudflareSource:
+    """Protocol-1 payloads discovered only through the fixed Cloudflare channel.
+
+    Catalog and manifest bytes are authenticated by hashes obtained over verified
+    HTTPS. Pack URLs are derived from catalog hashes; only bounded byte ranges
+    are fetched and the existing manifest's raw chunk hashes verify their bytes.
+    """
+    def __init__(self, platform=None, channel="stable"):
+        if not isinstance(channel, str) or channel not in CHANNELS:
+            raise UpdateError("Unsupported update channel")
+        self.platform = platform or ("macos-arm64" if sys.platform == "darwin" else "windows-x64")
+        if self.platform not in {"windows-x64", "macos-arm64"}:
+            raise UpdateError("Unsupported update platform")
+        from .tls import https_context
+        self.opener = urllib.request.build_opener(
+            CloudflareRedirect(), urllib.request.HTTPSHandler(context=https_context()))
+        self.channel = channel
+        self.channel_url = f"{CLOUDFLARE_ORIGIN}/updates/channels/{channel}.json"
+        self._reset_release()
+
+    def _reset_release(self):
+        self.urls = {}
+        self.pack_sizes = {}
+        self.catalog_url = self.manifest_url = None
+        self.manifest_digest = self.manifest_size = None
+
+    def read(self, url, limit, headers=None, expected_range=None):
+        if type(limit) is not int or not 0 < limit <= MAX_MANIFEST:
+            raise UpdateError("Invalid update response size limit")
+        req = urllib.request.Request(cloudflare_url(url), headers={
+            "User-Agent": "LayeredHuman-Updater/1", "Accept-Encoding": "identity", **(headers or {})})
+        with self.opener.open(req, timeout=30) as response:
+            cloudflare_url(response.url)
+            if urlsplit(response.url).path != urlsplit(url).path:
+                raise UpdateError("Cloudflare update response changed the requested path")
+            if response.headers.get("Content-Encoding", "identity").lower() != "identity":
+                raise UpdateError("Unexpected update response encoding")
+            if expected_range is None:
+                if response.status != 200:
+                    raise UpdateError("Unexpected update metadata response status")
+            elif response.status != 206 or response.headers.get("Content-Range") != expected_range:
+                raise UpdateError("Server does not support incremental downloads; the installed app is unchanged")
+            data = response.read(limit + 1)
+            if len(data) > limit:
+                raise UpdateError("Update response exceeds its expected size")
+            return data
+
+    def latest(self):
+        self._reset_release()
+        channel = _update_json(self.read(self.channel_url, MAX_CHANNEL))
+        if (not isinstance(channel, dict) or type(channel.get("schema")) is not int or
+                channel["schema"] != 1 or channel.get("channel") != self.channel or
+                not isinstance(channel.get("platforms"), dict)):
+            raise UpdateError("Invalid Cloudflare update channel")
+        if not channel["platforms"]:
+            if set(channel) != {"schema", "channel", "platforms"}:
+                raise UpdateError("Invalid empty Cloudflare update channel")
+            return None
+        if set(channel) != {"schema", "channel", "release_tag", "version", "platforms"}:
+            raise UpdateError("Invalid Cloudflare update channel fields")
+        tag, version = channel["release_tag"], channel["version"]
+        if release_version(tag, self.channel) != version:
+            raise UpdateError("Update channel, release tag and version differ")
+        for platform, descriptor in channel["platforms"].items():
+            if platform not in {"windows-x64", "macos-arm64"}:
+                raise UpdateError("Unsupported update platform")
+            _object_descriptor(descriptor, MAX_CATALOG)
+        selected = channel["platforms"].get(self.platform)
+        if selected is None:
+            return None
+        prefix = f"{CLOUDFLARE_ORIGIN}/updates/releases/{tag}/{self.platform}/"
+        self.catalog_url = prefix + selected["sha256"] + ".json"
+        raw = self.read(self.catalog_url, selected["size"])
+        if len(raw) != selected["size"] or sha(raw) != selected["sha256"]:
+            raise UpdateError("Release catalog integrity check failed")
+        catalog = _update_json(raw)
+        if (not isinstance(catalog, dict) or set(catalog) != {
+                "schema", "channel", "platform", "release_tag", "version", "manifest", "packs"} or
+                type(catalog.get("schema")) is not int or catalog["schema"] != 1 or
+                catalog["channel"] != self.channel or catalog["platform"] != self.platform or
+                catalog["release_tag"] != tag or catalog["version"] != version or
+                not isinstance(catalog["packs"], dict) or len(catalog["packs"]) > 1000):
+            raise UpdateError("Release catalog identity or fields differ")
+        descriptor = _object_descriptor(catalog["manifest"], MAX_MANIFEST)
+        for name, pack in catalog["packs"].items():
+            if not PACK_RE.fullmatch(name):
+                raise UpdateError("Invalid catalog pack name")
+            _object_descriptor(pack, PACK_SIZE + CHUNK_SIZE)
+        self.manifest_url = prefix + descriptor["sha256"] + ".json"
+        raw = self.read(self.manifest_url, descriptor["size"])
+        if len(raw) != descriptor["size"] or sha(raw) != descriptor["sha256"]:
+            raise UpdateError("Release manifest integrity check failed")
+        manifest = validate_manifest(_update_json(raw))
+        if (manifest["version"] != version or manifest["platform"] != self.platform or
+                manifest_channel(manifest) != self.channel or manifest.get("release_tag") != tag):
+            raise UpdateError("Release, manifest or update channel differs")
+        if manifest["packs"] != {name: pack["size"] for name, pack in catalog["packs"].items()}:
+            raise UpdateError("Release catalog and manifest packs differ")
+        self.urls = {name: f"{CLOUDFLARE_ORIGIN}/updates/packs/{pack['sha256']}.bin"
+                     for name, pack in catalog["packs"].items()}
+        self.pack_sizes = dict(manifest["packs"])
+        self.manifest_digest, self.manifest_size = descriptor["sha256"], descriptor["size"]
+        return manifest
+
+    def chunk(self, blob, total):
+        if (not isinstance(blob, dict) or blob.get("pack") not in self.urls or type(total) is not int or
+                self.pack_sizes[blob["pack"]] != total or
+                any(type(blob.get(key)) is not int for key in ("offset", "size")) or
+                not 0 < blob["size"] <= CHUNK_SIZE + 65536 or blob["offset"] < 0 or
+                blob["offset"] + blob["size"] > total):
+            raise UpdateError("Invalid update chunk request")
+        start, length = blob["offset"], blob["size"]
+        end = start + length - 1
+        raw = self.read(self.urls[blob["pack"]], length, {"Range": f"bytes={start}-{end}"},
+                        f"bytes {start}-{end}/{total}")
+        if len(raw) != length:
+            raise UpdateError("Interrupted update download; retry to resume")
+        return raw
+
+
 def unpack_chunk(raw, size, digest):
     try:
         dec = zlib.decompressobj(31)  # gzip, bounded output; reject bombs/trailing data
@@ -458,6 +644,70 @@ def unpack_chunk(raw, size, digest):
         return data
     except zlib.error as exc:
         raise UpdateError("Corrupt compressed update chunk") from exc
+
+
+def check_private_inventory(root, manifest, prune=False, allow_runtime_cache=False):
+    """Bounded inventory for a private stage/version, never the running app.
+
+    Resumed stages may contain abandoned temporary files. Remove only regular
+    extras inside this private directory; never follow a symlink or junction.
+    Existing completed versions may have Python's ordinary runtime bytecode.
+    """
+    root = Path(root)
+    mac = manifest["platform"] == "macos-arm64"
+    directory = root.parent if mac else root
+    def reparse(path):
+        return bool(getattr(path.lstat(), "st_file_attributes", 0) & 0x400)
+    if root.is_symlink() or reparse(root) or directory.is_symlink() or reparse(directory):
+        raise UpdateError("Unsafe private update inventory root")
+    prefix = root.name + "/" if mac else ""
+    expected_files = {prefix + entry["path"] for entry in manifest["files"]}
+    expected_files.update(manifest_names(manifest["platform"]))
+    expected_links = {prefix + entry["path"] for entry in manifest.get("symlinks", [])}
+    expected_dirs = set()
+    for name in expected_files | expected_links:
+        parts = name.split("/")
+        expected_dirs.update("/".join(parts[:i]) for i in range(1, len(parts)))
+    stack, extras, visited = [directory], [], 0
+    while stack:
+        current = stack.pop()
+        with os.scandir(current) as entries:
+            for entry in entries:
+                visited += 1
+                if visited > MAX_STAGE_ENTRIES:
+                    raise UpdateError("Private update inventory exceeds its entry limit")
+                path = Path(entry.path)
+                name = path.relative_to(directory).as_posix()
+                is_link = entry.is_symlink() or reparse(path)
+                if is_link:
+                    if name not in expected_links or not entry.is_symlink():
+                        raise UpdateError("Unexpected link in private update inventory")
+                    continue
+                is_dir = entry.is_dir(follow_symlinks=False)
+                runtime_cache = False
+                if allow_runtime_cache and "__pycache__" in path.parts:
+                    parent = name.split("/__pycache__", 1)[0]
+                    runtime_cache = (parent in expected_dirs and
+                                     (is_dir and name == parent + "/__pycache__" or
+                                      not is_dir and name.startswith(parent + "/__pycache__/") and
+                                      name.count("/") == parent.count("/") + 2 and name.endswith(".pyc")))
+                expected = name in (expected_dirs if is_dir else expected_files) or runtime_cache
+                if not expected:
+                    if not prune:
+                        raise UpdateError("Unexpected file in private update inventory")
+                    extras.append((path, is_dir))
+                    if len(extras) > MAX_STAGE_PRUNE:
+                        raise UpdateError("Private update inventory has too many unexpected entries")
+                if is_dir:
+                    stack.append(path)
+                elif not entry.is_file(follow_symlinks=False):
+                    raise UpdateError("Unexpected special file in private update inventory")
+    # Walk completely before removing entries, and remove deepest paths first.
+    for path, is_dir in reversed(extras):
+        if is_dir:
+            path.rmdir()
+        else:
+            path.unlink()
 
 
 class UpdateStore:
@@ -641,6 +891,7 @@ class UpdateStore:
             if stage.is_symlink():
                 raise UpdateError("Unsafe staging directory")
             try:
+                check_private_inventory(stage, manifest, prune=True)
                 for index, e in enumerate(manifest["files"]):
                     progress(f"Preparing {index + 1}/{len(manifest['files'])}")
                     dest, prior = stage / e["path"], current / e["path"]
@@ -715,8 +966,10 @@ class UpdateStore:
                         raise UpdateError("Bundle symlink conflicts with a file")
                     p.symlink_to(link["target"])
                 write_manifests(stage, manifest)
+                check_private_inventory(stage, manifest)
                 self.verify(stage, manifest)
                 if final.exists():
+                    check_private_inventory(final, manifest, allow_runtime_cache=True)
                     self.verify(final, manifest)
                     shutil.rmtree(stage_folder)
                 else:

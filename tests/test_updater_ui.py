@@ -156,7 +156,7 @@ class ChannelUiTests(unittest.TestCase):
 
             try:
                 with patch("app.ui.updates.store_for", return_value=store), \
-                     patch("app.ui.updates.GitHubSource", Source):
+                     patch("app.ui.updates.CloudflareSource", Source):
                     controller.check()  # A completes and leaves a cached result.
                     until(lambda: controller.result is not None and not controller.busy)
                     saved = controller.result.copy()
@@ -244,7 +244,7 @@ class ChannelUiTests(unittest.TestCase):
 
             try:
                 with patch("app.ui.updates.store_for", return_value=store), \
-                     patch("app.ui.updates.GitHubSource", Source), \
+                     patch("app.ui.updates.CloudflareSource", Source), \
                      patch("app.ui.updates.threading", SimpleNamespace(Thread=DeferredThread)), \
                      patch("app.ui.updates.time.time", side_effect=lambda: now[0]):
                     controller.automatic()
@@ -318,7 +318,7 @@ class ChannelUiTests(unittest.TestCase):
                     return None
 
             with patch("app.ui.updates.store_for", return_value=store), \
-                 patch("app.ui.updates.GitHubSource", Source), \
+                 patch("app.ui.updates.CloudflareSource", Source), \
                  patch("app.ui.updates.threading", SimpleNamespace(Thread=DeferredThread)), \
                  patch.object(QDialog, "exec", return_value=0):
                 controller.check()
