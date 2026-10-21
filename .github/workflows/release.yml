@@ -1,15 +1,13 @@
 # Builds the Windows installer and the macOS (Apple silicon) disk image and attaches them to a GitHub Release
 # under fixed names, so the README's download links (releases/latest/download/<name>) always get the newest one.
 #
-#   Push a tag:      git tag v1.0.0 && git push origin v1.0.0      -> builds and publishes release v1.0.0
-#   Run by hand:     Actions > Release > Run workflow               -> builds; publishes only if a tag is given
+#   Run by hand:     Actions > Release > Run workflow -> builds; publishes only if a tag is given.
+# App/model snapshot tags are published separately and do not rebuild full installers.
 name: Release
 
 # Pull requests run no checks: the only checks kept are the ones that caught real bugs (a file missing from the
 # installers, wrong picking on Mac), and they run here, before a release is published.
 on:
-  push:
-    tags: ["v*"]
   workflow_dispatch:
     inputs:
       tag:

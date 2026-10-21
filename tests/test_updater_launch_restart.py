@@ -357,7 +357,7 @@ class RestartQtTests(unittest.TestCase):
             self.assertIn('integrity', dialog.status.text())
             return 0
         with patch('app.ui.updates.store_for', return_value=self.store), \
-             patch('app.ui.updates.GitHubSource') as source, \
+             patch('app.ui.updates.CloudflareSource') as source, \
              patch.object(self.controller, 'notify_ready') as notify:
             self.controller.check()
             deadline = time.monotonic() + 5
@@ -451,7 +451,7 @@ class RestartQtTests(unittest.TestCase):
             self.assertFalse(dialog.restart_button.isEnabled())
             return 0
         with patch('app.ui.updates.store_for', return_value=self.store), \
-             patch('app.ui.updates.GitHubSource') as source, \
+             patch('app.ui.updates.CloudflareSource') as source, \
              patch.object(self.controller, 'notify_ready') as notice, \
              patch.object(QDialog, 'exec', examine):
             self.controller.open_dialog()

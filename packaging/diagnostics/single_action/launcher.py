@@ -52,7 +52,7 @@ def installed_identity():
 
 def tls_probe():
     from app.https_check import check, failure_category, failure_details
-    from app.updater import API, SafeRedirect
+    from app.updater import CLOUDFLARE_ORIGIN, CloudflareRedirect
     defaults = ssl.get_default_verify_paths()
     context = ssl.create_default_context()
     result = {"openssl": ssl.OPENSSL_VERSION,
@@ -64,12 +64,13 @@ def tls_probe():
                                 "original_installed_client_executed": False,
                                 "interpretation": "Default trust of this isolated frozen interpreter; not the installed client's interpreter."}}
     try:
-        opener = urllib.request.build_opener(SafeRedirect(), urllib.request.HTTPSHandler(context=context))
-        with opener.open(urllib.request.Request(API, headers={"User-Agent": "LayeredHuman-Diagnostic"}), timeout=20) as response:
-            result["default_trust"]["github_api_https_success"] = response.status == 200
+        opener = urllib.request.build_opener(CloudflareRedirect(), urllib.request.HTTPSHandler(context=context))
+        url = CLOUDFLARE_ORIGIN + "/updates/channels/stable.json"
+        with opener.open(urllib.request.Request(url, headers={"User-Agent": "LayeredHuman-Diagnostic"}), timeout=20) as response:
+            result["default_trust"]["cloudflare_feed_https_success"] = response.status == 200
             response.read(64)
     except Exception as exc:
-        result["default_trust"].update(github_api_https_success=False, failure=failure_category(exc))
+        result["default_trust"].update(cloudflare_feed_https_success=False, failure=failure_category(exc))
     try:
         result["packaged_roots"] = check("macos-arm64" if sys.platform == "darwin" else "windows-x64")
     except Exception as exc:
