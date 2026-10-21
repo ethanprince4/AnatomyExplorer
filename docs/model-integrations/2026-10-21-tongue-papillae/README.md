@@ -137,10 +137,14 @@ preservation of study files and Qt settings. Downloaded bytes: 39,204,010;
 reused bytes: 4,968,723,184. Nine focused content-builder tests pass. No full
 installer rebuild or GitHub Actions was used.
 
-Mac content signing and activation remain pending native verification. This
-record does not claim that the 4.0.13 content feed has been published. The user
-has authorized the production website launch after the updater, installers and
-content update are ready.
+The physical Apple silicon Mac also passed the frozen runtime and actual prior
+supervisor activation, healthy UI, repeat update, rollback and preserved study
+data/settings checks. The run used direct SSH. Outer-only signing passed strict
+deep verification while preserving 280 nested native files. Mac downloaded
+42,185,533 bytes and reused 4,899,087,114 bytes. See `mac-content-native.json`
+and `mac-content-update.json`. Both original signed bundles were preserved.
+
+These are native validation records; public feed publication is a separate step.
 
 ## Reproduce bounded checks
 
